@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="GameEngineActor.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevel.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineStateManager.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameEngineActor.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevel.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineStateManager.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object">
+      <UniqueIdentifier>{9ad0e594-e458-4444-afe7-c98ac47786a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{bdafba04-6358-4c0c-b061-b6e84276d91f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{26808072-562e-43d7-a7f8-527f4cf62091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{0f1a8369-7658-4e5c-9bfe-7868e9ffee8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Rendering">
+      <UniqueIdentifier>{159c3bb7-6922-43be-8efe-4497bb9d7c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Collision">
+      <UniqueIdentifier>{419faf34-473f-447d-a811-d5ec4dcb7149}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
