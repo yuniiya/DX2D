@@ -31,20 +31,15 @@ public:
 
 	static inline float GetDeltaTime()
 	{
-		//if (nullptr == Inst_)
-		//{
-		//	Inst_ = new GameEngineTime();
-		//}
-
-		// return Inst_->DeltaTime_;
+		return Inst_->DeltaTime_;
 	}
 
 	static inline float GetDeltaTime(int _Key)
 	{
-		// return Inst_->DeltaTime_ * Inst_->GetTimeScale(_Key);
+		return Inst_->DeltaTime_ * Inst_->GetTimeScale(_Key);
 	}
 
-	void SetTimeScale(int _Key, float _TimeScale) 
+	void SetTimeScale(int _Key, float _TimeScale)
 	{
 		TimeScale_[_Key] = _TimeScale;
 	}
@@ -62,11 +57,11 @@ public:
 protected:
 
 private:
-	//__int64 SecondCount_;
-	//__int64 CurrentCount_;
-	//__int64 PrevCount_;
-	//float DeltaTime_;
-	//double RealDeltaTime_;
+	__int64 SecondCount_;
+	__int64 CurrentCount_;
+	__int64 PrevCount_;
+	float DeltaTime_;
+	double RealDeltaTime_;
 	std::map<int, float> TimeScale_;
 
 	GameEngineTime();

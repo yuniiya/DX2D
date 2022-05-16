@@ -12,9 +12,9 @@ private:
 	static GameEngineWindow* Inst_;
 
 public:
-	inline static GameEngineWindow& GetInst() 
+	inline static GameEngineWindow* GetInst()		// 싱글톤 + 포인터 형태 -> 매모리 해제 순서를 사용자가 정할 수 있다
 	{
-		return *Inst_;
+		return Inst_;
 	}
 
 	static void Destroy()

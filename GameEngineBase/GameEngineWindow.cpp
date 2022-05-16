@@ -13,7 +13,7 @@ LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARA
     {
     case WM_DESTROY:
     {
-        GameEngineWindow::GetInst().Off();
+        GameEngineWindow::GetInst()->Off();
         break;
     }
     case WM_PAINT:
@@ -26,7 +26,7 @@ LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARA
     }
     case WM_CLOSE:
     {
-        GameEngineWindow::GetInst().Off();
+        GameEngineWindow::GetInst()->Off();
         break;
     }
     case WM_MOUSEWHEEL:

@@ -37,7 +37,7 @@ public:
 		return IsDeath_;
 	}
 
-	void AddAccTime(float _DeltaTime) 
+	void AddAccTime(float _DeltaTime)
 	{
 		AccTime_ += _DeltaTime;
 	}
@@ -87,6 +87,10 @@ public:
 	{
 		Order_ = _Order;
 	}
+
+	// 현재 레벨 => On / 그 외 레벨 => Off
+	virtual void OnEvent() {}
+	virtual void OffEvent() {}
 
 private:
 	int Order_;

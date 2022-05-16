@@ -16,33 +16,33 @@ public:
 	GameEngineNameObject& operator=(GameEngineNameObject&& _Other) noexcept = delete;
 
 	// 그냥 std::string으로 하면 값이 복사가 되면서 문제가 많아진다.
-	inline void SetName(const std::string& _Name) 
+	inline void SetName(const std::string& _Name)
 	{
-		Name_ = _Name;
+		ObjectName_ = _Name;
 	}
 
 	// 어마어마 싫어하는 사람들이 이습니다.
 	// 필요할때 써야겠죠.
 	std::string GetNameCopy()
 	{
-		return Name_;
+		return ObjectName_;
 	}
 
 	const std::string& GetNameConstRef()
 	{
-		return Name_;
+		return ObjectName_;
 	}
 
 	const char* GetNameConstPtr()
 	{
-		return Name_.c_str();
+		return ObjectName_.c_str();
 	}
 
 
 protected:
 
 private:
-	std::string Name_;
+	std::string ObjectName_;
 
 };
 
