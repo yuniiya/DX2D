@@ -13,6 +13,13 @@
     <ClInclude Include="GameEngineStateManager.h">
       <Filter>Contents</Filter>
     </ClInclude>
+    <ClInclude Include="GEngine.h" />
+    <ClInclude Include="GameEngineComponent.h">
+      <Filter>Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderer.h">
+      <Filter>Object\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -26,6 +33,13 @@
     </ClCompile>
     <ClCompile Include="GameEngineStateManager.cpp">
       <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="GEngine.cpp" />
+    <ClCompile Include="GameEngineComponent.cpp">
+      <Filter>Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderer.cpp">
+      <Filter>Object\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +60,9 @@
     </Filter>
     <Filter Include="Object\Collision">
       <UniqueIdentifier>{419faf34-473f-447d-a811-d5ec4dcb7149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component">
+      <UniqueIdentifier>{2445c602-1612-47ab-8efc-9bb78d0644c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -75,6 +75,9 @@
     <ClCompile Include="GameEngineSound.cpp">
       <Filter>ThirdParty\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineTransform.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineSound.h">
       <Filter>ThirdParty\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTransform.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

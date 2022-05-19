@@ -165,6 +165,10 @@
     <ClCompile Include="GameEngineSound.cpp" />
     <ClCompile Include="GameEngineString.cpp" />
     <ClCompile Include="GameEngineTime.cpp" />
+    <ClCompile Include="GameEngineTransform.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineUpdateObject.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
     <ClCompile Include="GameEngineWriteFile.cpp" />
@@ -182,6 +186,10 @@
     <ClInclude Include="GameEngineSound.h" />
     <ClInclude Include="GameEngineString.h" />
     <ClInclude Include="GameEngineTime.h" />
+    <ClInclude Include="GameEngineTransform.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineUpdateObject.h" />
     <ClInclude Include="GameEngineWindow.h" />
     <ClInclude Include="GameEngineWriteFile.h" />

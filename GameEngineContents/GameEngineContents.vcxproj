@@ -157,6 +157,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>

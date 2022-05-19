@@ -22,14 +22,14 @@ public:
 	}
 
 protected:
-	void UserStart() override;
+	void Start() override;
 
 	// 이 프로그램이 어느 상황에서건 계속 Update하면서 체크할일이 있다면 여기서 한다.
 	// 서버가 붙지 않으면 그럴일은 없다. 게임이 무슨 레벨이건 뭐건 무슨키를 누르면 종료한다.
 	// 타이틀을 넘기거나 이런
-	void UserUpdate() override;
+	void Update(float _DeltaTime) override;
 
-	void UserEnd() override;
+	void End() override;
 
 private:
 
