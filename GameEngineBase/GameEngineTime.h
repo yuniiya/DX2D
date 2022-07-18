@@ -53,7 +53,7 @@ public:
 	}
 
 
-	void SetTimeScale(int _Key, float _TimeScale)
+	void SetTimeScale(int _Key, float _TimeScale) 
 	{
 		TimeScale_[_Key] = _TimeScale;
 	}

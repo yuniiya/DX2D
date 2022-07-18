@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -51,6 +52,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -81,14 +83,12 @@
     <OutDir>$(SolutionDir)Bin\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Configuration)\$(PlatformTarget)\;</LibraryPath>
-    <PublicIncludeDirectories>..\;</PublicIncludeDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Configuration)\$(PlatformTarget)\;</LibraryPath>
-    <PublicIncludeDirectories>..\;</PublicIncludeDirectories>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,6 +127,8 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +146,8 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +158,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp" />
+    <ClCompile Include="GameEngineDebugObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineDirectory.cpp" />
     <ClCompile Include="GameEngineFile.cpp" />
     <ClCompile Include="GameEngineInput.cpp" />
@@ -161,7 +169,6 @@
     <ClCompile Include="GameEngineNameObject.cpp" />
     <ClCompile Include="GameEnginePath.cpp" />
     <ClCompile Include="GameEngineRandom.cpp" />
-    <ClCompile Include="GameEngineReadFile.cpp" />
     <ClCompile Include="GameEngineSound.cpp" />
     <ClCompile Include="GameEngineString.cpp" />
     <ClCompile Include="GameEngineTime.cpp" />
@@ -169,12 +176,22 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineTransform_Collision.cpp" />
     <ClCompile Include="GameEngineUpdateObject.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
-    <ClCompile Include="GameEngineWriteFile.cpp" />
+    <ClCompile Include="PreCompile.cpp">
+      <SubType>
+      </SubType>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h" />
+    <ClInclude Include="GameEngineDebugObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineDirectory.h" />
     <ClInclude Include="GameEngineFile.h" />
     <ClInclude Include="GameEngineInput.h" />
@@ -182,7 +199,6 @@
     <ClInclude Include="GameEngineNameObject.h" />
     <ClInclude Include="GameEnginePath.h" />
     <ClInclude Include="GameEngineRandom.h" />
-    <ClInclude Include="GameEngineReadFile.h" />
     <ClInclude Include="GameEngineSound.h" />
     <ClInclude Include="GameEngineString.h" />
     <ClInclude Include="GameEngineTime.h" />
@@ -192,30 +208,25 @@
     </ClInclude>
     <ClInclude Include="GameEngineUpdateObject.h" />
     <ClInclude Include="GameEngineWindow.h" />
-    <ClInclude Include="GameEngineWriteFile.h" />
+    <ClInclude Include="PreCompile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\bin\fmod.dll">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\bin\fmodL.dll">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\bin\fmodL_vc.lib">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\bin\fmod_vc.lib">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

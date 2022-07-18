@@ -1,14 +1,15 @@
 #pragma once
+#include <GameEngineCore/CoreMinimal.h>
 #include <GameEngineCore/GameEngineCore.h>
 
-// 설명 :
+// 설명 : 프로그램 자체를 시작하게 한다.
 class ContentsCore : public GameEngineCore
 {
 public:
 	// constrcuter destructer
-	ContentsCore();
-	~ContentsCore();
-
+	ContentsCore(); 
+	~ContentsCore(); 
+	
 	// delete Function
 	ContentsCore(const ContentsCore& _Other) = delete;
 	ContentsCore(ContentsCore&& _Other) noexcept = delete;
@@ -18,7 +19,7 @@ public:
 
 	std::string GetWindowTitle() override
 	{
-		return "MapleStory";
+		return "MyGame";
 	}
 
 protected:

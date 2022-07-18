@@ -1,6 +1,6 @@
 #pragma once
 
-enum class GameObjectGroup
+enum class GameObjectGroup 
 {
 	Player,
 	Monster,

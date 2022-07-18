@@ -51,6 +51,9 @@ private:
 	static GameEngineLevel* CurrentLevel;
 	static GameEngineLevel* NextLevel;
 
+	static void EngineResourcesInitialize();
+	static void EngineResourcesDestroy();
+
 	static void WindowCreate(const std::string& _Name, GameEngineCore* _UserCore);
 	static void CoreStart(GameEngineCore* _UserCore); // 프로그램 시작
 	static void CoreUpdate(GameEngineCore* _UserCore); // 프로그램 업데이트

@@ -1,3 +1,4 @@
+#include "PreCompile.h"
 #include "GameEngineString.h"
 #include "GameEngineDebug.h"
 #include <Windows.h>
@@ -10,6 +11,12 @@ GameEngineString::~GameEngineString()
 {
 }
 
+std::wstring GameEngineString::AnsiToUnicodeReturn(const std::string& Text)
+{
+	std::wstring Unicode = L"";
+	AnsiToUnicode(Text, Unicode);
+	return Unicode;
+}
 
 void GameEngineString::AnsiToUnicode(const std::string& _Text, std::wstring& _Out)
 {

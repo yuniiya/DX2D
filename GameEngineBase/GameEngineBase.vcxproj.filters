@@ -28,6 +28,9 @@
     <Filter Include="ThirdParty\Lib">
       <UniqueIdentifier>{717e7171-bed7-419b-9890-ed59b834d286}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{bd9eb880-afe9-4dca-9caf-46b430f6193d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -37,12 +40,6 @@
       <Filter>IO</Filter>
     </ClCompile>
     <ClCompile Include="GameEnginePath.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineReadFile.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineWriteFile.cpp">
       <Filter>IO</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineDirectory.cpp">
@@ -78,6 +75,15 @@
     <ClCompile Include="GameEngineTransform.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDebugObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTransform_Collision.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h">
@@ -90,12 +96,6 @@
       <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="GameEnginePath.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineReadFile.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineWriteFile.h">
       <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineNameObject.h">
@@ -127,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineTransform.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDebugObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

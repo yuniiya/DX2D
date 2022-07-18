@@ -1,3 +1,4 @@
+#include "PreCompile.h"
 #include "GameEngineWindow.h"
 #include "GameEngineInput.h"
 
@@ -138,7 +139,6 @@ void GameEngineWindow::MessageLoop(std::function<void()> _Init, std::function<vo
     if (nullptr != _Init)
     {
         _Init();
-        // 실행될 때 가지고 있던 포인터 (_UserCore)를 넣어서 실행한다 
     }
 
     MSG msg;
