@@ -91,6 +91,9 @@ public:
 	GameEngineTextureRenderer& operator=(const GameEngineTextureRenderer& _Other) = delete;
 	GameEngineTextureRenderer& operator=(GameEngineTextureRenderer&& _Other) noexcept = delete;
 
+	void SetSamplingModePoint();
+	void SetSamplingModeLiner();
+
 	void SetTexture(GameEngineTexture* _Texture);
 
 	void SetTexture(const std::string& _Name);

@@ -25,6 +25,7 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine()
 	VertexBuffer = GameEngineVertexBuffer::Find("rect");
 	IndexBuffer = GameEngineIndexBuffer::Find("rect");
 	Rasterizer = GameEngineRasterizer::Find("EngineRasterizer");
+	Blend = GameEngineBlend::Find("AlphaBlend");
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() 
@@ -198,6 +199,7 @@ void GameEngineRenderingPipeLine::InputAssembler1VertexBufferSetting()
 void GameEngineRenderingPipeLine::VertexShaderSetting() 
 {
 	VertexShader->Setting();
+	// À§Ä¡ 
 	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology);
 	// D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
@@ -219,7 +221,7 @@ void GameEngineRenderingPipeLine::PixelShaderSetting()
 
 void GameEngineRenderingPipeLine::OutputMergerBlendSetting() 
 {
-
+	Blend->Setting();
 }
 
 void GameEngineRenderingPipeLine::OutputMergerDepthStencilSetting() 
@@ -230,5 +232,6 @@ void GameEngineRenderingPipeLine::OutputMergerDepthStencilSetting()
 
 void GameEngineRenderingPipeLine::Draw()
 {
+
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer->GetIndexCount(), 0, 0);
 }

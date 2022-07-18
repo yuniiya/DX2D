@@ -41,6 +41,11 @@ void Test2Time(const FrameAnimation_DESC& _Info, float _Time)
 	// GameEngineDebug::OutPutString("Å¸ÀÓ\n");
 }
 
+// map
+//   -- ±â¹Í
+// Player
+// Monster
+
 void Player::Start()
 {
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
@@ -49,10 +54,6 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_NUMPAD6);
 		GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_NUMPAD9);
 		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_NUMPAD7);
-		GameEngineInput::GetInst()->CreateKey("PlayerForward", VK_NUMPAD8);
-		GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_NUMPAD5);
-		GameEngineInput::GetInst()->CreateKey("Rot+", VK_NUMPAD1);
-		GameEngineInput::GetInst()->CreateKey("Rot-", VK_NUMPAD2);
 	}
 
 	GetTransform().SetLocalScale({1, 1, 1});
@@ -61,35 +62,16 @@ void Player::Start()
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 100, 100, 100 });
-		Renderer->SetTexture("Boss_Left.bmp", 0);
-
-
-		Renderer->CreateFrameAnimation("Test", FrameAnimation_DESC( "Boss_Left.bmp", 0, 5, 0.1f));
-		Renderer->CreateFrameAnimationFolder("Test2", FrameAnimation_DESC("BlackSet", 0.1f));
-
-		Renderer->AnimationBindTime("Test2", Test2Time);
-		Renderer->AnimationBindFrame("Test2", Test2Frame);
-		Renderer->AnimationBindStart("Test2", Test2Start);
-		Renderer->AnimationBindEnd("Test2", Test2End);
-
-		Renderer->ChangeFrameAnimation("Test");
+		Renderer->SetTexture("Test.png");
 	}
 }
 
 void Player::Update(float _DeltaTime)
 {
-
-
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
-		Color.r += 1.0f * _DeltaTime;
-
 		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed * _DeltaTime);
-
-		Renderer->ChangeFrameAnimation("Test2");
-
 	}
-
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed * _DeltaTime);
@@ -101,14 +83,5 @@ void Player::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
-	}
-
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerForward"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetForwardVector() * Speed * _DeltaTime);
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerBack"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed * _DeltaTime);
 	}
 }

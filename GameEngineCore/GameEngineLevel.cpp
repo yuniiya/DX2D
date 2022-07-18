@@ -8,6 +8,13 @@ GameEngineLevel::GameEngineLevel()
 	: MainCamera(nullptr)
 	, UIMainCamera(nullptr)
 {
+	for (size_t i = 0; i < 1280; i++)
+	{
+		for (size_t i = 0; i < 720; i++)
+		{
+
+		}
+	}
 }
 
 GameEngineLevel::~GameEngineLevel() 

@@ -31,6 +31,8 @@ struct Output
 // 0010
 // 0001
 
+
+// 그래픽카드에서 이뤄지는것.
 Output Texture_VS(Input _Input)
 {
     Output NewOutPut = (Output)0;
@@ -43,8 +45,15 @@ Output Texture_VS(Input _Input)
 }
 
 Texture2D Tex : register(t0);
-SamplerState Sam : register(s0);
+SamplerState Smp : register(s0);
 float4 Texture_PS(Output _Input) : SV_Target0
 {
-    return Tex.Sample(Sam, _Input.Tex.xy);
+    float4 Color = Tex.Sample(Smp, _Input.Tex.xy);
+    
+    if (Color.a <= 0.0f)
+    {
+        clip(-1);
+    }
+    
+    return Color;
 }

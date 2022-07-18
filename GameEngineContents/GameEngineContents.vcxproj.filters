@@ -30,7 +30,7 @@
     <ClInclude Include="ContentsCore.h">
       <Filter>Contents</Filter>
     </ClInclude>
-    <ClInclude Include="TitleLevel.h">
+    <ClInclude Include="LoginLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
@@ -39,7 +39,7 @@
     <ClInclude Include="Player.h">
       <Filter>Actor\Play</Filter>
     </ClInclude>
-    <ClInclude Include="TitleLogo.h">
+    <ClInclude Include="LoginUI.h">
       <Filter>Actor\Title</Filter>
     </ClInclude>
     <ClInclude Include="Enums.h">
@@ -60,7 +60,7 @@
     <ClCompile Include="ContentsCore.cpp">
       <Filter>Contents</Filter>
     </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
+    <ClCompile Include="LoginLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
@@ -69,7 +69,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Play</Filter>
     </ClCompile>
-    <ClCompile Include="TitleLogo.cpp">
+    <ClCompile Include="LoginUI.cpp">
       <Filter>Actor\Title</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">

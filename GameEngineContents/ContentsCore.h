@@ -19,7 +19,7 @@ public:
 
 	std::string GetWindowTitle() override
 	{
-		return "MyGame";
+		return "MapleStory";
 	}
 
 protected:

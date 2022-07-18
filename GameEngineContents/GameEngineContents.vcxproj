@@ -186,11 +186,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TitleLevel.h">
+    <ClInclude Include="LoginLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TitleLogo.h">
+    <ClInclude Include="LoginUI.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -226,11 +226,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
+    <ClCompile Include="LoginLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TitleLogo.cpp">
+    <ClCompile Include="LoginUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>

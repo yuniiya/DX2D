@@ -20,30 +20,73 @@
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineRasterizer.h"
+#include "GameEngineBlend.h"
 #include "GameEngineRenderingPipeLine.h"
 
 void EngineInputLayOut() 
 {
-	GameEngineVertex::LayOut.AddInputLayOut("POSITION", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
-	GameEngineVertex::LayOut.AddInputLayOut("TEXCOORD", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
-	GameEngineVertex::LayOut.AddInputLayOut("COLOR", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
+	// 점 1개
+	// float4 Postion0
+	// float4 Postion1
+	// float4 Postion2
+	// float4 Postion3
+	// float4 Postion4
+	// float4 Postion5
+	// float4 Postion6
+
+	GameEngineVertex::LayOut.AddInputLayOut("POSITION", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT); // 16
+	GameEngineVertex::LayOut.AddInputLayOut("TEXCOORD", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT); // 32
+	GameEngineVertex::LayOut.AddInputLayOut("COLOR", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT); // 48
 }
 
-void EngineRasterizer()
+void EngineSubSetting()
 {
-	D3D11_RASTERIZER_DESC Desc = {};
+	{
+		D3D11_BLEND_DESC Desc = { 0 };
 
-	Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-	Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+		// 낮
+		Desc.AlphaToCoverageEnable = FALSE;
+		Desc.IndependentBlendEnable = FALSE;
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	GameEngineRasterizer::Create("EngineRasterizer", Desc);
+		//         배경색
+
+		//           src                                         dest
+		// 색깔공식  float4(1.0f, 0.0f, 0.0f, 0.5f) * 소스팩터 + float4(0.0f, 0.0f, 1.0f, 0.5f) * 원본팩터
+
+		//        = float4(1.0f, 0.0f, 1.0f, 1.0f);
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+
+		// 색깔공식  float4(0.0f, 0.0f, 0.0f, 0.0f) * float4(0.0f, 0.0f, 0.0f) + float4(0.0f, 0.0f, 1.0f, 1.0f) * 원본팩터
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		// float4(0.0f, 0.0f, 1.0f, 1.0f)* (0.5f, 0.5f, 0.5f)
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+		// 알파쪽만 따로 처리하는 옵션
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+
+		GameEngineBlend::Create("AlphaBlend", Desc);
+	}
+
+	{
+		D3D11_RASTERIZER_DESC Desc = {};
+
+		Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+
+		GameEngineRasterizer::Create("EngineRasterizer", Desc);
+	}\
 	
 }
 
 void EngineTextureLoad() 
 {
 	{
-		D3D11_SAMPLER_DESC Desc = {D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR,};
+		D3D11_SAMPLER_DESC Desc = {D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT};
 		Desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 		Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 		Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -53,7 +96,21 @@ void EngineTextureLoad()
 		Desc.MinLOD = -FLT_MAX;
 		Desc.MaxLOD = FLT_MAX;
 
-		GameEngineSampler::Create("EngineSampler", Desc);
+		GameEngineSampler::Create("EngineSamplerPoint", Desc);
+	}
+
+	{
+		D3D11_SAMPLER_DESC Desc = { D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR };
+		Desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Desc.MipLODBias = 0.0f;
+		Desc.MaxAnisotropy = 1;
+		Desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+		Desc.MinLOD = -FLT_MAX;
+		Desc.MaxLOD = FLT_MAX;
+
+		GameEngineSampler::Create("EngineSamplerLinear", Desc);
 	}
 
 	GameEngineDirectory Dir;
@@ -210,7 +267,7 @@ void GameEngineCore::EngineResourcesInitialize()
 	EngineTextureLoad();
 	EngineInputLayOut();
 	EngineMesh();
-	EngineRasterizer();
+	EngineSubSetting();
 	ShaderCompile();
 
 	EngineRenderingPipeLine();
@@ -234,6 +291,7 @@ void GameEngineCore::EngineResourcesDestroy()
 	GameEngineFolderTexture::ResourcesDestroy();
 	GameEngineSampler::ResourcesDestroy();
 	GameEngineRasterizer::ResourcesDestroy();
+	GameEngineBlend::ResourcesDestroy();
 	GameEngineConstantBuffer::ResourcesDestroy();
 
 	GameEngineDevice::Destroy();

@@ -5,6 +5,9 @@
 class GameEngineBlend : public GameEngineRes<GameEngineBlend>
 {
 public:
+	static GameEngineBlend* Create(const std::string& _Name, const D3D11_BLEND_DESC& _Desc);
+
+public:
 	// constrcuter destructer
 	GameEngineBlend();
 	~GameEngineBlend();
@@ -15,9 +18,17 @@ public:
 	GameEngineBlend& operator=(const GameEngineBlend& _Other) = delete;
 	GameEngineBlend& operator=(GameEngineBlend&& _Other) noexcept = delete;
 
+	void Setting();
+
 protected:
 
 private:
+	ID3D11BlendState* State;
+	D3D11_BLEND_DESC Desc;
+	float4 Factor;
+	unsigned int Mask;
+
+	void Create(const D3D11_BLEND_DESC& _Info);
 
 };
 
