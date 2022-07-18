@@ -17,11 +17,6 @@ LoginLevel::~LoginLevel()
 
 void LoginLevel::Start()
 {
-	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
-	{
-		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
-	}
-
 	// 카메라를 먼저 만들어서 세계를 볼 준비를 하고
 	GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
 	CameraActor->GetTransform().SetLocalPosition({0.0f, 0.0f, -100.0f});
@@ -44,7 +39,7 @@ void LoginLevel::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
-		GEngine::ChangeLevel("Play");
+		GEngine::ChangeLevel("Cactus");
 	}
 }
 

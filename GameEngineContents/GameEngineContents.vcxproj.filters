@@ -22,8 +22,11 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{439c0504-814e-4f90-8507-3f4dacd0226c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Play\Com">
-      <UniqueIdentifier>{d376050c-9962-43e7-82bd-36fd5f2ad011}</UniqueIdentifier>
+    <Filter Include="Level\Play">
+      <UniqueIdentifier>{b41bfc1e-de27-4bcb-87d3-2ec9645d9149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Map">
+      <UniqueIdentifier>{ff01c039-4aba-4c93-9651-1a305b20eeae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,8 +55,29 @@
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreTestComponent.h">
-      <Filter>Actor\Play\Com</Filter>
+    <ClInclude Include="AriantLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="EntranceLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CastleLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="AquaLevel.h">
+      <Filter>Level\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="CactusLevel.h">
+      <Filter>Level\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="DesertLevel.h">
+      <Filter>Level\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLevel.h">
+      <Filter>Level\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="MapBackGround.h">
+      <Filter>Actor\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -79,8 +103,29 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreTestComponent.cpp">
-      <Filter>Actor\Play\Com</Filter>
+    <ClCompile Include="AriantLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="EntranceLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CastleLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="AquaLevel.cpp">
+      <Filter>Level\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="CactusLevel.cpp">
+      <Filter>Level\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="DesertLevel.cpp">
+      <Filter>Level\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="BossLevel.cpp">
+      <Filter>Level\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="MapBackGround.cpp">
+      <Filter>Actor\Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

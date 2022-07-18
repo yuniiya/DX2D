@@ -1,0 +1,26 @@
+#pragma once
+#include <GameEngineCore/GameEngineLevel.h>
+
+// Ό³Έν :
+class AquaLevel : public GameEngineLevel
+{
+public:
+	// constrcuter destructer
+	AquaLevel();
+	~AquaLevel();
+
+	// delete Function
+	AquaLevel(const AquaLevel& _Other) = delete;
+	AquaLevel(AquaLevel&& _Other) noexcept = delete;
+	AquaLevel& operator=(const AquaLevel& _Other) = delete;
+	AquaLevel& operator=(AquaLevel&& _Other) noexcept = delete;
+
+protected:
+	void Start() override;
+	void Update(float _DeltaTime) override;
+	void End() override;
+
+private:
+
+};
+
