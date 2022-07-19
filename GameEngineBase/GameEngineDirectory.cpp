@@ -17,7 +17,7 @@ GameEngineDirectory::GameEngineDirectory(const char* _Path)
 		MsgBoxAssert("존재하지 않는 폴더로 디렉토리를 초기화하려고 했습니다.");
 	}
 }
-GameEngineDirectory::GameEngineDirectory(std::filesystem::path _Path)
+GameEngineDirectory::GameEngineDirectory(const std::filesystem::path& _Path)
 {
 	Path_ = _Path;
 	if (false == IsExits())
@@ -137,6 +137,29 @@ std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectory()
 			// 이때 재귀 돌려야죠.
 			Return.push_back(GameEngineDirectory(Entry.path()));
 			continue;
+		}
+	}
+
+	return Return;
+}
+
+//std::vector<GameEngineFile> GameEngineDirectory::GetRecursiveAllFile(const std::string& _Ext) 
+//{
+//
+//}
+
+std::vector<GameEngineDirectory> GameEngineDirectory::GetRecursiveAllDirectory()
+{
+	std::vector<GameEngineDirectory> Return;
+
+	std::filesystem::recursive_directory_iterator DirIter = std::filesystem::recursive_directory_iterator(Path_);
+
+	for (const std::filesystem::directory_entry& Entry : DirIter)
+	{
+		if (true == Entry.is_directory())
+		{
+			// 이때 재귀 돌려야죠.
+			Return.push_back(GameEngineDirectory(Entry.path()));
 		}
 	}
 

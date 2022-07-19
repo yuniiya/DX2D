@@ -1,8 +1,12 @@
 #pragma once
 
-enum class GameObjectGroup 
+enum class GAMEOBJGROUP
 {
-	Player,
-	Monster,
+	BACKGROUND,
+	STAGE,
+	PLAYER,
+	MONSTER,
+	OBJ,
+	EFFECT,
 	UI,
 };

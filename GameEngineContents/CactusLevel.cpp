@@ -1,11 +1,7 @@
 #include "PreCompile.h"
 #include "CactusLevel.h"
 #include <GameEngineCore/GEngine.h>
-#include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineInput.h>
-#include <GameEngineCore/GameEngineTextureRenderer.h>
-#include "MapBackGround.h"
-#include "Enums.h"
 
 CactusLevel::CactusLevel() 
 {
@@ -19,14 +15,16 @@ void CactusLevel::Start()
 {
 	SetCamera();
 
-	BackGround_ = CreateActor<MapBackGround>();
-	BackGroundRenderer_ = BackGround_->GetRenderer();
-	BackGroundRenderer_->SetTexture("Back_Cactus.png");
-	BackGroundRenderer_->GetTransform().SetLocalScale({1280 ,720});
+	SetBackGround("Back_Cactus.png");
+	SetStage("Stage_Cactus.png");
 }
 
 void CactusLevel::Update(float _DeltaTime)
 {
+	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
+	{
+		GEngine::ChangeLevel("Desert");
+	}
 }
 
 void CactusLevel::End()

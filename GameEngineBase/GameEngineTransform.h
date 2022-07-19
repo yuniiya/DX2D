@@ -218,6 +218,10 @@ public:
 
 	void SetParentTransform(GameEngineTransform& _Child);
 
+	void PixLocalNegativeX();
+
+	void PixLocalPositiveX();
+
 	// void PushChild(GameEngineTransform* _Child);
 
 	void SetView(const float4x4& _Mat)

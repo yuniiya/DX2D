@@ -88,6 +88,9 @@
     <ClInclude Include="LoginLevel.h">
       <Filter>Level\Title</Filter>
     </ClInclude>
+    <ClInclude Include="MapStage.h">
+      <Filter>Actor\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -138,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="LoginLevel.cpp">
       <Filter>Level\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MapStage.cpp">
+      <Filter>Actor\Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ enum class ShaderType
 {
 	Vertex,
 	Pixel,
+	MAX,
 };
 
 class GameEngineShader;
@@ -19,6 +20,15 @@ public:
 	ShaderType ShaderType;
 	int BindPoint;
 	std::function<void()> SettingFunction;
+
+public:
+	ShaderResSetter() 
+		: ShaderType(ShaderType::MAX)
+		, BindPoint(-1)
+		, ParentShader(nullptr)
+	{
+
+	}
 };
 
 class GameEngineConstantBuffer;

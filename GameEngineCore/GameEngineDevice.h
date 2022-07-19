@@ -8,7 +8,7 @@
 class GameEngineDevice
 {
 public:
-	~GameEngineDevice();
+	~GameEngineDevice() {}
 
 	// delete Function
 	GameEngineDevice(const GameEngineDevice& _Other) = delete;

@@ -2,6 +2,7 @@
 #include "GameEngineCore/GameEngineLevel.h"
 
 class MapBackGround;
+class MapStage;
 class GameEngineTextureRenderer;
 class GlobalLevel : public GameEngineLevel
 {
@@ -22,13 +23,11 @@ protected:
 	void End() override {};
 
 private:
-	MapBackGround* BackGround_;
-
-	GameEngineTextureRenderer* BackGroundRenderer_;
 
 protected:
 	void SetCamera();
 	void SetBackGround(const std::string& _Name);
+	void SetStage(const std::string& _Name);
 
 };
 

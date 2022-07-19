@@ -76,6 +76,8 @@ void EngineSubSetting()
 		D3D11_RASTERIZER_DESC Desc = {};
 
 		Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+
+		// 
 		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 
 		GameEngineRasterizer::Create("EngineRasterizer", Desc);

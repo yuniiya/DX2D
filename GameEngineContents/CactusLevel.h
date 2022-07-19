@@ -1,8 +1,6 @@
 #pragma once
 #include "GlobalLevel.h"
 
-class MapBackGround;
-class GameEngineTextureRenderer;
 class CactusLevel : public GlobalLevel
 {
 public:
@@ -22,9 +20,7 @@ protected:
 	void End() override;
 
 private:
-	MapBackGround* BackGround_;
 
-	GameEngineTextureRenderer* BackGroundRenderer_;
 
 public:
 	

@@ -23,22 +23,30 @@ GameEnginePixelShader::~GameEnginePixelShader()
 
 // Color_VS
 
-GameEnginePixelShader* GameEnginePixelShader::Load(std::string _Path, std::string _EntryPoint, UINT _VersionHigh /*= 5*/, UINT _VersionLow /*= 0*/)
+GameEnginePixelShader* GameEnginePixelShader::Load(
+	const std::string& _Path,
+	const std::string& _EntryPoint,
+	UINT _VersionHigh /*= 5*/, UINT _VersionLow /*= 0*/)
 {
 	return Load(_Path, GameEnginePath::GetFileName(_Path), _EntryPoint, _VersionHigh, _VersionLow);
 }
 
 
-GameEnginePixelShader* GameEnginePixelShader::Load(std::string _Path, std::string _Name, std::string _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0)
+GameEnginePixelShader* GameEnginePixelShader::Load(
+	const std::string& _Path,
+	const std::string& _Name,
+	const std::string& _EntryPoint,
+	UINT _VersionHigh = 5, UINT _VersionLow = 0)
 {
 	GameEnginePixelShader* NewRes = CreateResName(_Name);
 	NewRes->ShaderCompile(_Path, _EntryPoint, _VersionHigh, _VersionLow);
-
-	return nullptr;
+	return NewRes;
 }
 
 
-void GameEnginePixelShader::ShaderCompile(std::string _Path, std::string _EntryPoint, UINT _VersionHigh, UINT _VersionLow)
+void GameEnginePixelShader::ShaderCompile(
+	const std::string& _Path,
+	const std::string& _EntryPoint, UINT _VersionHigh, UINT _VersionLow)
 {
 	CreateVersion("ps", _VersionHigh, _VersionLow);
 	SetEntryPoint(_EntryPoint);
@@ -68,7 +76,7 @@ void GameEnginePixelShader::ShaderCompile(std::string _Path, std::string _EntryP
 	std::wstring UnicodePath = GameEngineString::AnsiToUnicodeReturn(_Path);
 
 	// 쉐이더 
-	if (D3DCompileFromFile(
+	if (S_OK != D3DCompileFromFile(
 		UnicodePath.c_str(), // 파일 경로
 		nullptr,  // 매크로 ()
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,  // 헤더 ()

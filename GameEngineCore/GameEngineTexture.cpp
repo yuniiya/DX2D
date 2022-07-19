@@ -1,10 +1,11 @@
 #include "PreCompile.h"
 #include "GameEngineTexture.h"
 
-GameEngineTexture::GameEngineTexture() 
+GameEngineTexture::GameEngineTexture()
 	: Texture2D(nullptr)
 	, RenderTargetView(nullptr)
 	, ShaderResourceView(nullptr)
+	, Metadata()
 {
 }
 
@@ -154,5 +155,18 @@ void GameEngineTexture::Cut(UINT _X, UINT _Y)
 
 		Start.x = 0.0f;
 		Start.y += SizeY;
+	}
+}
+
+void GameEngineTexture::TextureCreate(const D3D11_TEXTURE2D_DESC& _Desc)
+{
+	Desc = _Desc;
+
+	GameEngineDevice::GetDevice()->CreateTexture2D(&Desc, nullptr, &Texture2D);
+
+	if (nullptr == Texture2D)
+	{
+		MsgBoxAssert("텍스처 생성에 실패했습니다.");
+		return;
 	}
 }

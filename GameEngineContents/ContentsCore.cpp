@@ -24,14 +24,12 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("Resources");
 		Dir.Move("Resources");
 		Dir.Move("Texture");
-		Dir.Move("Login");
-
+		Dir.Move("Map");
 		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
 
 		for (size_t i = 0; i < Shaders.size(); i++)
@@ -40,11 +38,20 @@ void ContentsCore::Start()
 		}
 	}
 
+	//GameEngineDirectory Dir;
+	//Dir.MoveParentToExitsChildDirectory("Resources");
+	//Dir.Move("Resources");
+	//Dir.Move("Texture");
+	//std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("Resources");
 		Dir.Move("Resources");
 		Dir.Move("Texture");
+		Dir.Move("Map");
+		Dir.Move("AriantLevel");
 
 		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
 
@@ -70,8 +77,84 @@ void ContentsCore::Start()
 		}
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Map");
+		Dir.Move("EntranceLevel");
 
+		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
 
+		for (size_t i = 0; i < Shaders.size(); i++)
+		{
+			GameEngineTexture::Load(Shaders[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Map");
+		Dir.Move("CastleLevel");
+
+		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Shaders.size(); i++)
+		{
+			GameEngineTexture::Load(Shaders[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Map");
+		Dir.Move("DesertLevel");
+
+		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Shaders.size(); i++)
+		{
+			GameEngineTexture::Load(Shaders[i].GetFullPath());
+		}
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Map");
+		Dir.Move("AquaLevel");
+
+		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Shaders.size(); i++)
+		{
+			GameEngineTexture::Load(Shaders[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Map");
+		Dir.Move("BossLevel");
+
+		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Shaders.size(); i++)
+		{
+			GameEngineTexture::Load(Shaders[i].GetFullPath());
+		}
+	}
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{

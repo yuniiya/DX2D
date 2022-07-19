@@ -14,7 +14,7 @@ GameEngineFile::GameEngineFile(const char* _Path)
 	Path_ = _Path;
 }
 
-GameEngineFile::GameEngineFile(std::filesystem::path _Path)
+GameEngineFile::GameEngineFile(const std::filesystem::path& _Path)
 	: FilePtr(nullptr)
 {
 	Path_ = _Path;
