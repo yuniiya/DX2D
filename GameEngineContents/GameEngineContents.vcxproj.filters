@@ -28,13 +28,16 @@
     <Filter Include="Actor\Map">
       <UniqueIdentifier>{ff01c039-4aba-4c93-9651-1a305b20eeae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\Town">
+      <UniqueIdentifier>{5959dacc-fc00-48ec-9f13-5f78582ff8b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\Title">
+      <UniqueIdentifier>{d627a523-f9bb-4e89-88b4-611c0a1dcbb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
       <Filter>Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginLevel.h">
-      <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>Level</Filter>
@@ -55,15 +58,6 @@
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
-    <ClInclude Include="AriantLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="EntranceLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="CastleLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="AquaLevel.h">
       <Filter>Level\Play</Filter>
     </ClInclude>
@@ -79,13 +73,25 @@
     <ClInclude Include="MapBackGround.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalLevel.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="AriantLevel.h">
+      <Filter>Level\Town</Filter>
+    </ClInclude>
+    <ClInclude Include="CastleLevel.h">
+      <Filter>Level\Town</Filter>
+    </ClInclude>
+    <ClInclude Include="EntranceLevel.h">
+      <Filter>Level\Town</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginLevel.h">
+      <Filter>Level\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
       <Filter>Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginLevel.cpp">
-      <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Level</Filter>
@@ -103,15 +109,6 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="AriantLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="EntranceLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="CastleLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="AquaLevel.cpp">
       <Filter>Level\Play</Filter>
     </ClCompile>
@@ -126,6 +123,21 @@
     </ClCompile>
     <ClCompile Include="MapBackGround.cpp">
       <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalLevel.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="AriantLevel.cpp">
+      <Filter>Level\Town</Filter>
+    </ClCompile>
+    <ClCompile Include="CastleLevel.cpp">
+      <Filter>Level\Town</Filter>
+    </ClCompile>
+    <ClCompile Include="EntranceLevel.cpp">
+      <Filter>Level\Town</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginLevel.cpp">
+      <Filter>Level\Title</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

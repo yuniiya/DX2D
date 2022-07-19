@@ -1,9 +1,9 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineCore/GameEngineTextureRenderer.h>
+#include "GlobalLevel.h"
 
 class MapBackGround;
-class CactusLevel : public GameEngineLevel
+class GameEngineTextureRenderer;
+class CactusLevel : public GlobalLevel
 {
 public:
 	// constrcuter destructer
@@ -24,5 +24,9 @@ protected:
 private:
 	MapBackGround* BackGround_;
 
-};
+	GameEngineTextureRenderer* BackGroundRenderer_;
 
+public:
+	
+
+};
