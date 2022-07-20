@@ -19,11 +19,6 @@ void LoginUI::Start()
 	// 1280 720
 	// GetTransform().SetLocalPosition({ 0, 200, 0 });
 
-	{
-		GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->GetTransform().SetLocalScale({ 1280, 720, 100 });
-		Renderer->SetTexture("LoginBackground.png");
-	}
 }
 
 void LoginUI::Update(float _DeltaTime)

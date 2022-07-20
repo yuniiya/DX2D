@@ -17,14 +17,35 @@ void CastleLevel::Start()
 {
 	SetCamera();
 
-	SetStage("Castle.png");
+	SetBackGround("Back_Castle.png");
+	SetStage("Stage_Castle2.png");
 }
 
 void CastleLevel::Update(float _DeltaTime)
-{
+{ 
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Aqua");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("CameraLeft"))
+	{
+		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetRightVector() * 500 * _DeltaTime);
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("CameraRight"))
+	{
+		GetMainCameraActorTransform().SetLocalMove(GetMainCameraActorTransform().GetRightVector() * 500 * _DeltaTime);
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("CameraUp"))
+	{
+		GetMainCameraActorTransform().SetLocalMove(GetMainCameraActorTransform().GetUpVector() * 500 * _DeltaTime);
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("CameraDown"))
+	{
+		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetUpVector() * 500 * _DeltaTime);
 	}
 }
 
