@@ -24,25 +24,16 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("Resources");
-		Dir.Move("Resources");
-		Dir.Move("Texture");
-		Dir.Move("Map");
-		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
-
-		for (size_t i = 0; i < Shaders.size(); i++)
-		{
-			GameEngineTexture::Load(Shaders[i].GetFullPath());
-		}
-	}
-
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExitsChildDirectory("Resources");
 	Dir.Move("Resources");
 	Dir.Move("Texture");
 	std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+	for (GameEngineDirectory Dir : Folder)
+	{
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
 
 	for (auto& TmpDir : Folder)
 	{
@@ -64,6 +55,9 @@ void ContentsCore::Start()
 		GameEngineInput::GetInst()->CreateKey("CameraDown", VK_NUMPAD2);
 	}
 
+
+
+
 	CreateLevel<LoginLevel>("Title");;
 	CreateLevel<AriantLevel>("Ariant");
 	CreateLevel<EntranceLevel>("Entrance");
@@ -74,7 +68,8 @@ void ContentsCore::Start()
 	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Title");
+	ChangeLevel("Ariant");
+
 
 }
 

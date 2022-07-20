@@ -253,7 +253,7 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 	{
 		CurAni = &FrameAni[Name];
 		CurAni->Reset();
-		SetTexture(CurAni->Texture, CurAni->Info.CurFrame);
+		//SetTexture(CurAni->Texture, CurAni->Info.CurFrame);
 	}
 }
 

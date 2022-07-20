@@ -9,4 +9,22 @@ enum class GAMEOBJGROUP
 	OBJ,
 	EFFECT,
 	UI,
+
+	MAX,
+};
+
+enum class PLAYERSTATE
+{
+	IDLE,
+	MOVE,
+	JUMP,
+	PRONE,
+	PRONESTAB,
+	LADDER,
+	ROPE,
+	ATTACK,
+	DAMAGED,
+	DIE,
+
+	MAX,
 };

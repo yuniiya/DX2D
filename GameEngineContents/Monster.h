@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "GlobalActor.h"
 
 // Ό³Έν :
-class Monster : public GameEngineActor
+class Monster : public GlobalActor
 {
 public:
 	// constrcuter destructer

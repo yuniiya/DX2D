@@ -91,6 +91,9 @@
     <ClInclude Include="MapStage.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalActor.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -144,6 +147,12 @@
     </ClCompile>
     <ClCompile Include="MapStage.cpp">
       <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalActor.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_State.cpp">
+      <Filter>Actor\Play</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
