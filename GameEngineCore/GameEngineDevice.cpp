@@ -156,6 +156,7 @@ void GameEngineDevice::CreateSwapChain()
 
 	BackBufferTarget = GameEngineRenderTarget::Create("BackBuffer");
 	BackBufferTarget->CreateRenderTargetTexture(BackBufferTexture, float4::BLUE);
+	BackBufferTarget->CreateDepthTexture(0);
 }
 
 void GameEngineDevice::Initialize() 

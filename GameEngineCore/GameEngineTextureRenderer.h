@@ -123,6 +123,10 @@ public:
 
 	void ScaleToTexture();
 
+	void CurAnimationReset();
+
+	void CurAnimationSetStartPivotFrame(int SetFrame);
+
 protected:
 	void Start() override;
 

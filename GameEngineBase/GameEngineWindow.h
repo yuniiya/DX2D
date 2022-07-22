@@ -51,6 +51,10 @@ public:
 		return Inst_->Scale_;
 	}
 
+	void SetMessageCallBack(const std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)>& _MessageCallBack) 
+	{
+		MessageCallBack = _MessageCallBack;
+	}
 
 protected:
 
@@ -71,6 +75,9 @@ private:
 	GameEngineWindow(GameEngineWindow&& _Other) noexcept = delete;
 	GameEngineWindow& operator=(const GameEngineWindow& _Other) = delete;
 	GameEngineWindow& operator=(GameEngineWindow&& _Other) noexcept = delete;
+
+
+	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> MessageCallBack;
 
 
 	static LRESULT CALLBACK MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

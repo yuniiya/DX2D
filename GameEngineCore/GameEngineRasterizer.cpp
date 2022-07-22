@@ -43,6 +43,6 @@ void GameEngineRasterizer::Create(const D3D11_RASTERIZER_DESC& _Desc)
 
 	if (S_OK != GameEngineDevice::GetDevice()->CreateRasterizerState(&Desc, &State))
 	{
-		MsgBoxAssert("버텍스 버퍼 생성에 실패했습니다.");
+		MsgBoxAssert("레스터라이저 생성에 실패했습니다.");
 	}
 }

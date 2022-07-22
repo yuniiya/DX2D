@@ -2,6 +2,7 @@
 #include "GlobalLevel.h"
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
+#include <GameEngineBase/GameEngineInput.h>
 #include "MapBackGround.h"
 #include "MapStage.h"
 #include "Enums.h"
@@ -14,10 +15,14 @@ GlobalLevel::~GlobalLevel()
 {
 }
 
+void GlobalLevel::Update(float _DeltaTime)
+{
+}
+
 void GlobalLevel::SetCamera()
 {
 	GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
-	CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+	CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -1000.0f });
 	CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 
 }

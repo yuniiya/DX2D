@@ -25,6 +25,12 @@ public:
 		return GetParent<GameEngineActor>();
 	}
 
+	template<typename ParentType>
+	ParentType* GetActor()
+	{
+		return GetParent<ParentType>();
+	}
+
 	void DetachObject() override;
 
 	void SetParent(GameEngineUpdateObject*) override;

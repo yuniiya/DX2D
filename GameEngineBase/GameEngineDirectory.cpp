@@ -64,6 +64,11 @@ void GameEngineDirectory::MoveParent(const std::string& _Name)
 	}
 }
 
+std::string GameEngineDirectory::PlusFilePath(const std::string& _Name)
+{
+	return GetFullPath() + "\\" + _Name;
+}
+
 void GameEngineDirectory::Move(const std::string& _Name) 
 {
 	std::filesystem::path CheckPath = Path_;

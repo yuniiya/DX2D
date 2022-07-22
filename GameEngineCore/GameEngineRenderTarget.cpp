@@ -39,13 +39,15 @@ void GameEngineRenderTarget::Clear()
 
 	if (nullptr != DepthStencilView)
 	{
-		// GameEngineDevice::GetContext()->ClearDepthStencilView();
+		GameEngineDevice::GetContext()->ClearDepthStencilView(DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 }
 
 void GameEngineRenderTarget::CreateDepthTexture(int _Index) 
 {
 	DepthTexture = GameEngineDepthStencilTexture::Create(RenderTargets[_Index]->GetScale());
+
+	DepthStencilView = DepthTexture->CreateDepthStencilView();
 }
 
 void GameEngineRenderTarget::Setting()

@@ -86,6 +86,7 @@ void Player::Update(float _DeltaTime)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
 	}
+
 }
 
 void Player::ChangeState(PLAYERSTATE _State)

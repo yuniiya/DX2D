@@ -49,13 +49,14 @@ void ContentsCore::Start()
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{
 		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
-		GameEngineInput::GetInst()->CreateKey("CameraLeft", VK_NUMPAD1);
-		GameEngineInput::GetInst()->CreateKey("CameraRight", VK_NUMPAD3);
-		GameEngineInput::GetInst()->CreateKey("CameraUp", VK_NUMPAD5);
-		GameEngineInput::GetInst()->CreateKey("CameraDown", VK_NUMPAD2);
+		//GameEngineInput::GetInst()->CreateKey("CameraLeft", VK_NUMPAD1);
+		//GameEngineInput::GetInst()->CreateKey("CameraRight", VK_NUMPAD3);
+		//GameEngineInput::GetInst()->CreateKey("CameraUp", VK_NUMPAD5);
+		//GameEngineInput::GetInst()->CreateKey("CameraDown", VK_NUMPAD2);
+
+		GameEngineInput::GetInst()->CreateKey("FreeCameraOnOff", VK_OEM_4);		// [
+
 	}
-
-
 
 
 	CreateLevel<LoginLevel>("Title");;

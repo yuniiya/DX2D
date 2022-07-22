@@ -8,8 +8,20 @@
 // WPARAM wParam
 // LPARAM lParam
 
+std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> GameEngineWindow::MessageCallBack = nullptr;
+
 LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (nullptr != MessageCallBack)
+    {
+        // imgui는 자신만의 메세지 처리 기능이 있기 때문에 이걸 넘기면 된다.
+        // imgui에게 넘긴다.
+        if (0 != MessageCallBack(hWnd, message, wParam, lParam))
+        {
+            return true;
+        }
+    }
+
     switch (message)
     {
     case WM_DESTROY:

@@ -34,18 +34,13 @@ const float4 float4::BLUE = { 0.0f, 0.0f, 1.0f, 1.0f };
 
 float4 operator*(const float4& _Vector, const float4x4& _Value)
 {
-	float4 Result;
-
-	Result.x = (_Value.Arr2D[0][0] * _Vector.Arr1D[0]) + (_Value.Arr2D[1][0] * _Vector.Arr1D[1]) + (_Value.Arr2D[2][0] * _Vector.Arr1D[2]) + (_Value.Arr2D[3][0] * _Vector.Arr1D[3]);
-	Result.y = (_Value.Arr2D[0][1] * _Vector.Arr1D[0]) + (_Value.Arr2D[1][1] * _Vector.Arr1D[1]) + (_Value.Arr2D[2][1] * _Vector.Arr1D[2]) + (_Value.Arr2D[3][1] * _Vector.Arr1D[3]);
-	Result.z = (_Value.Arr2D[0][2] * _Vector.Arr1D[0]) + (_Value.Arr2D[1][2] * _Vector.Arr1D[1]) + (_Value.Arr2D[2][2] * _Vector.Arr1D[2]) + (_Value.Arr2D[3][2] * _Vector.Arr1D[3]);
-	Result.w = (_Value.Arr2D[0][3] * _Vector.Arr1D[0]) + (_Value.Arr2D[1][3] * _Vector.Arr1D[1]) + (_Value.Arr2D[2][3] * _Vector.Arr1D[2]) + (_Value.Arr2D[3][3] * _Vector.Arr1D[3]);
-
-	return Result;
+	return DirectX::XMVector4Transform(_Vector.DirectVector, _Value.DirectMatrix);
 }
 
 float4& operator*=(float4& _Vector, const float4x4& _Value)
 {
+	_Vector.DirectVector = DirectX::XMVector4Transform(_Vector.DirectVector, _Value.DirectMatrix);
+
 	return _Vector;
 }
 

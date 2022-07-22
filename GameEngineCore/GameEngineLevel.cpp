@@ -3,6 +3,8 @@
 #include "GameEngineActor.h"
 #include "GameEngineRenderer.h"
 #include "GameEngineCamera.h"
+#include "GameEngineCameraActor.h"
+#include "GameEngineGUI.h"
 
 GameEngineLevel::GameEngineLevel() 
 	: MainCamera(nullptr)
@@ -36,6 +38,12 @@ GameEngineLevel::~GameEngineLevel()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
+	//if (true == GetMainCameraActor()->IsFreeCameraMode())
+	//{
+	//	GetMainCameraActor()->Update(_DeltaTime);
+	//	return;
+	//}
+
 	for (const std::pair<int, std::list<GameEngineActor*>>& Group : AllActors)
 	{
 		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
@@ -73,6 +81,8 @@ void GameEngineLevel::Render(float _DelataTime)
 
 	// 이 사이에서 무언가를 해야 합니다.
 	MainCamera->Render(_DelataTime);
+
+	GameEngineGUI::GUIRender();
 
 	GameEngineDevice::RenderEnd();
 }
@@ -123,6 +133,11 @@ void GameEngineLevel::Release(float _DelataTime)
 		}
 	}
 
+}
+
+GameEngineCameraActor* GameEngineLevel::GetMainCameraActor()
+{
+	return MainCamera->GetActor<GameEngineCameraActor>();
 }
 
 void GameEngineLevel::LevelUpdate(float _DeltaTime)

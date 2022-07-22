@@ -37,7 +37,6 @@ Output Texture_VS(Input _Input)
 {
     Output NewOutPut = (Output)0;
     NewOutPut.Pos = mul(_Input.Pos, WorldViewProjection);
-    NewOutPut.Pos.w = 1.0f;
     NewOutPut.PosLocal = _Input.Pos;
     NewOutPut.Tex = _Input.Tex;
     

@@ -19,7 +19,7 @@ GameEngineCamera::GameEngineCamera()
 	ViewPortDesc.Width = Size.x;
 	ViewPortDesc.Height = Size.y;
 	ViewPortDesc.MinDepth = 0.0f;
-	ViewPortDesc.MaxDepth = 0.0f;
+	ViewPortDesc.MaxDepth = 1.0f;
 
 	
 }
@@ -59,6 +59,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
 		for (GameEngineRenderer* const Renderer : Group.second)
 		{
+			if (false == Renderer->IsUpdate())
+			{
+				continue;
+			}
+
 			Renderer->GetTransform().SetView(View);
 			Renderer->GetTransform().SetProjection(Projection);
 			Renderer->GetTransform().CalculateWorldViewProjection();
@@ -102,4 +107,47 @@ void GameEngineCamera::Release(float _DelataTime)
 
 		}
 	}
+}
+
+float4 GameEngineCamera::GetScreenPosition() 
+{
+	POINT P;
+
+	GetCursorPos(&P);
+
+	ScreenToClient(GameEngineWindow::GetHWND(), &P);
+
+	return { static_cast<float>(P.x), static_cast<float>(P.y) };
+}
+
+void GameEngineCamera::Update(float _DeltaTime) 
+{
+	float4 MousePos = GetMouseWorldPosition();
+	MousePos.w = 0.0f;
+	MouseDir = MousePos - PrevMouse;
+	PrevMouse = MousePos;
+}
+
+// 뷰포트에 있는거죠?
+float4 GameEngineCamera::GetMouseWorldPosition()
+{
+	float4 Pos = GetScreenPosition();
+
+	float4x4 ViewPort;
+	ViewPort.ViewPort(Size.x, Size.y, 0, 0, 0, 1);
+	ViewPort.Inverse();
+
+	float4x4 ProjectionInvers = Projection.InverseReturn();
+
+	Pos = Pos * ViewPort;
+	Pos = Pos * ProjectionInvers;
+	// 마우스는 뷰포트의 좌표다?
+
+	return Pos;
+}
+
+
+float4 GameEngineCamera::GetMouseWorldPositionToActor()
+{
+	return GetTransform().GetWorldPosition() + GetMouseWorldPosition();
 }
