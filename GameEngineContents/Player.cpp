@@ -57,7 +57,7 @@ void Player::Start()
 	PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f, 1.f});
 
 	//PlayerRenderer_->SetTexture("Idle", 0);
-	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Idle", 0.5f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
 	//CameraActor_ = GetLevel()->CreateActor<GameEngineCameraActor>();

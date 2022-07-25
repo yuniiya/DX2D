@@ -24,26 +24,57 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExitsChildDirectory("Resources");
-	Dir.Move("Resources");
-	Dir.Move("Texture");
-	std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("Resources");
+	//	Dir.Move("Resources");
+	//	Dir.Move("Texture");
+	//	Dir.Move("Map");
 
-	for (GameEngineDirectory Dir : Folder)
+	//	std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+	//	for (GameEngineDirectory Dir : Folder)
+	//	{
+	//		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	//	}
+	//}
+
 	{
-		GameEngineFolderTexture::Load(Dir.GetFullPath());
-	}
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Player");
 
-	for (auto& TmpDir : Folder)
-	{
-		std::vector<GameEngineFile> File = TmpDir.GetAllFile();
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
 
-		for (size_t i = 0; i < File.size(); i++)
+		for (GameEngineDirectory Dir : Folder)
 		{
-			GameEngineTexture::Load(File[i].GetFullPath());
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Map");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (auto& TmpDir : Folder)
+		{
+			std::vector<GameEngineFile> File = TmpDir.GetAllFile();
+
+			for (size_t i = 0; i < File.size(); i++)
+			{
+				GameEngineTexture::Load(File[i].GetFullPath());
+			}
+		}
+	}
+
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
@@ -61,17 +92,17 @@ void ContentsCore::Start()
 
 	CreateLevel<LoginLevel>("Title");;
 	CreateLevel<AriantLevel>("Ariant");
-	CreateLevel<EntranceLevel>("Entrance");
-	CreateLevel<CastleLevel>("Castle");
-	CreateLevel<CactusLevel>("Cactus");
-	CreateLevel<DesertLevel>("Desert");
-	CreateLevel<AquaLevel>("Aqua");
-	CreateLevel<BossLevel>("Boss");
+	//CreateLevel<EntranceLevel>("Entrance");
+	//CreateLevel<CastleLevel>("Castle");
+	//CreateLevel<CactusLevel>("Cactus");
+	//CreateLevel<DesertLevel>("Desert");
+	//CreateLevel<AquaLevel>("Aqua");
+	//CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
 	ChangeLevel("Ariant");
 
-	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
+	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
 
 }

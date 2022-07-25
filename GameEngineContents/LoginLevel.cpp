@@ -23,7 +23,7 @@ void LoginLevel::Start()
 	MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
 	GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
 
-	BackGroundRenderer_->SetTexture("Login.png");
+	//BackGroundRenderer_->SetTexture("Login.png");
 	BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
 }
 
