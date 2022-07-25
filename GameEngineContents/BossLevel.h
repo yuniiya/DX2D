@@ -1,6 +1,7 @@
 #pragma once
 #include "GlobalLevel.h"
 
+class GameEngineTextureRenderer;
 class BossLevel : public GlobalLevel
 {
 public:
@@ -20,6 +21,8 @@ protected:
 	void End() override;
 
 private:
+	MapStage* StageActor_;
+	GameEngineTextureRenderer* StageRenderer_;
 
 };
 

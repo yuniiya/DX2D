@@ -92,12 +92,12 @@ void ContentsCore::Start()
 
 	CreateLevel<LoginLevel>("Title");;
 	CreateLevel<AriantLevel>("Ariant");
-	//CreateLevel<EntranceLevel>("Entrance");
-	//CreateLevel<CastleLevel>("Castle");
-	//CreateLevel<CactusLevel>("Cactus");
-	//CreateLevel<DesertLevel>("Desert");
-	//CreateLevel<AquaLevel>("Aqua");
-	//CreateLevel<BossLevel>("Boss");
+	CreateLevel<EntranceLevel>("Entrance");
+	CreateLevel<CastleLevel>("Castle");
+	CreateLevel<CactusLevel>("Cactus");
+	CreateLevel<DesertLevel>("Desert");
+	CreateLevel<AquaLevel>("Aqua");
+	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
 	ChangeLevel("Ariant");

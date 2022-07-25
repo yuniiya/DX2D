@@ -15,6 +15,9 @@ public:
 	AriantLevel& operator=(AriantLevel&& _Other) noexcept = delete;
 
 protected:
+	float4 CameraPos_;
+	float4 PlayerPos_;
+protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;

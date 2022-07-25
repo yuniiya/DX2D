@@ -26,6 +26,12 @@ public:
 		MapScaleY_ = _y;
 	}
 
+	inline float4 GetPosition()
+	{
+		Position_ = MainPlayer_->GetTransform().GetLocalPosition();
+		return Position_;
+	}
+
 private:
 	float Speed_;
 	float4 Position_;
@@ -53,13 +59,6 @@ protected:
 
 protected:
 	GameEngineCameraActor* CameraActor_;
-
-	inline float4 GetPosition()
-	{
-		Position_ = MainPlayer_->GetTransform().GetLocalPosition();
-		return Position_;
-	}
-
 
 protected:
 	void ChangeState(PLAYERSTATE _State);

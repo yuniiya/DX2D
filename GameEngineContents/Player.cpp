@@ -15,7 +15,7 @@
 Player* Player::MainPlayer_ = nullptr;
 
 Player::Player() 
-	: Speed_(80.0f)
+	: Speed_(200.0f)
 	, CurState_(PLAYERSTATE::MAX)
 	, PlayerCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
@@ -69,12 +69,12 @@ void Player::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
-		PlayerRenderer_->GetTransform().PixLocalNegativeX();
+		PlayerRenderer_->GetTransform().PixLocalPositiveX();
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
-		PlayerRenderer_->GetTransform().PixLocalPositiveX();
+		PlayerRenderer_->GetTransform().PixLocalNegativeX();
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{

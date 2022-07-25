@@ -25,12 +25,26 @@ protected:
 private:
 	GameEngineCameraActor* CameraActor_;
 
+	float4 CameraPos_;
+	float CameraPosX_;
+	float CameraPosY_;
+
+	float MapSizeX_;
+	float MapSizeY_;
 
 public:
 	GameEngineCameraActor* GetCameraActor()
 	{
 		return CameraActor_;
 	}
+
+	void MapSizeReturn(float _X, float _Y)
+	{
+		MapSizeX_ = _X;
+		MapSizeY_ = _Y;
+	}
+
+	void LimitCamera(float4 _MapSize);
 
 protected:
 	void SetCamera();
