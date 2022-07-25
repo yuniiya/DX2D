@@ -22,6 +22,8 @@ void AriantLevel::Start()
 	Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 100.0f, -250.f, 0.0f });
 	//Player::MainPlayer_->GetTransform().SetWorldScale(float4(100.0f, 100.f, 100.0f));
+
+	Player::MainPlayer_->SetMapScale(5760, 995);
 }
 
 void AriantLevel::Update(float _DeltaTime)

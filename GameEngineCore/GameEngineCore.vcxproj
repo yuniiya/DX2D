@@ -128,6 +128,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineStatusWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineTexture.h">
       <SubType>
       </SubType>
@@ -278,6 +282,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineStateManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineStatusWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>

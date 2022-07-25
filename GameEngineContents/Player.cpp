@@ -4,13 +4,12 @@
 #include <iostream>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
-#include "ScoreTestComponent.h"
-#include <GameEngineCore/GameEngineDefaultRenderer.h>
 #include <GameEngineCore/GameEngineRenderingPipeLine.h>
 #include <GameEngineCore/GameEngineVertexShader.h>
 #include <GameEngineCore/GameEngineConstantBuffer.h>
 #include <GameEngineCore/GameEngineDevice.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
+#include "GlobalLevel.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -61,22 +60,21 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Idle", 0.5f));
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
-	//PlayerRenderer_->ScaleToTexture();
-
-
+	//CameraActor_ = GetLevel()->CreateActor<GameEngineCameraActor>();
 }
 
 void Player::Update(float _DeltaTime)
 {
-	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
+		PlayerRenderer_->GetTransform().PixLocalNegativeX();
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
+		PlayerRenderer_->GetTransform().PixLocalPositiveX();
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
@@ -86,6 +84,46 @@ void Player::Update(float _DeltaTime)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
 	}
+
+	//if (false == >IsFreeCameraMode())
+	//{
+	//	GetLevel()->GetMainCameraActorTransform().SetWorldPosition(MainPlayer_->GetPosition());
+	//}
+//	CameraActor_->GetTransform().SetLocalPosition(MainPlayer_->GetPosition());
+	
+	//float4 Pos = GetPosition() - GameEngineWindow::GetInst()->GetScale();
+	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition(GetPosition() + GameEngineWindow::GetInst()->GetScale().Half());
+
+	//float4 CamaraPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
+	//if (0 > CamaraPos.x)
+	//{
+	//	float4 CurCameraPos = CamaraPos;
+	//	CurCameraPos.x = 0;
+	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
+	//}
+	//if (0 > CamaraPos.y)
+	//{
+	//	float4 CurCameraPos = CamaraPos;
+	//	CurCameraPos.y = 0;
+	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
+	//}
+
+	//float CameraRectX = 1280;
+	//float CameraRectY = 720;
+
+	//if (MapScaleX_ <= CamaraPos.x + CameraRectX)
+	//{
+	//	float4 CurCameraPos = CamaraPos;
+	//	CurCameraPos.x = CamaraPos.x - (CamaraPos.x + CameraRectX - MapScaleX_);
+	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
+	//}
+
+	//if (MapScaleY_ <= (CamaraPos.y + CameraRectY))
+	//{
+	//	float4 CurCameraPos = CamaraPos;
+	//	CurCameraPos.y = CamaraPos.y - (CamaraPos.y + CameraRectY - MapScaleY_);
+	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
+	//}
 
 }
 

@@ -71,6 +71,8 @@ void ContentsCore::Start()
 
 	ChangeLevel("Ariant");
 
+	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
+
 
 }
 

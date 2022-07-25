@@ -135,6 +135,9 @@
     <ClInclude Include="imgui.h">
       <Filter>GUI\IMGUI</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineStatusWindow.h">
+      <Filter>GUI\EngineGUIWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -264,6 +267,9 @@
     <ClCompile Include="imgui_draw.cpp">
       <Filter>GUI\IMGUI</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineStatusWindow.cpp">
+      <Filter>GUI\EngineGUIWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -334,6 +340,9 @@
     </Filter>
     <Filter Include="GUI\IMGUI">
       <UniqueIdentifier>{5d9990d3-68b8-450e-b5b8-9fbfd75b92da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\EngineGUIWindow">
+      <UniqueIdentifier>{09480c4d-1007-4c4c-bffb-819bcf06a933}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

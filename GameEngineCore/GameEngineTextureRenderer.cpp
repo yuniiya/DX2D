@@ -143,60 +143,6 @@ void GameEngineTextureRenderer::SetTexture(GameEngineTexture* _Texture, UINT _In
 	SetFrame(_Index);
 }
 
-// 시작 프레임에 들어온다.
-void GameEngineTextureRenderer::AnimationBindStart(const std::string& _AnimationName, std::function<void(const FrameAnimation_DESC&)> Function)
-{
-	std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
-
-	if (FrameAni.end() == FrameAni.find(Name))
-	{
-		MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
-		return;
-	}
-
-	FrameAni[Name].Start = Function;
-}
-// 끝나는 프레임에 들어온다
-void GameEngineTextureRenderer::AnimationBindEnd(const std::string& _AnimationName, std::function<void(const FrameAnimation_DESC&)> Function)
-{
-	std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
-
-	if (FrameAni.end() == FrameAni.find(Name))
-	{
-		MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
-		return;
-	}
-
-	FrameAni[Name].End = Function;
-}
-// 프레임이 바뀔때마다 들어온다
-void GameEngineTextureRenderer::AnimationBindFrame(const std::string& _AnimationName, std::function<void(const FrameAnimation_DESC&)> Function)
-{
-	std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
-
-	if (FrameAni.end() == FrameAni.find(Name))
-	{
-		MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
-		return;
-	}
-
-	FrameAni[Name].Frame = Function;
-}
-
-// Update
-void GameEngineTextureRenderer::AnimationBindTime(const std::string& _AnimationName, std::function<void(const FrameAnimation_DESC& , float)> Function)
-{
-	std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
-
-	if (FrameAni.end() == FrameAni.find(Name))
-	{
-		MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
-		return;
-	}
-
-	FrameAni[Name].Time = Function;
-}
-
 void GameEngineTextureRenderer::CreateFrameAnimationFolder(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc)
 {
 	std::string Name = GameEngineString::ToUpperReturn(_AnimationName);

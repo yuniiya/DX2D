@@ -28,6 +28,11 @@ GameEngineCamera::~GameEngineCamera()
 {
 }
 
+bool ZSort(GameEngineRenderer* _Left, GameEngineRenderer* _Right)
+{
+	return _Left->GetTransform().GetWorldPosition().z > _Right->GetTransform().GetWorldPosition().z;
+}
+
 void GameEngineCamera::Render(float _DeltaTime)
 {
 	// 순서적으로보면 레스터라이저 단계이지만 변경이 거의 없을거기 때문에.
@@ -53,10 +58,14 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 	float4 WindowSize = GameEngineWindow::GetInst()->GetScale();
 
-
-	for (const std::pair<int, std::list<GameEngineRenderer*>>& Group : AllRenderer_)
+	// 랜더링 하기 전에
+	for (std::pair<const int, std::list<GameEngineRenderer*>>& Group : AllRenderer_)
 	{
 		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+
+		std::list<GameEngineRenderer*>& RenderList = Group.second;
+		RenderList.sort(ZSort);
+
 		for (GameEngineRenderer* const Renderer : Group.second)
 		{
 			if (false == Renderer->IsUpdate())

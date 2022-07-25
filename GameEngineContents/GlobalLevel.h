@@ -23,6 +23,14 @@ protected:
 	void End() override {};
 
 private:
+	GameEngineCameraActor* CameraActor_;
+
+
+public:
+	GameEngineCameraActor* GetCameraActor()
+	{
+		return CameraActor_;
+	}
 
 protected:
 	void SetCamera();

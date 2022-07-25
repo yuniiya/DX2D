@@ -3,6 +3,7 @@
 #include "GlobalActor.h"
 
 class GameEngineTextureRenderer;
+class GlobalLevel;
 class Player : public GlobalActor
 {
 public:
@@ -18,8 +19,19 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+public:
+	inline void SetMapScale(float _x, float _y)
+	{
+		MapScaleX_ = _x;
+		MapScaleY_ = _y;
+	}
+
 private:
 	float Speed_;
+	float4 Position_;
+
+	float MapScaleX_;
+	float MapScaleY_;
 
 	PLAYERSTATE CurState_;
 
@@ -38,6 +50,16 @@ protected:
 protected:
 	void PixelColiisionCheck();
 	void ColiisionCheck();
+
+protected:
+	GameEngineCameraActor* CameraActor_;
+
+	inline float4 GetPosition()
+	{
+		Position_ = MainPlayer_->GetTransform().GetLocalPosition();
+		return Position_;
+	}
+
 
 protected:
 	void ChangeState(PLAYERSTATE _State);

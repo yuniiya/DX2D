@@ -15,7 +15,7 @@ void BossLevel::Start()
 	SetCamera();
 
 	SetBackGround("Back_Boss.png");
-	SetStage("Stage_Boss.png");
+	//SetStage("Stage_Boss.png");
 }
 
 void BossLevel::Update(float _DeltaTime)
