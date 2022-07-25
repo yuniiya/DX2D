@@ -24,20 +24,25 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-	//{
-	//	GameEngineDirectory Dir;
-	//	Dir.MoveParentToExitsChildDirectory("Resources");
-	//	Dir.Move("Resources");
-	//	Dir.Move("Texture");
-	//	Dir.Move("Map");
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Map");
+		Dir.Move("BossLevel");
+		Dir.Move("Stage_Boss");
 
-	//	std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
 
-	//	for (GameEngineDirectory Dir : Folder)
-	//	{
-	//		GameEngineFolderTexture::Load(Dir.GetFullPath());
-	//	}
-	//}
+		//std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		//for (GameEngineDirectory Dir : Folder)
+		//{
+		//	GameEngineFolderTexture::Load(Dir.GetFullPath());
+		//}
+	}
+
 
 	{
 		GameEngineDirectory Dir;
@@ -53,7 +58,6 @@ void ContentsCore::Start()
 			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 	}
-
 
 	{
 		GameEngineDirectory Dir;
@@ -75,6 +79,40 @@ void ContentsCore::Start()
 		}
 	}
 
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Obj");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+	}
+
+
+	
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))

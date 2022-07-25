@@ -20,12 +20,6 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 public:
-	inline void SetMapScale(float _x, float _y)
-	{
-		MapScaleX_ = _x;
-		MapScaleY_ = _y;
-	}
-
 	inline float4 GetPosition()
 	{
 		Position_ = MainPlayer_->GetTransform().GetLocalPosition();
@@ -35,9 +29,6 @@ public:
 private:
 	float Speed_;
 	float4 Position_;
-
-	float MapScaleX_;
-	float MapScaleY_;
 
 	PLAYERSTATE CurState_;
 
@@ -53,16 +44,16 @@ protected:
 	GameEngineTextureRenderer* PlayerRenderer_;
 	std::string AnimationName_;
 
+
 protected:
 	void PixelColiisionCheck();
 	void ColiisionCheck();
 
 protected:
-	GameEngineCameraActor* CameraActor_;
-
-protected:
 	void ChangeState(PLAYERSTATE _State);
 	void PlayerStateUpdate();
+	bool IsMoveKey();
+	void PlayerMove(float _DeltaTime);
 
 protected:
 	void IdleStart();

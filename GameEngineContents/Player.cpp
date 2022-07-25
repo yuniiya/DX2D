@@ -16,9 +16,10 @@ Player* Player::MainPlayer_ = nullptr;
 
 Player::Player() 
 	: Speed_(200.0f)
-	, CurState_(PLAYERSTATE::MAX)
+	, CurState_(PLAYERSTATE::IDLE)
 	, PlayerCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
+	, Position_(0.f)
 {
 }
 
@@ -58,6 +59,7 @@ void Player::Start()
 
 	//PlayerRenderer_->SetTexture("Idle", 0);
 	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Player_Move", 0.2f));
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
 	//CameraActor_ = GetLevel()->CreateActor<GameEngineCameraActor>();
@@ -65,25 +67,11 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+	PlayerStateUpdate();
 
-	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
-		PlayerRenderer_->GetTransform().PixLocalPositiveX();
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
-		PlayerRenderer_->GetTransform().PixLocalNegativeX();
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed_ * _DeltaTime);
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
-	}
+	PlayerMove(_DeltaTime);
+
+	
 
 	//if (false == >IsFreeCameraMode())
 	//{
@@ -203,6 +191,41 @@ void Player::PlayerStateUpdate()
 	case PLAYERSTATE::DIE:
 		DieUpdate();
 		break;
+	}
+}
+
+bool Player::IsMoveKey()
+{
+	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft")
+		|| true == GameEngineInput::GetInst()->IsPress("MoveRight")
+		|| true == GameEngineInput::GetInst()->IsPress("MoveUp")
+		|| true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Player::PlayerMove(float _DeltaTime)
+{
+	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
+		PlayerRenderer_->GetTransform().PixLocalPositiveX();
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
+		PlayerRenderer_->GetTransform().PixLocalNegativeX();
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed_ * _DeltaTime);
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
 	}
 }
 
