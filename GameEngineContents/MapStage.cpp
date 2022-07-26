@@ -16,10 +16,3 @@ void MapStage::Start()
 	MapStageRender_->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
-void MapStage::Render()
-{
-}
-
-void MapStage::Update()
-{
-}

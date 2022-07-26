@@ -26,3 +26,6 @@
 
 // core
 #include <GameEngineCore/CoreMinimal.h>
+
+// contents
+#include "GlobalLevel.h"

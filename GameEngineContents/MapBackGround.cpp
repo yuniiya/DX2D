@@ -16,10 +16,3 @@ void MapBackGround::Start()
 	MapBackGroundRender_->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
-void MapBackGround::Render()
-{
-}
-
-void MapBackGround::Update()
-{
-}

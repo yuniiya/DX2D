@@ -22,7 +22,6 @@ GlobalLevel::~GlobalLevel()
 
 void GlobalLevel::Update(float _DeltaTime)
 {
-
 }
 
 void GlobalLevel::SetCamera()
@@ -46,11 +45,21 @@ void GlobalLevel::SetBackGround(const std::string& _Name)
 void GlobalLevel::SetStage(const std::string& _Name)
 {
 	MapStage* StageActor = CreateActor<MapStage>(GAMEOBJGROUP::STAGE);
-	GameEngineTextureRenderer* StageRenderer_ = StageActor->GetRenderer();
+	StageRenderer_ = StageActor->GetRenderer();
 
 	StageRenderer_->SetTexture(_Name);
 	StageRenderer_->ScaleToTexture();
 	StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
+}
+
+void GlobalLevel::SetCollisionMap(const std::string& _Name)
+{
+	MapStage* ColMapActor = CreateActor<MapStage>(GAMEOBJGROUP::STAGE);
+	ColMapRenderer_ = ColMapActor->GetRenderer();
+
+	ColMapRenderer_->SetTexture(_Name);
+	ColMapRenderer_->ScaleToTexture();
+	ColMapRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
 

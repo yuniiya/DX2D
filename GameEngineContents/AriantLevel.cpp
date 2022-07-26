@@ -16,18 +16,10 @@ AriantLevel::~AriantLevel()
 void AriantLevel::Start()
 {
 	SetCamera();
-
 	SetBackGround("Back_Ariant.png");
-	SetStage("Stage_Ariant.png");
-	//{
-	//	MapStage* StageActor = CreateActor<MapStage>(GAMEOBJGROUP::STAGE);
-	//	GameEngineTextureRenderer* StageRenderer_ = StageActor->GetRenderer();
+	SetCollisionMap("ColMap_Ariant.png");
+	//SetStage("Stage_Ariant.png");
 
-	//	StageRenderer_->SetTexture("Stage_Ariant.png");
-	//	StageRenderer_->ScaleToTexture();
-	//	StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
-	//}
-	
 
 	Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1800.0f, -750.0f, 0.0f });
@@ -45,6 +37,8 @@ void AriantLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
+	
+
 	CameraPos_ = GetMainCameraActor()->GetTransform().GetLocalPosition();
 	PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
 
@@ -52,7 +46,6 @@ void AriantLevel::Update(float _DeltaTime)
 	{
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_ });
 	}
-
 
 	//LimitCamera({ 5760.f, 995.f });
 }

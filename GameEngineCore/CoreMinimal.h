@@ -13,7 +13,7 @@
 #include <GameEngineCore/GameEngineFolderTexture.h>
 
 // Object
-#include <GameEngineCore/GameEngineLevel.h>
+//#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineRenderer.h>

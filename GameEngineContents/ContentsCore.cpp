@@ -157,7 +157,7 @@ void ContentsCore::Start()
 		//GameEngineInput::GetInst()->CreateKey("CameraDown", VK_NUMPAD2);
 
 		GameEngineInput::GetInst()->CreateKey("FreeCameraOnOff", VK_OEM_4);		// [
-		GameEngineInput::GetInst()->CreateKey("DebugOnOff", VK_OEM_6);			// ]
+		GameEngineInput::GetInst()->CreateKey("DebugModeOnOff", VK_OEM_6);			// ]
 	}
 
 

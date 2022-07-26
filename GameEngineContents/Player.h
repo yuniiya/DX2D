@@ -45,11 +45,12 @@ protected:
 	void DebugRender();
 protected:
 	GameEngineTextureRenderer* PlayerRenderer_;
+	GameEngineTextureRenderer* ColMapRenderer_;
 	std::string AnimationName_;
 
 
 protected:
-	void StagePixelCheck();
+	bool StagePixelCheck();
 	void PixelColiisionCheck();
 	void ColiisionCheck();
 

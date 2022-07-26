@@ -3,6 +3,7 @@
 
 class MapBackGround;
 class MapStage;
+class Portal;
 class GameEngineTextureRenderer;
 class GlobalLevel : public GameEngineLevel
 {
@@ -32,10 +33,23 @@ private:
 	float MapSizeX_;
 	float MapSizeY_;
 
+	GameEngineTextureRenderer* ColMapRenderer_;
+	GameEngineTextureRenderer* StageRenderer_;
+
 public:
-	GameEngineCameraActor* GetCameraActor()
+	inline GameEngineCameraActor* GetCameraActor()
 	{
 		return CameraActor_;
+	}
+
+	inline GameEngineTextureRenderer* GetCollisionMap()
+	{
+		return ColMapRenderer_;
+	}
+
+	inline void CollisionMapOnOff()
+	{
+		StageRenderer_->OnOffSwitch();
 	}
 
 	void MapSizeReturn(float _X, float _Y)
@@ -45,11 +59,12 @@ public:
 	}
 
 	void LimitCamera(float4 _MapSize);
-
 protected:
+
 	void SetCamera();
 	void SetBackGround(const std::string& _Name);
 	void SetStage(const std::string& _Name);
+	void SetCollisionMap(const std::string& _Name);
 
 };
 

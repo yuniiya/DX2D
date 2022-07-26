@@ -72,63 +72,26 @@ void Player::Update(float _DeltaTime)
 
 	PlayerMove(_DeltaTime);
 
-	
-
-	//if (false == >IsFreeCameraMode())
-	//{
-	//	GetLevel()->GetMainCameraActorTransform().SetWorldPosition(MainPlayer_->GetPosition());
-	//}
-//	CameraActor_->GetTransform().SetLocalPosition(MainPlayer_->GetPosition());
-	
-	//float4 Pos = GetPosition() - GameEngineWindow::GetInst()->GetScale();
-	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition(GetPosition() + GameEngineWindow::GetInst()->GetScale().Half());
-
-	//float4 CamaraPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	//if (0 > CamaraPos.x)
-	//{
-	//	float4 CurCameraPos = CamaraPos;
-	//	CurCameraPos.x = 0;
-	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
-	//}
-	//if (0 > CamaraPos.y)
-	//{
-	//	float4 CurCameraPos = CamaraPos;
-	//	CurCameraPos.y = 0;
-	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
-	//}
-
-	//float CameraRectX = 1280;
-	//float CameraRectY = 720;
-
-	//if (MapScaleX_ <= CamaraPos.x + CameraRectX)
-	//{
-	//	float4 CurCameraPos = CamaraPos;
-	//	CurCameraPos.x = CamaraPos.x - (CamaraPos.x + CameraRectX - MapScaleX_);
-	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
-	//}
-
-	//if (MapScaleY_ <= (CamaraPos.y + CameraRectY))
-	//{
-	//	float4 CurCameraPos = CamaraPos;
-	//	CurCameraPos.y = CamaraPos.y - (CamaraPos.y + CameraRectY - MapScaleY_);
-	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
-	//}
-
+	DebugModeOnOff();
+	//StagePixelCheck();
+	PixelCollisionMapUpdate(this);
 }
 
 void Player::DebugModeOnOff()
 {
 	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && true == IsDebug)
 	{
-		GameEngineDebugObject::IsDebugModeSwitch();
 		IsDebug = false;
+		GetLevel<GlobalLevel>()->CollisionMapOnOff();
 	}
 
 	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && false == IsDebug)
 	{
-		GameEngineDebugObject::IsDebugModeSwitch();
 		IsDebug = true;
+		GetLevel<GlobalLevel>()->CollisionMapOnOff();
 	}
+
+	
 
 	DebugRender();
 }
@@ -152,8 +115,30 @@ void Player::DebugRender()
 	//}
 }
 
-void Player::StagePixelCheck()
+bool Player::StagePixelCheck()
 {
+	//if (nullptr == MainPlayer_)
+	//{
+	//	return false;
+	//}
+
+	//PixelCollisionMapUpdate();
+
+	//GameEngineTexture* MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+
+	//if (nullptr == MapTexture_)
+	//{
+	//	MsgBoxAssert("충돌맵이 설정되지 않았습니다");
+	//}
+	////dynamic_cast<GlobalActor*>(Actor_)->
+	//float4 Color = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix(), (- GetTransform().GetWorldPosition().iy()) + 39.f);
+
+	//if (false == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+	//{
+	//	int a = 0;
+	//}
+
+	return true;
 }
 
 void Player::ChangeState(PLAYERSTATE _State)

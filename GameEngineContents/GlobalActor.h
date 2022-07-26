@@ -18,13 +18,14 @@ public:
 
 protected:
 	void Start() override {};
-	void Update(float _DeltaTime) override {};
+	void Update(float _DeltaTime) override;
 	void End() override {};
 
 protected:
-	void PixelCollisionMapUpdate();
+	bool PixelCollisionMapUpdate(GlobalActor* _Actor);
 
 private:
-
+	GameEngineTexture* MapTexture_;
+	GlobalActor* Actor_;
 };
 

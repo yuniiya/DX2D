@@ -2,10 +2,35 @@
 #include "GlobalActor.h"
 
 GlobalActor::GlobalActor() 
+	: MapTexture_(nullptr)
 {
 }
 
 GlobalActor::~GlobalActor() 
 {
+}
+
+void GlobalActor::Update(float _DeltaTime)
+{
+
+}
+
+bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor)
+{
+	MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+
+	if (nullptr == MapTexture_)
+	{
+		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
+	}
+
+	float4 Color = MapTexture_->GetPixel(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix(), -(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + 39.f);
+
+	if (false == Color.CompareInt4D(float4{1.f, 1.f, 1.f, 0.f}))
+	{
+		int a = 0;
+	}
+
+	return true;
 }
 

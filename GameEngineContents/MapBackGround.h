@@ -19,8 +19,8 @@ protected:
 
 private:
 	void Start();
-	void Render();
-	void Update();
+	void Update(float _DeltaTime) override {};
+	void End() override {};
 
 	GameEngineTextureRenderer* MapBackGroundRender_;
 
