@@ -40,7 +40,7 @@ void GlobalLevel::SetBackGround(const std::string& _Name)
 
 	BackGroundRenderer->SetTexture(_Name);
 	BackGroundRenderer->ScaleToTexture();
-	BackGroundRenderer->GetTransform().SetLocalPosition({ 0.f, 0.f });
+	BackGroundRenderer->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
 void GlobalLevel::SetStage(const std::string& _Name)
@@ -50,6 +50,7 @@ void GlobalLevel::SetStage(const std::string& _Name)
 
 	StageRenderer_->SetTexture(_Name);
 	StageRenderer_->ScaleToTexture();
+	StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
 

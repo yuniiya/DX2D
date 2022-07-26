@@ -58,12 +58,16 @@ void FrameAnimation::Update(float _Delta)
 
 		if (nullptr != Texture)
 		{
+			ParentRenderer->CurTex = Texture;
 			ParentRenderer->SetTexture(Texture, Info.CurFrame);
+			ParentRenderer->SetPivot();
 		}
 		else if (nullptr != FolderTexture)
 		{
 			ParentRenderer->FrameDataReset();
+			ParentRenderer->CurTex = FolderTexture->GetTexture(Info.CurFrame);
 			ParentRenderer->SetTexture(FolderTexture->GetTexture(Info.CurFrame));
+			ParentRenderer->SetPivot();
 		}
 		else
 		{
@@ -78,6 +82,7 @@ void FrameAnimation::Update(float _Delta)
 GameEngineTextureRenderer::GameEngineTextureRenderer() 
 	: CurAni(nullptr)
 	, CurTex(nullptr)
+	, PivotMode(PIVOTMODE::CENTER)
 {
 }
 
@@ -108,6 +113,36 @@ void GameEngineTextureRenderer::SetSamplingModeLiner()
 	ShaderResources.SetSampler("Smp", "EngineSamplerLinear");
 }
 
+void GameEngineTextureRenderer::SetPivot()
+{
+	SetPivot(PivotMode);
+}
+
+void GameEngineTextureRenderer::SetPivot(PIVOTMODE _Mode)
+{
+	switch (_Mode)
+	{
+	case PIVOTMODE::CENTER:
+		SetPivotToVector(float4::ZERO);
+		break;
+	case PIVOTMODE::LEFTTOP:
+		SetPivotToVector(float4(GetTransform().GetWorldScale().hx(), -GetTransform().GetWorldScale().hy()));
+		break;
+	case PIVOTMODE::BOT:
+		SetPivotToVector(float4(0.0f, GetTransform().GetWorldScale().hy()));
+		break;
+	default:
+		break;
+	}
+
+	PivotMode = _Mode;
+}
+
+void GameEngineTextureRenderer::SetPivotToVector(const float4& _Value) 
+{
+	GetTransform().SetLocalPosition(_Value);
+}
+
 void GameEngineTextureRenderer::SetTexture(GameEngineTexture* _Texture)
 {
 	CurTex = _Texture;
@@ -124,6 +159,10 @@ void GameEngineTextureRenderer::SetFrame(UINT _Index)
 	FrameData = CurTex->GetFrameData(_Index);
 }
 
+GameEngineTexture* GameEngineTextureRenderer::GetCurTexture()
+{
+	return CurTex;
+}
 
 void GameEngineTextureRenderer::SetTexture(const std::string& _Name, UINT _Index)
 {

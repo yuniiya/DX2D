@@ -79,8 +79,6 @@ void ContentsCore::Start()
 		}
 	}
 
-
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("Resources");
@@ -111,8 +109,43 @@ void ContentsCore::Start()
 		}
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("UIAnimation");
 
-	
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("AbillityUI");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+		//std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		//for (auto& TmpDir : Folder)
+		//{
+		//	
+		//}
+	}
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
@@ -124,7 +157,7 @@ void ContentsCore::Start()
 		//GameEngineInput::GetInst()->CreateKey("CameraDown", VK_NUMPAD2);
 
 		GameEngineInput::GetInst()->CreateKey("FreeCameraOnOff", VK_OEM_4);		// [
-
+		GameEngineInput::GetInst()->CreateKey("DebugOnOff", VK_OEM_6);			// ]
 	}
 
 

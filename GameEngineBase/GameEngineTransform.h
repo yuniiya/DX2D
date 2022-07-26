@@ -187,6 +187,11 @@ public:
 		SetWorldPosition(Data.WorldPosition + _Value);
 	}
 
+	inline float4 GetWorldScale() const
+	{
+		return Data.WorldScaling;
+	}
+
 	inline float4 GetLocalScale() const
 	{
 		return Data.LocalScaling;

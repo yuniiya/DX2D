@@ -18,19 +18,19 @@ void AriantLevel::Start()
 	SetCamera();
 
 	SetBackGround("Back_Ariant.png");
-	//SetStage("Stage_Ariant.png");
-	{
-		MapStage* StageActor = CreateActor<MapStage>(GAMEOBJGROUP::STAGE);
-		GameEngineTextureRenderer* StageRenderer_ = StageActor->GetRenderer();
+	SetStage("Stage_Ariant.png");
+	//{
+	//	MapStage* StageActor = CreateActor<MapStage>(GAMEOBJGROUP::STAGE);
+	//	GameEngineTextureRenderer* StageRenderer_ = StageActor->GetRenderer();
 
-		StageRenderer_->SetTexture("Stage_Ariant.png");
-		StageRenderer_->ScaleToTexture();
-		StageRenderer_->GetTransform().SetLocalPosition({ 0.f, 20.f });
-	}
+	//	StageRenderer_->SetTexture("Stage_Ariant.png");
+	//	StageRenderer_->ScaleToTexture();
+	//	StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
+	//}
 	
 
 	Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 100.0f, -250.f, 0.0f });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1800.0f, -750.0f, 0.0f });
 }
 
 void AriantLevel::Update(float _DeltaTime)

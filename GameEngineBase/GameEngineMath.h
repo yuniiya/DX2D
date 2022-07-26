@@ -344,6 +344,22 @@ public:
 		return POINT(ix(), iy());
 	}
 
+
+	float hx() const
+	{
+		return x * 0.5f;
+	}
+
+	float hy() const
+	{
+		return y * 0.5f;
+	}
+
+	float hz() const
+	{
+		return z * 0.5f;
+	}
+
 	int hix() const
 	{
 		return static_cast<int>(x * 0.5f);
@@ -521,6 +537,15 @@ public:
 			iy() == _Value.iy() &&
 			iz() == _Value.iz();
 	}
+
+	bool CompareInt4D(const float4& _Value) const
+	{
+		return ix() == _Value.ix() &&
+			iy() == _Value.iy() &&
+			iz() == _Value.iz() &&
+			iw() == _Value.iw();
+	}
+
 
 	float4 RotationToDegreeZ(float _Degree)
 	{

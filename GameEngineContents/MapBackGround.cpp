@@ -13,6 +13,7 @@ MapBackGround::~MapBackGround()
 void MapBackGround::Start()
 {
 	MapBackGroundRender_ = CreateComponent<GameEngineTextureRenderer>();
+	MapBackGroundRender_->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
 void MapBackGround::Render()

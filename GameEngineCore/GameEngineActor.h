@@ -26,9 +26,15 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
-	inline GameEngineLevel* GetLevel() 	
-	{		
-		return ParentLevel;	
+	inline GameEngineLevel* GetLevel()
+	{
+		return ParentLevel;
+	}
+
+	template<typename LevelType>
+	inline LevelType* GetLevel()
+	{
+		return dynamic_cast<LevelType*>(ParentLevel);
 	}
 
 	template<typename ComponentType>
@@ -56,7 +62,7 @@ private:
 
 	class GameEngineLevel* ParentLevel;
 
-	void SetLevel(GameEngineLevel* _ParentLevel) 
+	void SetLevel(GameEngineLevel* _ParentLevel)
 	{
 		ParentLevel = _ParentLevel;
 	}

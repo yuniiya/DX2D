@@ -4,13 +4,13 @@
 #include "GameEngineComponent.h"
 #include "GameEngineTransformComponent.h"
 
-GameEngineActor::GameEngineActor() 
+GameEngineActor::GameEngineActor()
 	:ParentLevel(nullptr)
 {
 
 }
 
-GameEngineActor::~GameEngineActor() 
+GameEngineActor::~GameEngineActor()
 {
 }
 
@@ -36,14 +36,14 @@ void GameEngineActor::AllUpdate(float _ScaleDeltaTime, float _DeltaTime)
 		Com->Update(_ScaleDeltaTime);
 	}
 }
-void GameEngineActor::DetachObject() 
+void GameEngineActor::DetachObject()
 {
 	GameEngineUpdateObject::DetachObject();
 
 	GetTransform().DetachTransform();
 }
 
-void GameEngineActor::SetParent(GameEngineUpdateObject* _Object) 
+void GameEngineActor::SetParent(GameEngineUpdateObject* _Object)
 {
 	if (nullptr == GetParent())
 	{
@@ -61,6 +61,6 @@ void GameEngineActor::SetParent(GameEngineUpdateObject* _Object)
 		}
 	}
 
-	MsgBoxAssert("트랜스폼이 있는 컴포넌트에 트랜스폼이 없는 부모를 붙이려고 했습니다.");
+	MsgBoxAssert("트랜스폼이 없는 컴포넌트에 트랜스폼이 있는 부모를 붙이려고 했습니다.");
 }
 

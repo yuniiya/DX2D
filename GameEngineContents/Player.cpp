@@ -20,6 +20,7 @@ Player::Player()
 	, PlayerCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
 	, Position_(0.f)
+	, IsDebug(false)
 {
 }
 
@@ -113,6 +114,46 @@ void Player::Update(float _DeltaTime)
 	//	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(CurCameraPos);
 	//}
 
+}
+
+void Player::DebugModeOnOff()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && true == IsDebug)
+	{
+		GameEngineDebugObject::IsDebugModeSwitch();
+		IsDebug = false;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && false == IsDebug)
+	{
+		GameEngineDebugObject::IsDebugModeSwitch();
+		IsDebug = true;
+	}
+
+	DebugRender();
+}
+
+void Player::DebugRender()
+{
+	//float PlayerPosX = GetPosition().x;
+	//float PlayerPosY = GetPosition().y;
+
+	//if (true == IsDebug)
+	//{
+	//	std::string PosX = "";
+	//	std::string PosY = "";
+
+	//	PosX = "PosX : " + std::to_string(PlayerPosX);
+	//	PosY = "PosY : " + std::to_string(PlayerPosY);
+
+
+	//	TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x - 30, PosX.c_str(), static_cast<int>(PosX.length()));
+	//	TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().y - 10, PosY.c_str(), static_cast<int>(PosY.length()));
+	//}
+}
+
+void Player::StagePixelCheck()
+{
 }
 
 void Player::ChangeState(PLAYERSTATE _State)

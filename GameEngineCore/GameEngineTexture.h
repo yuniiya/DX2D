@@ -6,10 +6,14 @@
 
 #pragma comment(lib, "DirectXTex.lib")
 
-// 설명 : 
+
+// 설명 :
 class GameEngineTexture : public GameEngineRes<GameEngineTexture>
 {
+
+
 public:
+	// constrcuter destructer
 	GameEngineTexture();
 	~GameEngineTexture();
 
@@ -19,7 +23,7 @@ public:
 	GameEngineTexture& operator=(const GameEngineTexture& _Other) = delete;
 	GameEngineTexture& operator=(GameEngineTexture&& _Other) noexcept = delete;
 
-	static GameEngineTexture* Load(const std::string& _Path) 
+	static GameEngineTexture* Load(const std::string& _Path)
 	{
 		return Load(_Path, GameEnginePath::GetFileName(_Path));
 	}
@@ -42,7 +46,7 @@ public:
 	void VSSetting(int _BindPoint);
 	void PSSetting(int _BindPoint);
 
-	float4 GetFrameData(UINT _Index) 
+	float4 GetFrameData(UINT _Index)
 	{
 		if (true == CutData.empty())
 		{
@@ -56,15 +60,17 @@ public:
 
 		return CutData[_Index];
 	}
-
+	
 	void TextureLoad(const std::string& _Path);
 
-	float4 GetScale() 
-	{
+	float4 GetScale()
+	{								//(Metadata.width),(Metadata.height)이거쓰면 0,0되서 텍스쳐 생성에 실패함 뜸
 		return { static_cast<float>(Desc.Width), static_cast<float>(Desc.Height) };
 	}
 
 	void TextureCreate(const D3D11_TEXTURE2D_DESC& _Desc);
+
+	float4 GetPixel(int _x, int _y);
 
 protected:
 

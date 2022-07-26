@@ -30,11 +30,16 @@ public:
 		return IsDebug_;
 	}
 
+	static void IsDebugModeSwitch()
+	{
+		IsDebug_ = !IsDebug_;
+	}
+
 
 protected:
 
 private:
-	bool IsDebug_;
+	static bool IsDebug_;
 
 };
 

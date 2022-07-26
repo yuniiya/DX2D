@@ -31,6 +31,7 @@ private:
 	float4 Position_;
 
 	PLAYERSTATE CurState_;
+	bool IsDebug;
 
 private:
 	GameEngineCollision* PlayerCollision_;
@@ -40,12 +41,15 @@ protected:
 	void Update(float _DeltaTime);
 	void End()  {}
 
+	void DebugModeOnOff();
+	void DebugRender();
 protected:
 	GameEngineTextureRenderer* PlayerRenderer_;
 	std::string AnimationName_;
 
 
 protected:
+	void StagePixelCheck();
 	void PixelColiisionCheck();
 	void ColiisionCheck();
 
