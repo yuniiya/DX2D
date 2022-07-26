@@ -28,3 +28,12 @@ enum class PLAYERSTATE
 
 	MAX,
 };
+
+
+enum class ACTORDIR
+{
+	LEFT,
+	RIGHT,
+
+	MAX,
+};

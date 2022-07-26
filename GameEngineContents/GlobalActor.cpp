@@ -34,3 +34,15 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor)
 	return true;
 }
 
+void GlobalActor::DirCheck(GameEngineTextureRenderer* _Renderer, ACTORDIR _Dir)
+{
+	if (ACTORDIR::LEFT == _Dir)
+	{
+		_Renderer->GetTransform().PixLocalPositiveX();
+	}
+	if (ACTORDIR::RIGHT == _Dir)
+	{
+		_Renderer->GetTransform().PixLocalNegativeX();
+	}
+}
+

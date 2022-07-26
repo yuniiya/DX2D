@@ -23,6 +23,7 @@ protected:
 
 protected:
 	bool PixelCollisionMapUpdate(GlobalActor* _Actor);
+	void DirCheck(GameEngineTextureRenderer* _Renderer, ACTORDIR _Dir);
 
 private:
 	GameEngineTexture* MapTexture_;

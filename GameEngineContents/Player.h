@@ -31,6 +31,7 @@ private:
 	float4 Position_;
 
 	PLAYERSTATE CurState_;
+	ACTORDIR CurDir_;
 	bool IsDebug;
 
 private:

@@ -19,8 +19,9 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
-private:
-
+protected:
+	float4 CameraPos_;
+	float4 PlayerPos_;
 
 public:
 	

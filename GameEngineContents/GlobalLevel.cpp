@@ -13,6 +13,8 @@ GlobalLevel::GlobalLevel()
 	, MapSizeY_(0.f)
 	, CameraPosX_(0.f)
 	, CameraPosY_(0.f)
+	, StageRenderer_(nullptr)
+	, ColMapRenderer_(nullptr)
 {
 }
 

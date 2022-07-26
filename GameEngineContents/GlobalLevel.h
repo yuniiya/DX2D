@@ -24,8 +24,6 @@ protected:
 	void End() override {};
 
 private:
-	GameEngineCameraActor* CameraActor_;
-
 	float4 CameraPos_;
 	float CameraPosX_;
 	float CameraPosY_;
@@ -37,11 +35,6 @@ private:
 	GameEngineTextureRenderer* StageRenderer_;
 
 public:
-	inline GameEngineCameraActor* GetCameraActor()
-	{
-		return CameraActor_;
-	}
-
 	inline GameEngineTextureRenderer* GetCollisionMap()
 	{
 		return ColMapRenderer_;

@@ -21,6 +21,7 @@ Player::Player()
 	, PlayerRenderer_(nullptr)
 	, Position_(0.f)
 	, IsDebug(false)
+	, CurDir_(ACTORDIR::RIGHT)
 {
 }
 
@@ -36,7 +37,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveLeft", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("MoveRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("MoveUp", VK_UP);
-		GameEngineInput::GetInst()->CreateKey("MoveDown", VK_DOWN);
+		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("Jump", VK_LMENU);
 		GameEngineInput::GetInst()->CreateKey("Pick", VK_LCONTROL);
 
@@ -61,6 +62,7 @@ void Player::Start()
 	//PlayerRenderer_->SetTexture("Idle", 0);
 	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Player_Move", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
 	//CameraActor_ = GetLevel()->CreateActor<GameEngineCameraActor>();
@@ -73,8 +75,8 @@ void Player::Update(float _DeltaTime)
 	PlayerMove(_DeltaTime);
 
 	DebugModeOnOff();
-	//StagePixelCheck();
-	PixelCollisionMapUpdate(this);
+	StagePixelCheck();
+	//PixelCollisionMapUpdate(this);
 }
 
 void Player::DebugModeOnOff()
@@ -124,18 +126,26 @@ bool Player::StagePixelCheck()
 
 	//PixelCollisionMapUpdate();
 
-	//GameEngineTexture* MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+	GameEngineTexture* MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
 
-	//if (nullptr == MapTexture_)
-	//{
-	//	MsgBoxAssert("충돌맵이 설정되지 않았습니다");
-	//}
-	////dynamic_cast<GlobalActor*>(Actor_)->
-	//float4 Color = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix(), (- GetTransform().GetWorldPosition().iy()) + 39.f);
+	if (nullptr == MapTexture_)
+	{
+		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
+	}
 
-	//if (false == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+	float4 Color = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix(), (- GetTransform().GetWorldPosition().iy()) + 45.f);	// 발 밑 픽셀의 값을 얻어온다
+	
+	if (true == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// 발 밑이 땅이 아니다 -> 땅에 닿을 때까지 내려준다
+	{
+		Position_ = GetPosition() + float4{ 0.f, -3.f, 0.f };		
+		GetTransform().SetLocalPosition(Position_);
+	}
+
+
+	//if (false == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// 픽셀이 검정이다 = 발 밑이 땅에 닿았다
 	//{
-	//	int a = 0;
+	//	Position_ = GetPosition() + float4{ 0.f, 1.f, 0.f };
+	//	GetTransform().SetLocalPosition(Position_);
 	//}
 
 	return true;
@@ -224,8 +234,7 @@ bool Player::IsMoveKey()
 {
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft")
 		|| true == GameEngineInput::GetInst()->IsPress("MoveRight")
-		|| true == GameEngineInput::GetInst()->IsPress("MoveUp")
-		|| true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+		|| true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
 		return true;
 	}
@@ -237,21 +246,24 @@ void Player::PlayerMove(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
+		CurDir_ = ACTORDIR::LEFT;
 		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
-		PlayerRenderer_->GetTransform().PixLocalPositiveX();
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 	{
+		CurDir_ = ACTORDIR::RIGHT;
 		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
-		PlayerRenderer_->GetTransform().PixLocalNegativeX();
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed_ * _DeltaTime);
 	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
-	}
+
+	DirCheck(PlayerRenderer_, CurDir_);
+
+	//if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	//{
+	//	GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
+	//}
 }
 
