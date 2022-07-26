@@ -33,6 +33,7 @@ private:
 	PLAYERSTATE CurState_;
 	ACTORDIR CurDir_;
 	bool IsDebug;
+	bool CanMove;
 
 private:
 	GameEngineCollision* PlayerCollision_;

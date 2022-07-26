@@ -32,6 +32,7 @@ void GlobalLevel::SetCamera()
 	CameraActor->GetTransform().SetLocalPosition({ 0.f, 0.f, -500.0f });
 	CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 
+	
 }
 
 void GlobalLevel::SetBackGround(const std::string& _Name)

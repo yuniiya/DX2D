@@ -119,13 +119,6 @@ void Player::DebugRender()
 
 bool Player::StagePixelCheck()
 {
-	//if (nullptr == MainPlayer_)
-	//{
-	//	return false;
-	//}
-
-	//PixelCollisionMapUpdate();
-
 	GameEngineTexture* MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
 
 	if (nullptr == MapTexture_)
@@ -133,14 +126,40 @@ bool Player::StagePixelCheck()
 		MsgBoxAssert("Ãæµ¹¸ÊÀÌ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù");
 	}
 
-	float4 Color = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix(), (- GetTransform().GetWorldPosition().iy()) + 45.f);	// ¹ß ¹Ø ÇÈ¼¿ÀÇ °ªÀ» ¾ò¾î¿Â´Ù
+	float4 BottomColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix(), (- GetTransform().GetWorldPosition().iy()) + 45.f);	// ¹ß ¹Ø ÇÈ¼¿ÀÇ °ªÀ» ¾ò¾î¿Â´Ù
+	float4 LeftColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix() - 30.f, (-GetTransform().GetWorldPosition().iy()));
+	float4 RightColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix() + 30.f, (-GetTransform().GetWorldPosition().iy()));
+
 	
-	if (true == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// ¹ß ¹ØÀÌ ¶¥ÀÌ ¾Æ´Ï´Ù -> ¶¥¿¡ ´êÀ» ¶§±îÁö ³»·ÁÁØ´Ù
+	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// ¹ß ¹ØÀÌ ¶¥ÀÌ ¾Æ´Ï´Ù -> ¶¥¿¡ ´êÀ» ¶§±îÁö ³»·ÁÁØ´Ù
 	{
 		Position_ = GetPosition() + float4{ 0.f, -3.f, 0.f };		
 		GetTransform().SetLocalPosition(Position_);
 	}
 
+	//if (false == LeftColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// ¿Ü°û¿¡ ´ê¾Ò´Ù
+	//{
+	//	Position_ = GetPosition() + float4{ 3.f, 0.f, 0.f };
+	//	GetTransform().SetLocalPosition(Position_);
+	//}
+	//else if (false == RightColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+	//{
+	//	Position_ = GetPosition() + float4{ -3.f, 0.f, 0.f };
+	//	GetTransform().SetLocalPosition(Position_);
+	//}
+	// ¿Ü°ûÀÌ ¾Æ´Ò¶§¸¸ °¥ ¼ö ÀÖ´Ù
+	if (false == LeftColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	
+	{
+		CanMove = false;
+	}
+	else if (false == RightColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+	{
+		CanMove = false;
+	}
+	else
+	{
+		CanMove = true;
+	}
 
 	//if (false == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// ÇÈ¼¿ÀÌ °ËÁ¤ÀÌ´Ù = ¹ß ¹ØÀÌ ¶¥¿¡ ´ê¾Ò´Ù
 	//{
@@ -244,6 +263,17 @@ bool Player::IsMoveKey()
 
 void Player::PlayerMove(float _DeltaTime)
 {
+	if (true == GameEngineInput::GetInst()->IsUp("MoveLeft")
+		|| true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		CanMove = true;
+	}
+
+	if (false == CanMove)
+	{
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
 		CurDir_ = ACTORDIR::LEFT;
