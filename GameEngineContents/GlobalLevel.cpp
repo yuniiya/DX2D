@@ -28,11 +28,9 @@ void GlobalLevel::Update(float _DeltaTime)
 
 void GlobalLevel::SetCamera()
 {
-	GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
-	CameraActor->GetTransform().SetLocalPosition({ 0.f, 0.f, -500.0f });
-	CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-
-	
+	//GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
+	//CameraActor->GetTransform().SetLocalPosition({ 0.f, 0.f, -500.0f });
+	//CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 }
 
 void GlobalLevel::SetBackGround(const std::string& _Name)
@@ -66,7 +64,7 @@ void GlobalLevel::SetCollisionMap(const std::string& _Name)
 }
 
 
-void GlobalLevel::LimitCamera(float4 _MapSize)
+void GlobalLevel::CameraFix(float4 _MapSize)
 {
 	//if (nullptr != GetMainCameraActor())
 	//{
@@ -96,5 +94,28 @@ void GlobalLevel::LimitCamera(float4 _MapSize)
 	//	}
 	//}
 
-	
+	CameraPos_ = GetMainCameraActor()->GetTransform().GetLocalPosition();
+	float4 CurCameraPos = CameraPos_;
+
+	float CameraRectX = 1280;
+	float CameraRectY = 720;
+
+	// 왼쪽 X
+	if (CameraPos_.x <= CameraRectX / 2.f)
+	{
+		CurCameraPos.x = (CameraRectX / 2.f) + 2.f;	// 밀어준다
+		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
+	}
+	// 오른쪽 X
+	if (_MapSize.x - CameraRectX / 2.f <= CameraPos_.x)
+	{
+		CurCameraPos.x = (_MapSize.x - CameraRectX / 2.f) - 2.f;	// 밀어준다
+		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
+	}
+	//// 위쪽 Y
+	//if (-(_MapSize.y) - CameraRectY / 2.f <= CameraPos_.y)
+	//{
+	//	CurCameraPos.y = (-(_MapSize.y) - CameraRectY / 2.f) + 2.f;	// 밀어준다
+	//	GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
+	//}
 }

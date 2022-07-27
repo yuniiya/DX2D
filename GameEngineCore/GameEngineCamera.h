@@ -32,6 +32,8 @@ public:
 		return Mode;
 	}
 
+	void SetCameraOrder(CAMERAORDER _Order);
+
 	void SetProjectionMode(CAMERAPROJECTIONMODE _Mode)
 	{
 		Mode = _Mode;

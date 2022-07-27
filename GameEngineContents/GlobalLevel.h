@@ -51,7 +51,7 @@ public:
 		MapSizeY_ = _Y;
 	}
 
-	void LimitCamera(float4 _MapSize);
+	void CameraFix(float4 _MapSize);
 protected:
 
 	void SetCamera();

@@ -22,7 +22,7 @@ void AriantLevel::Start()
 
 
 	Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -750.0f, 0.0f });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 5000.0f, -200.0f, 0.0f });
 }
 
 void AriantLevel::Update(float _DeltaTime)
@@ -47,7 +47,7 @@ void AriantLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
 
-	//LimitCamera({ 5760.f, 995.f });
+	CameraFix({ 5760.f, 995.f });
 }
 
 void AriantLevel::End()

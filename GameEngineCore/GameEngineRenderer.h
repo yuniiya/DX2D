@@ -24,6 +24,9 @@ protected:
 	virtual void Update(float _DeltaTime) {}
 	virtual void End() {}
 
+	void PushRendererToMainCamera();
+	void PushRendererToUICamera();
+
 private:
 	virtual void Render(float _DeltaTime) = 0;
 

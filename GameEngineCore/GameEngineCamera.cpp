@@ -81,9 +81,14 @@ void GameEngineCamera::Render(float _DeltaTime)
 	}
 }
 
+void GameEngineCamera::SetCameraOrder(CAMERAORDER _Order)
+{
+	GetActor()->GetLevel()->PushCamera(this, _Order);
+}
+
 void GameEngineCamera::Start()
 {
-	GetActor()->GetLevel()->PushCamera(this);
+	// GetActor()->GetLevel()->PushCamera(this);
 }
 
 void GameEngineCamera::PushRenderer(GameEngineRenderer* _Renderer)

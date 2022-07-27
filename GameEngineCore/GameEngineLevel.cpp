@@ -7,15 +7,21 @@
 #include "GameEngineGUI.h"
 
 GameEngineLevel::GameEngineLevel() 
-	: MainCamera(nullptr)
-	, UIMainCamera(nullptr)
 {
-	for (size_t i = 0; i < 1280; i++)
-	{
-		for (size_t i = 0; i < 720; i++)
-		{
+	Cameras.resize(static_cast<unsigned int>(CAMERAORDER::UICAMERA));
 
-		}
+	{
+		GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
+		CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+		CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+		CameraActor->GetCameraComponent()->SetCameraOrder(CAMERAORDER::MAINCAMERA);
+	}
+
+	{
+		GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
+		CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+		CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+		CameraActor->GetCameraComponent()->SetCameraOrder(CAMERAORDER::UICAMERA);
 	}
 }
 
@@ -38,12 +44,6 @@ GameEngineLevel::~GameEngineLevel()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
-	//if (true == GetMainCameraActor()->IsFreeCameraMode())
-	//{
-	//	GetMainCameraActor()->Update(_DeltaTime);
-	//	return;
-	//}
-
 	for (const std::pair<int, std::list<GameEngineActor*>>& Group : AllActors)
 	{
 		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
@@ -60,27 +60,56 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 
 }
 
-void GameEngineLevel::PushRenderer(GameEngineRenderer* _Renderer)
+void GameEngineLevel::PushRenderer(GameEngineRenderer* _Renderer, int _CameraOrder)
 {
-	MainCamera->PushRenderer(_Renderer);
+	Cameras[_CameraOrder]->PushRenderer(_Renderer);
 }
 
-void GameEngineLevel::PushCamera(GameEngineCamera* _Camera)
+void GameEngineLevel::PushCamera(GameEngineCamera* _Camera, int _CameraOrder)
 {
-	MainCamera = _Camera;
+	Cameras.resize(_CameraOrder + 1);
+
+	Cameras[_CameraOrder] = _Camera;
 }
 
 GameEngineTransform& GameEngineLevel::GetMainCameraActorTransform()
 {
-	return MainCamera->GetActor()->GetTransform();
+	return Cameras[static_cast<int>(CAMERAORDER::MAINCAMERA)]->GetActor()->GetTransform();
 }
+
+
+GameEngineCameraActor* GameEngineLevel::GetMainCameraActor()
+{
+	return Cameras[static_cast<int>(CAMERAORDER::MAINCAMERA)]->GetActor<GameEngineCameraActor>();
+}
+
+GameEngineTransform& GameEngineLevel::GetUICameraActorTransform()
+{
+	return Cameras[static_cast<int>(CAMERAORDER::UICAMERA)]->GetActor()->GetTransform();
+}
+
+
+GameEngineCameraActor* GameEngineLevel::GetUICameraActor()
+{
+	return Cameras[static_cast<int>(CAMERAORDER::UICAMERA)]->GetActor<GameEngineCameraActor>();
+}
+
+
 
 void GameEngineLevel::Render(float _DelataTime)
 {
 	GameEngineDevice::RenderStart();
 
 	// 이 사이에서 무언가를 해야 합니다.
-	MainCamera->Render(_DelataTime);
+	for (size_t i = 0; i < Cameras.size(); i++)
+	{
+		if (nullptr == Cameras[i])
+		{
+			continue;
+		}
+
+		Cameras[i]->Render(_DelataTime);
+	}
 
 	GameEngineGUI::GUIRender(this, _DelataTime);
 
@@ -96,7 +125,15 @@ void GameEngineLevel::Release(float _DelataTime)
 
 	DeleteObject.clear();
 
-	MainCamera->Release(_DelataTime);
+	for (size_t i = 0; i < Cameras.size(); i++)
+	{
+		if (nullptr == Cameras[i])
+		{
+			continue;
+		}
+
+		Cameras[i]->Release(_DelataTime);
+	}
 
 	// std::list<GameEngineActor*> 루트 액터 부모가 없는 액터들만 여기에 들어올수 있다.
 	// a c
@@ -133,11 +170,6 @@ void GameEngineLevel::Release(float _DelataTime)
 		}
 	}
 
-}
-
-GameEngineCameraActor* GameEngineLevel::GetMainCameraActor()
-{
-	return MainCamera->GetActor<GameEngineCameraActor>();
 }
 
 void GameEngineLevel::LevelUpdate(float _DeltaTime)

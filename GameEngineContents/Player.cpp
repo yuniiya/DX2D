@@ -75,7 +75,7 @@ void Player::Update(float _DeltaTime)
 	PlayerMove(_DeltaTime);
 
 	DebugModeOnOff();
-	StagePixelCheck();
+	//StagePixelCheck();
 	//PixelCollisionMapUpdate(this);
 }
 
@@ -137,28 +137,29 @@ bool Player::StagePixelCheck()
 		GetTransform().SetLocalPosition(Position_);
 	}
 
-	//if (false == LeftColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// ¿Ü°û¿¡ ´ê¾Ò´Ù
-	//{
-	//	Position_ = GetPosition() + float4{ 3.f, 0.f, 0.f };
-	//	GetTransform().SetLocalPosition(Position_);
-	//}
-	//else if (false == RightColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
-	//{
-	//	Position_ = GetPosition() + float4{ -3.f, 0.f, 0.f };
-	//	GetTransform().SetLocalPosition(Position_);
-	//}
-	// ¿Ü°ûÀÌ ¾Æ´Ò¶§¸¸ °¥ ¼ö ÀÖ´Ù
-	if (false == LeftColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	
+	// Ä«¸Þ¶ó ¹Ù±ùÂÊ ÀÌµ¿ ¸·±â - ¿ÞÂÊ
+	if (CurDir_ == ACTORDIR::LEFT)
 	{
-		CanMove = false;
+		if (false == LeftColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+		{
+			CanMove = false;
+		}
+		else
+		{
+			CanMove = true;
+		}
 	}
-	else if (false == RightColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+	if (CurDir_ == ACTORDIR::RIGHT)
 	{
-		CanMove = false;
-	}
-	else
-	{
-		CanMove = true;
+		// Ä«¸Þ¶ó ¹Ù±ùÂÊ ÀÌµ¿ ¸·±â - ¿À¸¥ÂÊ
+		if (false == RightColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+		{
+			CanMove = false;
+		}
+		else
+		{
+			CanMove = true;
+		}
 	}
 
 	//if (false == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// ÇÈ¼¿ÀÌ °ËÁ¤ÀÌ´Ù = ¹ß ¹ØÀÌ ¶¥¿¡ ´ê¾Ò´Ù
@@ -263,16 +264,12 @@ bool Player::IsMoveKey()
 
 void Player::PlayerMove(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst()->IsUp("MoveLeft")
-		|| true == GameEngineInput::GetInst()->IsPress("MoveRight"))
-	{
-		CanMove = true;
-	}
+	//if (true == GameEngineInput::GetInst()->IsUp("MoveLeft")
+	//	|| true == GameEngineInput::GetInst()->IsUp("MoveRight"))
+	//{
+	//	CanMove = true;
+	//}
 
-	if (false == CanMove)
-	{
-		return;
-	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
@@ -291,9 +288,9 @@ void Player::PlayerMove(float _DeltaTime)
 
 	DirCheck(PlayerRenderer_, CurDir_);
 
-	//if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
-	//{
-	//	GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
-	//}
+	if (true == GameEngineInput::GetInst()->IsPress("Down"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
+	}
 }
 

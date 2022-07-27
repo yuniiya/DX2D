@@ -19,7 +19,16 @@ GameEngineRenderer::~GameEngineRenderer()
 
 void GameEngineRenderer::Start() 
 {
-	GetActor()->GetLevel()->PushRenderer(this);
+}
+
+void GameEngineRenderer::PushRendererToMainCamera()
+{
+	GetActor()->GetLevel()->PushRendererToMainCamera(this);	
+}
+
+void GameEngineRenderer::PushRendererToUICamera()
+{
+	GetActor()->GetLevel()->PushRendererToUICamera(this);
 }
 
 //void GameEngineRenderer::Render(float _DeltaTime)

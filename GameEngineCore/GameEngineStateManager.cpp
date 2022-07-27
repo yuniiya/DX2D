@@ -9,3 +9,8 @@ GameEngineStateManager::~GameEngineStateManager()
 {
 }
 
+void GameEngineStateManager::Update(float _DeltaTime)
+{
+	CurState->Info.StateTime += _DeltaTime;
+	CurState->StateUpdate(_DeltaTime);
+}

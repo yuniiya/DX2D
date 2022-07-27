@@ -125,8 +125,8 @@ void GameEngineTexture::TextureLoad(const std::string& _Path)
 		MsgBoxAssertString(_Path + "쉐이더 리소스 생성에 실패했습니다.");
 	}
 
-	Desc.Width = Metadata.width;
-	Desc.Height = Metadata.height;
+	Desc.Width = static_cast<UINT>(Metadata.width);
+	Desc.Height = static_cast<UINT>(Metadata.height);
 }
 
 void GameEngineTexture::VSSetting(int _BindPoint)
