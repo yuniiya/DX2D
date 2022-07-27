@@ -33,6 +33,9 @@ private:
 	PLAYERSTATE CurState_;
 	ACTORDIR CurDir_;
 	bool IsDebug;
+	bool IsLeftMove;
+	bool IsRightMove;
+	bool IsGround;
 	bool CanMove;
 
 private:

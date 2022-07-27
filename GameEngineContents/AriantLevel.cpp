@@ -22,7 +22,7 @@ void AriantLevel::Start()
 
 
 	Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 5000.0f, -200.0f, 0.0f });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 5000.f, -600.0f, 0.0f });
 }
 
 void AriantLevel::Update(float _DeltaTime)

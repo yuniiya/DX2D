@@ -22,6 +22,8 @@ Player::Player()
 	, Position_(0.f)
 	, IsDebug(false)
 	, CurDir_(ACTORDIR::RIGHT)
+	, IsGround(true)
+	, CanMove(true)
 {
 }
 
@@ -40,6 +42,8 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("Jump", VK_LMENU);
 		GameEngineInput::GetInst()->CreateKey("Pick", VK_LCONTROL);
+
+		GameEngineInput::GetInst()->CreateKey("MoveDown", VK_NUMPAD0);
 
 		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
 		GameEngineInput::GetInst()->CreateKey("Ability", 'H');
@@ -75,7 +79,7 @@ void Player::Update(float _DeltaTime)
 	PlayerMove(_DeltaTime);
 
 	DebugModeOnOff();
-	//StagePixelCheck();
+	StagePixelCheck();
 	//PixelCollisionMapUpdate(this);
 }
 
@@ -131,18 +135,33 @@ bool Player::StagePixelCheck()
 	float4 RightColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix() + 30.f, (-GetTransform().GetWorldPosition().iy()));
 
 	
-	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// 발 밑이 땅이 아니다 -> 땅에 닿을 때까지 내려준다
+	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// 발 밑이 땅이(검정이) 아니다 -> 발 밑이 땅(검정)일 때 까지 내려준다
 	{
-		Position_ = GetPosition() + float4{ 0.f, -3.f, 0.f };		
+		Position_ = GetPosition() + float4{ 0.f, -1.f, 0.f };		
 		GetTransform().SetLocalPosition(Position_);
+
+		// 내리다가 땅에 닿았다
+		if (false == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
+		{
+			IsGround = true;
+		}
 	}
+
 
 	// 카메라 바깥쪽 이동 막기 - 왼쪽
 	if (CurDir_ == ACTORDIR::LEFT)
 	{
 		if (false == LeftColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
 		{
-			CanMove = false;
+			if (true == GameEngineInput::GetInst()->IsUp("MoveLeft"))
+			{
+				CurDir_ = ACTORDIR::NONE;
+				return true;
+			}
+			else
+			{
+				CanMove = false;
+			}
 		}
 		else
 		{
@@ -154,19 +173,21 @@ bool Player::StagePixelCheck()
 		// 카메라 바깥쪽 이동 막기 - 오른쪽
 		if (false == RightColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
 		{
-			CanMove = false;
+			if (true == GameEngineInput::GetInst()->IsUp("MoveRight"))
+			{
+				CurDir_ = ACTORDIR::NONE;
+				return true;
+			}
+			else
+			{
+				CanMove = false;
+			}
 		}
 		else
 		{
 			CanMove = true;
 		}
 	}
-
-	//if (false == Color.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// 픽셀이 검정이다 = 발 밑이 땅에 닿았다
-	//{
-	//	Position_ = GetPosition() + float4{ 0.f, 1.f, 0.f };
-	//	GetTransform().SetLocalPosition(Position_);
-	//}
 
 	return true;
 }
@@ -253,8 +274,7 @@ void Player::PlayerStateUpdate()
 bool Player::IsMoveKey()
 {
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft")
-		|| true == GameEngineInput::GetInst()->IsPress("MoveRight")
-		|| true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+		|| true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 	{
 		return true;
 	}
@@ -264,31 +284,46 @@ bool Player::IsMoveKey()
 
 void Player::PlayerMove(float _DeltaTime)
 {
-	//if (true == GameEngineInput::GetInst()->IsUp("MoveLeft")
-	//	|| true == GameEngineInput::GetInst()->IsUp("MoveRight"))
-	//{
-	//	CanMove = true;
-	//}
-
-
-	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+	if (CurDir_ == ACTORDIR::NONE)
 	{
-		CurDir_ = ACTORDIR::LEFT;
-		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
+		CanMove = true;
 	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+
+	if (true == CanMove)
 	{
-		CurDir_ = ACTORDIR::RIGHT;
-		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
+		if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+		{
+			CurDir_ = ACTORDIR::LEFT;
+
+			if (CurState_ != PLAYERSTATE::PRONE
+				&& CurState_ != PLAYERSTATE::PRONESTAB)
+			{
+				GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
+			}
+		}
+		if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+		{
+			CurDir_ = ACTORDIR::RIGHT;
+
+			if (CurState_ != PLAYERSTATE::PRONE
+				&& CurState_ != PLAYERSTATE::PRONESTAB)
+			{
+				GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
+			}
+		}
 	}
+
+	DirCheck(PlayerRenderer_, CurDir_);
+
+	/////////////////////////////////////////////////////////////////////////
+	// 0 255 0 (로프) 에 충돌했을 때만 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed_ * _DeltaTime);
 	}
 
-	DirCheck(PlayerRenderer_, CurDir_);
-
-	if (true == GameEngineInput::GetInst()->IsPress("Down"))
+	if (true == GameEngineInput::GetInst()->IsPress("MoveDown")
+		&& false == IsGround)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
 	}

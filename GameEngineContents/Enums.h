@@ -34,6 +34,7 @@ enum class ACTORDIR
 {
 	LEFT,
 	RIGHT,
+	NONE,
 
 	MAX,
 };
