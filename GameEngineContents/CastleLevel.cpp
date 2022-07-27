@@ -2,7 +2,6 @@
 #include "CastleLevel.h"
 #include <GameEngineCore/GEngine.h>
 #include "MapBackGround.h"
-#include "Enums.h"
 #include <GameEngineBase/GameEngineWindow.h>
 
 CastleLevel::CastleLevel() 

@@ -22,7 +22,7 @@ public:
 public:
 	inline float4 GetPosition()
 	{
-		Position_ = MainPlayer_->GetTransform().GetLocalPosition();
+		Position_ = GetTransform().GetLocalPosition();
 		return Position_;
 	}
 
@@ -33,8 +33,6 @@ private:
 	PLAYERSTATE CurState_;
 	ACTORDIR CurDir_;
 	bool IsDebug;
-	bool IsLeftMove;
-	bool IsRightMove;
 	bool IsGround;
 	bool CanMove;
 
@@ -46,13 +44,14 @@ protected:
 	void Update(float _DeltaTime);
 	void End()  {}
 
+protected:
 	void DebugModeOnOff();
 	void DebugRender();
+
 protected:
 	GameEngineTextureRenderer* PlayerRenderer_;
 	GameEngineTextureRenderer* ColMapRenderer_;
 	std::string AnimationName_;
-
 
 protected:
 	bool StagePixelCheck();

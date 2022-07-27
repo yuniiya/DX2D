@@ -20,6 +20,6 @@ protected:
 	void End() override;
 
 private:
-
+	Player* Player_;
 };
 

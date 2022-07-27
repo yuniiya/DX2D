@@ -17,12 +17,13 @@ public:
 protected:
 	float4 CameraPos_;
 	float4 PlayerPos_;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
 
 private:
-	void BindTime();
+	Player* Player_;
 };
 

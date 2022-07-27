@@ -4,7 +4,6 @@
 #include "MapStage.h"
 #include "MapBackGround.h"
 #include <GameEngineCore/GameEngineTextureRenderer.h>
-#include "Enums.h"
 
 BossLevel::BossLevel()
 	: StageActor_(nullptr)

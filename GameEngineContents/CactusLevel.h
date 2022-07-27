@@ -23,7 +23,8 @@ protected:
 	float4 CameraPos_;
 	float4 PlayerPos_;
 
-public:
-	
+private:
+	Player* Player_;
 
+public:
 };

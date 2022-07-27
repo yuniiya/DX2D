@@ -80,6 +80,8 @@ void Player::Update(float _DeltaTime)
 
 	DebugModeOnOff();
 	StagePixelCheck();
+	//PlayerCameraFix();
+
 	//PixelCollisionMapUpdate(this);
 }
 
@@ -121,6 +123,7 @@ void Player::DebugRender()
 	//}
 }
 
+
 bool Player::StagePixelCheck()
 {
 	GameEngineTexture* MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
@@ -137,7 +140,7 @@ bool Player::StagePixelCheck()
 	
 	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))	// 발 밑이 땅이(검정이) 아니다 -> 발 밑이 땅(검정)일 때 까지 내려준다
 	{
-		Position_ = GetPosition() + float4{ 0.f, -1.f, 0.f };		
+		Position_ = GetPosition() + float4{ 0.f, -2.f, 0.f };		
 		GetTransform().SetLocalPosition(Position_);
 
 		// 내리다가 땅에 닿았다
@@ -298,6 +301,8 @@ void Player::PlayerMove(float _DeltaTime)
 			if (CurState_ != PLAYERSTATE::PRONE
 				&& CurState_ != PLAYERSTATE::PRONESTAB)
 			{
+				/*float4 Pos = MainPlayer_->GetTransform().GetLocalPosition();
+				float4 Pos2 = MainPlayer_->GetTransform().GetWorldPosition();*/
 				GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
 			}
 		}

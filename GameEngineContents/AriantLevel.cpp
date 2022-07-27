@@ -20,9 +20,9 @@ void AriantLevel::Start()
 	SetCollisionMap("ColMap_Ariant.png");
 	SetStage("Stage_Ariant.png");
 
-
-	Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 5000.f, -600.0f, 0.0f });
+	
+	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	Player_->GetTransform().SetLocalPosition({ 5000.f, -600.0f, 0.0f });
 }
 
 void AriantLevel::Update(float _DeltaTime)
@@ -40,7 +40,7 @@ void AriantLevel::Update(float _DeltaTime)
 	
 
 	CameraPos_ = GetMainCameraActor()->GetTransform().GetLocalPosition();
-	PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
+	PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
@@ -52,8 +52,6 @@ void AriantLevel::Update(float _DeltaTime)
 
 void AriantLevel::End()
 {
+	//Player_->GetTransform().SetLocalPosition(float4::ZERO);
 }
 
-void AriantLevel::BindTime()
-{
-}

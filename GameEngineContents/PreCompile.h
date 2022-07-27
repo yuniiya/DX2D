@@ -29,3 +29,4 @@
 
 // contents
 #include "GlobalLevel.h"
+#include "Enums.h"

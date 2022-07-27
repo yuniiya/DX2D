@@ -5,7 +5,6 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include "MapBackGround.h"
-#include "Enums.h"
 
 LoginLevel::LoginLevel()
 {

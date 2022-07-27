@@ -6,7 +6,6 @@
 #include "MapBackGround.h"
 #include "MapStage.h"
 #include "Player.h"
-#include "Enums.h"
 
 GlobalLevel::GlobalLevel() 
 	: MapSizeX_(0.f)

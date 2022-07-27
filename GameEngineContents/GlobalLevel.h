@@ -5,6 +5,7 @@ class MapBackGround;
 class MapStage;
 class Portal;
 class GameEngineTextureRenderer;
+class Player;
 class GlobalLevel : public GameEngineLevel
 {
 public:

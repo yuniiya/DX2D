@@ -18,11 +18,12 @@ void CactusLevel::Start()
 
 	SetBackGround("Back_Cactus.png");
 	SetStage("Stage_Cactus.png");
-	//SetCollisionMap("ColMap_Cactus.png");
+	SetCollisionMap("ColMap_Cactus.png");
 
-
+	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	Player_->GetTransform().SetLocalPosition({ 1200.0f, -750.0f, 0.0f });
 	//Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	//Player::MainPlayer_->GetTransform().SetLocalPosition({ 1800.0f, -750.0f, 0.0f });
+	//Player::MainPlayer_->GetTransform().SetLocalPosition({ 500.0f, -750.0f, 0.0f });
 }
 
 void CactusLevel::Update(float _DeltaTime)
@@ -39,7 +40,7 @@ void CactusLevel::Update(float _DeltaTime)
 
 
 	CameraPos_ = GetMainCameraActor()->GetTransform().GetLocalPosition();
-	PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
+	PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
