@@ -16,13 +16,13 @@ AriantLevel::~AriantLevel()
 void AriantLevel::Start()
 {
 	SetCamera();
-	SetBackGround("Back_Ariant.png");
 	SetCollisionMap("ColMap_Ariant.png");
+	SetBackGround("Back_Ariant.png");
 	SetStage("Stage_Ariant.png");
 
 	
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 5000.f, -600.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 200.f, -600.0f, 0.0f });
 }
 
 void AriantLevel::Update(float _DeltaTime)

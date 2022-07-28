@@ -14,10 +14,9 @@ AquaLevel::~AquaLevel()
 void AquaLevel::Start()
 {
 	SetCamera();
-
+	SetCollisionMap("ColMap_Aqua.png");
 	SetBackGround("Back_Aqua.png");
 	SetStage("Stage_Aqua.png");
-	SetCollisionMap("ColMap_Aqua.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 1200.0f, -750.0f, 0.0f });

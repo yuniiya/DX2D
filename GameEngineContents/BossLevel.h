@@ -24,5 +24,7 @@ private:
 	MapStage* StageActor_;
 	GameEngineTextureRenderer* StageRenderer_;
 
+	Player* Player_;
+
 };
 

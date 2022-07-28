@@ -14,13 +14,13 @@ DesertLevel::~DesertLevel()
 void DesertLevel::Start()
 {
 	SetCamera();
-
+	SetCollisionMap("ColMap_Desert.png");
 	SetBackGround("Back_Desert.png");
 	SetStage("Stage_Desert.png");
-	SetCollisionMap("ColMap_Desert.png");
+
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 1200.0f, -750.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 200.0f, -400.0f, 0.0f });
 
 }
 

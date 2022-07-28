@@ -15,10 +15,10 @@ CactusLevel::~CactusLevel()
 void CactusLevel::Start()
 {
 	SetCamera();
-
+	SetCollisionMap("ColMap_Cactus.png");
 	SetBackGround("Back_Cactus.png");
 	SetStage("Stage_Cactus.png");
-	SetCollisionMap("ColMap_Cactus.png");
+
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 1200.0f, -750.0f, 0.0f });
