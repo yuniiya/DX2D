@@ -13,10 +13,12 @@ AquaLevel::~AquaLevel()
 
 void AquaLevel::Start()
 {
-	SetCamera();
 	SetCollisionMap("ColMap_Aqua.png");
 	SetBackGround("Back_Aqua2.png");
 	SetStage("Stage_Aqua.png");
+
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 1200.0f, -750.0f, 0.0f });
@@ -24,10 +26,10 @@ void AquaLevel::Start()
 
 void AquaLevel::Update(float _DeltaTime)
 {
-	/*if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
-	{
-		GEngine::ChangeLevel("Boss");
-	}*/
+	//if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
+	//{
+	//	GEngine::ChangeLevel("Boss");
+	//}
 
 	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 

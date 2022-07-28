@@ -13,11 +13,12 @@ EntranceLevel::~EntranceLevel()
 
 void EntranceLevel::Start()
 {
-	SetCamera();
 	SetCollisionMap("ColMap_Entrance.png");
 	SetBackGround("Back_Entrance.png");
 	SetStage("Stage_Entrance.png");
 
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f, 0.0f });

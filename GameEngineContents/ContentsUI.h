@@ -25,11 +25,12 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) {}
-	void End() {}
+	void Update(float _DeltaTime) override;
+	void End() override {};
 
 private:
 	GameEngineUIRenderer* UIRenderer_;
+	GameEngineTextureRenderer* MainBarRenderer_;
 
 };
 

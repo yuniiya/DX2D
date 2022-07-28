@@ -24,6 +24,7 @@ Player::Player()
 	, CurDir_(ACTORDIR::RIGHT)
 	, IsGround(true)
 	, CanMove(true)
+	, ColMapRenderer_(nullptr)
 {
 }
 
@@ -133,9 +134,9 @@ bool Player::StagePixelCheck()
 		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
 	}
 
-	float4 BottomColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix(), (- GetTransform().GetWorldPosition().iy()) + 45.f);	// 발 밑 픽셀의 값을 얻어온다
-	float4 LeftColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix() - 30.f, (-GetTransform().GetWorldPosition().iy()));
-	float4 RightColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().ix() + 30.f, (-GetTransform().GetWorldPosition().iy()));
+	float4 BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(- GetTransform().GetWorldPosition().iy()) + 45.f);	// 발 밑 픽셀의 값을 얻어온다
+	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()));
+	float4 RightColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 30.f, (float)(-GetTransform().GetWorldPosition().iy()));
 
 	// 0 0 0 1 => 검정
 	if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })) // 발 밑이 검정이 아니다

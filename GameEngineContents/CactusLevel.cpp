@@ -14,10 +14,12 @@ CactusLevel::~CactusLevel()
 
 void CactusLevel::Start()
 {
-	SetCamera();
 	SetCollisionMap("ColMap_Cactus.png");
 	SetBackGround("Back_Cactus.png");
 	SetStage("Stage_Cactus.png");
+
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);

@@ -15,11 +15,12 @@ CastleLevel::~CastleLevel()
 
 void CastleLevel::Start()
 {
-	SetCamera();
 	SetCollisionMap("ColMap_Castle.png");
 	SetBackGround("Back_Castle2.png");
 	SetStage("Stage_Castle3.png");
 
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, 0.0f });

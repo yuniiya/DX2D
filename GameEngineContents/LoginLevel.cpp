@@ -17,8 +17,6 @@ LoginLevel::~LoginLevel()
 
 void LoginLevel::Start()
 {
-	SetCamera();
-
 	MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
 	GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
 
