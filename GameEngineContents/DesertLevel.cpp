@@ -37,6 +37,9 @@ void DesertLevel::Update(float _DeltaTime)
 	{
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
+
+	CameraFix({ 1619.f, 785.f });
+
 }
 
 void DesertLevel::End()

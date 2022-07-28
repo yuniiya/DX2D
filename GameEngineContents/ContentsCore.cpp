@@ -139,13 +139,24 @@ void ContentsCore::Start()
 		{
 			GameEngineTexture::Load(File[i].GetFullPath());
 		}
-		//std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
-
-		//for (auto& TmpDir : Folder)
-		//{
-		//	
-		//}
 	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("BottomUI");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))

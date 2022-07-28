@@ -112,9 +112,15 @@ void GlobalLevel::CameraFix(float4 _MapSize)
 		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
 	}
 	//// 위쪽 Y
-	//if (-(_MapSize.y) - CameraRectY / 2.f <= CameraPos_.y)
-	//{
-	//	CurCameraPos.y = (-(_MapSize.y) - CameraRectY / 2.f) + 2.f;	// 밀어준다
-	//	GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
-	//}
+	if (-( CameraRectY / 2.f) <= CameraPos_.y)
+	{
+		CurCameraPos.y = -(CameraRectY / 2.f) - 2.f;	// 밀어준다
+		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
+	}
+	if (CameraPos_.y <= -(_MapSize.y) + (CameraRectY / 2.f))
+	{
+		CurCameraPos.y = -(_MapSize.y) + (CameraRectY / 2.f) + 2.f;
+		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
+
+	}
 }

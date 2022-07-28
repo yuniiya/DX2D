@@ -37,9 +37,6 @@ void CactusLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-
-
-	CameraPos_ = GetMainCameraActor()->GetTransform().GetLocalPosition();
 	PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
@@ -47,7 +44,7 @@ void CactusLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
 
-
+	CameraFix({ 2060.f, 1030.f });
 }
 
 void CactusLevel::End()

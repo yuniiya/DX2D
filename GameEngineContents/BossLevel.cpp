@@ -55,6 +55,8 @@ void BossLevel::Update(float _DeltaTime)
 	{
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
+
+	CameraFix({1978.f, 379.f});
 }
 
 void BossLevel::End()

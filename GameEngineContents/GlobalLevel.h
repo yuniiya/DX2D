@@ -1,11 +1,13 @@
 #pragma once
 #include "GameEngineCore/GameEngineLevel.h"
+#include "ContentsUI.h"
 
 class MapBackGround;
 class MapStage;
 class Portal;
 class GameEngineTextureRenderer;
 class Player;
+class ContentsUI;
 class GlobalLevel : public GameEngineLevel
 {
 public:
@@ -53,12 +55,13 @@ public:
 	}
 
 	void CameraFix(float4 _MapSize);
-protected:
 
+protected:
 	void SetCamera();
 	void SetBackGround(const std::string& _Name);
 	void SetStage(const std::string& _Name);
 	void SetCollisionMap(const std::string& _Name);
 
+private:
 };
 

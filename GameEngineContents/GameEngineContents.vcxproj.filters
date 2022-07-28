@@ -97,6 +97,9 @@
     <ClInclude Include="Portal.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsUI.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -159,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsUI.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

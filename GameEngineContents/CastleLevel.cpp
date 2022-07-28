@@ -17,8 +17,8 @@ void CastleLevel::Start()
 {
 	SetCamera();
 	SetCollisionMap("ColMap_Castle.png");
-	SetBackGround("Back_Castle.png");
-	SetStage("Stage_Castle2.png");
+	SetBackGround("Back_Castle2.png");
+	SetStage("Stage_Castle3.png");
 
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
@@ -36,8 +36,10 @@ void CastleLevel::Update(float _DeltaTime)
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
-		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
+		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 115.f });
 	}
+
+	CameraFix({ 1745.f, 730.f });
 }
 
 void CastleLevel::End()

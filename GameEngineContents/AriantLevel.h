@@ -25,5 +25,6 @@ protected:
 
 private:
 	Player* Player_;
+	ContentsUI* UIActor_;
 };
 
