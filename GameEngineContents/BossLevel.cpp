@@ -19,18 +19,19 @@ BossLevel::~BossLevel()
 void BossLevel::Start()
 {
 	{
-		SetBackGround("Back_Boss.png");
+		SetBackGround("Back_Boss2.png");
+		SetCollisionMap("ColMap_Boss.png");
 
 		{
 			StageActor_ = CreateActor<MapStage>((int)GAMEOBJGROUP::STAGE);
 			StageRenderer_ = StageActor_->CreateComponent<GameEngineTextureRenderer>();
-			StageRenderer_->GetTransform().SetLocalScale({ 1978.f, 379.f });
-			StageRenderer_->CreateFrameAnimationFolder("Stage_Boss", FrameAnimation_DESC("Stage_Boss", 0.2f));
+			StageRenderer_->GetTransform().SetLocalScale({ 1978.f, 730.f });
+			StageRenderer_->CreateFrameAnimationFolder("Stage_Boss", FrameAnimation_DESC("Stage_Boss", 0.15f));
 			StageRenderer_->ChangeFrameAnimation("Stage_Boss");
 			StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 		}
 
-		SetCollisionMap("ColMap_Boss.png");
+		
 	}
 
 
