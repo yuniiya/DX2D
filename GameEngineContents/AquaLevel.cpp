@@ -26,10 +26,10 @@ void AquaLevel::Start()
 
 void AquaLevel::Update(float _DeltaTime)
 {
-	//if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
-	//{
-	//	GEngine::ChangeLevel("Boss");
-	//}
+	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
+	{
+		GEngine::ChangeLevel("Boss");
+	}
 
 	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 

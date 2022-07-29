@@ -20,22 +20,14 @@ void AriantLevel::Start()
 	SetBackGround("Back_Ariant.png");
 	SetStage("Stage_Ariant.png");
 
-	// UI
-	{
-		ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	//	UIActor_->SetMainUI();
-
-		//float4 Pos = GetUICameraActorTransform().GetLocalPosition() + float4{ 0.f, 0.f, 0.f };
-		//GetUICameraActorTransform().SetLocalPosition(Pos);
-	}
-
-
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2200.f, -600.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 2900.f, -600.0f, 0.0f });
 
-	{
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
-	} 
+	SetPortal({ 3008.f, -750.f, 0.0f});
+	SetPortal({ 3410.f, -750.f, 0.0f});
 }
 
 void AriantLevel::Update(float _DeltaTime)

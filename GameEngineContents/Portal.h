@@ -26,13 +26,7 @@ public:
 		return PortalRenderer_;
 	}
 
-	GameEngineActor* GetPortal()
-	{
-		return dynamic_cast<Portal*>(PortalActor_);
-	}
-
 private:
-	GameEngineActor* PortalActor_;
 	GameEngineTextureRenderer* PortalRenderer_;
 	GameEngineCollision* PortalCollision_;
 

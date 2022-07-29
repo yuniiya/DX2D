@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineDevice.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include "GlobalLevel.h"
+#include "GameEngineCore/GEngine.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -32,6 +33,18 @@ Player::~Player()
 {
 }
 
+
+GameEngineTexture* Player::GetCurMapTexture()
+{
+	MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+
+	if (nullptr == MapTexture_)
+	{
+		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
+	}
+
+	return MapTexture_;
+}
 
 void Player::Start()
 {
@@ -88,6 +101,11 @@ void Player::Update(float _DeltaTime)
 
 void Player::DebugModeOnOff()
 {
+	if (GetCurLevelName() == "BOSS")
+	{
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && true == IsDebug)
 	{
 		IsDebug = false;
@@ -127,12 +145,7 @@ void Player::DebugRender()
 
 bool Player::StagePixelCheck()
 {
-	GameEngineTexture* MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
-
-	if (nullptr == MapTexture_)
-	{
-		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
-	}
+	GetCurMapTexture();
 
 	float4 BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(- GetTransform().GetWorldPosition().iy()) + 45.f);	// 발 밑 픽셀의 값을 얻어온다
 	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()));
@@ -141,13 +154,16 @@ bool Player::StagePixelCheck()
 	// 0 0 0 1 => 검정
 	if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })) // 발 밑이 검정이 아니다
 	{
-		Position_ = GetPosition() + float4{ 0.f, -2.f, 0.f };
+		Position_ = GetPosition() + float4{ 0.f, -200.f, 0.f } * GameEngineTime::GetDeltaTime();
 		GetTransform().SetLocalPosition(Position_);
 
 		// 내리다가 땅에 닿았다
 		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 		{
 			IsGround = true;
+
+			Position_ = GetPosition() + float4{ 0.f, 100.f, 0.f } *GameEngineTime::GetDeltaTime();
+			GetTransform().SetLocalPosition(Position_);
 		}
 
 		// 0 1 0 1 => 초록색
@@ -209,7 +225,26 @@ bool Player::StagePixelCheck()
 		}
 	}
 
+	// 포탈, 레더, 로프 
+	ObjectPixelCheck();
+
 	return true;
+}
+
+void Player::ObjectPixelCheck()
+{
+	float4 Color = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()));
+
+	if (true == Color.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f }))
+	{
+		if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
+		{
+			if (GetCurLevelName() == "ARIANT")
+			{
+				GEngine::ChangeLevel("CACTUS");
+			}
+		}
+	}
 }
 
 void Player::ChangeState(PLAYERSTATE _State)
@@ -341,7 +376,7 @@ void Player::PlayerMove(float _DeltaTime)
 	// 0 255 0 (로프) 에 충돌했을 때만 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed_ * _DeltaTime);
+		//GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed_ * _DeltaTime);
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveDown")

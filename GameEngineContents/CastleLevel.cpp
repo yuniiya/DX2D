@@ -33,11 +33,12 @@ void CastleLevel::Update(float _DeltaTime)
 		GEngine::ChangeLevel("Aqua");
 	}
 
-	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
+	float4 PlayerPos = Player_->GetTransform().GetLocalPosition();
+	float4 CameraPos = GetMainCameraActor()->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
-		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 115.f });
+		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos.x, CameraPos.y + 100.f});
 	}
 
 	CameraFix({ 1745.f, 730.f });

@@ -30,8 +30,6 @@ void BossLevel::Start()
 			StageRenderer_->ChangeFrameAnimation("Stage_Boss");
 			StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 		}
-
-		
 	}
 
 
@@ -46,11 +44,17 @@ void BossLevel::Start()
 
 void BossLevel::Update(float _DeltaTime)
 {
-	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
+	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff"))
+	{
+		StageRenderer_->IsDebugModeSwitch();
+	}
+
+	float4 PlayerPos = Player_->GetTransform().GetLocalPosition();
+	float4 CameraPos = GetMainCameraActor()->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
-		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
+		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos.x, CameraPos.y + 100.f });
 	}
 
 	CameraFix({1978.f, 720.f});

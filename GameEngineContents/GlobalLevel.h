@@ -36,6 +36,7 @@ private:
 
 	GameEngineTextureRenderer* ColMapRenderer_;
 	GameEngineTextureRenderer* StageRenderer_;
+	GameEngineTextureRenderer* BackRenderer_;
 
 public:
 	inline GameEngineTextureRenderer* GetCollisionMap()
@@ -46,6 +47,7 @@ public:
 	inline void CollisionMapOnOff()
 	{
 		StageRenderer_->OnOffSwitch();
+		BackRenderer_->OnOffSwitch();
 	}
 
 	void MapSizeReturn(float _X, float _Y)
@@ -61,6 +63,7 @@ protected:
 	void SetBackGround(const std::string& _Name);
 	void SetStage(const std::string& _Name);
 	void SetCollisionMap(const std::string& _Name);
+	void SetPortal(float4 _Pos);
 
 private:
 };

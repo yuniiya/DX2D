@@ -26,6 +26,13 @@ public:
 		return Position_;
 	}
 
+	inline std::string GetCurLevelName()
+	{
+		return CurLevelName_ = GetLevel()->GetNameCopy();
+	}
+
+	GameEngineTexture* GetCurMapTexture();
+
 private:
 	float Speed_;
 	float4 Position_;
@@ -35,6 +42,8 @@ private:
 	bool IsDebug;
 	bool IsGround;
 	bool CanMove;
+
+	std::string CurLevelName_;
 
 private:
 	GameEngineCollision* PlayerCollision_;
@@ -53,8 +62,11 @@ protected:
 	GameEngineTextureRenderer* ColMapRenderer_;
 	std::string AnimationName_;
 
+	GameEngineTexture* MapTexture_;
+
 protected:
 	bool StagePixelCheck();
+	void ObjectPixelCheck();
 	void PixelColiisionCheck();
 	void ColiisionCheck();
 

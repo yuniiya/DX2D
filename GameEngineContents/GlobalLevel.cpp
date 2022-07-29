@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include "MapBackGround.h"
 #include "MapStage.h"
+#include "Portal.h"
 #include "Player.h"
 
 GlobalLevel::GlobalLevel() 
@@ -14,6 +15,7 @@ GlobalLevel::GlobalLevel()
 	, CameraPosY_(0.f)
 	, StageRenderer_(nullptr)
 	, ColMapRenderer_(nullptr)
+	, BackRenderer_(nullptr)
 {
 }
 
@@ -35,11 +37,11 @@ void GlobalLevel::SetCamera()
 void GlobalLevel::SetBackGround(const std::string& _Name)
 {
 	MapBackGround* BackGroundActor = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
-	GameEngineTextureRenderer* BackGroundRenderer = BackGroundActor->GetRenderer();
+	BackRenderer_ = BackGroundActor->GetRenderer();
 
-	BackGroundRenderer->SetTexture(_Name);
-	BackGroundRenderer->ScaleToTexture();
-	BackGroundRenderer->SetPivot(PIVOTMODE::LEFTTOP);
+	BackRenderer_->SetTexture(_Name);
+	BackRenderer_->ScaleToTexture();
+	BackRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
 void GlobalLevel::SetStage(const std::string& _Name)
@@ -62,37 +64,20 @@ void GlobalLevel::SetCollisionMap(const std::string& _Name)
 	ColMapRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 }
 
+void GlobalLevel::SetPortal(float4 _Pos)
+{
+	Portal* PortalActor = CreateActor<Portal>(GAMEOBJGROUP::OBJ);
+	GameEngineTextureRenderer* PortalRenderer = PortalActor->GetPortalRenderer();
+	
+	PortalRenderer->CreateFrameAnimationFolder("Portal", FrameAnimation_DESC("Portal", 0.08f));
+	PortalRenderer->ChangeFrameAnimation("Portal");
+	PortalRenderer->GetTransform().SetLocalPosition(_Pos);
+	PortalRenderer->GetTransform().SetLocalScale({104.f, 142.f});
+}
+
 
 void GlobalLevel::CameraFix(float4 _MapSize)
 {
-	//if (nullptr != GetMainCameraActor())
-	//{
-	//	CameraPos_ = GetMainCameraActor()->GetTransform().GetLocalPosition();
-	//	float4 CurCameraPos = GetMainCameraActor()->GetTransform().GetLocalPosition();
-
-	//	float CameraRectX = 1280;
-	//	float CameraRectY = 720;
-
-	//	// 왼쪽 X
-	//	if (CameraPos_.x <= CameraRectX / 2.f)
-	//	{
-	//		CurCameraPos.x = (CameraRectX / 2.f) + 5.f;
-	//		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
-	//	}
-	//	// 오른쪽 X
-	//	if (_MapSize.x - (CameraRectX / 2.f) <= CameraPos_.x)
-	//	{
-	//		CurCameraPos.x = _MapSize.x - (CameraRectX / 2.f) - 5.f;
-	//		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
-	//	}
-	//	// 위 Y
-	//	if (-(CameraRectY / 2.f) <= CameraPos_.y)
-	//	{
-	//		CurCameraPos.y = -(CameraRectY / 2.f) - 5.f;
-	//		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
-	//	}
-	//}
-
 	CameraPos_ = GetMainCameraActor()->GetTransform().GetLocalPosition();
 	float4 CurCameraPos = CameraPos_;
 
@@ -119,8 +104,7 @@ void GlobalLevel::CameraFix(float4 _MapSize)
 	}
 	if (CameraPos_.y <= -(_MapSize.y) + (CameraRectY / 2.f))
 	{
-		CurCameraPos.y = -(_MapSize.y) + (CameraRectY / 2.f) + 2.f;
+		CurCameraPos.y = -(_MapSize.y - (CameraRectY / 2.f)) + 2.f;
 		GetMainCameraActor()->GetTransform().SetLocalPosition(CurCameraPos);
-
 	}
 }
