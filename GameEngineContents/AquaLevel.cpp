@@ -22,6 +22,9 @@ void AquaLevel::Start()
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 1200.0f, -750.0f, 0.0f });
+
+	SetPortal({ 97.f, -1123.f, 0.0f });
+	SetPortal({ 1494.f, -1064.f, 0.0f });
 }
 
 void AquaLevel::Update(float _DeltaTime)

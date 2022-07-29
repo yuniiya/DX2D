@@ -148,19 +148,27 @@ bool Player::StagePixelCheck()
 	GetCurMapTexture();
 
 	float4 BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(- GetTransform().GetWorldPosition().iy()) + 46.f);	// 발 밑 픽셀의 값을 얻어온다
+	float4 TopColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) - 20.f);
 	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.F);
 	float4 RightColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.F);
 
 	// 0 0 0 1 => 검정
 	if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })) // 발 밑이 검정이 아니다
 	{
-
 		// 내리다가 땅에 닿았다
 		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 		{
 			IsGround = true;
 
 			Position_ += GetPosition() + float4{ 0.f, 100.f, 0.f } *GameEngineTime::GetDeltaTime();
+			GetTransform().SetLocalPosition(Position_);
+		}
+		// 머리가 지형에 닿았다
+		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			//IsGround = true;
+
+			Position_ = GetPosition() + float4{ 0.f, -100.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);
 		}
 
@@ -235,6 +243,13 @@ bool Player::StagePixelCheck()
 		}
 	}
 
+	// 카메라 바깥쪽 이동 막기 - 위
+	if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+	{
+		Position_ = GetPosition() + float4{ 0.f, -100.f, 0.f } *GameEngineTime::GetDeltaTime();
+		GetTransform().SetLocalPosition(Position_);
+	}
+
 	// 포탈, 레더, 로프 
 	ObjectPixelCheck();
 
@@ -245,13 +260,58 @@ void Player::ObjectPixelCheck()
 {
 	float4 Color = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()));
 
-	if (true == Color.CompareInt4D(float4::MAGENTA))
+	if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
 	{
-		if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
+		// 다음 레벨
+		if (true == Color.CompareInt4D(float4::MAGENTA))
 		{
-			if (GetCurLevelName() == "ARIANT")
+			if ("ARIANT" == CurLevelName_)
 			{
-				GEngine::ChangeLevel("CACTUS");
+				GEngine::ChangeLevel("Cactus");
+			}
+			else if ("ENTRANCE" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Castle");
+			}
+			else if ("CACTUS" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Desert");
+			}
+			else if ("DESERT" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Aqua");
+			}
+			else if ("AQUA" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Boss");
+			}
+
+		}	// 이전 레벨
+		else if (true == Color.CompareInt4D(float4::RED))
+		{
+			if ("ARIANT" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Entrance");
+			}
+			else if ("ENTRANCE" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Ariant");
+			}
+			else if ("CASTLE" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Entrance");
+			}
+			else if ("CACTUS" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Ariant");
+			}
+			else if ("DESERT" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Cactus");
+			}
+			else if ("AQUA" == CurLevelName_)
+			{
+				GEngine::ChangeLevel("Desert");
 			}
 		}
 	}
@@ -386,7 +446,7 @@ void Player::PlayerMove(float _DeltaTime)
 	// 0 255 0 (로프) 에 충돌했을 때만 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
-		//GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed_ * _DeltaTime);
+		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 500.f * _DeltaTime);
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveDown")

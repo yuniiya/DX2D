@@ -24,6 +24,8 @@ void CastleLevel::Start()
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, 0.0f });
+
+	SetPortal({ 273.f, -495.f, 0.0f });
 }
 
 void CastleLevel::Update(float _DeltaTime)

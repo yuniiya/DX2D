@@ -21,7 +21,10 @@ void EntranceLevel::Start()
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 2100.0f, -700.0f, 0.0f });
+
+	SetPortal({2123.f, -1109.f, 0.0f});
+	SetPortal({ 976.f, -643.f, 0.0f });
 }
 
 void EntranceLevel::Update(float _DeltaTime)
