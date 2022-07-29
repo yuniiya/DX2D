@@ -44,9 +44,13 @@ void BossLevel::Start()
 
 void BossLevel::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff"))
+	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
-		StageRenderer_->IsDebugModeSwitch();
+		GEngine::ChangeLevel("Ariant");
+	}
+	if (GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+	{
+		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
 	float4 PlayerPos = Player_->GetTransform().GetLocalPosition();

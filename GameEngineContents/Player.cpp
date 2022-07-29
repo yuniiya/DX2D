@@ -147,39 +147,49 @@ bool Player::StagePixelCheck()
 {
 	GetCurMapTexture();
 
-	float4 BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(- GetTransform().GetWorldPosition().iy()) + 45.f);	// 발 밑 픽셀의 값을 얻어온다
-	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()));
-	float4 RightColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 30.f, (float)(-GetTransform().GetWorldPosition().iy()));
+	float4 BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(- GetTransform().GetWorldPosition().iy()) + 46.f);	// 발 밑 픽셀의 값을 얻어온다
+	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.F);
+	float4 RightColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.F);
 
 	// 0 0 0 1 => 검정
 	if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })) // 발 밑이 검정이 아니다
 	{
-		Position_ = GetPosition() + float4{ 0.f, -200.f, 0.f } * GameEngineTime::GetDeltaTime();
-		GetTransform().SetLocalPosition(Position_);
 
 		// 내리다가 땅에 닿았다
 		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 		{
 			IsGround = true;
 
-			Position_ = GetPosition() + float4{ 0.f, 100.f, 0.f } *GameEngineTime::GetDeltaTime();
+			Position_ += GetPosition() + float4{ 0.f, 100.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);
 		}
+
 
 		// 0 1 0 1 => 초록색
 		if (true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
 		{
-			Position_ = GetPosition() + float4{ 0.f, 2.f, 0.f };
+			Position_ = GetPosition() + float4{0.f, 200.f, 0.f} * GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);
 			// Down 키 누르면 => Ladder
 		}
-		// 1 0 0 1 => 파란색
-		if(true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+		else
 		{
-			Position_ = GetPosition() + float4{ 0.f, 2.f, 0.f };
+			Position_ = GetPosition() + float4{ 0.f, -200.f, 0.f } *GameEngineTime::GetDeltaTime();	// 내린다
+			GetTransform().SetLocalPosition(Position_);
+		}
+		// 1 0 0 1 => 파란색
+		if (true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+		{
+			Position_ = GetPosition() + float4{ 0.f, 200.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);
 			// Down 키 누르면 => Rope
 		}
+		else
+		{
+			Position_ = GetPosition() + float4{ 0.f, -200.f, 0.f } *GameEngineTime::GetDeltaTime();	// 내린다
+			GetTransform().SetLocalPosition(Position_);
+		}
+
 	}
 
 
@@ -235,7 +245,7 @@ void Player::ObjectPixelCheck()
 {
 	float4 Color = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()));
 
-	if (true == Color.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f }))
+	if (true == Color.CompareInt4D(float4::MAGENTA))
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
 		{

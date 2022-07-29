@@ -5,7 +5,8 @@
 #include "GameEngineTransformComponent.h"
 
 GameEngineActor::GameEngineActor()
-	:ParentLevel(nullptr)
+	: ParentLevel(nullptr)
+	, IsLevelOver(false)
 {
 
 }

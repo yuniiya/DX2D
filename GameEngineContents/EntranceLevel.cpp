@@ -30,6 +30,10 @@ void EntranceLevel::Update(float _DeltaTime)
 	{
 		GEngine::ChangeLevel("Castle");
 	}
+	if (GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+	{
+		GetMainCameraActor()->FreeCameraModeOnOff();
+	}
 
 	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 

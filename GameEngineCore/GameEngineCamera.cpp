@@ -165,3 +165,38 @@ float4 GameEngineCamera::GetMouseWorldPositionToActor()
 {
 	return GetTransform().GetWorldPosition() + GetMouseWorldPosition();
 }
+
+void GameEngineCamera::OverRenderer(GameEngineCamera* _NextCamera) 
+{
+	if (nullptr == _NextCamera)
+	{
+		MsgBoxAssert("next camera is nullptr! fuck you");
+		return;
+	}
+
+	std::map<int, std::list<GameEngineRenderer*>>::iterator StartGroupIter = AllRenderer_.begin();
+	std::map<int, std::list<GameEngineRenderer*>>::iterator EndGroupIter = AllRenderer_.end();
+
+	for (; StartGroupIter != EndGroupIter; ++StartGroupIter)
+	{
+		std::list<GameEngineRenderer*>& Group = StartGroupIter->second;
+		std::list<GameEngineRenderer*>::iterator GroupStart = Group.begin();
+		std::list<GameEngineRenderer*>::iterator GroupEnd = Group.end();
+
+		for (; GroupStart != GroupEnd; )
+		{
+			GameEngineActor* Root = (*GroupStart)->GetRoot<GameEngineActor>();
+
+			if (true == Root->IsLevelOver)
+			{
+				_NextCamera->AllRenderer_[StartGroupIter->first].push_back(*GroupStart);
+				GroupStart = Group.erase(GroupStart);
+			}
+			else
+			{
+				++GroupStart;
+			}
+
+		}
+	}
+}

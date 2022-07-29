@@ -21,7 +21,7 @@ void DesertLevel::Start()
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 200.0f, -200.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, 0.0f });
 
 }
 
@@ -30,6 +30,10 @@ void DesertLevel::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Entrance");
+	}
+	if (GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+	{
+		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
 	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();

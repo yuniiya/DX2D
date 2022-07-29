@@ -30,6 +30,10 @@ void AquaLevel::Update(float _DeltaTime)
 	{
 		GEngine::ChangeLevel("Boss");
 	}
+	if (GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+	{
+		GetMainCameraActor()->FreeCameraModeOnOff();
+	}
 
 	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 

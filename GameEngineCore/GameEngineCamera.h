@@ -86,5 +86,7 @@ private:
 	void Release(float _DelataTime);
 
 	void Update(float _DeltaTime) override;
+
+	void OverRenderer(GameEngineCamera* _NextOver);
 };
 

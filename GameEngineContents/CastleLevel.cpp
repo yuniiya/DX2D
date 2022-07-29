@@ -32,6 +32,10 @@ void CastleLevel::Update(float _DeltaTime)
 	{
 		GEngine::ChangeLevel("Aqua");
 	}
+	if (GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+	{
+		GetMainCameraActor()->FreeCameraModeOnOff();
+	}
 
 	float4 PlayerPos = Player_->GetTransform().GetLocalPosition();
 	float4 CameraPos = GetMainCameraActor()->GetTransform().GetLocalPosition();

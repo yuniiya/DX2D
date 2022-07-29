@@ -149,6 +149,8 @@ private:
 
 	void RemoveActor(GameEngineActor* _Actor);
 
+	void OverChildMove(GameEngineLevel* _NextLevel);
+
 private:
 	// 0번 백그라운드
 	// 1번 플레이어

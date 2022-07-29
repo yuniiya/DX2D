@@ -120,6 +120,24 @@ public:
 		return Parent;
 	}
 
+	template<typename ParentType>
+	ParentType* GetRoot()
+	{
+		return dynamic_cast<ParentType*>(GetRoot());
+	}
+
+	GameEngineUpdateObject* GetRoot()
+	{
+		GameEngineUpdateObject* CurObject = this;
+
+		while (nullptr != CurObject->GetParent())
+		{
+			CurObject = GetParent();
+		}
+
+		return CurObject;
+	}
+
 
 	virtual void SetParent(GameEngineUpdateObject* _Parent);
 	virtual void DetachObject();
@@ -143,6 +161,23 @@ protected:
 	virtual void End() = 0;
 
 	virtual void ReleaseObject(std::list<GameEngineUpdateObject*>& _RelaseList);
+
+	template<typename ConvertType>
+	std::list<ConvertType*> GetConvertChilds() 
+	{
+		std::list<ConvertType*> NewList;
+
+		for (GameEngineUpdateObject* Child : Childs)
+		{
+			ConvertType* ConvertPtr = dynamic_cast<ConvertType*>(Child);
+			if (nullptr != ConvertPtr)
+			{
+				NewList.push_back(ConvertPtr);
+			}
+		}
+
+		return NewList;
+	}
 
 	std::list<GameEngineUpdateObject*> Childs;
 
