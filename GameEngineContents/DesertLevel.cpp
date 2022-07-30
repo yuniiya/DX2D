@@ -4,6 +4,7 @@
 #include "Player.h"
 
 DesertLevel::DesertLevel() 
+	: Player_(nullptr)
 {
 }
 

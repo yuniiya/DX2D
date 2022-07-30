@@ -14,7 +14,7 @@ CactusLevel::~CactusLevel()
 
 void CactusLevel::Start()
 {
-	SetCollisionMap("ColMap_Cactus.png");
+	SetCollisionMap("ColMap_Cactus2.png");
 	SetBackGround("Back_Cactus.png");
 	SetStage("Stage_Cactus.png");
 

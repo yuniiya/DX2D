@@ -6,6 +6,7 @@
 #include "Player.h"
 
 CastleLevel::CastleLevel() 
+	: Player_(nullptr)
 {
 }
 

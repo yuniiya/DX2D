@@ -4,6 +4,7 @@
 #include "Player.h"
 
 AquaLevel::AquaLevel() 
+	: Player_(nullptr)
 {
 }
 
@@ -13,7 +14,7 @@ AquaLevel::~AquaLevel()
 
 void AquaLevel::Start()
 {
-	SetCollisionMap("ColMap_Aqua.png");
+	SetCollisionMap("ColMap_Aqua2.png");
 	SetBackGround("Back_Aqua2.png");
 	SetStage("Stage_Aqua.png");
 
@@ -21,7 +22,7 @@ void AquaLevel::Start()
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 1200.0f, -750.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f, 0.0f });
 
 	SetPortal({ 97.f, -1123.f, 0.0f });
 	SetPortal({ 1494.f, -1064.f, 0.0f });
