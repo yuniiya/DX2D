@@ -51,6 +51,7 @@ private:
 
 protected:
 	float4 BottomColor;
+	float4 JumpHighColor;
 
 private:
 	GameEngineCollision* PlayerCollision_;

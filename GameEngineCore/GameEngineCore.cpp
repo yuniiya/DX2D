@@ -9,6 +9,7 @@
 #include "GameEngineGUI.h"
 #include "GameEngineCamera.h"
 #include "GameEngineCameraActor.h"
+#include <GameEngineBase/GameEngineSound.h>
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -135,6 +136,7 @@ void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
 	GameEngineInput::Destroy();
 	GameEngineDebug::Destroy();
 	GameEngineTime::Destroy();
+	GameEngineSound::AllResourcesDestroy();
 }
 
 

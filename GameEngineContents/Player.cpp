@@ -58,8 +58,9 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("MoveUp", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
-		GameEngineInput::GetInst()->CreateKey("Jump", 'Z');		// Alt VK_LMENU
-		GameEngineInput::GetInst()->CreateKey("Pick", VK_LCONTROL);
+		GameEngineInput::GetInst()->CreateKey("Jump", 'X');		
+		GameEngineInput::GetInst()->CreateKey("Pick", 'Z');
+		GameEngineInput::GetInst()->CreateKey("Attack", VK_LCONTROL);
 
 		GameEngineInput::GetInst()->CreateKey("MoveDown", VK_NUMPAD0);
 
@@ -85,12 +86,13 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Player_Move", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Jump", FrameAnimation_DESC("Jump", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("Fall", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.7f));
+	PlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.37f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.25f));
+	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.25f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
 
@@ -100,11 +102,12 @@ void Player::Start()
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
 	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
 	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
+	StateManager.CreateStateMember("Fall", this, &Player::FallUpdate, &Player::FallStart);
 	StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
 	StateManager.CreateStateMember("ProneStab", this, &Player::ProneStabUpdate, &Player::ProneStabStart);
 	StateManager.CreateStateMember("Ladder", this, &Player::LadderUpdate, &Player::LadderStart);
 	StateManager.CreateStateMember("Rope", this, &Player::RopeUpdate, &Player::RopeStart);
-	StateManager.CreateStateMember("DafaultAtt", this, &Player::DefaultAttackUpdate, &Player::DefaultAttackStart);
+	StateManager.CreateStateMember("DefaultAtt", this, &Player::DefaultAttackUpdate, &Player::DefaultAttackStart);
 	StateManager.CreateStateMember("SkillAtt", this, &Player::SkillAttackUpdate, &Player::SkillAttackStart);
 	StateManager.CreateStateMember("Damaged", this, &Player::DamagedUpdate, &Player::DamagedStart);
 	StateManager.CreateStateMember("Die", this, &Player::DieUpdate, &Player::DieStart);
@@ -425,7 +428,12 @@ void Player::ObjectPixelCheck()
 	// 레더, 로프
 	if (true == GameEngineInput::GetInst()->IsDown("Down"))
 	{
-
+		// 레더
+		if (true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
+		{
+			StateManager.ChangeState("Ladder");
+			return;
+		}
 	}
 }
 
