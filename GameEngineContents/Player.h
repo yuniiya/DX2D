@@ -35,8 +35,12 @@ public:
 
 private:
 	float Speed_;
+	float Time_;
+	float4 JumpPower_;
+	float4 DownPower_;
 	float4 Position_;
 
+	GameEngineState* CurState;
 	PLAYERSTATE CurState_;
 	ACTORDIR CurDir_;
 	bool IsDebug;
@@ -44,6 +48,9 @@ private:
 	bool CanMove;
 
 	std::string CurLevelName_;
+
+protected:
+	float4 BottomColor;
 
 private:
 	GameEngineCollision* PlayerCollision_;
@@ -57,12 +64,12 @@ protected:
 	void DebugModeOnOff();
 	void DebugRender();
 
-protected:
+private:
 	GameEngineTextureRenderer* PlayerRenderer_;
 	GameEngineTextureRenderer* ColMapRenderer_;
-	std::string AnimationName_;
 
 	GameEngineTexture* MapTexture_;
+	GameEngineStateManager StateManager;
 
 protected:
 	bool StagePixelCheck();
@@ -76,27 +83,33 @@ protected:
 	bool IsMoveKey();
 	void PlayerMove(float _DeltaTime);
 
-protected:
-	void IdleStart();
-	void MoveStart();
-	void JumpStart();
-	void ProneStart();
-	void ProneStabStart();
-	void LadderStart();
-	void RopeStart();
-	void AttackStart();
-	void DamagedStart();
-	void DieStart();
+	void ReturnIdle(const FrameAnimation_DESC& _Info);
 
-	void IdleUpdate();
-	void MoveUpdate();
-	void JumpUpdate();
-	void ProneUpdate();
-	void ProneStabUpdate();
-	void LadderUpdate();
-	void RopeUpdate();
-	void AttackUpdate();
-	void DamagedUpdate();
-	void DieUpdate();
+protected:
+	void IdleStart(const StateInfo& _Info);
+	void MoveStart(const StateInfo& _Info);
+	void JumpStart(const StateInfo& _Info);
+	void FallStart(const StateInfo& _Info);
+	void ProneStart(const StateInfo& _Info);
+	void ProneStabStart(const StateInfo& _Info);
+	void LadderStart(const StateInfo& _Info);
+	void RopeStart(const StateInfo& _Info);
+	void DefaultAttackStart(const StateInfo& _Info);
+	void SkillAttackStart(const StateInfo& _Info);
+	void DamagedStart(const StateInfo& _Info);
+	void DieStart(const StateInfo& _Info);
+
+	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
+	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
+	void JumpUpdate(float _DeltaTime, const StateInfo& _Info);
+	void FallUpdate(float _DeltaTime, const StateInfo& _Info);
+	void ProneUpdate(float _DeltaTime, const StateInfo& _Info);
+	void ProneStabUpdate(float _DeltaTime, const StateInfo& _Info);
+	void LadderUpdate(float _DeltaTime, const StateInfo& _Info);
+	void RopeUpdate(float _DeltaTime, const StateInfo& _Info);
+	void DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info);
+	void SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info);
+	void DamagedUpdate(float _DeltaTime, const StateInfo& _Info);
+	void DieUpdate(float _DeltaTime, const StateInfo& _Info);
 };
 

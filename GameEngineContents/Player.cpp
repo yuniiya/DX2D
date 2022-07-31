@@ -17,16 +17,19 @@ Player* Player::MainPlayer_ = nullptr;
 
 Player::Player() 
 	: Speed_(200.0f)
+	, JumpPower_(200.f)
+	, DownPower_(0.0f)
 	, CurState_(PLAYERSTATE::IDLE)
 	, PlayerCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
-	, Position_(0.f)
+	, Position_(0.0f)
 	, IsDebug(false)
 	, CurDir_(ACTORDIR::RIGHT)
 	, IsGround(true)
 	, CanMove(true)
 	, ColMapRenderer_(nullptr)
 	, MapTexture_(nullptr)
+	, Time_(0.0f)
 {
 }
 
@@ -55,7 +58,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("MoveUp", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
-		GameEngineInput::GetInst()->CreateKey("Jump", VK_LMENU);
+		GameEngineInput::GetInst()->CreateKey("Jump", 'Z');		// Alt VK_LMENU
 		GameEngineInput::GetInst()->CreateKey("Pick", VK_LCONTROL);
 
 		GameEngineInput::GetInst()->CreateKey("MoveDown", VK_NUMPAD0);
@@ -84,33 +87,43 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Jump", FrameAnimation_DESC("Jump", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.7f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Alert", FrameAnimation_DESC("Alert", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Att1", FrameAnimation_DESC("Player_Attack1", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Att2", FrameAnimation_DESC("Player_Attack2", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
-
-
-
-
 
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
-	//CameraActor_ = GetLevel()->CreateActor<GameEngineCameraActor>();
+
+	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
+	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
+	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
+	StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
+	StateManager.CreateStateMember("ProneStab", this, &Player::ProneStabUpdate, &Player::ProneStabStart);
+	StateManager.CreateStateMember("Ladder", this, &Player::LadderUpdate, &Player::LadderStart);
+	StateManager.CreateStateMember("Rope", this, &Player::RopeUpdate, &Player::RopeStart);
+	StateManager.CreateStateMember("DafaultAtt", this, &Player::DefaultAttackUpdate, &Player::DefaultAttackStart);
+	StateManager.CreateStateMember("SkillAtt", this, &Player::SkillAttackUpdate, &Player::SkillAttackStart);
+	StateManager.CreateStateMember("Damaged", this, &Player::DamagedUpdate, &Player::DamagedStart);
+	StateManager.CreateStateMember("Die", this, &Player::DieUpdate, &Player::DieStart);
+
+	StateManager.ChangeState("Idle");
+
+
+
 }
 
 void Player::Update(float _DeltaTime)
 {
-	PlayerStateUpdate();
+	//PlayerStateUpdate();
+	StateManager.Update(_DeltaTime);
 
 	PlayerMove(_DeltaTime);
 
 	DebugModeOnOff();
 	StagePixelCheck();
-	//PlayerCameraFix();
-
-	//PixelCollisionMapUpdate(this);
 }
 
 void Player::DebugModeOnOff()
@@ -159,26 +172,27 @@ void Player::DebugRender()
 
 bool Player::StagePixelCheck()
 {
-	float4 DownPower = float4{ 0.f, -3.f, 0.f };
+	float4 Pos = 0.0f;
 	GetCurMapTexture();
 
-	float4 BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 46.f);	// 발 밑 픽셀의 값을 얻어온다
+	BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 43.f);	// 발 밑 픽셀의 값을 얻어온다
 	float4 BottomUpColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
 	float4 TopColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) - 25.f);
 	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.f);
 	float4 RightColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.f);
-	float4 LeftBottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 10.f, (float)(-GetTransform().GetWorldPosition().iy()) + 41.f);
-	float4 RightBottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 10.f, (float)(-GetTransform().GetWorldPosition().iy()) + 41.f);
-
 
 
 	// 땅
 	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
+		// ========= 수정 : 점프가 아닐때만?
 		if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))													// 1-1) 발 조금 위가 땅이면 1픽셀 올린다
 		{
-			Position_ = GetPosition() + float4{ 0.f, 2.f, 0.f };
-			GetTransform().SetLocalPosition(Position_);
+			//Position_ = GetPosition() + float4{ 0.f, 2.f, 0.f };
+			//GetTransform().SetLocalPosition(Position_);
+
+			Pos = float4{ 0.f, 2.f, 0.f };
+			GetTransform().SetWorldMove(Pos);
 		}
 	}
 
@@ -194,9 +208,24 @@ bool Player::StagePixelCheck()
 		|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f })	// 마젠타
 		|| true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 1.f, 1.f }))	// 레드
 	{
-		Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
-		GetTransform().SetLocalPosition(Position_);
-		
+		// 카메라 바깥쪽 이동 막기 - 위
+		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f })
+			|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			DownPower_ = float4{ 0.f, -9.f, 0.f };
+			GetTransform().SetWorldMove(DownPower_);
+		}
+		else
+		{
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 15.f;
+			GetTransform().SetWorldMove(DownPower_);
+			/*Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
+			GetTransform().SetLocalPosition(Position_);*/
+		}
+	}
+	else
+	{
+		DownPower_ = 0.0f;
 	}
 
 	//// 머리가 지형에 닿았다
@@ -325,12 +354,7 @@ bool Player::StagePixelCheck()
 		}
 	}
 
-	// 카메라 바깥쪽 이동 막기 - 위
-	if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
-	{
-		Position_ = GetPosition() + float4{ 0.f, -6.f, 0.f };
-		GetTransform().SetLocalPosition(Position_);
-	}
+
 
 	// 포탈, 레더, 로프 
 	ObjectPixelCheck();
@@ -407,7 +431,7 @@ void Player::ObjectPixelCheck()
 
 void Player::ChangeState(PLAYERSTATE _State)
 {
-	if (CurState_ != _State)
+	/*if (CurState_ != _State)
 	{
 		switch (_State)
 		{
@@ -444,44 +468,44 @@ void Player::ChangeState(PLAYERSTATE _State)
 		}
 	}
 
-	CurState_ = _State;
+	CurState_ = _State;*/
 }
 
 void Player::PlayerStateUpdate()
 {
-	switch (CurState_)
-	{
-	case PLAYERSTATE::IDLE:
-		IdleUpdate();
-		break;
-	case PLAYERSTATE::MOVE:
-		MoveUpdate();
-		break;
-	case PLAYERSTATE::JUMP:
-		JumpUpdate();
-		break;
-	case PLAYERSTATE::PRONE:
-		ProneUpdate();
-		break;
-	case PLAYERSTATE::PRONESTAB:
-		ProneStabUpdate();
-		break;
-	case PLAYERSTATE::LADDER:
-		LadderUpdate();
-		break;
-	case PLAYERSTATE::ROPE:
-		RopeUpdate();
-		break;
-	case PLAYERSTATE::ATTACK:
-		AttackUpdate();
-		break;
-	case PLAYERSTATE::DAMAGED:
-		DamagedUpdate();
-		break;
-	case PLAYERSTATE::DIE:
-		DieUpdate();
-		break;
-	}
+	//switch (CurState_)
+	//{
+	//case PLAYERSTATE::IDLE:
+	//	IdleUpdate();
+	//	break;
+	//case PLAYERSTATE::MOVE:
+	//	MoveUpdate();
+	//	break;
+	//case PLAYERSTATE::JUMP:
+	//	JumpUpdate();
+	//	break;
+	//case PLAYERSTATE::PRONE:
+	//	ProneUpdate();
+	//	break;
+	//case PLAYERSTATE::PRONESTAB:
+	//	ProneStabUpdate();
+	//	break;
+	//case PLAYERSTATE::LADDER:
+	//	LadderUpdate();
+	//	break;
+	//case PLAYERSTATE::ROPE:
+	//	RopeUpdate();
+	//	break;
+	//case PLAYERSTATE::ATTACK:
+	//	AttackUpdate();
+	//	break;
+	//case PLAYERSTATE::DAMAGED:
+	//	DamagedUpdate();
+	//	break;
+	//case PLAYERSTATE::DIE:
+	//	DieUpdate();
+	//	break;
+	//}
 }
 
 bool Player::IsMoveKey()
@@ -508,8 +532,8 @@ void Player::PlayerMove(float _DeltaTime)
 		{
 			CurDir_ = ACTORDIR::LEFT;
 
-			if (CurState_ != PLAYERSTATE::PRONE
-				&& CurState_ != PLAYERSTATE::PRONESTAB)
+			//if (CurState_ != PLAYERSTATE::PRONE
+			//	&& CurState_ != PLAYERSTATE::PRONESTAB)		// ========= 수정 필요
 			{
 				/*float4 Pos = MainPlayer_->GetTransform().GetLocalPosition();
 				float4 Pos2 = MainPlayer_->GetTransform().GetWorldPosition();*/
@@ -520,8 +544,8 @@ void Player::PlayerMove(float _DeltaTime)
 		{
 			CurDir_ = ACTORDIR::RIGHT;
 
-			if (CurState_ != PLAYERSTATE::PRONE
-				&& CurState_ != PLAYERSTATE::PRONESTAB)
+			//if (CurState_ != PLAYERSTATE::PRONE
+			//	&& CurState_ != PLAYERSTATE::PRONESTAB)		// ========= 수정 필요
 			{
 				GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
 			}
@@ -542,5 +566,10 @@ void Player::PlayerMove(float _DeltaTime)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
 	}
+}
+
+void Player::ReturnIdle(const FrameAnimation_DESC& _Info)
+{
+	StateManager.ChangeState("Idle");
 }
 
