@@ -20,7 +20,7 @@ void Player::JumpStart(const StateInfo& _Info)
 	GameEngineSound::SoundPlayOneShot("Jump.mp3");
 
 	AddAccTime(Time_);
-	JumpPower_ = float4{ 0.f, 380.f, 0.f };
+	JumpPower_ = float4{ 0.f, 500.f, 0.f };
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
@@ -99,7 +99,10 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	// 땅이 아니다
-	if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
+		|| true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })	// 투명
+		|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f })	// 마젠타
+		|| true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 1.f, 1.f }))	// 레드
 	{
 		StateManager.ChangeState("Fall");
 		return;
@@ -128,7 +131,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 
 	// 땅이 아니다
-	if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
+		|| true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })	// 투명
+		|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f })	// 마젠타
+		|| true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 1.f, 1.f }))	// 레드
 	{
 		StateManager.ChangeState("Fall");
 		return;
@@ -202,15 +208,16 @@ void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
+
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 500.f * _DeltaTime);
+		GetTransform().SetWorldMove(GetTransform().GetUpVector());
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("MoveDown")
-		&& false == IsGround)
+	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
+		GetTransform().SetWorldMove(GetTransform().GetDownVector());
 	}
 }
 

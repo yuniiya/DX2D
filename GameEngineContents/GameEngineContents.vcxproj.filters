@@ -34,6 +34,9 @@
     <Filter Include="Level\Title">
       <UniqueIdentifier>{d627a523-f9bb-4e89-88b4-611c0a1dcbb0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Etc">
+      <UniqueIdentifier>{428d8124-1aca-4b89-9786-7125b1899716}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -100,6 +103,24 @@
     <ClInclude Include="ContentsUI.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectLevel.h">
+      <Filter>Level\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectUI.h">
+      <Filter>Actor\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="TextInput.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBgmPlayer.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -165,6 +186,24 @@
     </ClCompile>
     <ClCompile Include="ContentsUI.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectLevel.cpp">
+      <Filter>Level\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectUI.cpp">
+      <Filter>Actor\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="TextInput.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBgmPlayer.cpp">
+      <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -27,6 +27,5 @@ protected:
 
 private:
 	GameEngineTexture* MapTexture_;
-	GlobalActor* Actor_;
 };
 

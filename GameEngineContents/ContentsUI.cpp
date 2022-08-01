@@ -25,6 +25,7 @@ void ContentsUI::Start()
 	//	UIRenderer_->GetTransform().SetLocalScale(float4{ 204.f, 70.f, 1.f });
 	//}
 
+
 	MainBarRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	MainBarRenderer_->SetTexture("mainBar.png");
 	MainBarRenderer_->ScaleToTexture();

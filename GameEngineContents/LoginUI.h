@@ -21,7 +21,8 @@ protected:
 	void End() override;
 
 private:
-
-	float TimeAngle;
+	GameEngineTextureRenderer* LoginBackUI_;
+	GameEngineTextureRenderer* LoginUI_;
+	GameEngineTextureRenderer* LogoUI_;
 };
 

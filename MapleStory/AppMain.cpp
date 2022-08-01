@@ -14,6 +14,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
 	new int();
 
+	//_CrtSetBreakAlloc(30443);
+
 	GameEngineCore::Start<ContentsCore>();
 
 	return 0;

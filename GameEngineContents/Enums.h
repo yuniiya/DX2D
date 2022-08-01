@@ -9,6 +9,7 @@ enum class GAMEOBJGROUP
 	OBJ,
 	EFFECT,
 	UI,
+	MOUSE,
 
 	MAX,
 };

@@ -8,6 +8,8 @@
 #include "GameEngineContents/DesertLevel.h"
 #include "GameEngineContents/AquaLevel.h"
 #include "GameEngineContents/BossLevel.h"
+#include "GameEngineContents/SelectLevel.h"
+#include "GameEngineContents/TitleLevel.h"
 
 
 
@@ -156,7 +158,118 @@ void ContentsCore::Start()
 			GameEngineTexture::Load(File[i].GetFullPath());
 		}
 	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("BossUI");
 
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("Cursor");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("DieUI");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("InventoryUI");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("LoginUI");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("ShopUI");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("SkillIcon");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
+	// »ç¿îµå
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("Resources");
@@ -187,7 +300,9 @@ void ContentsCore::Start()
 	}
 
 
-	CreateLevel<LoginLevel>("Title");;
+	//CreateLevel<TitleLevel>("Title");
+	CreateLevel<LoginLevel>("Login");
+	CreateLevel<SelectLevel>("Select");
 	CreateLevel<AriantLevel>("Ariant");
 	CreateLevel<EntranceLevel>("Entrance");
 	CreateLevel<CastleLevel>("Castle");
@@ -197,7 +312,7 @@ void ContentsCore::Start()
 	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Cactus");
+	ChangeLevel("Login");
 
 	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

@@ -88,6 +88,16 @@ public:
 
 	void Update(float _DeltaTime);
 
+	std::string GetCurStateStateName()
+	{
+		if (nullptr != CurState)
+		{
+			return "";
+		}
+
+		return CurState->GetNameCopy();
+	}
+
 	void ChangeState(const std::string& _StateName)
 	{
 		if (AllState.end() == AllState.find(_StateName))

@@ -68,8 +68,6 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 {
 	if (nullptr != NextLevel)
 	{
-		
-
 		Rectangle(GameEngineWindow::GetInst()->GetHDC()
 			, 0
 			, 0
@@ -143,7 +141,7 @@ void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
 void GameEngineCore::WindowCreate(const std::string& _Name, GameEngineCore* _UserCore)
 {
 	GameEngineWindow::GetInst()->CreateGameWindow(nullptr, _Name.c_str());
-	GameEngineWindow::GetInst()->SetWindowScaleAndPosition({ 0, 0 }, {1280, 720});
+	GameEngineWindow::GetInst()->SetWindowScaleAndPosition({ -0, 0 }, {1280, 720});
 	GameEngineWindow::GetInst()->ShowGameWindow();
 	GameEngineDevice::Initialize();
 

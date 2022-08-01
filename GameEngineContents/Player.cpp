@@ -178,9 +178,9 @@ bool Player::StagePixelCheck()
 	float4 Pos = 0.0f;
 	GetCurMapTexture();
 
-	BottomColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 43.f);	// 발 밑 픽셀의 값을 얻어온다
+	BottomColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
 	float4 BottomUpColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
-	float4 TopColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) - 25.f);
+	float4 TopColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) - 25.f));
 	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.f);
 	float4 RightColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.f);
 
@@ -220,7 +220,7 @@ bool Player::StagePixelCheck()
 		}
 		else
 		{
-			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 15.f;
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 10.f;
 			GetTransform().SetWorldMove(DownPower_);
 			/*Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);*/
@@ -367,7 +367,7 @@ bool Player::StagePixelCheck()
 
 void Player::ObjectPixelCheck()
 {
-	float4 Color = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()));
+	float4 Color = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)(-GetTransform().GetWorldPosition().iy()));
 
 	if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
 	{
@@ -428,12 +428,12 @@ void Player::ObjectPixelCheck()
 	// 레더, 로프
 	if (true == GameEngineInput::GetInst()->IsDown("Down"))
 	{
-		// 레더
-		if (true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
-		{
-			StateManager.ChangeState("Ladder");
-			return;
-		}
+		//// 레더
+		//if (true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
+		//{
+		//	StateManager.ChangeState("Ladder");
+		//	return;
+		//}
 	}
 }
 
@@ -564,16 +564,16 @@ void Player::PlayerMove(float _DeltaTime)
 
 	/////////////////////////////////////////////////////////////////////////
 	// 0 255 0 (로프) 에 충돌했을 때만 
-	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
-	{
-		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 500.f * _DeltaTime);
-	}
+	//if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+	//{
+	//	GetTransform().SetWorldMove(GetTransform().GetUpVector() * 500.f * _DeltaTime);
+	//}
 
-	if (true == GameEngineInput::GetInst()->IsPress("MoveDown")
-		&& false == IsGround)
-	{
-		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
-	}
+	//if (true == GameEngineInput::GetInst()->IsPress("MoveDown")
+	//	&& false == IsGround)
+	//{
+	//	GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
+	//}
 }
 
 void Player::ReturnIdle(const FrameAnimation_DESC& _Info)

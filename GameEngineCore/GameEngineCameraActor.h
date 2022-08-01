@@ -44,6 +44,5 @@ private:
 	GameEngineCamera* CameraComponent;
 	GameEngineTransform OriginTrans;
 	CAMERAPROJECTIONMODE PrevMode;
-
 };
 

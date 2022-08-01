@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "GlobalLevel.h"
 
 // Ό³Έν :
-class TitleLevel : public GameEngineLevel
+class TitleLevel : public GlobalLevel
 {
 public:
 	// constrcuter destructer
