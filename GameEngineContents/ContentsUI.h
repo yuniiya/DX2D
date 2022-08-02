@@ -15,13 +15,13 @@ public:
 	ContentsUI& operator=(const ContentsUI& _Other) = delete;
 	ContentsUI& operator=(ContentsUI&& _Other) noexcept = delete;
 
-public:
-	GameEngineUIRenderer* GetUIRenderer()
-	{
-		return UIRenderer_;
-	}
+protected:
+	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	void CollisionCheck();
 
-	void SetMainUI();
+	float4 HpPos_;
+	float4 MpPos_;
+	float4 ExpPos_;
 
 protected:
 	void Start() override;
@@ -29,8 +29,13 @@ protected:
 	void End() override {};
 
 private:
-	GameEngineUIRenderer* UIRenderer_;
-	GameEngineTextureRenderer* MainBarRenderer_;
+	GameEngineTextureRenderer* MainBar_;
+	GameEngineTextureRenderer* ExpBack_;
+	GameEngineTextureRenderer* QuickSlotBack_;
+	GameEngineTextureRenderer* QuickSlot_;
 
+	GameEngineTextureRenderer* HpBar_;
+	GameEngineTextureRenderer* MpBar_;
+	GameEngineTextureRenderer* ExpBar_;
 };
 

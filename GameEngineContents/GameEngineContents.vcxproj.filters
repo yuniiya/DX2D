@@ -37,6 +37,9 @@
     <Filter Include="Etc">
       <UniqueIdentifier>{428d8124-1aca-4b89-9786-7125b1899716}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\UI">
+      <UniqueIdentifier>{b81cdcf3-0d64-46f9-84ce-e9df1ffec890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -44,9 +47,6 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Actor\Play</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginUI.h">
-      <Filter>Actor\Title</Filter>
     </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>Global</Filter>
@@ -97,17 +97,11 @@
     <ClInclude Include="Portal.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsUI.h">
-      <Filter>Global</Filter>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Level\Title</Filter>
     </ClInclude>
     <ClInclude Include="SelectLevel.h">
       <Filter>Level\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectUI.h">
-      <Filter>Actor\Title</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Etc</Filter>
@@ -118,6 +112,15 @@
     <ClInclude Include="GameBgmPlayer.h">
       <Filter>Etc</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsUI.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginUI.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectUI.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -125,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Play</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginUI.cpp">
-      <Filter>Actor\Title</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>Actor\Play</Filter>
@@ -178,17 +178,11 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Actor\Map</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsUI.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level\Title</Filter>
     </ClCompile>
     <ClCompile Include="SelectLevel.cpp">
       <Filter>Level\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectUI.cpp">
-      <Filter>Actor\Title</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Etc</Filter>
@@ -198,6 +192,15 @@
     </ClCompile>
     <ClCompile Include="GameBgmPlayer.cpp">
       <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsUI.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginUI.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectUI.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
