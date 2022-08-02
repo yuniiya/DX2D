@@ -42,9 +42,6 @@
     <ClInclude Include="ContentsCore.h">
       <Filter>Contents</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Actor\Play</Filter>
     </ClInclude>
@@ -125,9 +122,6 @@
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
       <Filter>Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Play</Filter>

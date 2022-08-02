@@ -5,6 +5,7 @@
 #include "MapBackGround.h"
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include "Player.h"
+#include "Mouse.h"
 
 BossLevel::BossLevel()
 	: StageActor_(nullptr)
@@ -32,13 +33,12 @@ void BossLevel::Start()
 		}
 	}
 
+	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f, 0.0f });
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-
-
-	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f, 0.0f });
+	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }
 

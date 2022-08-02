@@ -152,9 +152,11 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 	ViewPort.Inverse();
 
 	float4x4 ProjectionInvers = Projection.InverseReturn();
+	float4x4 ViewInverse = View.InverseReturn();
 
 	Pos = Pos * ViewPort;
 	Pos = Pos * ProjectionInvers;
+	Pos = Pos * ViewInverse;
 	// 마우스는 뷰포트의 좌표다?
 
 	return Pos;

@@ -2,6 +2,7 @@
 #include "DesertLevel.h"
 #include <GameEngineCore/GEngine.h>
 #include "Player.h"
+#include "Mouse.h"
 
 DesertLevel::DesertLevel() 
 	: Player_(nullptr)
@@ -18,14 +19,16 @@ void DesertLevel::Start()
 	SetBackGround("Back_Desert.png");
 	SetStage("Stage_Desert.png");
 
-	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, 0.0f });
 
 	SetPortal({ 168.f, -240.f, 0.0f });
 	SetPortal({ 1489.f, -542.f, 0.0f });
+
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+
 }
 
 void DesertLevel::Update(float _DeltaTime)

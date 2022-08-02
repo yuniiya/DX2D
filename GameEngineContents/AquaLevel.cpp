@@ -2,6 +2,7 @@
 #include "AquaLevel.h"
 #include <GameEngineCore/GEngine.h>
 #include "Player.h"
+#include "Mouse.h"
 
 AquaLevel::AquaLevel() 
 	: Player_(nullptr)
@@ -18,14 +19,15 @@ void AquaLevel::Start()
 	SetBackGround("Back_Aqua2.png");
 	SetStage("Stage_Aqua.png");
 
-	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f, 0.0f });
 
 	SetPortal({ 97.f, -1123.f, 0.0f });
 	SetPortal({ 1494.f, -1064.f, 0.0f });
+
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 }
 
 void AquaLevel::Update(float _DeltaTime)

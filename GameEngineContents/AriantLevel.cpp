@@ -3,6 +3,7 @@
 #include <GameEngineCore/GEngine.h>
 #include "Player.h"
 #include "MapStage.h"
+#include "Mouse.h"
 
 
 AriantLevel::AriantLevel() 
@@ -21,13 +22,15 @@ void AriantLevel::Start()
 	SetStage("Stage_Ariant.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2900.f, -600.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 2200.f, -600.0f, 0.0f });
+
+	SetPortal({ 3008.f, -750.f, 0.0f });
+	SetPortal({ 3410.f, -750.f, 0.0f });
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
-	SetPortal({ 3008.f, -750.f, 0.0f});
-	SetPortal({ 3410.f, -750.f, 0.0f});
 }
 
 void AriantLevel::Update(float _DeltaTime)

@@ -20,7 +20,13 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
-private:
+	void GetCameraPos()
+	{
+		CurPos_.x = GetMainCameraActorTransform().GetLocalPosition().x;
+		CurPos_.y = GetMainCameraActorTransform().GetLocalPosition().y;
+	}
 
+private:
+	float4 CurPos_;
 };
 

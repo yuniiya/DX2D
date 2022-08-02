@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "TitleLevel.h"
+#include "Mouse.h"
 
 TitleLevel::TitleLevel() 
 {

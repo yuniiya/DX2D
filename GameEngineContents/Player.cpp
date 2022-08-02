@@ -178,6 +178,7 @@ bool Player::StagePixelCheck()
 	float4 Pos = 0.0f;
 	GetCurMapTexture();
 
+	BottomDownColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) + 47.f));
 	BottomColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
 	float4 BottomUpColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
 	float4 TopColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) - 25.f));
@@ -220,7 +221,7 @@ bool Player::StagePixelCheck()
 		}
 		else
 		{
-			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 10.f;
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 20.f;
 			GetTransform().SetWorldMove(DownPower_);
 			/*Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);*/

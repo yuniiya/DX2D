@@ -19,14 +19,7 @@ public:
 	Mouse& operator=(const Mouse& _Other) = delete;
 	Mouse& operator=(Mouse&& _Other) noexcept = delete;
 
-	inline void GetCurPos()
-	{
-		POINT Pos_;
-		GetCursorPos(&Pos_);
-		ScreenToClient(GameEngineWindow::GetHWND(), &Pos_);
-		CurPos_.x = static_cast<float>(Pos_.x - 637.f);
-		CurPos_.y = static_cast<float>(-Pos_.y + 360.f);
-	}
+	void GetCurPos();
 
 	inline float4 ReturnPos()
 	{

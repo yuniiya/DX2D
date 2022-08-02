@@ -2,6 +2,7 @@
 #include "EntranceLevel.h"
 #include <GameEngineCore/GEngine.h>
 #include "Player.h"
+#include "Mouse.h"
 
 EntranceLevel::EntranceLevel() 
 {
@@ -17,14 +18,16 @@ void EntranceLevel::Start()
 	SetBackGround("Back_Entrance.png");
 	SetStage("Stage_Entrance.png");
 
-	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 2100.0f, -700.0f, 0.0f });
 
-	SetPortal({2123.f, -1109.f, 0.0f});
+	SetPortal({ 2123.f, -1109.f, 0.0f });
 	SetPortal({ 976.f, -643.f, 0.0f });
+
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+
 }
 
 void EntranceLevel::Update(float _DeltaTime)

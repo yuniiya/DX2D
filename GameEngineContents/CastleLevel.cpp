@@ -4,6 +4,7 @@
 #include "MapBackGround.h"
 #include <GameEngineBase/GameEngineWindow.h>
 #include "Player.h"
+#include "Mouse.h"
 
 CastleLevel::CastleLevel() 
 	: Player_(nullptr)
@@ -20,13 +21,14 @@ void CastleLevel::Start()
 	SetBackGround("Back_Castle2.png");
 	SetStage("Stage_Castle3.png");
 
-	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, 0.0f });
 
 	SetPortal({ 273.f, -495.f, 0.0f });
+
+	// UI
+	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 }
 
 void CastleLevel::Update(float _DeltaTime)
