@@ -31,7 +31,12 @@ private:
 	GameEngineTextureRenderer* LoginBackUI_;
 	GameEngineTextureRenderer* LoginUI_;
 	GameEngineTextureRenderer* LogoUI_;
+	GameEngineTextureRenderer* MapleID_;
+	GameEngineTextureRenderer* IDArea_;
+	GameEngineTextureRenderer* PWArea;
 
 	GameEngineCollision* LoginCol_;
+	GameEngineCollision* IDAreaCol_;
+	GameEngineCollision* PWAreaCol_;
 };
 
