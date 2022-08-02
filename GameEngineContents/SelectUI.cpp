@@ -101,7 +101,7 @@ void SelectUI::Start()
 
 	{
 		PlayerSelectEffect_ = CreateComponent<GameEngineTextureRenderer>();
-		PlayerSelectEffect_->GetTransform().SetLocalScale({ 49.f, 205.f, 1.f });
+		PlayerSelectEffect_->GetTransform().SetLocalScale({ 49.f, 205.f, 1.f});
 		PlayerSelectEffect_->CreateFrameAnimationFolder("CharSelect", FrameAnimation_DESC("CharSelect", 0.12f));
 		PlayerSelectEffect_->ChangeFrameAnimation("CharSelect");
 		PlayerSelectEffect_->Off();
@@ -110,7 +110,7 @@ void SelectUI::Start()
 	{
 		PrevButton_ = CreateComponent<GameEngineTextureRenderer>();
 		PrevButton_->SetTexture("Common.BtPreview.normal.0.png");
-		PrevButton_->GetTransform().SetLocalScale({ 81.f * 1.2f, 34.f * 1.2f, 0.f });
+		PrevButton_->GetTransform().SetLocalScale({ 81.f * 1.2f, 34.f * 1.2f});
 
 		PrevButtonCol_ = CreateComponent<GameEngineCollision>();
 		PrevButtonCol_->GetTransform().SetLocalScale({ 81.f * 1.2f, 34.f * 1.2f });
@@ -243,7 +243,8 @@ void SelectUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			GameEngineSound::SoundPlayOneShot("CharSelect.mp3");
+			//GameEngineSound::SoundPlayOneShot("CharSelect.mp3");
+			GameEngineSound::SoundPlayControl("CharSelect.mp3", 1);
 
 			Player_->ChangeFrameAnimation("Move");
 

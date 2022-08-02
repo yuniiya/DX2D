@@ -20,7 +20,7 @@ void AquaLevel::Start()
 	SetStage("Stage_Aqua.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f});
 
 	SetPortal({ 97.f, -1123.f, 0.0f });
 	SetPortal({ 1494.f, -1064.f, 0.0f });

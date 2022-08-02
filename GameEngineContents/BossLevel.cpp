@@ -34,7 +34,7 @@ void BossLevel::Start()
 	}
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f});
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

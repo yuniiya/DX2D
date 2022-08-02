@@ -20,7 +20,7 @@ void DesertLevel::Start()
 	SetStage("Stage_Desert.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 200.0f, -100.0f});
 
 	SetPortal({ 168.f, -240.f, 0.0f });
 	SetPortal({ 1489.f, -542.f, 0.0f });

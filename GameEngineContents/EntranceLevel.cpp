@@ -19,7 +19,7 @@ void EntranceLevel::Start()
 	SetStage("Stage_Entrance.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2100.0f, -700.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 2100.0f, -700.0f});
 
 	SetPortal({ 2123.f, -1109.f, 0.0f });
 	SetPortal({ 976.f, -643.f, 0.0f });

@@ -22,7 +22,7 @@ void AriantLevel::Start()
 	SetStage("Stage_Ariant.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2200.f, -600.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 2200.f, -600.0f});
 
 	SetPortal({ 3008.f, -750.f, 0.0f });
 	SetPortal({ 3410.f, -750.f, 0.0f });

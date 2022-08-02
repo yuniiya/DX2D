@@ -40,11 +40,11 @@ void Mouse::Start()
 
 	MouseRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
-	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
+	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f, 0.0f });
 
 	MouseAnimationRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_MouseOver", FrameAnimation_DESC("Cursor_MouseOver", 0.55f));
-	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f });
+	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f, 0.0f });
 	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
 	MouseAnimationRenderer_->Off();
 
@@ -88,6 +88,9 @@ void Mouse::Update(float _DeltaTime)
 
 bool Mouse::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
+	MouseAnimationRenderer_->On();
+	MouseRenderer_->Off();
+
 	return true;
 }
 
@@ -97,8 +100,8 @@ void Mouse::CollisionCheck()
 		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2))
 		&& true == MouseOverSoundOn_)
 	{
-		MouseAnimationRenderer_->On();
-		MouseRenderer_->Off();
+		//MouseAnimationRenderer_->On();
+		//MouseRenderer_->Off();
 
 		GameEngineSound::SoundPlayOneShot("BtMouseOver.mp3");
 		MouseOverSoundOn_ = false;

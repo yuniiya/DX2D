@@ -22,7 +22,7 @@ void CastleLevel::Start()
 	SetStage("Stage_Castle3.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, 0.0f });
+	Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f});
 
 	SetPortal({ 273.f, -495.f, 0.0f });
 
