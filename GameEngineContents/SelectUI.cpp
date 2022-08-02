@@ -26,6 +26,10 @@ SelectUI::SelectUI()
 	, NullEffect4_(nullptr)
 	, NullPlayer5_(nullptr)
 	, NullEffect5_(nullptr)
+	, Effect1_(nullptr)
+	, Effect2_(nullptr)
+	, Effect3_(nullptr)
+	, Effect4_(nullptr)
 {
 }
 
@@ -37,9 +41,39 @@ void SelectUI::Start()
 {
 	float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 
-	PlayerObjUI_ = CreateComponent<GameEngineTextureRenderer>();
-	PlayerObjUI_->SetTexture("CharSelect.HoYoung.0.png");
-	PlayerObjUI_->GetTransform().SetLocalScale({115.f, 128.f});
+	{
+		Effect1_ = CreateComponent<GameEngineTextureRenderer>();
+		Effect1_->GetTransform().SetLocalScale({ 991.f * 1.2f, 94.f * 1.2f, 1.f });
+		Effect1_->CreateFrameAnimationFolder("Effect1", FrameAnimation_DESC("Effect1", 0.3f));
+		Effect1_->ChangeFrameAnimation("Effect1");
+		Effect1_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y + 220.f });
+
+		Effect2_ = CreateComponent<GameEngineTextureRenderer>();
+		Effect2_->GetTransform().SetLocalScale({ 991.f * 1.2f, 94.f * 1.2f, 1.f });
+		Effect2_->CreateFrameAnimationFolder("Effect1", FrameAnimation_DESC("Effect1", 0.3f));
+		Effect2_->ChangeFrameAnimation("Effect1");
+		Effect2_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y - 220.f });
+
+		Effect3_ = CreateComponent<GameEngineTextureRenderer>();
+		Effect3_->GetTransform().SetLocalScale({ 306.f * 1.2f, 404.f * 1.2f, 1.f });
+		Effect3_->CreateFrameAnimationFolder("Effect2", FrameAnimation_DESC("Effect2", 0.3f));
+		Effect3_->ChangeFrameAnimation("Effect2");
+		Effect3_->GetTransform().SetLocalPosition({ CamPos.x - 340.f, CamPos.y + 120.f });
+
+		Effect4_ = CreateComponent<GameEngineTextureRenderer>();
+		Effect4_->GetTransform().SetLocalScale({ 212.f * 1.2f, 355.f * 1.2f, 1.f });
+		Effect4_->CreateFrameAnimationFolder("Effect3", FrameAnimation_DESC("Effect3", 0.3f));
+		Effect4_->ChangeFrameAnimation("Effect3");
+		Effect4_->GetTransform().SetLocalPosition({ CamPos.x - 513.f, CamPos.y + 100.f });
+
+
+	}
+
+	{
+		PlayerObjUI_ = CreateComponent<GameEngineTextureRenderer>();
+		PlayerObjUI_->SetTexture("CharSelect.HoYoung.0.png");
+		PlayerObjUI_->GetTransform().SetLocalScale({ 115.f, 128.f });
+	}
 
 	{
 		PlayerMouseOverEfect_ = CreateComponent<GameEngineTextureRenderer>();
@@ -74,32 +108,13 @@ void SelectUI::Start()
 	}
 
 	{
-		InfoUI_ = CreateComponent<GameEngineTextureRenderer>();
-		InfoUI_->SetTexture("CharSelect.charInfo1.png");
-		InfoUI_->GetTransform().SetLocalScale({ 194.f * 1.2f, 272.f * 1.2f });
-		InfoUI_->Off();
-	}
-
-	{
-		GameStartButton_ = CreateComponent<GameEngineTextureRenderer>();
-		GameStartButton_->SetTexture("GameStartBut.png");
-		GameStartButton_->GetTransform().SetLocalScale({ 140.f * 1.2f, 52.f * 1.2f });
-		GameStartButton_->Off();
-
-		GameStartButtonCol_ = CreateComponent<GameEngineCollision>();
-		GameStartButtonCol_->GetTransform().SetLocalScale({ 140.f * 1.2f, 52.f * 1.2f });
-		GameStartButtonCol_->GetTransform().SetLocalPosition({ CamPos.x + 500.f, CamPos.y - 190.f });
-		GameStartButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
-	}
-
-	{
 		PrevButton_ = CreateComponent<GameEngineTextureRenderer>();
 		PrevButton_->SetTexture("Common.BtPreview.normal.0.png");
-		PrevButton_->GetTransform().SetLocalScale({ 81.f * 1.2f, 34.f * 1.2f });
+		PrevButton_->GetTransform().SetLocalScale({ 81.f * 1.2f, 34.f * 1.2f, 0.f });
 
 		PrevButtonCol_ = CreateComponent<GameEngineCollision>();
 		PrevButtonCol_->GetTransform().SetLocalScale({ 81.f * 1.2f, 34.f * 1.2f });
-		PrevButtonCol_->GetTransform().SetLocalPosition({ CamPos.x - 592.f, CamPos.y - 235.f });
+		PrevButtonCol_->GetTransform().SetLocalPosition({ CamPos.x - 592.f, CamPos.y - 235.f, 0.f });
 		PrevButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
 	
@@ -152,6 +167,26 @@ void SelectUI::Start()
 		NullEffect5_->GetTransform().SetLocalScale({ 62.f, 9.f, 1.f });
 		NullEffect5_->CreateFrameAnimationFolder("NullCharEffect", FrameAnimation_DESC("NullCharEffect", 0.13f));
 		NullEffect5_->ChangeFrameAnimation("NullCharEffect");
+	}
+
+
+	{
+		InfoUI_ = CreateComponent<GameEngineTextureRenderer>();
+		InfoUI_->SetTexture("CharSelect.charInfo1.png");
+		InfoUI_->GetTransform().SetLocalScale({ 194.f * 1.2f, 272.f * 1.2f });
+		InfoUI_->Off();
+	}
+
+	{
+		GameStartButton_ = CreateComponent<GameEngineTextureRenderer>();
+		GameStartButton_->SetTexture("GameStartBut.png");
+		GameStartButton_->GetTransform().SetLocalScale({ 140.f * 1.2f, 52.f * 1.2f });
+		GameStartButton_->Off();
+
+		GameStartButtonCol_ = CreateComponent<GameEngineCollision>();
+		GameStartButtonCol_->GetTransform().SetLocalScale({ 140.f * 1.2f, 52.f * 1.2f });
+		GameStartButtonCol_->GetTransform().SetLocalPosition({ CamPos.x + 500.f, CamPos.y - 190.f });
+		GameStartButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
 
 	PlayerObjUI_->GetTransform().SetLocalPosition({ CamPos.x - 455.f, CamPos.y + 100.f });

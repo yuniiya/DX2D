@@ -50,6 +50,11 @@ private:
 	GameEngineTextureRenderer* NullEffect4_;
 	GameEngineTextureRenderer* NullEffect5_;
 
+	GameEngineTextureRenderer* Effect1_;
+	GameEngineTextureRenderer* Effect2_;
+	GameEngineTextureRenderer* Effect3_;
+	GameEngineTextureRenderer* Effect4_;
+
 	GameEngineCollision* PrevButtonCol_;
 	GameEngineCollision* GameStartButtonCol_;
 	GameEngineCollision* PlayerCol_;

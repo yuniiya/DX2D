@@ -15,11 +15,21 @@ SelectLevel::~SelectLevel()
 
 void SelectLevel::Start()
 {
-	MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
-	GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
+	{
+		MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
+		GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
 
-	BackGroundRenderer_->SetTexture("Select.png");
-	BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
+		BackGroundRenderer_->SetTexture("Select.png");
+		BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
+	}
+
+	//{
+	//	MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
+	//	GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
+
+	//	BackGroundRenderer_->SetTexture("Effect5.png");
+	//	BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
+	//}
 
 	SelectUI* UIActor = CreateActor<SelectUI>(GAMEOBJGROUP::UI);
 	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
