@@ -9,7 +9,9 @@
 Mouse::Mouse() 
 	: MouseCol_(nullptr)
 	, MouseRenderer_(nullptr)
-	, SoundPlay_(false)
+	, ClickSoundOn_(false)
+	, MouseAnimationRenderer_(nullptr)
+	, MouseOverSoundOn_(false)
 {
 }
 
@@ -29,6 +31,8 @@ void Mouse::Start()
 	GetCurPos();
 	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y });
 
+
+
 	MouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
 	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y });
 	MouseCol_->GetTransform().SetLocalScale({ 24.f, 28.f });
@@ -38,11 +42,19 @@ void Mouse::Start()
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
 	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 
+	MouseAnimationRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_MouseOver", FrameAnimation_DESC("Cursor_MouseOver", 0.55f));
+	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f });
+	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
+	MouseAnimationRenderer_->Off();
+
+
 	if (false == GameEngineInput::GetInst()->IsKey("LeftMouse"))
 	{
 		GameEngineInput::GetInst()->CreateKey("LeftMouse", VK_LBUTTON);
 		GameEngineInput::GetInst()->CreateKey("RightMouse", VK_RBUTTON);
 	}
+
 }
 
 void Mouse::Update(float _DeltaTime)
@@ -52,7 +64,7 @@ void Mouse::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 	{
-		SoundPlay_ = true;
+		ClickSoundOn_ = true;
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
@@ -65,10 +77,41 @@ void Mouse::Update(float _DeltaTime)
 		MouseRenderer_->SetTexture("Cursor_Idle.png");
 		MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 	}
-	if (true == SoundPlay_)
+	if (true == ClickSoundOn_)
 	{
 		GameEngineSound::SoundPlayOneShot("BtMouseClick.mp3");
-		SoundPlay_ = false;
+		ClickSoundOn_ = false;
 	}
+
+	CollisionCheck();
 }
 
+bool Mouse::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	return true;
+}
+
+void Mouse::CollisionCheck()
+{
+	if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::UI, CollisionType::CT_OBB2D,
+		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2))
+		&& true == MouseOverSoundOn_)
+	{
+		MouseAnimationRenderer_->On();
+		MouseRenderer_->Off();
+
+		GameEngineSound::SoundPlayOneShot("BtMouseOver.mp3");
+		MouseOverSoundOn_ = false;
+	}
+	else
+	{
+		MouseAnimationRenderer_->Off();
+		MouseRenderer_->On();
+	}
+
+	if (false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::UI, CollisionType::CT_OBB2D,
+		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)))
+	{
+		MouseOverSoundOn_ = true;
+	}
+}

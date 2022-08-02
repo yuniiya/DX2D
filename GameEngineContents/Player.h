@@ -40,7 +40,6 @@ private:
 	float4 DownPower_;
 	float4 Position_;
 
-	GameEngineState* CurState;
 	PLAYERSTATE CurState_;
 	ACTORDIR CurDir_;
 	bool IsDebug;

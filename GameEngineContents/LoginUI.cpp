@@ -15,6 +15,7 @@ LoginUI::LoginUI()
 	, PWArea(nullptr)
 	, IDAreaCol_(nullptr)
 	, PWAreaCol_(nullptr)
+	, LoginCol_(nullptr)
 {
 }
 
@@ -92,11 +93,11 @@ void LoginUI::Update(float _DeltaTime)
 
 	CollisionCheck();
 
-	if (true == SoundPlay)
-	{
-		GameEngineSound::SoundPlayOneShot("BtMouseOver.mp3");
-		AlreadyPlay = true;
-	}
+	//if (true == SoundPlay)
+	//{
+	//	GameEngineSound::SoundPlayOneShot("BtMouseOver.mp3");
+	//	AlreadyPlay = true;
+	//}
 
 }
 
@@ -128,6 +129,11 @@ void LoginUI::CollisionCheck()
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
 			LoginUI_->SetTexture("Title_new.BtLogin.pressed.0.png");
+
+			GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
+
+			GEngine::ChangeLevel("Select");
+
 		}
 		else if (true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
 		{

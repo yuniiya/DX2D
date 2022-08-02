@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 
 MapStage::MapStage() 
+	: MapStageRender_(nullptr)
 {
 }
 

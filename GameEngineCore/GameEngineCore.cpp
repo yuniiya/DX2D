@@ -134,7 +134,6 @@ void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
 	GameEngineInput::Destroy();
 	GameEngineDebug::Destroy();
 	GameEngineTime::Destroy();
-	GameEngineSound::AllResourcesDestroy();
 }
 
 

@@ -32,11 +32,17 @@ public:
 	}
 
 protected:
+	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	void CollisionCheck();
 
 private:
-	bool SoundPlay_;
+	bool ClickSoundOn_;
+	bool MouseOverSoundOn_;
 	GameEngineCollision* MouseCol_;
 	GameEngineTextureRenderer* MouseRenderer_;
+	GameEngineTextureRenderer* MouseAnimationRenderer_;
+
+
 	float4 CurPos_;
 	void Start() override;
 	void Update(float _DeltaTime) override;

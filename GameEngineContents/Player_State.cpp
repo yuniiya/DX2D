@@ -145,7 +145,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * GameEngineTime::GetDeltaTime());
 
-	float4 Color = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 45.f);
+	float4 Color = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 45.f);
 	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
 		StateManager.ChangeState("Idle");

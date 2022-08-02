@@ -178,14 +178,14 @@ bool Player::StagePixelCheck()
 	float4 Pos = 0.0f;
 	GetCurMapTexture();
 
-	BottomDownColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) + 47.f));
-	BottomColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
-	float4 BottomUpColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix(), (float)(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
-	float4 TopColor = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)((-GetTransform().GetWorldPosition().iy()) - 25.f));
-	float4 LeftColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() - 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.f);
-	float4 RightColor = MapTexture_->GetPixel((float)GetTransform().GetWorldPosition().ix() + 30.f, (float)(-GetTransform().GetWorldPosition().iy()) + 10.f);
+	BottomDownColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 47.f));
+	BottomColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
+	float4 BottomUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
+	float4 TopColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) - 25.f));
+	float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
+	float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
 
-
+	
 	// 땅
 	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
@@ -368,7 +368,7 @@ bool Player::StagePixelCheck()
 
 void Player::ObjectPixelCheck()
 {
-	float4 Color = MapTexture_->GetPixel((float)(GetTransform().GetWorldPosition().ix()), (float)(-GetTransform().GetWorldPosition().iy()));
+	float4 Color = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()));
 
 	if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
 	{
@@ -541,11 +541,13 @@ void Player::PlayerMove(float _DeltaTime)
 		{
 			CurDir_ = ACTORDIR::LEFT;
 
-			//if (CurState_ != PLAYERSTATE::PRONE
-			//	&& CurState_ != PLAYERSTATE::PRONESTAB)		// ========= 수정 필요
+			
+			if (StateManager.GetCurStateStateName() != "Prone"
+				&& StateManager.GetCurStateStateName() != "ProneStab")
 			{
 				/*float4 Pos = MainPlayer_->GetTransform().GetLocalPosition();
 				float4 Pos2 = MainPlayer_->GetTransform().GetWorldPosition();*/
+				//std::string str = StateManager.GetCurStateStateName();
 				GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
 			}
 		}
@@ -553,8 +555,8 @@ void Player::PlayerMove(float _DeltaTime)
 		{
 			CurDir_ = ACTORDIR::RIGHT;
 
-			//if (CurState_ != PLAYERSTATE::PRONE
-			//	&& CurState_ != PLAYERSTATE::PRONESTAB)		// ========= 수정 필요
+			if (StateManager.GetCurStateStateName() != "Prone"
+				&& StateManager.GetCurStateStateName() != "ProneStab")
 			{
 				GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
 			}

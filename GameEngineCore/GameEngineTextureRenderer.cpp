@@ -70,7 +70,10 @@ void FrameAnimation::Update(float _Delta)
 			}
 			else 
 			{
-				ParentRenderer->ScaleToTexture();
+				if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
+				{
+					ParentRenderer->ScaleToTexture();
+				}
 			}
 		}
 		else if (nullptr != FolderTexture)
@@ -296,12 +299,38 @@ void GameEngineTextureRenderer::Update(float _Delta)
 
 void GameEngineTextureRenderer::ScaleToCutTexture(int _Index)
 {
-	GetTransform().SetLocalScale(CurTex->GetCutScale(_Index) * ScaleRatio);
+	float4 Scale = CurTex->GetCutScale(_Index);
+
+	// 이거는 봐야합니다.
+	if (0 > GetTransform().GetLocalScale().x)
+	{
+		Scale = -Scale.x;
+	}
+
+	if (0 > GetTransform().GetLocalScale().y)
+	{
+		Scale = -Scale.y;
+	}
+
+	GetTransform().SetLocalScale(Scale * ScaleRatio);
 }
 
 void GameEngineTextureRenderer::ScaleToTexture()
 {
-	GetTransform().SetLocalScale(CurTex->GetScale() * ScaleRatio);
+	float4 Scale = CurTex->GetScale();
+
+	// 이거는 봐야합니다.
+	if (0 > GetTransform().GetLocalScale().x)
+	{
+		Scale = -Scale.x;
+	}
+
+	if (0 > GetTransform().GetLocalScale().y)
+	{
+		Scale = -Scale.y;
+	}
+
+	GetTransform().SetLocalScale(Scale * ScaleRatio);
 }
 
 void GameEngineTextureRenderer::CurAnimationReset()
