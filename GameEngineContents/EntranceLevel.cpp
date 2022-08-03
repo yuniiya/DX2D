@@ -3,6 +3,7 @@
 #include <GameEngineCore/GEngine.h>
 #include "Player.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 EntranceLevel::EntranceLevel() 
 {
@@ -21,8 +22,8 @@ void EntranceLevel::Start()
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 2100.0f, -700.0f});
 
-	SetPortal({ 2123.f, -1109.f, 0.0f });
-	SetPortal({ 976.f, -643.f, 0.0f });
+	SetPortal({ 2123.f, -1109.f});
+	SetPortal({ 976.f, -643.f});
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

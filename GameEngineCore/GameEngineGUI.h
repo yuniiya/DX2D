@@ -5,13 +5,15 @@
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineString.h>
 
-class GameEngineGUIWindow : public GameEngineNameObject
+class GameEngineGUIWindow : public GameEngineNameObject, public GameEngineUpdateObject
 {
 	friend class GameEngineGUI;
 
-private:
-	bool IsOpen;
+	void Start() override {}
+	void Update(float _DeltaTime) override { };
 
+
+private:
 	void Begin() 
 	{
 		std::string Name = GameEngineString::AnsiToUTF8Return(GetNameConstPtr());

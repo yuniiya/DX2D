@@ -60,7 +60,7 @@ void GameEngineGUI::GUIRender(GameEngineLevel* _Level, float _DeltaTime)
 
     for (GameEngineGUIWindow* GUIWIndow : Windows)
     {
-        if (false == GUIWIndow->IsOpen)
+        if (false == GUIWIndow->IsUpdate())
         {
             continue;
         }

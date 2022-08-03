@@ -41,6 +41,7 @@ public:
 
 	// Member
 	ID3D11RenderTargetView* CreateRenderTargetView();
+	ID3D11ShaderResourceView* CreateShaderResourceView();
 	ID3D11DepthStencilView* CreateDepthStencilView();
 
 	void VSSetting(int _BindPoint);

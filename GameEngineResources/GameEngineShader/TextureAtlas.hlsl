@@ -56,9 +56,15 @@ Output TextureAtlas_VS(Input _Input)
     return NewOutPut;
 }
 
+cbuffer ColorData : register(b0)
+{
+    float4 MulColor;
+    float4 PlusColor;
+}
+
 Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
 float4 TextureAtlas_PS(Output _Input) : SV_Target0
 {
-    return Tex.Sample(Smp, _Input.Tex.xy);
+    return (Tex.Sample(Smp, _Input.Tex.xy) * MulColor) + PlusColor;
 }

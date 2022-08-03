@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "GameEngineFontRenderer.h"
 
+GameEngineRenderTarget* GameEngineFontRenderer::FontTarget = nullptr;
+
 GameEngineFontRenderer::GameEngineFontRenderer() 
 	: Font(nullptr)
 	, FontSize(20.0f)
@@ -21,6 +23,12 @@ void GameEngineFontRenderer::SetText(const std::string& _Text, const std::string
 
 void GameEngineFontRenderer::Start() 
 {
+	if (nullptr == FontTarget)
+	{
+		FontTarget = GameEngineRenderTarget::Create("FontTarget");
+		FontTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), float4::ZERO);
+	}
+
 	PushRendererToMainCamera();
 }
 
@@ -38,5 +46,11 @@ void GameEngineFontRenderer::Render(float _DeltaTime)
 	// 랜더타겟
 	// 글자는 또다른 랜더타겟에 그릴겁니다.
 	
+	// 이전에 존재했던 랜더타겟을 얻고
+	GameEngineRenderTarget::GetPrevRenderTarget();
+	FontTarget->Setting();
 	Font->FontDraw(Text, FontSize, ScreenPostion, Color);
+	GameEngineRenderingPipeLine::AllShaderReset();
+	GameEngineRenderTarget::SetPrevRenderTarget();
+	// FontTarget->R();
 }

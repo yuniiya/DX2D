@@ -4,6 +4,7 @@
 #include <GameEngineCore/GEngine.h>
 #include "SelectUI.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 SelectLevel::SelectLevel() 
 {
@@ -23,15 +24,7 @@ void SelectLevel::Start()
 		BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
 	}
 
-	//{
-	//	MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
-	//	GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
-
-	//	BackGroundRenderer_->SetTexture("Effect5.png");
-	//	BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
-	//}
-
-	SelectUI* UIActor = CreateActor<SelectUI>(GAMEOBJGROUP::UI);
+	SelectUI* UIActor = CreateActor<SelectUI>(GAMEOBJGROUP::FADE);
 	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }

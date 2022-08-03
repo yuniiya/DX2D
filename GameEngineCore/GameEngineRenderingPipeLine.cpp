@@ -52,6 +52,15 @@ GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
 //	}
 //}
 
+void GameEngineRenderingPipeLine::AllShaderReset()
+{
+	GameEngineDevice::GetContext()->VSSetShader(nullptr, nullptr, 0);
+	GameEngineDevice::GetContext()->GSSetShader(nullptr, nullptr, 0);
+	GameEngineDevice::GetContext()->DSSetShader(nullptr, nullptr, 0);
+	GameEngineDevice::GetContext()->HSSetShader(nullptr, nullptr, 0);
+	GameEngineDevice::GetContext()->PSSetShader(nullptr, nullptr, 0);
+}
+
 GameEngineRenderingPipeLine* GameEngineRenderingPipeLine::Create(const std::string& _Name)
 {
 	return CreateResName(_Name);

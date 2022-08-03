@@ -17,6 +17,10 @@ public:
 	ContentsCore& operator=(ContentsCore&& _Other) noexcept = delete;
 
 
+	 float4 StartWindowSize() override { return { 1280.f, 720.f }; } ;
+	 float4 StartWindowPosition() override { return { 0, 0 }; };
+
+
 	std::string GetWindowTitle() override
 	{
 		return "MapleStory";

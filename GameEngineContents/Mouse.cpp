@@ -103,7 +103,7 @@ void Mouse::CollisionCheck()
 		//MouseAnimationRenderer_->On();
 		//MouseRenderer_->Off();
 
-		GameEngineSound::SoundPlayOneShot("BtMouseOver.mp3");
+		
 		MouseOverSoundOn_ = false;
 	}
 	else

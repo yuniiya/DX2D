@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include "Player.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 CastleLevel::CastleLevel() 
 	: Player_(nullptr)
@@ -24,7 +25,7 @@ void CastleLevel::Start()
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f});
 
-	SetPortal({ 273.f, -495.f, 0.0f });
+	SetPortal({ 273.f, -495.f});
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

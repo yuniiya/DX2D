@@ -3,6 +3,7 @@
 #include <GameEngineCore/GEngine.h>
 #include "Player.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 DesertLevel::DesertLevel() 
 	: Player_(nullptr)
@@ -22,8 +23,8 @@ void DesertLevel::Start()
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 200.0f, -100.0f});
 
-	SetPortal({ 168.f, -240.f, 0.0f });
-	SetPortal({ 1489.f, -542.f, 0.0f });
+	SetPortal({ 168.f, -240.f});
+	SetPortal({ 1489.f, -542.f});
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

@@ -40,6 +40,8 @@ private:
 	float4 DownPower_;
 	float4 Position_;
 
+	float LevelChangeTime_;
+
 	PLAYERSTATE CurState_;
 	ACTORDIR CurDir_;
 	bool IsDebug;
@@ -52,6 +54,9 @@ protected:
 	float4 BottomColor;
 	float4 JumpHighColor;
 	float4 BottomDownColor;
+	float4 TopColor;
+	float4 MiddleColor;
+	float4 BottomUpColor;
 
 private:
 	GameEngineCollision* PlayerCollision_;

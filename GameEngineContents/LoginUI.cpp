@@ -3,6 +3,7 @@
 #include <GameEngineCore/GEngine.h>
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 #include "Mouse.h"
+#include "Fade.h"
 
 LoginUI::LoginUI()
 	: LoginBackUI_(nullptr)
@@ -128,10 +129,10 @@ void LoginUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
+			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
 			LoginUI_->SetTexture("Title_new.BtLogin.pressed.0.png");
 
 			GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
-
 			GEngine::ChangeLevel("Select");
 
 		}

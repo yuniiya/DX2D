@@ -121,6 +121,9 @@
     <ClInclude Include="SelectUI.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -201,6 +204,9 @@
     </ClCompile>
     <ClCompile Include="SelectUI.cpp">
       <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
