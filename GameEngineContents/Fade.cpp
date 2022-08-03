@@ -29,21 +29,6 @@ void Fade::SetFadeIn()
 
 void Fade::SetLevelChangeFade()
 {
-	// 레벨 체인지 
-	if (true == FadeEnd_)	// 밝아진다
-	{
-		Renderer_->GetColorData().MulColor.a -= GameEngineTime::GetDeltaTime() *0.9f;
-	}
-
-	if (false == FadeEnd_)
-	{
-		Renderer_->GetColorData().MulColor.a += GameEngineTime::GetDeltaTime() * 0.9f;	// 어두워진다
-
-		if (Renderer_->GetColorData().MulColor.a >= 1)
-		{
-			FadeEnd_ = true;
-		}
-	}
 
 }
 
@@ -57,6 +42,8 @@ void Fade::Start()
 	Renderer_->GetTransform().SetLocalPosition(CampPos);
 
 	Renderer_->GetColorData().MulColor.a = 0;
+
+	FadeEnd_ = false;
 }
 
 void Fade::Update(float _DeltaTime)
@@ -75,6 +62,26 @@ void Fade::Update(float _DeltaTime)
 		Renderer_->GetColorData().MulColor.a -= _DeltaTime * 0.7f;
 	}
 
-	SetLevelChangeFade();
+	if (false == FadeEnd_)
+	{
+		Renderer_->GetColorData().MulColor.a += _DeltaTime * 1.f;	// 어두워진다
+
+		if (1 <= Renderer_->GetColorData().MulColor.a)
+		{
+			FadeEnd_ = true;
+		}
+	}
+
+	// 레벨 체인지 
+	if (true == FadeEnd_)	// 밝아진다
+	{
+		Renderer_->GetColorData().MulColor.a -= _DeltaTime * 1.f;
+
+		if (0 >= Renderer_->GetColorData().MulColor.a)
+		{
+			Renderer_->GetColorData().MulColor.a = 0;
+			FadeEnd_ = true;
+		}
+	}
 }
 

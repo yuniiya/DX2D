@@ -31,6 +31,10 @@ Player::Player()
 	, ColMapRenderer_(nullptr)
 	, MapTexture_(nullptr)
 	, Time_(0.0f)
+	, LevelChangeTime_(0.0f)
+	, TopColor(0.0f)
+	, MiddleColor(0.0f)
+	, BottomUpColor(0.0f)
 {
 }
 
@@ -58,12 +62,12 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveLeft", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("MoveRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("MoveUp", VK_UP);
-		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
+		GameEngineInput::GetInst()->CreateKey("MoveDown", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("Jump", 'X');		
 		GameEngineInput::GetInst()->CreateKey("Pick", 'Z');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_LCONTROL);
 
-		GameEngineInput::GetInst()->CreateKey("MoveDown", VK_NUMPAD0);
+		GameEngineInput::GetInst()->CreateKey("Down", VK_NUMPAD0);
 
 		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
 		GameEngineInput::GetInst()->CreateKey("Ability", 'H');
@@ -90,8 +94,8 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("Fall", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.37f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.2f, false));
+	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.2f, false));
 	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.25f));
 	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.25f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
@@ -179,10 +183,11 @@ bool Player::StagePixelCheck()
 	float4 Pos = 0.0f;
 	GetCurMapTexture();
 
+	MiddleColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy())));
 	BottomDownColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 47.f));
 	BottomColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
-	float4 BottomUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
-	float4 TopColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) - 25.f));
+	BottomUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
+	TopColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) - 25.f));
 	float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
 	float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
 
@@ -369,6 +374,7 @@ bool Player::StagePixelCheck()
 
 void Player::ObjectPixelCheck()
 {
+
 	float4 Color = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()));
 
 	if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
@@ -377,7 +383,6 @@ void Player::ObjectPixelCheck()
 		if (true == Color.CompareInt4D(float4{ 1.0f, 0.0f, 1.0f, 1.0f }))
 		{
 			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
-			FadeActor->SetLevelChangeFade();
 
 			if ("ARIANT" == CurLevelName_)
 			{
@@ -404,7 +409,6 @@ void Player::ObjectPixelCheck()
 		else if (true == Color.CompareInt4D(float4{ 0.0f, 0.0f, 1.0f, 1.0f }))
 		{
 			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
-			FadeActor->SetLevelChangeFade();
 
 			if ("ARIANT" == CurLevelName_)
 			{
@@ -436,12 +440,12 @@ void Player::ObjectPixelCheck()
 	// 레더, 로프
 	if (true == GameEngineInput::GetInst()->IsDown("Down"))
 	{
-		//// 레더
-		//if (true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
-		//{
-		//	StateManager.ChangeState("Ladder");
-		//	return;
-		//}
+		// 레더
+		if (true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
+		{
+			StateManager.ChangeState("Ladder");
+			return;
+		}
 	}
 }
 
@@ -550,7 +554,10 @@ void Player::PlayerMove(float _DeltaTime)
 
 			
 			if (StateManager.GetCurStateStateName() != "Prone"
-				&& StateManager.GetCurStateStateName() != "ProneStab")
+				&& StateManager.GetCurStateStateName() != "ProneStab"
+				&& StateManager.GetCurStateStateName() != "Ladder"
+				&& StateManager.GetCurStateStateName() != "Rope"
+				)
 			{
 				/*float4 Pos = MainPlayer_->GetTransform().GetLocalPosition();
 				float4 Pos2 = MainPlayer_->GetTransform().GetWorldPosition();*/
@@ -563,14 +570,21 @@ void Player::PlayerMove(float _DeltaTime)
 			CurDir_ = ACTORDIR::RIGHT;
 
 			if (StateManager.GetCurStateStateName() != "Prone"
-				&& StateManager.GetCurStateStateName() != "ProneStab")
+				&& StateManager.GetCurStateStateName() != "ProneStab"
+				&& StateManager.GetCurStateStateName() != "Ladder"
+				&& StateManager.GetCurStateStateName() != "Rope"
+				)
 			{
 				GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
 			}
 		}
 	}
 
-	DirCheck(PlayerRenderer_, CurDir_);
+	if ("Ladder" != StateManager.GetCurStateStateName()
+		&& "Rope" != StateManager.GetCurStateStateName())
+	{
+		DirCheck(PlayerRenderer_, CurDir_);
+	}
 
 	/////////////////////////////////////////////////////////////////////////
 	// 0 255 0 (로프) 에 충돌했을 때만 

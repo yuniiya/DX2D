@@ -6,7 +6,7 @@ void Player::IdleStart(const StateInfo& _Info)
 	JumpPower_ = 0.0f;
 
 	ReSetAccTime();
-	PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f});
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 }
 
@@ -44,6 +44,8 @@ void Player::ProneStabStart(const StateInfo& _Info)
 void Player::LadderStart(const StateInfo& _Info)
 {
 	PlayerRenderer_->ChangeFrameAnimation("Ladder");
+
+	PlayerRenderer_->GetTransform().SetLocalScale({ 85.f, 97.f, 1.f });
 }
 
 void Player::RopeStart(const StateInfo& _Info)
@@ -74,10 +76,23 @@ void Player::DieStart(const StateInfo& _Info)
 
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsPress("Down"))
+	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{
-		StateManager.ChangeState("Prone");
-		return;
+		if (true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
+		{
+			StateManager.ChangeState("Ladder");
+			return;
+		}
+		else if (true == BottomColor.CompareInt4D(float4{ 1.0f, 0.0f, 0.0f, 1.0f }))
+		{
+			StateManager.ChangeState("Rope");
+			return;
+		}
+		else
+		{
+			StateManager.ChangeState("Prone");
+			return;
+		}
 	}
 
 	if (true == IsMoveKey())
@@ -111,10 +126,23 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsPress("Down"))
+	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{
-		StateManager.ChangeState("Prone");
-		return;
+		if (true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
+		{
+			StateManager.ChangeState("Ladder");
+			return;
+		}
+		else if (true == BottomColor.CompareInt4D(float4{ 1.0f, 0.0f, 0.0f, 1.0f }))
+		{
+			StateManager.ChangeState("Rope");
+			return;
+		}
+		else
+		{
+			StateManager.ChangeState("Prone");
+			return;
+		}
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
@@ -151,20 +179,20 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 		return;
 	}
-	
-	//if (true == GameEngineInput::GetInst()->IsUp("Jump"))
-	//{
-	//	StateManager.ChangeState("Idle");
-	//	return;
 
-	//}
-
-
-	/*if (1.f < GetAccTime())
+	if (true == TopColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })				
+		|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
 	{
-		StateManager.ChangeState("Idle");
+		StateManager.ChangeState("Ladder");
 		return;
-	}*/
+	}
+
+	if (true == TopColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })
+		|| true == MiddleColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+	{
+		StateManager.ChangeState("Rope");
+		return;
+	}
 }
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -178,7 +206,7 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsUp("Down"))
+	if (true == GameEngineInput::GetInst()->IsUp("MoveDown"))
 	{
 		StateManager.ChangeState("Idle");
 		return;
@@ -199,7 +227,7 @@ void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsUp("Down"))
+	if (true == GameEngineInput::GetInst()->IsUp("MoveDown"))
 	{
 		StateManager.ChangeState("Idle");
 		return;
@@ -208,21 +236,65 @@ void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-
-
-	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetUpVector());
+		StateManager.ChangeState("Jump");
+		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	if (true == MiddleColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f })
+		|| true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetDownVector());
+		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+		{
+			GetTransform().SetWorldMove(GetTransform().GetUpVector() * 100.f * _DeltaTime);
+		}
+
+		if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+		{
+			GetTransform().SetWorldMove(GetTransform().GetDownVector() * 100.f * _DeltaTime);
+		}
+	}
+
+	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })				// ¶¥
+		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })		// Èò»ö
+		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))		// Åõ¸í
+	{
+		StateManager.ChangeState("Idle");
+		return;
 	}
 }
 
 void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
+	{
+		StateManager.ChangeState("Jump");
+		return;
+	}
+
+	if (true == MiddleColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f })
+		|| true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
+	{
+		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+		{
+			GetTransform().SetWorldMove(GetTransform().GetUpVector() * 100.f * _DeltaTime);
+		}
+
+		if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+		{
+			GetTransform().SetWorldMove(GetTransform().GetDownVector() * 100.f * _DeltaTime);
+		}
+	}
+
+	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })				// ¶¥
+		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })		// Èò»ö
+		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))		// Åõ¸í
+	{
+		StateManager.ChangeState("Idle");
+		return;
+	}
+
 }
 
 void Player::DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info)

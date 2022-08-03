@@ -129,12 +129,10 @@ void LoginUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
+			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
 			LoginUI_->SetTexture("Title_new.BtLogin.pressed.0.png");
 
 			GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
-
-			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::UI);
-
 			GEngine::ChangeLevel("Select");
 
 		}
