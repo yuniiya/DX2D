@@ -101,7 +101,7 @@ void ContentsCore::Start()
 		Dir.MoveParentToExitsChildDirectory("Resources");
 		Dir.Move("Resources");
 		Dir.Move("Texture");
-		Dir.Move("Obj");
+		Dir.Move("Object");
 
 		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
 
