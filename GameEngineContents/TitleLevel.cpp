@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "TitleLevel.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 TitleLevel::TitleLevel() 
 {

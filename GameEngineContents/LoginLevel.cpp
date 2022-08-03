@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include "MapBackGround.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 LoginLevel::LoginLevel()
 {
@@ -21,6 +22,7 @@ void LoginLevel::Start()
 	//GetCameraPos();
 
 	//SetBackGround("LoginBackground.png");
+	//Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::UI);
 
 	{
 		MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);

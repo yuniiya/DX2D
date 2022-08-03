@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include "Player.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 BossLevel::BossLevel()
 	: StageActor_(nullptr)

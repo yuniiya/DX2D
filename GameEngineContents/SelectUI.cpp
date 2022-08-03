@@ -2,6 +2,7 @@
 #include "SelectUI.h"
 #include <GameEngineCore/GEngine.h>
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
+#include "Fade.h"
 
 SelectUI::SelectUI() 
 	: PrevButton_(nullptr)
@@ -280,6 +281,7 @@ void SelectUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
+			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::UI);
 			GameEngineSound::SoundPlayOneShot("GameIn.mp3");
 
 			GameStartButton_->SetTexture("GameStartBut_Pressed.png");

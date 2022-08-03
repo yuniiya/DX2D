@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "MapStage.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 
 AriantLevel::AriantLevel() 
@@ -17,6 +18,8 @@ AriantLevel::~AriantLevel()
 
 void AriantLevel::Start()
 {
+	
+
 	SetCollisionMap("ColMap_Ariant.png");
 	SetBackGround("Back_Ariant.png");
 	SetStage("Stage_Ariant.png");
@@ -24,8 +27,8 @@ void AriantLevel::Start()
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 2200.f, -600.0f});
 
-	SetPortal({ 3008.f, -750.f, 0.0f });
-	SetPortal({ 3410.f, -750.f, 0.0f });
+	SetPortal({ 3008.f, -750.f});
+	SetPortal({ 3410.f, -750.f});
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

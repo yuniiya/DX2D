@@ -3,6 +3,7 @@
 #include <GameEngineCore/GEngine.h>
 #include "Player.h"
 #include "Mouse.h"
+#include "Fade.h"
 
 AquaLevel::AquaLevel() 
 	: Player_(nullptr)
@@ -22,8 +23,8 @@ void AquaLevel::Start()
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f});
 
-	SetPortal({ 97.f, -1123.f, 0.0f });
-	SetPortal({ 1494.f, -1064.f, 0.0f });
+	SetPortal({ 97.f, -1123.f});
+	SetPortal({ 1494.f, -1064.f});
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

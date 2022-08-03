@@ -11,6 +11,7 @@
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include "GlobalLevel.h"
 #include "GameEngineCore/GEngine.h"
+#include "Fade.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -375,6 +376,9 @@ void Player::ObjectPixelCheck()
 		// 다음 레벨
 		if (true == Color.CompareInt4D(float4{ 1.0f, 0.0f, 1.0f, 1.0f }))
 		{
+			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
+			FadeActor->SetLevelChangeFade();
+
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Cactus");
@@ -399,6 +403,9 @@ void Player::ObjectPixelCheck()
 		}	// 이전 레벨
 		else if (true == Color.CompareInt4D(float4{ 0.0f, 0.0f, 1.0f, 1.0f }))
 		{
+			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
+			FadeActor->SetLevelChangeFade();
+
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Entrance");
