@@ -25,7 +25,6 @@ protected:
 	void CollisionCheck();
 
 	bool SoundPlay;
-	bool AlreadyPlay;
 
 private:
 	GameEngineTextureRenderer* LoginBackUI_;

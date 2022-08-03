@@ -238,6 +238,7 @@ bool Player::StagePixelCheck()
 		DownPower_ = 0.0f;
 	}
 
+
 	//// 머리가 지형에 닿았다
 	//if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 	//	|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))

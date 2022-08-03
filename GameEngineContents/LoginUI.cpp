@@ -10,7 +10,6 @@ LoginUI::LoginUI()
 	, LoginUI_(nullptr)
 	, LogoUI_(nullptr)
 	, SoundPlay(false)
-	, AlreadyPlay(false)
 	, MapleID_(nullptr)
 	, IDArea_(nullptr)
 	, PWArea(nullptr)
@@ -76,7 +75,7 @@ void LoginUI::Start()
 		PWAreaCol_->GetTransform().SetLocalPosition(float4{ CamPos.x - 40.f, CamPos.y + 5.f });
 		PWAreaCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
-
+	SoundPlay = false;
 }
 
 void LoginUI::Update(float _DeltaTime)
@@ -94,11 +93,6 @@ void LoginUI::Update(float _DeltaTime)
 
 	CollisionCheck();
 
-	//if (true == SoundPlay)
-	//{
-	//	GameEngineSound::SoundPlayOneShot("BtMouseOver.mp3");
-	//	AlreadyPlay = true;
-	//}
 
 }
 
@@ -108,16 +102,6 @@ void LoginUI::End()
 
 bool LoginUI::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	
-	if (true == AlreadyPlay)
-	{
-		SoundPlay = false;
-	}
-	else
-	{// 이전에 재생이 안됐었다
-		SoundPlay = true;
-	}
-
 	return true;
 }
 
@@ -129,7 +113,7 @@ void LoginUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
+			//Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
 			LoginUI_->SetTexture("Title_new.BtLogin.pressed.0.png");
 
 			GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");

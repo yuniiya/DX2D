@@ -4,7 +4,6 @@
 void Player::IdleStart(const StateInfo& _Info)
 {
 	JumpPower_ = 0.0f;
-
 	ReSetAccTime();
 	PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f});
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
@@ -236,9 +235,19 @@ void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
+	if (true == GameEngineInput::GetInst()->IsPress("Jump")
+		&& true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
-		StateManager.ChangeState("Jump");
+		GameEngineSound::SoundPlayOneShot("Jump.mp3");
+		StateManager.ChangeState("Fall");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("Jump")
+		&& true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		GameEngineSound::SoundPlayOneShot("Jump.mp3");
+		StateManager.ChangeState("Fall");
 		return;
 	}
 
@@ -256,8 +265,8 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })				// ¶¥
-		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })		// Èò»ö
+	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })			// ¶¥
+		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })			// Èò»ö
 		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))		// Åõ¸í
 	{
 		StateManager.ChangeState("Idle");
@@ -267,14 +276,24 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
+	if (true == GameEngineInput::GetInst()->IsPress("Jump")
+		&& true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
+		GameEngineSound::SoundPlayOneShot("Jump.mp3");
 		StateManager.ChangeState("Jump");
 		return;
 	}
 
-	if (true == MiddleColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f })
-		|| true == BottomColor.CompareInt4D(float4{ 0.0f, 1.0f, 0.0f, 1.0f }))
+	if (true == GameEngineInput::GetInst()->IsPress("Jump")
+		&& true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		GameEngineSound::SoundPlayOneShot("Jump.mp3");
+		StateManager.ChangeState("Jump");
+		return;
+	}
+
+	if (true == MiddleColor.CompareInt4D(float4{ 1.0f, 0.0f, 0.0f, 1.0f })
+		|| true == BottomColor.CompareInt4D(float4{ 1.0f, 0.0f, 0.0f, 1.0f }))
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 		{
@@ -287,13 +306,14 @@ void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })				// ¶¥
-		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })		// Èò»ö
+	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })			// ¶¥
+		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })			// Èò»ö
 		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))		// Åõ¸í
 	{
 		StateManager.ChangeState("Idle");
 		return;
 	}
+
 
 }
 

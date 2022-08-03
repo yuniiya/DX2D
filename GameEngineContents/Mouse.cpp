@@ -91,6 +91,12 @@ bool Mouse::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision*
 	MouseAnimationRenderer_->On();
 	MouseRenderer_->Off();
 
+	if (true == MouseOverSoundOn_)
+	{
+		GameEngineSound::SoundPlayOneShot("BtMouseOver.mp3");
+		MouseOverSoundOn_ = false;
+	}
+
 	return true;
 }
 
