@@ -15,6 +15,19 @@ enum class SCALEMODE
 	CUSTOM,
 };
 
+struct ColorData
+{
+	float4 MulColor;
+	float4 PlusColor;
+
+	ColorData()
+		: MulColor(float4::WHITE)
+		, PlusColor(float4::ZERO)
+	{
+
+	}
+};
+
 class FrameAnimation_DESC 
 {
 public:
@@ -157,6 +170,11 @@ public:
 
 	void CurAnimationSetStartPivotFrame(int SetFrame);
 
+	ColorData& GetColorData() 
+	{
+		return ColorData;
+	}
+
 
 	// 애니메이션 바인드
 	// 시작 프레임에 들어온다.
@@ -283,6 +301,8 @@ private:
 
 	GameEngineTexture* CurTex;
 	float4 FrameData;
+
+	ColorData ColorData;
 
 	std::map<std::string, FrameAnimation> FrameAni;
 	FrameAnimation* CurAni;

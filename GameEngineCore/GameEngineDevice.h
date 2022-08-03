@@ -5,6 +5,7 @@
 // 그래픽카드에 연결
 
 // 설명 :
+class GameEngineRenderTarget;
 class GameEngineDevice
 {
 public:
@@ -30,6 +31,11 @@ public:
 	static ID3D11DeviceContext* GetContext() 
 	{
 		return Context_;
+	}
+
+	static GameEngineRenderTarget* GetBackBuffer() 
+	{
+		return BackBufferTarget;
 	}
 
 	static void Destroy();

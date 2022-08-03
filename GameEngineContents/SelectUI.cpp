@@ -172,7 +172,9 @@ void SelectUI::Start()
 
 	{
 		InfoUI_ = CreateComponent<GameEngineTextureRenderer>();
-		InfoUI_->SetTexture("CharSelect.charInfo1.png");
+		//InfoUI_->SetTexture("CharSelect.charInfo1.png");
+		InfoUI_->SetTexture("Info3.png");
+
 		InfoUI_->GetTransform().SetLocalScale({ 194.f * 1.2f, 272.f * 1.2f });
 		InfoUI_->Off();
 	}
@@ -244,7 +246,7 @@ void SelectUI::CollisionCheck()
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
 			//GameEngineSound::SoundPlayOneShot("CharSelect.mp3");
-			GameEngineSound::SoundPlayControl("CharSelect.mp3", 1);
+			GameEngineSound::SoundPlayControl("CharSelect.mp3", 0);
 
 			Player_->ChangeFrameAnimation("Move");
 
