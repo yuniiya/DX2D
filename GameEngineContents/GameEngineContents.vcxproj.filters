@@ -124,6 +124,9 @@
     <ClInclude Include="Fade.h">
       <Filter>Etc</Filter>
     </ClInclude>
+    <ClInclude Include="FadeIn.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -206,6 +209,9 @@
       <Filter>Actor\UI</Filter>
     </ClCompile>
     <ClCompile Include="Fade.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeIn.cpp">
       <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>

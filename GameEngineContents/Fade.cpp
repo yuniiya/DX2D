@@ -38,10 +38,10 @@ void Fade::Start()
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->SetTexture("FadeOut.png");
-	Renderer_->ScaleToTexture();
+	Renderer_->GetTransform().SetLocalScale({5000.f, 5000.f});
 	Renderer_->GetTransform().SetLocalPosition(CampPos);
 
-	Renderer_->GetColorData().MulColor.a = 0;
+	Renderer_->GetColorData().MulColor.a = 1.f;
 
 	FadeEnd_ = false;
 }
@@ -52,30 +52,22 @@ void Fade::Update(float _DeltaTime)
 
 	Renderer_->GetTransform().SetLocalPosition(float4{ CamPos.x, CamPos.y});
 
-	if (true == FadeOut_)
-	{
-		Renderer_->GetColorData().MulColor.a += _DeltaTime * 0.7f;
-	}
+	//if (true == FadeOut_)
+	//{
+	//	Renderer_->GetColorData().MulColor.a += _DeltaTime * 0.7f;
+	//}
 
-	if (true == FadeIn_)
-	{
-		Renderer_->GetColorData().MulColor.a -= _DeltaTime * 0.7f;
-	}
+	//if (true == FadeIn_)
+	//{
+	//	Renderer_->GetColorData().MulColor.a -= _DeltaTime * 0.7f;
+	//}
+
+	//Renderer_->GetColorData().MulColor.a -= _DeltaTime;
+
 
 	if (false == FadeEnd_)
 	{
-		Renderer_->GetColorData().MulColor.a += _DeltaTime * 1.f;	// 어두워진다
-
-		if (1 <= Renderer_->GetColorData().MulColor.a)
-		{
-			FadeEnd_ = true;
-		}
-	}
-
-	// 레벨 체인지 
-	if (true == FadeEnd_)	// 밝아진다
-	{
-		Renderer_->GetColorData().MulColor.a -= _DeltaTime * 1.f;
+		Renderer_->GetColorData().MulColor.a -= _DeltaTime * 1.8f;	// 어두워진다
 
 		if (0 >= Renderer_->GetColorData().MulColor.a)
 		{
@@ -83,5 +75,21 @@ void Fade::Update(float _DeltaTime)
 			FadeEnd_ = true;
 		}
 	}
+
+	/*if (false == FadeEnd_)
+	{
+		
+	}*/
+
+	// 레벨 체인지 
+	//if (true == FadeEnd_)	// 밝아진다
+	//{
+	//	Renderer_->GetColorData().MulColor.a -= _DeltaTime * 1.f;
+
+	//	if (0 >= Renderer_->GetColorData().MulColor.a)
+	//	{
+	//		Renderer_->GetColorData().MulColor.a = 0;
+	//	}
+	//}
 }
 

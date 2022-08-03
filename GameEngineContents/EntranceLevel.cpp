@@ -15,15 +15,16 @@ EntranceLevel::~EntranceLevel()
 
 void EntranceLevel::Start()
 {
+
 	SetCollisionMap("ColMap_Entrance.png");
 	SetBackGround("Back_Entrance.png");
 	SetStage("Stage_Entrance.png");
 
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2100.0f, -700.0f});
+	Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f});
 
 	SetPortal({ 2123.f, -1109.f});
-	SetPortal({ 976.f, -643.f});
+	SetPortal({ 976.f, -643.f});	
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

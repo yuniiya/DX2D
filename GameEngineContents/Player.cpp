@@ -12,6 +12,7 @@
 #include "GlobalLevel.h"
 #include "GameEngineCore/GEngine.h"
 #include "Fade.h"
+#include "FadeIn.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -94,8 +95,8 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("Fall", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.37f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.2f, false));
-	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.2f, false));
+	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.25f));
 	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.25f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
@@ -232,6 +233,16 @@ bool Player::StagePixelCheck()
 			/*Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);*/
 		}
+	}
+	else if (true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
+		|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+	{
+		if ("Jump" == StateManager.GetCurStateStateName())
+		{
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 20.f;
+			GetTransform().SetWorldMove(DownPower_);
+		}
+
 	}
 	else
 	{

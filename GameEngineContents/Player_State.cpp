@@ -182,15 +182,30 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == TopColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })				
 		|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
 	{
-		StateManager.ChangeState("Ladder");
-		return;
+		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+		{
+			StateManager.ChangeState("Ladder");
+			return;
+		}
+		else
+		{
+			return;
+		}
+
 	}
 
 	if (true == TopColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })
 		|| true == MiddleColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
 	{
-		StateManager.ChangeState("Rope");
-		return;
+		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+		{
+			StateManager.ChangeState("Rope");
+			return;
+		}
+		else
+		{
+			return;
+		}
 	}
 }
 

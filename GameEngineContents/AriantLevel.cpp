@@ -18,8 +18,6 @@ AriantLevel::~AriantLevel()
 
 void AriantLevel::Start()
 {
-	
-
 	SetCollisionMap("ColMap_Ariant.png");
 	SetBackGround("Back_Ariant.png");
 	SetStage("Stage_Ariant.png");

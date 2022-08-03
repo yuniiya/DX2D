@@ -16,6 +16,9 @@ SelectLevel::~SelectLevel()
 
 void SelectLevel::Start()
 {
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+
+
 	{
 		MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
 		GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
