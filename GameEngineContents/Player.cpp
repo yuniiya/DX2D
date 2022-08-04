@@ -95,8 +95,10 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("Fall", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.37f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.5f));
+	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.5f));
+	PlayerRenderer_->CreateFrameAnimationFolder("LadderA", FrameAnimation_DESC("LadderA", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("RopeA", FrameAnimation_DESC("RopeA", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.25f));
 	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.25f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
@@ -544,6 +546,17 @@ bool Player::IsMoveKey()
 {
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft")
 		|| true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Player::IsUpDownMoveKey()
+{
+	if (true == GameEngineInput::GetInst()->IsPress("MoveUp")
+		|| true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{
 		return true;
 	}

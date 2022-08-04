@@ -42,14 +42,14 @@ void Player::ProneStabStart(const StateInfo& _Info)
 
 void Player::LadderStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->ChangeFrameAnimation("Ladder");
+	PlayerRenderer_->ChangeFrameAnimation("LadderA");
 
 	PlayerRenderer_->GetTransform().SetLocalScale({ 85.f, 97.f, 1.f });
 }
 
 void Player::RopeStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->ChangeFrameAnimation("Rope");
+	PlayerRenderer_->ChangeFrameAnimation("RopeA");
 }
 
 void Player::DefaultAttackStart(const StateInfo& _Info)
@@ -250,6 +250,16 @@ void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (true == IsUpDownMoveKey())
+	{
+		PlayerRenderer_->ChangeFrameAnimation("Ladder");
+
+	}
+	else
+	{
+		PlayerRenderer_->ChangeFrameAnimation("LadderA");
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("Jump")
 		&& true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
@@ -291,6 +301,16 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (true == IsUpDownMoveKey())
+	{
+		PlayerRenderer_->ChangeFrameAnimation("Rope");
+
+	}
+	else
+	{
+		PlayerRenderer_->ChangeFrameAnimation("RopeA");
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("Jump")
 		&& true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{

@@ -87,6 +87,8 @@ protected:
 	void ChangeState(PLAYERSTATE _State);
 	void PlayerStateUpdate();
 	bool IsMoveKey();
+	bool IsUpDownMoveKey();
+
 	void PlayerMove(float _DeltaTime);
 
 	void ReturnIdle(const FrameAnimation_DESC& _Info);
