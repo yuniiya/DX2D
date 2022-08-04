@@ -388,7 +388,6 @@ bool Player::StagePixelCheck()
 
 void Player::ObjectPixelCheck()
 {
-
 	float4 Color = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()));
 
 	if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
@@ -396,8 +395,6 @@ void Player::ObjectPixelCheck()
 		// 다음 레벨
 		if (true == Color.CompareInt4D(float4{ 1.0f, 0.0f, 1.0f, 1.0f }))
 		{
-			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
-
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Cactus");
@@ -419,11 +416,11 @@ void Player::ObjectPixelCheck()
 				GEngine::ChangeLevel("Boss");
 			}
 
+			//LevelChangeTime_ = 0.0f;
+
 		}	// 이전 레벨
 		else if (true == Color.CompareInt4D(float4{ 0.0f, 0.0f, 1.0f, 1.0f }))
 		{
-			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
-
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Entrance");

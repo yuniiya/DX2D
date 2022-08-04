@@ -57,3 +57,8 @@ void DesertLevel::Update(float _DeltaTime)
 void DesertLevel::End()
 {
 }
+
+void DesertLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}

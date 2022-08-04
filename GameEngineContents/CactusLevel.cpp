@@ -57,3 +57,8 @@ void CactusLevel::Update(float _DeltaTime)
 void CactusLevel::End()
 {
 }
+
+void CactusLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}

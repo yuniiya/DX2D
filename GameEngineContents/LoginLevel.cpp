@@ -57,3 +57,8 @@ void LoginLevel::Update(float _DeltaTime)
 void LoginLevel::End()
 {
 }
+
+void LoginLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}

@@ -312,7 +312,7 @@ void ContentsCore::Start()
 	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Cactus");
+	ChangeLevel("Login");
 
 	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

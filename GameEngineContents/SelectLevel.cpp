@@ -43,3 +43,8 @@ void SelectLevel::Update(float _DeltaTime)
 void SelectLevel::End()
 {
 }
+
+void SelectLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}

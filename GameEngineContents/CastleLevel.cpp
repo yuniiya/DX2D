@@ -57,3 +57,8 @@ void CastleLevel::Update(float _DeltaTime)
 void CastleLevel::End()
 {
 }
+
+void CastleLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}

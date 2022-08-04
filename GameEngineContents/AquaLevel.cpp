@@ -55,3 +55,8 @@ void AquaLevel::Update(float _DeltaTime)
 void AquaLevel::End()
 {
 }
+
+void AquaLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}

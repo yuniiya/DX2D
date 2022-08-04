@@ -281,7 +281,6 @@ void SelectUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
 			GameEngineSound::SoundPlayOneShot("GameIn.mp3");
 
 			GameStartButton_->SetTexture("GameStartBut_Pressed.png");

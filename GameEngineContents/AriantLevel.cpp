@@ -61,3 +61,8 @@ void AriantLevel::End()
 	//Player_->GetTransform().SetLocalPosition(float4::ZERO);
 }
 
+void AriantLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}
+

@@ -68,3 +68,8 @@ void BossLevel::Update(float _DeltaTime)
 void BossLevel::End()
 {
 }
+
+void BossLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}

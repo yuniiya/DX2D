@@ -57,3 +57,8 @@ void EntranceLevel::Update(float _DeltaTime)
 void EntranceLevel::End()
 {
 }
+
+void EntranceLevel::OnEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+}
