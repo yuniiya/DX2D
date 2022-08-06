@@ -47,10 +47,10 @@ void GameEngineFontRenderer::Render(float _DeltaTime)
 	// 글자는 또다른 랜더타겟에 그릴겁니다.
 	
 	// 이전에 존재했던 랜더타겟을 얻고
-	GameEngineRenderTarget::GetPrevRenderTarget();
-	FontTarget->Setting();
+	// GameEngineRenderTarget::GetPrevRenderTarget();
+	//FontTarget->Setting();
 	Font->FontDraw(Text, FontSize, ScreenPostion, Color);
 	GameEngineRenderingPipeLine::AllShaderReset();
-	GameEngineRenderTarget::SetPrevRenderTarget();
+	//GameEngineRenderTarget::SetPrevRenderTarget();
 	// FontTarget->R();
 }

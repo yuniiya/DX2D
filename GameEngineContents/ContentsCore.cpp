@@ -36,13 +36,6 @@ void ContentsCore::Start()
 		Dir.Move("Stage_Boss");
 
 		GameEngineFolderTexture::Load(Dir.GetFullPath());
-
-		//std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
-
-		//for (GameEngineDirectory Dir : Folder)
-		//{
-		//	GameEngineFolderTexture::Load(Dir.GetFullPath());
-		//}
 	}
 
 
@@ -59,6 +52,24 @@ void ContentsCore::Start()
 		{
 			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Boss");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+
 	}
 
 	{
@@ -86,7 +97,7 @@ void ContentsCore::Start()
 		Dir.MoveParentToExitsChildDirectory("Resources");
 		Dir.Move("Resources");
 		Dir.Move("Texture");
-		Dir.Move("Monster");
+		Dir.Move("Skill");
 
 		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
 
@@ -95,6 +106,7 @@ void ContentsCore::Start()
 			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 	}
+
 
 	{
 		GameEngineDirectory Dir;
@@ -285,6 +297,35 @@ void ContentsCore::Start()
 		}
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Sound");
+		Dir.Move("Bgm");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineSound::LoadRessource(File[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Sound");
+		Dir.Move("Skill");
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineSound::LoadRessource(File[i].GetFullPath());
+		}
+	}
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
@@ -312,7 +353,7 @@ void ContentsCore::Start()
 	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Login");
+	ChangeLevel("Ariant");
 
 	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

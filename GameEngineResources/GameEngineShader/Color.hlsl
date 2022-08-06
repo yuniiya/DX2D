@@ -50,11 +50,6 @@ Output Color_VS(Input _Input)
     
     
     NewOutPut.Pos = mul(_Input.Pos, WorldViewProjection);
-    
-    // float4x4 Test = WorldViewProjection;
-    
-    NewOutPut.Pos.w = 1.0f;
-    
     NewOutPut.PosLocal = _Input.Pos;
     
     return NewOutPut;

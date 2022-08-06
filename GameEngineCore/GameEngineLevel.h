@@ -139,6 +139,9 @@ protected:
 
 
 private:
+	void ActorOnEvent();
+
+	void ActorOffEvent();
 
 	void ActorUpdate(float _DelataTime);
 

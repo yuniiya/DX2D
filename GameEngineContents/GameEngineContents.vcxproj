@@ -30,20 +30,20 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -51,7 +51,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -96,6 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,6 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,7 +146,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PreCompile.h</PrecompiledHeaderFile>
@@ -165,7 +167,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BabyCactus.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BossLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BrownRabbit.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -199,6 +213,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="FadeIn.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Freezer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -254,6 +272,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Sand.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SelectLevel.h">
       <SubType>
       </SubType>
@@ -262,11 +284,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Sparker.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TextInput.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WhiteRabbit.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -280,7 +310,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BabyCactus.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BossLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BrownRabbit.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -313,6 +355,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FadeIn.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Freezer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -371,6 +417,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Sand.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SelectLevel.cpp">
       <SubType>
       </SubType>
@@ -379,11 +429,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Sparker.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TextInput.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WhiteRabbit.cpp">
       <SubType>
       </SubType>
     </ClCompile>

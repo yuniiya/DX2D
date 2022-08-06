@@ -10,9 +10,6 @@
     <Filter Include="Actor">
       <UniqueIdentifier>{1c74ed1c-9761-412c-93d3-abef363512d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Play">
-      <UniqueIdentifier>{f046c344-41c5-461f-9a13-3bf9f04d9882}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Title">
       <UniqueIdentifier>{804cf31e-d3ed-4dc6-9803-e76637ce47a4}</UniqueIdentifier>
     </Filter>
@@ -40,19 +37,22 @@
     <Filter Include="Actor\UI">
       <UniqueIdentifier>{b81cdcf3-0d64-46f9-84ce-e9df1ffec890}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Monster">
+      <UniqueIdentifier>{6c0db312-02ec-4ea6-924f-2ee38d0a4e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Player">
+      <UniqueIdentifier>{f046c344-41c5-461f-9a13-3bf9f04d9882}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
       <Filter>Contents</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Actor\Play</Filter>
+      <Filter>Actor\Player</Filter>
     </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>Actor\Play</Filter>
     </ClInclude>
     <ClInclude Include="GlobalContentsValue.h" />
     <ClInclude Include="PreCompile.h">
@@ -127,16 +127,37 @@
     <ClInclude Include="FadeIn.h">
       <Filter>Etc</Filter>
     </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="WhiteRabbit.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BrownRabbit.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BabyCactus.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Sand.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Freezer.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Sparker.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
       <Filter>Contents</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Actor\Play</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>Actor\Play</Filter>
+      <Filter>Actor\Player</Filter>
     </ClCompile>
     <ClCompile Include="GlobalContentsValue.cpp" />
     <ClCompile Include="PreCompile.cpp">
@@ -179,7 +200,7 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Player_State.cpp">
-      <Filter>Actor\Play</Filter>
+      <Filter>Actor\Player</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Actor\Map</Filter>
@@ -213,6 +234,30 @@
     </ClCompile>
     <ClCompile Include="FadeIn.cpp">
       <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="WhiteRabbit.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BrownRabbit.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BabyCactus.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Sand.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Freezer.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Sparker.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -41,3 +41,16 @@ enum class ACTORDIR
 
 	MAX,
 };
+
+enum class PLAYERSKILL
+{
+	SKILL_IN,
+	SKILL_JI,
+	SKILL_PA,
+	SKILL_SINA,
+	SKILL_SINB,
+	SKILL_SINC,
+	SKILL_SIND,
+
+	MAX,
+};

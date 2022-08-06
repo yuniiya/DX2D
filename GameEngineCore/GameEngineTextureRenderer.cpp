@@ -6,7 +6,7 @@
 void FrameAnimation::Reset()
 {
 	Info.FrameTime = 0.0f;
-	Info.CurFrame = Info.Start;
+	Info.CurFrame = 0;
 }
 
 void FrameAnimation::Update(float _Delta) 
@@ -20,7 +20,7 @@ void FrameAnimation::Update(float _Delta)
 	}
 
 	if (false == bOnceStart 
-		&& Info.CurFrame == Info.Start)
+		&& Info.CurFrame == 0)
 	{
 		if (nullptr != Start)
 		{
@@ -38,7 +38,7 @@ void FrameAnimation::Update(float _Delta)
 			Frame(Info);
 		}
 
-		if (Info.CurFrame > Info.End)
+		if (Info.CurFrame >= Info.Frames.size())
 		{
 			if (false == bOnceEnd && nullptr != End)
 			{
@@ -49,18 +49,18 @@ void FrameAnimation::Update(float _Delta)
 
 			if (true == Info.Loop)
 			{
-				Info.CurFrame = Info.Start;
+				Info.CurFrame = 0;
 			}
 			else 
 			{
-				Info.CurFrame = Info.End;
+				Info.CurFrame = static_cast<unsigned int>(Info.Frames.size()) - 1;
 			}
 		}
 
 		if (nullptr != Texture)
 		{
 			ParentRenderer->CurTex = Texture;
-			ParentRenderer->SetTexture(Texture, Info.CurFrame);
+			ParentRenderer->SetTexture(Texture, Info.Frames[Info.CurFrame]);
 			ParentRenderer->SetPivot();
 
 			// 잘렸다는 거죠?
@@ -68,7 +68,7 @@ void FrameAnimation::Update(float _Delta)
 			{
 				if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
 				{
-					ParentRenderer->ScaleToCutTexture(Info.CurFrame);
+					ParentRenderer->ScaleToCutTexture(Info.Frames[Info.CurFrame]);
 				}
 			}
 			else 
@@ -82,8 +82,8 @@ void FrameAnimation::Update(float _Delta)
 		else if (nullptr != FolderTexture)
 		{
 			ParentRenderer->FrameDataReset();
-			ParentRenderer->CurTex = FolderTexture->GetTexture(Info.CurFrame);
-			ParentRenderer->SetTexture(FolderTexture->GetTexture(Info.CurFrame));
+			ParentRenderer->CurTex = FolderTexture->GetTexture(Info.Frames[Info.CurFrame]);
+			ParentRenderer->SetTexture(FolderTexture->GetTexture(Info.Frames[Info.CurFrame]));
 			ParentRenderer->SetPivot();
 
 			if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
@@ -233,18 +233,16 @@ void GameEngineTextureRenderer::CreateFrameAnimationFolder(const std::string& _A
 	NewAni.Texture = nullptr;
 	NewAni.FolderTexture = GameEngineFolderTexture::Find(_Desc.TextureName);
 
-	if (NewAni.Info.Start == -1)
+	if (NewAni.Info.Frames.size() == 0)
 	{
-		NewAni.Info.Start = 0;
-	}
-
-	if (NewAni.Info.End == -1)
-	{
-		NewAni.Info.End = static_cast<unsigned int>(NewAni.FolderTexture->GetTextureCount() - 1);
+		for (unsigned int i = 0; i < NewAni.FolderTexture->GetTextureCount(); i++)
+		{
+			NewAni.Info.Frames.push_back(i);
+		}
 	}
 }
 
-void GameEngineTextureRenderer::CreateFrameAnimation(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc)
+void GameEngineTextureRenderer::CreateFrameAnimationCutTexture(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc)
 {
 	std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
 
@@ -277,11 +275,11 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 		CurAni->Reset();
 		if (nullptr != CurAni->Texture)
 		{
-			SetTexture(CurAni->Texture, CurAni->Info.CurFrame);
+			SetTexture(CurAni->Texture, CurAni->Info.Frames[CurAni->Info.CurFrame]);
 		}
 		else if(nullptr != CurAni->FolderTexture)
 		{
-			SetTexture(CurAni->FolderTexture->GetTexture(CurAni->Info.CurFrame));
+			SetTexture(CurAni->FolderTexture->GetTexture(CurAni->Info.Frames[CurAni->Info.CurFrame]));
 		}
 	}
 }
@@ -340,11 +338,11 @@ void GameEngineTextureRenderer::ScaleToTexture()
 
 void GameEngineTextureRenderer::CurAnimationReset()
 {
-	CurAnimationSetStartPivotFrame(CurAni->Info.Start);
+	CurAnimationSetStartPivotFrame(0);
 	// CurAni->Info.CurFrame = CurAni->Info.Start;
 }
 
 void GameEngineTextureRenderer::CurAnimationSetStartPivotFrame(int SetFrame)
 {
-	CurAni->Info.CurFrame = CurAni->Info.Start + SetFrame;
+	CurAni->Info.CurFrame = SetFrame;
 }

@@ -278,12 +278,12 @@ public:
 		Data.ProjectionMatrix = _Mat;
 	}
 
-	const TransformData& GetTransformData() 
+	const TransformData& GetTransformData() const
 	{
 		return Data;
 	}
 
-	void Copy(GameEngineTransform& _Trans);
+	void Copy(const GameEngineTransform& _Trans);
 
 protected:
 

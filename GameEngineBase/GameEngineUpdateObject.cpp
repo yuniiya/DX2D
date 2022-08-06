@@ -45,6 +45,26 @@ void GameEngineUpdateObject::DetachObject()
 	}
 }
 
+
+void GameEngineUpdateObject::AllUpdate(float _DeltaTime)
+{
+	AddAccTime(_DeltaTime);
+	ReleaseUpdate(_DeltaTime);
+	Update(GameEngineTime::GetInst()->GetTimeScale(GetOrder()) * _DeltaTime);
+
+	for (GameEngineUpdateObject* Com : Childs)
+	{
+		Com->AddAccTime(_DeltaTime);
+		Com->ReleaseUpdate(_DeltaTime);
+		if (false == Com->IsUpdate())
+		{
+			continue;
+		}
+
+		Com->AllUpdate(_DeltaTime);
+	}
+}
+
 void GameEngineUpdateObject::ReleaseObject(std::list<GameEngineUpdateObject*>& _RelaseList)
 {
 	if (true == IsDeath())

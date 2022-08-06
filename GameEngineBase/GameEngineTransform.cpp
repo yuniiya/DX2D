@@ -106,7 +106,7 @@ void GameEngineTransform::PixLocalPositiveX()
 	SetLocalScale(Data.LocalScaling);
 }
 
-void GameEngineTransform::Copy(GameEngineTransform& _Trans)
+void GameEngineTransform::Copy(const GameEngineTransform& _Trans)
 {
 	Data = _Trans.Data;
 	CollisionDataObject = _Trans.CollisionDataObject;

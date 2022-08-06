@@ -32,10 +32,37 @@ Player::Player()
 	, ColMapRenderer_(nullptr)
 	, MapTexture_(nullptr)
 	, Time_(0.0f)
-	, LevelChangeTime_(0.0f)
 	, TopColor(0.0f)
 	, MiddleColor(0.0f)
 	, BottomUpColor(0.0f)
+	, InA_Renderer_(nullptr)
+	, InB_Renderer_(nullptr)
+	, InHit_Renderer_(nullptr)
+	, JiA_Renderer_(nullptr)
+	, JiB_Renderer_(nullptr)
+	, JiHit_Renderer_(nullptr)
+	, PaA_Renderer_(nullptr)
+	, PaHit_Renderer_(nullptr)
+	, SinStart_Renderer_(nullptr)
+	, SinA_Renderer_(nullptr)
+	, SinAHit_Renderer_(nullptr)
+	, SinB_Renderer_(nullptr)
+	, SinBHit_Renderer_(nullptr)
+	, SinC_Renderer_(nullptr)
+	, SinCHit_Renderer_(nullptr)
+	, SinD_Renderer_(nullptr)
+	, SinDHit_Renderer_(nullptr)
+	, InSkillCollision_(nullptr)
+	, PaSkillCollision_(nullptr)
+	, JiSkillCollision_(nullptr)
+	, SinACollision_(nullptr)
+	, SinBCollision_(nullptr)
+	, SinCCollision_(nullptr)
+	, SinDCollision_(nullptr)
+	, CurSkill_(PLAYERSKILL::MAX)
+	, ChoA_Renderer_(nullptr)
+	, ChoB_Renderer_(nullptr)
+
 {
 }
 
@@ -85,6 +112,9 @@ void Player::Start()
 
 	}
 
+	PlayerCollision_ = CreateComponent<GameEngineCollision>();
+	PlayerCollision_->GetTransform().SetLocalScale({75.f, 75.f});
+
 	PlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f, 1.f});
 
@@ -99,16 +129,63 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.5f));
 	PlayerRenderer_->CreateFrameAnimationFolder("LadderA", FrameAnimation_DESC("LadderA", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("RopeA", FrameAnimation_DESC("RopeA", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.25f));
-	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.25f));
+	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
 
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
 
-	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
-	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
+	StateManager.CreateStateMember("Idle"
+		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(& Player::IdleStart, this, std::placeholders::_1)
+		);
+	StateManager.CreateStateMember("Move"
+		, std::bind(&Player::MoveUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::MoveStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Jump"
+		, std::bind(&Player::JumpUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::JumpStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Fall"
+		, std::bind(&Player::FallUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::FallStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Prone"
+		, std::bind(&Player::ProneUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::ProneStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("ProneStab"
+		, std::bind(&Player::ProneStabUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::ProneStabStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Ladder"
+		, std::bind(&Player::LadderUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::LadderStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Rope"
+		, std::bind(&Player::RopeUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::RopeStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("DefaultAtt"
+		, std::bind(&Player::DefaultAttackUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DefaultAttackStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("SkillAtt"
+		, std::bind(&Player::SkillAttackUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::SkillAttackStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Damaged"
+		, std::bind(&Player::DamagedUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DamagedStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Die"
+		, std::bind(&Player::DieUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DieStart, this, std::placeholders::_1)
+	);
+	/*StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
 	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
 	StateManager.CreateStateMember("Fall", this, &Player::FallUpdate, &Player::FallStart);
 	StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
@@ -118,12 +195,32 @@ void Player::Start()
 	StateManager.CreateStateMember("DefaultAtt", this, &Player::DefaultAttackUpdate, &Player::DefaultAttackStart);
 	StateManager.CreateStateMember("SkillAtt", this, &Player::SkillAttackUpdate, &Player::SkillAttackStart);
 	StateManager.CreateStateMember("Damaged", this, &Player::DamagedUpdate, &Player::DamagedStart);
-	StateManager.CreateStateMember("Die", this, &Player::DieUpdate, &Player::DieStart);
+	StateManager.CreateStateMember("Die", this, &Player::DieUpdate, &Player::DieStart);*/
 
 	StateManager.ChangeState("Idle");
 
 
+	// 스킬
+	{
+		InA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		InA_Renderer_->GetTransform().SetLocalScale({ 343.f, 290.f });
+		InA_Renderer_->CreateFrameAnimationFolder("In_A", FrameAnimation_DESC("In_A", 0.06f));
+		InA_Renderer_->ChangeFrameAnimation("In_A");
+		InA_Renderer_->Off();
 
+		InB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		InB_Renderer_->GetTransform().SetLocalScale({ 407.f, 246.f });
+		InB_Renderer_->CreateFrameAnimationFolder("In_B", FrameAnimation_DESC("In_B", 0.075f));
+		InB_Renderer_->ChangeFrameAnimation("In_B");
+		InB_Renderer_->Off();
+
+		InHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		InHit_Renderer_->GetTransform().SetLocalScale({ 132.f, 132.f });
+		InHit_Renderer_->CreateFrameAnimationFolder("In_Hit", FrameAnimation_DESC("In_Hit", 0.06f));
+		InHit_Renderer_->ChangeFrameAnimation("In_Hit");
+		InHit_Renderer_->Off();
+
+	}
 }
 
 void Player::Update(float _DeltaTime)
@@ -163,21 +260,21 @@ void Player::DebugModeOnOff()
 
 void Player::DebugRender()
 {
-	//float PlayerPosX = GetPosition().x;
-	//float PlayerPosY = GetPosition().y;
+	float PlayerPosX = GetPosition().x;
+	float PlayerPosY = GetPosition().y;
 
-	//if (true == IsDebug)
-	//{
-	//	std::string PosX = "";
-	//	std::string PosY = "";
+	if (true == IsDebug)
+	{
+		std::string PosX = "";
+		std::string PosY = "";
 
-	//	PosX = "PosX : " + std::to_string(PlayerPosX);
-	//	PosY = "PosY : " + std::to_string(PlayerPosY);
+		PosX = "PosX : " + std::to_string(PlayerPosX);
+		PosY = "PosY : " + std::to_string(PlayerPosY);
 
 
-	//	TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x - 30, PosX.c_str(), static_cast<int>(PosX.length()));
-	//	TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().y - 10, PosY.c_str(), static_cast<int>(PosY.length()));
-	//}
+		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x - 30, PosX.c_str(), static_cast<int>(PosX.length()));
+		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().y - 10, PosY.c_str(), static_cast<int>(PosY.length()));
+	}
 }
 
 
@@ -186,13 +283,13 @@ bool Player::StagePixelCheck()
 	float4 Pos = 0.0f;
 	GetCurMapTexture();
 
-	MiddleColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy())));
-	BottomDownColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 47.f));
+	MiddleColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-(GetTransform().GetWorldPosition().iy())));
+	BottomDownColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(((-GetTransform().GetWorldPosition().iy()) + 47.f)));
 	BottomColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
 	BottomUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
 	TopColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) - 25.f));
 	float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
-	float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
+	float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
 
 	
 	// 땅
@@ -395,6 +492,8 @@ void Player::ObjectPixelCheck()
 		// 다음 레벨
 		if (true == Color.CompareInt4D(float4{ 1.0f, 0.0f, 1.0f, 1.0f }))
 		{
+			GameEngineSound::SoundPlayOneShot("Portal.mp3");
+
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Cactus");
@@ -421,6 +520,8 @@ void Player::ObjectPixelCheck()
 		}	// 이전 레벨
 		else if (true == Color.CompareInt4D(float4{ 0.0f, 0.0f, 1.0f, 1.0f }))
 		{
+			GameEngineSound::SoundPlayOneShot("Portal.mp3");
+
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Entrance");
@@ -622,8 +723,77 @@ void Player::PlayerMove(float _DeltaTime)
 	//}
 }
 
-void Player::ReturnIdle(const FrameAnimation_DESC& _Info)
+void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 {
-	StateManager.ChangeState("Idle");
+	switch (CurSkill_)
+	{
+	case PLAYERSKILL::SKILL_IN:
+	{
+		InA_Renderer_->Off();
+		InB_Renderer_->Off();
+
+		if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
+		{
+			InA_Renderer_->On();
+			InB_Renderer_->On();
+		}
+	}
+	case PLAYERSKILL::SKILL_JI:
+	{
+	
+	}
+	break;
+	default:
+		break;
+	}
+
+}
+
+void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
+{
+	if ("SkillAtt" != StateManager.GetCurStateStateName())
+	{
+		return;
+	}
+
+	switch (_CurSkill)
+	{
+	case PLAYERSKILL::SKILL_IN:
+	{
+		if (ACTORDIR::RIGHT == CurDir_)
+		{
+			InA_Renderer_->GetTransform().PixLocalNegativeX();
+			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 20.f, GetPosition().y });
+
+			InB_Renderer_->GetTransform().PixLocalNegativeX();
+			InB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 130.f, GetPosition().y });
+		}
+		else
+		{
+			InA_Renderer_->GetTransform().PixLocalPositiveX();
+			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 20.f, GetPosition().y });
+
+			InB_Renderer_->GetTransform().PixLocalPositiveX();
+			InB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 130.f, GetPosition().y });
+		}
+	}
+		break;
+	case PLAYERSKILL::SKILL_JI:
+		break;
+	case PLAYERSKILL::SKILL_PA:
+		break;
+	case PLAYERSKILL::SKILL_SINA:
+		break;
+	case PLAYERSKILL::SKILL_SINB:
+		break;
+	case PLAYERSKILL::SKILL_SINC:
+		break;
+	case PLAYERSKILL::SKILL_SIND:
+		break;
+	case PLAYERSKILL::MAX:
+		break;
+	default:
+		break;
+	}
 }
 

@@ -40,15 +40,15 @@ private:
 	float4 DownPower_;
 	float4 Position_;
 
-	float LevelChangeTime_;
-
-	PLAYERSTATE CurState_;
-	ACTORDIR CurDir_;
 	bool IsDebug;
 	bool IsGround;
 	bool CanMove;
 
 	std::string CurLevelName_;
+
+	PLAYERSTATE CurState_;
+	ACTORDIR CurDir_;
+	PLAYERSKILL CurSkill_;
 
 protected:
 	float4 BottomColor;
@@ -60,6 +60,15 @@ protected:
 
 private:
 	GameEngineCollision* PlayerCollision_;
+
+	GameEngineCollision* InSkillCollision_;
+	GameEngineCollision* PaSkillCollision_;
+	GameEngineCollision* JiSkillCollision_;
+	GameEngineCollision* SinACollision_;
+	GameEngineCollision* SinBCollision_;
+	GameEngineCollision* SinCCollision_;
+	GameEngineCollision* SinDCollision_;
+
 
 protected:
 	void Start() override;
@@ -77,6 +86,33 @@ private:
 	GameEngineTexture* MapTexture_;
 	GameEngineStateManager StateManager;
 
+private:
+	GameEngineTextureRenderer* InA_Renderer_;
+	GameEngineTextureRenderer* InB_Renderer_;
+	GameEngineTextureRenderer* InHit_Renderer_;
+
+	GameEngineTextureRenderer* JiA_Renderer_;
+	GameEngineTextureRenderer* JiB_Renderer_;
+	GameEngineTextureRenderer* JiHit_Renderer_;
+
+	GameEngineTextureRenderer* PaA_Renderer_;
+	GameEngineTextureRenderer* PaHit_Renderer_;
+
+	GameEngineTextureRenderer* SinStart_Renderer_;
+	GameEngineTextureRenderer* SinA_Renderer_;
+	GameEngineTextureRenderer* SinAHit_Renderer_;
+	GameEngineTextureRenderer* SinB_Renderer_;
+	GameEngineTextureRenderer* SinBHit_Renderer_;
+	GameEngineTextureRenderer* SinC_Renderer_;
+	GameEngineTextureRenderer* SinCHit_Renderer_;
+	GameEngineTextureRenderer* SinD_Renderer_;
+	GameEngineTextureRenderer* SinDHit_Renderer_;
+
+	GameEngineTextureRenderer* ChoA_Renderer_;
+	GameEngineTextureRenderer* ChoB_Renderer_;
+
+
+
 protected:
 	bool StagePixelCheck();
 	void ObjectPixelCheck();
@@ -91,7 +127,8 @@ protected:
 
 	void PlayerMove(float _DeltaTime);
 
-	void ReturnIdle(const FrameAnimation_DESC& _Info);
+	void SkillEnd(const FrameAnimation_DESC& _Info);
+	void SkillPositionUpdate(PLAYERSKILL _CurSkill);
 
 protected:
 	void IdleStart(const StateInfo& _Info);

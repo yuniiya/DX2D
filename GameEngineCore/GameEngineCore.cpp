@@ -9,6 +9,7 @@
 #include "GameEngineGUI.h"
 #include "GameEngineCamera.h"
 #include "GameEngineCameraActor.h"
+#include "GameEngineCoreDebug.h"
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -58,6 +59,8 @@ void GameEngineCore::CoreStart(GameEngineCore* _UserCore)
 	// 엔진 리소스는 완성되어야 합니다.
 	EngineResourcesInitialize();
 
+	GameEngineDebug::Debug3DInitialize();
+
 // 엔진이 뭔가를 할겁니다.
 	// 준비를 먼저하고.
 	_UserCore->Start();
@@ -74,6 +77,7 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 
 		if (nullptr != CurrentLevel)
 		{
+			CurrentLevel->ActorOffEvent();
 			CurrentLevel->OffEvent();
 			// 넘어가려는 액터가 이때 존재해야 겠죠?
 
@@ -83,6 +87,7 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 		CurrentLevel = NextLevel;
 		NextLevel = nullptr;
 		CurrentLevel->OnEvent();
+		CurrentLevel->ActorOnEvent();
 
 		// ex) 타이틀에서 5초후 => 플레이 레벨로 이동
 		//     플레이 레벨에서 => 다시 타이틀레벨로

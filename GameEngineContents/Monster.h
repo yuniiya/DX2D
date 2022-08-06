@@ -1,7 +1,15 @@
 #pragma once
 #include "GlobalActor.h"
 
-// Ό³Έν :
+enum class MONSTERSTATE
+{
+	IDLE,
+	MOVE,
+	ATTACK,
+	DAMAGED,
+	DIE,
+};
+
 class Monster : public GlobalActor
 {
 public:
@@ -17,8 +25,8 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) {}
-	void End() {}
+	void Update(float _DeltaTime) override {};
+	void End() override {};
 
 private:
 

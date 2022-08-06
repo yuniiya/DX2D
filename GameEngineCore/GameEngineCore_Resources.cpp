@@ -180,6 +180,15 @@ void EngineRenderingPipeLine()
 		NewPipe->SetVertexShader("TextureAtlas.hlsl");
 		NewPipe->SetPixelShader("TextureAtlas.hlsl");
 	}
+
+	{
+		GameEngineRenderingPipeLine* NewPipe = GameEngineRenderingPipeLine::Create("3DDebug");
+		NewPipe->SetInputAssembler1VertexBuffer("Box");
+		NewPipe->SetInputAssembler2IndexBuffer("Box");
+		NewPipe->SetVertexShader("Debug3D.hlsl");
+		NewPipe->SetPixelShader("Debug3D.hlsl");
+	}
+
 }
 
 void EngineMesh() 

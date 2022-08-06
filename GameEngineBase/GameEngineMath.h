@@ -357,7 +357,7 @@ public:
 		return static_cast<int>(w);
 	}
 
-	POINT GetConvertWindowPOINT() 
+	POINT GetConvertWindowPOINT()
 	{
 		return POINT(ix(), iy());
 	}

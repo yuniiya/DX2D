@@ -54,11 +54,13 @@ void Player::RopeStart(const StateInfo& _Info)
 
 void Player::DefaultAttackStart(const StateInfo& _Info)
 {
+	PlayerRenderer_->GetTransform().SetLocalScale({ 107.f, 101.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("DefaultAtt");
 }
 
 void Player::SkillAttackStart(const StateInfo& _Info)
 {
+	PlayerRenderer_->GetTransform().SetLocalScale({ 92.f, 102.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
 
@@ -109,6 +111,15 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("Attack"))
 	{
 		StateManager.ChangeState("DefaultAtt");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
+	{
+		InA_Renderer_->On();
+		InB_Renderer_->On();
+		CurSkill_ = PLAYERSKILL::SKILL_IN;
+
+		StateManager.ChangeState("SkillAtt");
 		return;
 	}
 
@@ -363,6 +374,18 @@ void Player::DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
+	SkillPositionUpdate(CurSkill_);
+
+
+	if (true == GameEngineInput::GetInst()->IsUp("Skill_Q"))
+	{
+		InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+		InB_Renderer_->AnimationBindEnd("In_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+
+		StateManager.ChangeState("Idle");
+		return;
+	}
 }
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
