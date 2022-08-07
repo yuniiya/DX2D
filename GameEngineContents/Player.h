@@ -33,10 +33,8 @@ public:
 
 	GameEngineTexture* GetCurMapTexture();
 
-	inline void TakeDamage(int _HP)
-	{
-		HP_ = HP_ - _HP;		
-	}
+	void TakeDamage(int _Damage);
+	
 
 	inline void UseMP(int _MP)
 	{

@@ -19,6 +19,28 @@ Monster::~Monster()
 {
 }
 
+void Monster::TakeDamage(int _Damage)
+{
+	if (HP_ <= 0)
+	{
+		ChangeState(MONSTERSTATE::DIE);
+		return;
+	}
+	else
+	{
+		AddAccTime(GameEngineTime::GetDeltaTime());
+
+		HP_ = HP_ - _Damage;
+
+		if (1.5f < GetAccTime())
+		{
+			ChangeState(MONSTERSTATE::MOVE);
+			return;
+		}
+	}
+
+}
+
 void Monster::Start()
 {
 }
@@ -28,6 +50,7 @@ void Monster::Update(float _DeltaTime)
 	MonsterStateUpdate();
 	PixelCollisionMapUpdate(this, LeftRightPos_, BottomPos_);
 
+	CollisonCheck();
 	DirChange();
 }
 
@@ -82,6 +105,7 @@ void Monster::MonsterStateUpdate()
 
 void Monster::Hit()
 {
+	TakeDamage(50.f);
 }
 
 void Monster::DirChange()
@@ -117,6 +141,22 @@ void Monster::DirChange()
 			GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * GameEngineTime::GetDeltaTime());
 		}
 
+	}
+}
+
+bool Monster::MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	return true;
+}
+
+void Monster::CollisonCheck()
+{
+	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D,
+		std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
+	))
+	{
+		ChangeState(MONSTERSTATE::DAMAGED);
+		return;
 	}
 }
 
@@ -206,6 +246,8 @@ void Monster::DamagedStart()
 	default:
 		break;
 	}
+
+	Renderer_->ChangeFrameAnimation("Damaged");
 }
 
 void Monster::AttackStart()
@@ -237,6 +279,8 @@ void Monster::DieStart()
 	default:
 		break;
 	}
+
+	Renderer_->ChangeFrameAnimation("Die");
 }
 
 void Monster::IdleUpdate()
@@ -262,6 +306,7 @@ void Monster::MoveUpdate()
 
 void Monster::DamagedUpdate()
 {
+	Hit();
 }
 
 void Monster::AttackUpdate()
@@ -270,4 +315,5 @@ void Monster::AttackUpdate()
 
 void Monster::DieUpdate()
 {
+	Death();
 }

@@ -8,6 +8,7 @@ enum class GAMEOBJGROUP
 	MONSTER,
 	OBJ,
 	EFFECT,
+	SKILL,
 	UI,
 	FADE,
 	MOUSE,

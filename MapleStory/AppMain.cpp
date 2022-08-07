@@ -13,7 +13,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow){
 	new int();
 
-	//_CrtSetBreakAlloc(30443);
+	//_CrtSetBreakAlloc(62612);
 
 	GameEngineCore::Start<ContentsCore>();
 

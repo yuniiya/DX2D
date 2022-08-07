@@ -113,10 +113,12 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("DefaultAtt");
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
+	if (true == GameEngineInput::GetInst()->IsPress("Skill_Q"))
 	{
 		InA_Renderer_->On();
 		InB_Renderer_->On();
+	//	InSkillCollision_->On();
+
 		CurSkill_ = PLAYERSKILL::SKILL_IN;
 
 		StateManager.ChangeState("SkillAtt");

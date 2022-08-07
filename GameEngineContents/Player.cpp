@@ -87,6 +87,16 @@ GameEngineTexture* Player::GetCurMapTexture()
 	return MapTexture_;
 }
 
+void Player::TakeDamage(int _Damage)
+{
+	if (HP_ <= 0)
+	{
+		StateManager.ChangeState("Die");
+	}
+
+	HP_ = HP_ - _Damage;
+}
+
 void Player::Start()
 {
 	if (false == GameEngineInput::GetInst()->IsKey("MoveLeft"))
@@ -118,6 +128,7 @@ void Player::Start()
 
 	PlayerCollision_ = CreateComponent<GameEngineCollision>();
 	PlayerCollision_->GetTransform().SetLocalScale({75.f, 75.f});
+	PlayerCollision_->ChangeOrder(GAMEOBJGROUP::PLAYER);
 
 	PlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f, 1.f});
@@ -206,6 +217,11 @@ void Player::Start()
 
 	// 스킬
 	{
+		InSkillCollision_ = CreateComponent<GameEngineCollision>();
+		InSkillCollision_->GetTransform().SetLocalScale({400.f, 300.f});
+		InSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+		InSkillCollision_->Off();
+
 		InA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		InA_Renderer_->GetTransform().SetLocalScale({ 343.f, 290.f });
 		InA_Renderer_->CreateFrameAnimationFolder("In_A", FrameAnimation_DESC("In_A", 0.06f));
@@ -299,22 +315,12 @@ bool Player::StagePixelCheck()
 	// 땅
 	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
-		// ========= 수정 : 점프가 아닐때만?
 		if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))													// 1-1) 발 조금 위가 땅이면 1픽셀 올린다
 		{
-			//Position_ = GetPosition() + float4{ 0.f, 2.f, 0.f };
-			//GetTransform().SetLocalPosition(Position_);
-
 			Pos = float4{ 0.f, 2.f, 0.f };
 			GetTransform().SetWorldMove(Pos);
 		}
 	}
-
-	//if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
-	//{
-	//	Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
-	//	GetTransform().SetLocalPosition(Position_);
-	//}
 
 	// 허공
 	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })		// 흰색
@@ -351,90 +357,6 @@ bool Player::StagePixelCheck()
 	{
 		DownPower_ = 0.0f;
 	}
-
-
-	//// 머리가 지형에 닿았다
-	//if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
-	//	|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
-	//{
-	//	Position_ = GetPosition() + float4{ 0.f, -6.f, 0.f }*GameEngineTime::GetDeltaTime();
-	//	GetTransform().SetLocalPosition(Position_);
-	//}
-
-	// 허공
-	//if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })
-	//	/*	|| true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f })*/)												// 1) 발 밑이 허공이다
-	//{
-	//	DownPower += float4::DOWN;
-	//	Position_ = GetPosition() + float4{ 0.f, -1.f, 0.f } + DownPower/**GameEngineTime::GetDeltaTime()*/;
-	//	GetTransform().SetLocalPosition(Position_);
-
-	//	//if (false == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
-	//	//{
-	//	//	Position_ = GetPosition() + float4{ 0.f, -2.f, 0.f }/**GameEngineTime::GetDeltaTime()*/;
-	//	//	GetTransform().SetWorldMove(Position_);
-	//	//}
-	//}
-
-
-
-	//else if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))												// 2) 발 밑이 땅이다
-	//{ 
-	//	
-	//	Position_ = GetPosition() + float4{ 0.f, 2.f, 0.f } *GameEngineTime::GetDeltaTime();
-	//	GetTransform().SetLocalPosition(Position_);
-
-	//	//if (true == LeftBottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })													// 2-2) 왼쪽 발끝이 땅이거나, 오른쪽 발끝이 땅이면 올린다
-	//	//	|| true == RightBottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
-	//	//{
-	//	//	
-	//	//}
-	//}
-
-
-	//// 0 0 0 1 => 검정
-	//if (false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })) // 발 밑이 검정이 아니다
-	//{
-	//	// 내리다가 땅에 닿았다
-	//	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
-	//	{
-	//		IsGround = true;
-
-	//		//Position_ = GetPosition() + float4{ 0.f, 200.f, 0.f } *GameEngineTime::GetDeltaTime();
-
-	//		//GetTransform().SetLocalPosition(Position_);
-	//	}
-
-
-		
-
-	//	// 0 1 0 1 => 초록색
-	//	if (true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
-	//	{
-	//		Position_ = GetPosition() + float4{0.f, 200.f, 0.f} * GameEngineTime::GetDeltaTime();
-	//		GetTransform().SetLocalPosition(Position_);
-	//		// Down 키 누르면 => Ladder
-	//	}
-	//	else if (false == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
-	//	{
-	//		Position_ = GetPosition() + float4{ 0.f, -200.f, 0.f } *GameEngineTime::GetDeltaTime();	// 내린다
-	//		GetTransform().SetLocalPosition(Position_);
-	//	}
-	//	// 1 0 0 1 => 파란색
-	//	if (true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
-	//	{
-	//		Position_ = GetPosition() + float4{ 0.f, 200.f, 0.f } *GameEngineTime::GetDeltaTime();
-	//		GetTransform().SetLocalPosition(Position_);
-	//		// Down 키 누르면 => Rope
-	//	}
-	//	else if(false == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
-	//	{
-	//		Position_ = GetPosition() + float4{ 0.f, -200.f, 0.f } *GameEngineTime::GetDeltaTime();	// 내린다
-	//		GetTransform().SetLocalPosition(Position_);
-	//	}
-
-	//}
-
 
 
 	// 카메라 바깥쪽 이동 막기 - 왼쪽
@@ -478,7 +400,6 @@ bool Player::StagePixelCheck()
 			CanMove = true;
 		}
 	}
-
 
 
 	// 포탈, 레더, 로프 
@@ -735,8 +656,9 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	{
 		InA_Renderer_->Off();
 		InB_Renderer_->Off();
+		//InSkillCollision_->Off();
 
-		if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
+		if (true == GameEngineInput::GetInst()->IsPress("Skill_Q"))
 		{
 			InA_Renderer_->On();
 			InB_Renderer_->On();

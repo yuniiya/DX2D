@@ -6,6 +6,8 @@
 #include "Mouse.h"
 #include "Fade.h"
 #include "WhiteRabbit.h"
+#include "BrownRabbit.h"
+#include "BabyCactus.h"
 
 CactusLevel::CactusLevel() 
 {
@@ -35,11 +37,18 @@ void CactusLevel::Start()
 	// Monster
 	{
 		WhiteRabbit* Rabbit1 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
-		Rabbit1->GetTransform().SetLocalPosition({ 300.f, -600.f });
+		Rabbit1->GetTransform().SetLocalPosition({ 1050.f, -600.f });
 		Rabbit1->SetMonsterDir(ACTORDIR::RIGHT);
 
-		WhiteRabbit* Rabbit2 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
+	/*	WhiteRabbit* Rabbit2 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
 		Rabbit2->GetTransform().SetLocalPosition({ 400.f, -300.f });
+		Rabbit2->SetMonsterDir(ACTORDIR::RIGHT);*/
+	}
+
+	{
+		BrownRabbit* Rabbit1 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit1->GetTransform().SetLocalPosition({ 800.f, -300.f });
+		Rabbit1->SetMonsterDir(ACTORDIR::RIGHT);
 	}
 
 

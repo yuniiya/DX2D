@@ -98,6 +98,8 @@ public:
 		SetDir(_Dir);
 	}
 
+	void TakeDamage(int _Damage);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -108,6 +110,9 @@ protected:
 
 	virtual void Hit();
 	virtual void DirChange();
+
+	bool MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	virtual void CollisonCheck();
 
 private:
 	int HP_;
