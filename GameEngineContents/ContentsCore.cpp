@@ -353,7 +353,7 @@ void ContentsCore::Start()
 	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Ariant");
+	ChangeLevel("Cactus");
 
 	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

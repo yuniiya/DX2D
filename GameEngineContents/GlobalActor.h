@@ -22,8 +22,23 @@ protected:
 	void End() override {};
 
 protected:
-	bool PixelCollisionMapUpdate(GlobalActor* _Actor);
+	bool PixelCollisionMapUpdate(GlobalActor* _Actor, float _LeftRightPos, float _BottomPos);
 	void DirCheck(GameEngineTextureRenderer* _Renderer, ACTORDIR _Dir);
+
+	inline void SetDir(ACTORDIR _Dir)
+	{
+		CurDir_ = _Dir;
+	}
+
+	inline ACTORDIR GetDir()
+	{
+		return CurDir_;
+	}
+	
+
+protected:
+	float4 DownPower_;
+	ACTORDIR CurDir_;
 
 private:
 	GameEngineTexture* MapTexture_;

@@ -62,6 +62,10 @@ Player::Player()
 	, CurSkill_(PLAYERSKILL::MAX)
 	, ChoA_Renderer_(nullptr)
 	, ChoB_Renderer_(nullptr)
+	, HP_(8000)
+	, MP_(6000)
+	, Exp_(10000)
+	, Atk_(5000)
 
 {
 }
@@ -272,8 +276,8 @@ void Player::DebugRender()
 		PosY = "PosY : " + std::to_string(PlayerPosY);
 
 
-		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x - 30, PosX.c_str(), static_cast<int>(PosX.length()));
-		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().y - 10, PosY.c_str(), static_cast<int>(PosY.length()));
+		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x - 30, PosX.c_str(), static_cast<int>(PosX.length()));
+		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().y - 10, PosY.c_str(), static_cast<int>(PosY.length()));
 	}
 }
 

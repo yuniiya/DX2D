@@ -33,12 +33,37 @@ public:
 
 	GameEngineTexture* GetCurMapTexture();
 
+	inline void TakeDamage(int _HP)
+	{
+		HP_ = HP_ - _HP;		
+	}
+
+	inline void UseMP(int _MP)
+	{
+		MP_ = MP_ - _MP;
+	}
+
+	inline void AddExp(int _Exp)
+	{
+		Exp_ = Exp_ + _Exp;
+	}
+
+	inline float GetAtk()
+	{
+		return Atk_;
+	}
+
 private:
 	float Speed_;
 	float Time_;
 	float4 JumpPower_;
 	float4 DownPower_;
 	float4 Position_;
+
+	int HP_;
+	int MP_;
+	int Exp_;
+	float Atk_;
 
 	bool IsDebug;
 	bool IsGround;
@@ -110,8 +135,6 @@ private:
 
 	GameEngineTextureRenderer* ChoA_Renderer_;
 	GameEngineTextureRenderer* ChoB_Renderer_;
-
-
 
 protected:
 	bool StagePixelCheck();
