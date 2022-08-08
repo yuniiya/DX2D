@@ -170,8 +170,14 @@ void Monster::IdleStart()
 	}
 		break;
 	case MONSTERNAME::BabyCactus:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 54.f, 63.f });
+	}
 		break;
 	case MONSTERNAME::Sand:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 107.f, 81.f });
+	}
 		break;
 	case MONSTERNAME::Freezer:
 		break;
@@ -201,8 +207,14 @@ void Monster::MoveStart()
 	}
 		break;
 	case MONSTERNAME::BabyCactus:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 54.f, 67.f });
+	}
 		break;
 	case MONSTERNAME::Sand:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 108.f, 48.f });
+	}
 		break;
 	case MONSTERNAME::Freezer:
 		break;
@@ -232,8 +244,14 @@ void Monster::DamagedStart()
 	}
 	break;
 	case MONSTERNAME::BabyCactus:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 83.f, 69.f });
+	}
 		break;
 	case MONSTERNAME::Sand:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 86.f, 86.f });
+	}
 		break;
 	case MONSTERNAME::Freezer:
 		break;
@@ -265,8 +283,14 @@ void Monster::DieStart()
 	}
 	break;
 	case MONSTERNAME::BabyCactus:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 87.f, 73.f });
+	}
 		break;
 	case MONSTERNAME::Sand:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 97.f, 99.f });
+	}
 		break;
 	case MONSTERNAME::Freezer:
 		break;

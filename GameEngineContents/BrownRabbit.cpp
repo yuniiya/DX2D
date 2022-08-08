@@ -11,50 +11,6 @@ BrownRabbit::~BrownRabbit()
 
 void BrownRabbit::Start()
 {
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("Resources");
-		Dir.Move("Resources");
-		Dir.Move("Texture");
-		Dir.Move("Monster");
-		Dir.Move("Rabbit2_Idle");
-
-		GameEngineFolderTexture::Load(Dir.GetFullPath());
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("Resources");
-		Dir.Move("Resources");
-		Dir.Move("Texture");
-		Dir.Move("Monster");
-		Dir.Move("Rabbit2_Walk");
-
-		GameEngineFolderTexture::Load(Dir.GetFullPath());
-	}
-
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("Resources");
-		Dir.Move("Resources");
-		Dir.Move("Texture");
-		Dir.Move("Monster");
-		Dir.Move("Rabbit2_Hit");
-
-		GameEngineFolderTexture::Load(Dir.GetFullPath());
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("Resources");
-		Dir.Move("Resources");
-		Dir.Move("Texture");
-		Dir.Move("Monster");
-		Dir.Move("Rabbit2_Die");
-
-		GameEngineFolderTexture::Load(Dir.GetFullPath());
-	}
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 50.f, 50.f });
@@ -68,7 +24,7 @@ void BrownRabbit::Start()
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Rabbit2_Hit", 0.5f));
 	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Rabbit2_Die", 0.2f));
 	Renderer_->ChangeFrameAnimation("Idle");
-	ChangeState(MONSTERSTATE::IDLE);
+	ChangeState(MONSTERSTATE::MOVE);
 
 	SetHP(100);
 	SetSpeed(30.f);

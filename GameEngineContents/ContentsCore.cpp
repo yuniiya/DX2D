@@ -327,6 +327,317 @@ void ContentsCore::Start()
 		}
 	}
 
+	// ¸ó½ºÅÍ
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit2_Idle");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit2_Walk");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit2_Hit");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit2_Die");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit1_Idle");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit1_Walk");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit1_Hit");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Rabbit1_Die");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Cactus_Idle");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Cactus_Walk");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Cactus_Hit");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Cactus_Die");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sand_Idle");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sand_Walk");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sand_Hit");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sand_Die");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sparker_Idle");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sparker_Walk");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sparker_Hit");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sparker_Die");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sparker_Eff");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Sparker_Att");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Freezer_Idle");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Freezer_Walk");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Freezer_Hit");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Freezer_Die");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Freezer_Eff");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Freezer_Att");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{
