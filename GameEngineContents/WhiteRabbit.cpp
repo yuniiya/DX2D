@@ -18,7 +18,7 @@ void WhiteRabbit::Start()
 
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->GetTransform().SetLocalScale({ 60.f, 58.f });
+	Renderer_->GetTransform().SetLocalScale({ 67.f, 68.f });	// Move
 	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Rabbit1_Idle", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Rabbit1_Walk", 0.18f));
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Rabbit1_Hit", 0.5f));

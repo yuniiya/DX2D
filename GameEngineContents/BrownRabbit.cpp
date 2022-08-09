@@ -18,7 +18,7 @@ void BrownRabbit::Start()
 
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->GetTransform().SetLocalScale({ 60.f, 58.f });
+	Renderer_->GetTransform().SetLocalScale({ 67.f, 68.f });	// Move
 	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Rabbit2_Idle", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Rabbit2_Walk", 0.18f));
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Rabbit2_Hit", 0.5f));

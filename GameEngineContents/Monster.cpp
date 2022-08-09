@@ -48,11 +48,16 @@ void Monster::TakeDamage(int _Damage)
 
 void Monster::Start()
 {
-	//GameEngineRandom::MainRandom.RandomInt()
+
+	IdleTime_ = GameEngineRandom::MainRandom.RandomInt(3, 6);
+	MoveTime_ = GameEngineRandom::MainRandom.RandomInt(30, 50);
+
 }
 
 void Monster::Update(float _DeltaTime)
 {
+	SetChangeTime(IdleTime_, MoveTime_);
+
 	MonsterStateUpdate();
 	PixelCollisionMapUpdate(this, LeftRightPos_, BottomPos_);
 
@@ -315,8 +320,9 @@ void Monster::DieStart()
 
 void Monster::IdleUpdate()
 {
-	if (5.f < GetAccTime())
+	if (IdleTime_ < GetAccTime())
 	{
+		ReSetAccTime();
 		ChangeState(MONSTERSTATE::MOVE);
 		return;
 	}
@@ -324,8 +330,9 @@ void Monster::IdleUpdate()
 
 void Monster::MoveUpdate()
 {
-	if (20.f < GetAccTime())
+	if (MoveTime_ < GetAccTime())
 	{
+		ReSetAccTime();
 		ChangeState(MONSTERSTATE::IDLE);
 		return;
 	}

@@ -11,6 +11,7 @@ Sand::~Sand()
 
 void Sand::Start()
 {
+	Monster::Start();
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 100.f, 60.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);

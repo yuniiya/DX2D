@@ -24,7 +24,7 @@ void BabyCactus::Start()
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Cactus_Hit", 0.5f));
 	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Cactus_Die", 0.2f));
 	Renderer_->ChangeFrameAnimation("Idle");
-	ChangeState(MONSTERSTATE::IDLE);
+	ChangeState(MONSTERSTATE::MOVE);
 
 	SetHP(100);
 	SetSpeed(30.f);

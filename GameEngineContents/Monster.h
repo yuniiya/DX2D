@@ -98,6 +98,12 @@ public:
 		SetDir(_Dir);
 	}
 
+	inline void SetChangeTime(int _IdleTime, int _MoveTime)
+	{
+		IdleTime_ = _IdleTime;
+		MoveTime_ = _MoveTime;
+	}
+
 	void TakeDamage(int _Damage);
 
 protected:
@@ -119,9 +125,9 @@ private:
 	float Atk_;
 	float Speed_;
 	float Time_; 
-	float MoveTime_;
-	float Random_;
-	float MoveRandom_;
+
+	int IdleTime_;
+	int MoveTime_;
 
 	float BottomPos_;
 	float LeftRightPos_;
