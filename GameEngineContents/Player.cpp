@@ -292,8 +292,8 @@ void Player::DebugRender()
 		PosY = "PosY : " + std::to_string(PlayerPosY);
 
 
-		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x - 30, PosX.c_str(), static_cast<int>(PosX.length()));
-		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().y - 10, PosY.c_str(), static_cast<int>(PosY.length()));
+		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40.f, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x - 30.f, PosX.c_str(), static_cast<int>(PosX.length()));
+		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40.f, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().y - 10.f, PosY.c_str(), static_cast<int>(PosY.length()));
 	}
 }
 
@@ -303,11 +303,19 @@ bool Player::StagePixelCheck()
 	float4 Pos = 0.0f;
 	GetCurMapTexture();
 
-	MiddleColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-(GetTransform().GetWorldPosition().iy())));
-	BottomDownColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(((-GetTransform().GetWorldPosition().iy()) + 47.f)));
-	BottomColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
-	BottomUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
-	TopColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) - 25.f));
+	//MiddleColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-(GetTransform().GetWorldPosition().iy())));
+	//BottomDownColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(((-GetTransform().GetWorldPosition().iy()) + 47.f)));
+	//BottomColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
+	//BottomUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
+	//TopColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) - 25.f));
+	//float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
+	//float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
+
+	MiddleColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y));
+	BottomDownColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 47.f);
+	BottomColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 43.f);	// 발 밑 픽셀의 값을 얻어온다
+	BottomUpColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 41.f);	// 발보다 조금위
+	TopColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) - 25.f);
 	float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
 	float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
 

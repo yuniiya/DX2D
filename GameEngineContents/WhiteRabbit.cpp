@@ -11,7 +11,7 @@ WhiteRabbit::~WhiteRabbit()
 
 void WhiteRabbit::Start()
 {
-
+	Monster::Start();
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 50.f, 50.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);
@@ -31,7 +31,7 @@ void WhiteRabbit::Start()
 	SetPixelCheckPos(10.f, -28.f);
 	SetMonsterName(MONSTERNAME::Rabbit);
 	SetMonsterType(MONSTERTYPE::DEFAULT);
-	//SetDir(ACTORDIR::LEFT);
+	SetMonsterDir(ACTORDIR::NONE);
 }
 
 void WhiteRabbit::Update(float _DeltaTime)

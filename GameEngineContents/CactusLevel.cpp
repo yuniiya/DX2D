@@ -59,7 +59,7 @@ void CactusLevel::Start()
 	{
 		BabyCactus* Cactus1 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
 		Cactus1->GetTransform().SetLocalPosition({ 820.f, -300.f });
-		Cactus1->SetMonsterDir(ACTORDIR::RIGHT);
+		Cactus1->SetMonsterDir(ACTORDIR::LEFT);
 
 		BabyCactus* Cactus2 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
 		Cactus2->GetTransform().SetLocalPosition({ 520.f, -300.f });

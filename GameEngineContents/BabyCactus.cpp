@@ -11,6 +11,7 @@ BabyCactus::~BabyCactus()
 
 void BabyCactus::Start()
 {
+	Monster::Start();
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 50.f, 65.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);
@@ -30,7 +31,7 @@ void BabyCactus::Start()
 	SetPixelCheckPos(9.f, -33.f);
 	SetMonsterName(MONSTERNAME::BabyCactus);
 	SetMonsterType(MONSTERTYPE::DEFAULT);
-	//SetDir(ACTORDIR::LEFT);
+	SetMonsterDir(ACTORDIR::NONE);
 }
 
 void BabyCactus::Update(float _DeltaTime)

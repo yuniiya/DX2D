@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Monster.h"
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 Monster::Monster()
 	: Renderer_(nullptr)
@@ -8,10 +9,14 @@ Monster::Monster()
 	, CurState_(MONSTERSTATE::IDLE)
 	, HP_(0)
 	, Atk_(0.0f)
+	, Speed_(0.0f)
 	, BottomPos_(0.0f)
 	, LeftRightPos_(0.0f)
 	, DownPower_(0.0f)
 	, Time_(0.0f)
+	, MonsterDir_(ACTORDIR::MAX)
+	, MonsterName_(MONSTERNAME::MAX)
+	, MonsterType_(MONSTERTYPE::MAX)
 {
 }
 
@@ -43,6 +48,7 @@ void Monster::TakeDamage(int _Damage)
 
 void Monster::Start()
 {
+	//GameEngineRandom::MainRandom.RandomInt()
 }
 
 void Monster::Update(float _DeltaTime)
@@ -105,12 +111,11 @@ void Monster::MonsterStateUpdate()
 
 void Monster::Hit()
 {
-	TakeDamage(50.f);
+	TakeDamage(50);
 }
 
 void Monster::DirChange()
 {
-
 	DirCheck(Renderer_, CurDir_);
 
 	if (50.f < GetAccTime())
@@ -123,7 +128,7 @@ void Monster::DirChange()
 		{
 			CurDir_ = ACTORDIR::LEFT;
 		}
-		
+
 		ReSetAccTime();
 	}
 
@@ -142,6 +147,7 @@ void Monster::DirChange()
 		}
 
 	}
+	
 }
 
 bool Monster::MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)

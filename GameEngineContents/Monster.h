@@ -118,7 +118,10 @@ private:
 	int HP_;
 	float Atk_;
 	float Speed_;
-	float Time_;
+	float Time_; 
+	float MoveTime_;
+	float Random_;
+	float MoveRandom_;
 
 	float BottomPos_;
 	float LeftRightPos_;

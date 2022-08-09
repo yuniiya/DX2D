@@ -11,7 +11,7 @@ BrownRabbit::~BrownRabbit()
 
 void BrownRabbit::Start()
 {
-
+	Monster::Start();
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 50.f, 50.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);
@@ -31,6 +31,7 @@ void BrownRabbit::Start()
 	SetPixelCheckPos(10.f, -28.f);
 	SetMonsterName(MONSTERNAME::Rabbit);
 	SetMonsterType(MONSTERTYPE::DEFAULT);
+	SetMonsterDir(ACTORDIR::NONE);
 }
 
 void BrownRabbit::Update(float _DeltaTime)
