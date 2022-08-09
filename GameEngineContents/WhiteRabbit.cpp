@@ -29,7 +29,7 @@ void WhiteRabbit::Start()
 	SetHP(100);
 	SetSpeed(30.f);
 	SetPixelCheckPos(10.f, -28.f);
-	SetMonsterName(MONSTERNAME::Rabbit);
+	SetMonsterName(MONSTERNAME::WhiteRabbit);
 	SetMonsterType(MONSTERTYPE::DEFAULT);
 	SetMonsterDir(ACTORDIR::NONE);
 }

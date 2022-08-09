@@ -39,7 +39,7 @@ void Monster::TakeDamage(int _Damage)
 
 		HP_ = HP_ - _Damage;
 
-		if (1.5f < GetAccTime())
+		if (1.f < GetAccTime())
 		{
 			ChangeState(MONSTERSTATE::MOVE);
 			return;
@@ -177,7 +177,12 @@ void Monster::IdleStart()
 {
 	switch (MonsterName_)
 	{
-	case MONSTERNAME::Rabbit:
+	case MONSTERNAME::WhiteRabbit:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 60.f, 58.f });
+	}
+		break;
+	case MONSTERNAME::BrownRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 60.f, 58.f });
 	}
@@ -212,11 +217,16 @@ void Monster::MoveStart()
 {
 	switch (MonsterName_)
 	{
-	case MONSTERNAME::Rabbit:
+	case MONSTERNAME::WhiteRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 67.f, 68.f });
 	}
 		break;
+	case MONSTERNAME::BrownRabbit:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 67.f, 68.f });
+	}
+	break;
 	case MONSTERNAME::BabyCactus:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 54.f, 67.f });
@@ -247,7 +257,12 @@ void Monster::DamagedStart()
 {
 	switch (MonsterName_)
 	{
-	case MONSTERNAME::Rabbit:
+	case MONSTERNAME::WhiteRabbit:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 65.f, 59.f });
+	}
+		break;
+	case MONSTERNAME::BrownRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 65.f, 59.f });
 	}
@@ -284,7 +299,12 @@ void Monster::DieStart()
 {
 	switch (MonsterName_)
 	{
-	case MONSTERNAME::Rabbit:
+	case MONSTERNAME::WhiteRabbit:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 72.f, 66.f });
+	}
+	break;
+	case MONSTERNAME::BrownRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 72.f, 66.f });
 	}
@@ -338,6 +358,58 @@ void Monster::MoveUpdate()
 void Monster::DamagedUpdate()
 {
 	Hit();
+
+	if (MONSTERNAME::WhiteRabbit == MonsterName_)
+	{
+		GameEngineSound::SoundPlayControl("R1Damage.mp3");
+	}
+
+	if (MONSTERNAME::BrownRabbit == MonsterName_)
+	{
+		GameEngineSound::SoundPlayControl("R2Damage.mp3");
+	}
+
+	if (MONSTERNAME::BabyCactus == MonsterName_)
+	{
+		GameEngineSound::SoundPlayControl("CaDamage.mp3");
+	}
+
+	//switch (MonsterName_)
+	//{
+	//case MONSTERNAME::WhiteRabbit:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("R1Damage.mp3");
+	//}
+	//case MONSTERNAME::BrownRabbit:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("R2Damage.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::BabyCactus:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("CaDamage.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::Sand:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("SaDamage.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::Freezer:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("FrDamage.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::Sparker:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("SpDamage.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::Boss:
+	//	break;
+	//}
+
+
 }
 
 void Monster::AttackUpdate()
@@ -346,5 +418,55 @@ void Monster::AttackUpdate()
 
 void Monster::DieUpdate()
 {
+
+	if (MONSTERNAME::WhiteRabbit == MonsterName_)
+	{
+		GameEngineSound::SoundPlayControl("R1Die.mp3");
+	}
+
+	if (MONSTERNAME::BrownRabbit == MonsterName_)
+	{
+		GameEngineSound::SoundPlayControl("R2Die.mp3");
+	}
+
+	if (MONSTERNAME::BabyCactus == MonsterName_)
+	{
+		GameEngineSound::SoundPlayControl("CaDie.mp3");
+	}
+	//switch (MonsterName_)
+	//{
+	//case MONSTERNAME::WhiteRabbit:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("R1Die.mp3");
+	//}
+	//case MONSTERNAME::BrownRabbit:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("R2Die.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::BabyCactus:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("CaDie.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::Sand:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("SaDie.mp3");
+	//}
+	//break;
+	//case MONSTERNAME::Freezer:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("FrDie.mp3");
+	//}
+	//	break;
+	//case MONSTERNAME::Sparker:
+	//{
+	//	GameEngineSound::SoundPlayOneShot("SpDie.mp3");
+	//}
+	//	break;
+	//case MONSTERNAME::Boss:
+	//	break;
+	//}
+
 	Death();
 }

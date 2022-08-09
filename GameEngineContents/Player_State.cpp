@@ -113,17 +113,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("DefaultAtt");
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("Skill_Q"))
-	{
-		InA_Renderer_->On();
-		InB_Renderer_->On();
-	//	InSkillCollision_->On();
-
-		CurSkill_ = PLAYERSKILL::SKILL_IN;
-
-		StateManager.ChangeState("SkillAtt");
-		return;
-	}
+	UseSkill();
 
 	// ¶¥ÀÌ ¾Æ´Ï´Ù
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
@@ -169,6 +159,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	UseSkill();
 
 	// ¶¥ÀÌ ¾Æ´Ï´Ù
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
@@ -191,6 +182,8 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 		return;
 	}
+
+	UseSkill();
 
 	if (true == TopColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })				
 		|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
@@ -224,6 +217,8 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	UseSkill();
+
 	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
 		StateManager.ChangeState("Idle");
@@ -376,17 +371,18 @@ void Player::DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-
 	SkillPositionUpdate(CurSkill_);
 
+	InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	//InB_Renderer_->AnimationBindEnd("In_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 
-	if (true == GameEngineInput::GetInst()->IsUp("Skill_Q"))
+	//StateManager.ChangeState("Idle");
+	//return;
+
+
+	if (true == GameEngineInput::GetInst()->IsFree("Skill_Q"))
 	{
-		InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-		InB_Renderer_->AnimationBindEnd("In_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-
-		StateManager.ChangeState("Idle");
-		return;
+		
 	}
 }
 

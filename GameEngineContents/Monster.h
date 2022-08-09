@@ -14,7 +14,8 @@ enum class MONSTERSTATE
 
 enum class MONSTERNAME
 {
-	Rabbit,
+	WhiteRabbit,
+	BrownRabbit,
 	BabyCactus,
 	Sand,
 	Freezer,

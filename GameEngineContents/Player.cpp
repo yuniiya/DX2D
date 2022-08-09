@@ -245,7 +245,6 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
-	//PlayerStateUpdate();
 	StateManager.Update(_DeltaTime);
 
 	PlayerMove(_DeltaTime);
@@ -494,84 +493,10 @@ void Player::ObjectPixelCheck()
 	}
 }
 
-void Player::ChangeState(PLAYERSTATE _State)
+void Player::ColiisionCheck()
 {
-	/*if (CurState_ != _State)
-	{
-		switch (_State)
-		{
-		case PLAYERSTATE::IDLE:
-			IdleStart();
-			break;
-		case PLAYERSTATE::MOVE:
-			MoveStart();
-			break;
-		case PLAYERSTATE::JUMP:
-			JumpStart();
-			break;
-		case PLAYERSTATE::PRONE:
-			ProneStart();
-			break;
-		case PLAYERSTATE::PRONESTAB:
-			ProneStabStart();
-			break;
-		case PLAYERSTATE::LADDER:
-			LadderStart();
-			break;
-		case PLAYERSTATE::ROPE:
-			RopeStart();
-			break;
-		case PLAYERSTATE::ATTACK:
-			AttackStart();
-			break;
-		case PLAYERSTATE::DAMAGED:
-			DamagedStart();
-			break;
-		case PLAYERSTATE::DIE:
-			DieStart();
-			break;
-		}
-	}
-
-	CurState_ = _State;*/
 }
 
-void Player::PlayerStateUpdate()
-{
-	//switch (CurState_)
-	//{
-	//case PLAYERSTATE::IDLE:
-	//	IdleUpdate();
-	//	break;
-	//case PLAYERSTATE::MOVE:
-	//	MoveUpdate();
-	//	break;
-	//case PLAYERSTATE::JUMP:
-	//	JumpUpdate();
-	//	break;
-	//case PLAYERSTATE::PRONE:
-	//	ProneUpdate();
-	//	break;
-	//case PLAYERSTATE::PRONESTAB:
-	//	ProneStabUpdate();
-	//	break;
-	//case PLAYERSTATE::LADDER:
-	//	LadderUpdate();
-	//	break;
-	//case PLAYERSTATE::ROPE:
-	//	RopeUpdate();
-	//	break;
-	//case PLAYERSTATE::ATTACK:
-	//	AttackUpdate();
-	//	break;
-	//case PLAYERSTATE::DAMAGED:
-	//	DamagedUpdate();
-	//	break;
-	//case PLAYERSTATE::DIE:
-	//	DieUpdate();
-	//	break;
-	//}
-}
 
 bool Player::IsMoveKey()
 {
@@ -642,18 +567,36 @@ void Player::PlayerMove(float _DeltaTime)
 		DirCheck(PlayerRenderer_, CurDir_);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	// 0 255 0 (로프) 에 충돌했을 때만 
-	//if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
-	//{
-	//	GetTransform().SetWorldMove(GetTransform().GetUpVector() * 500.f * _DeltaTime);
-	//}
+}
 
-	//if (true == GameEngineInput::GetInst()->IsPress("MoveDown")
-	//	&& false == IsGround)
-	//{
-	//	GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed_ * _DeltaTime);
-	//}
+void Player::UseSkill()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
+	{
+		GameEngineSound::SoundPlayControl("InUse.mp3");
+
+		InA_Renderer_->On();
+		InB_Renderer_->On();
+		InSkillCollision_->On();
+
+		CurSkill_ = PLAYERSKILL::SKILL_IN;
+
+		AddAccTime(Time_);
+		StateManager.ChangeState("SkillAtt");
+		return;
+	}
+	else if (true == GameEngineInput::GetInst()->IsPress("Skill_W"))
+	{
+
+	}
+	else if (true == GameEngineInput::GetInst()->IsPress("Skill_E"))
+	{
+
+	}
+	else if (true == GameEngineInput::GetInst()->IsPress("Skill_R"))
+	{
+
+	}
 }
 
 void Player::SkillEnd(const FrameAnimation_DESC& _Info)
@@ -662,15 +605,11 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	{
 	case PLAYERSKILL::SKILL_IN:
 	{
+
 		InA_Renderer_->Off();
 		InB_Renderer_->Off();
-		//InSkillCollision_->Off();
+		InSkillCollision_->Off();
 
-		if (true == GameEngineInput::GetInst()->IsPress("Skill_Q"))
-		{
-			InA_Renderer_->On();
-			InB_Renderer_->On();
-		}
 	}
 	case PLAYERSKILL::SKILL_JI:
 	{
@@ -681,6 +620,8 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 		break;
 	}
 
+	StateManager.ChangeState("Idle");
+	return;
 }
 
 void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
