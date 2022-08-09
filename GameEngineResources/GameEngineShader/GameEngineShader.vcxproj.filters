@@ -5,6 +5,16 @@
     <FxCompile Include="Color.hlsl" />
     <FxCompile Include="Texture.hlsl" />
     <FxCompile Include="TextureAtlas.hlsl" />
-    <FxCompile Include="Debug3D.hlsl" />
+    <FxCompile Include="Debug3D.hlsl">
+      <Filter>Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="DebugTexture.hlsl">
+      <Filter>Debug</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{b8f9371e-7241-4f0d-aa6e-ac5475aece1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

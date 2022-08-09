@@ -226,8 +226,6 @@ public:
 		return Rot;
 	}
 
-
-
 	static float4 Lerp(const float4& p1, const float4& p2, float Time)
 	{
 		return p1 * (1.0f - Time) + p2 * Time;
@@ -313,7 +311,6 @@ public:
 		return x == 0.0f && y == 0.0f;
 	}
 
-public:
 	UINT GetUIntColor() const
 	{
 		UINT Int;
@@ -357,7 +354,7 @@ public:
 		return static_cast<int>(w);
 	}
 
-	POINT GetConvertWindowPOINT()
+	POINT GetConvertWindowPOINT() 
 	{
 		return POINT(ix(), iy());
 	}

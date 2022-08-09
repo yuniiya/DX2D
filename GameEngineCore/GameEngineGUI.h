@@ -17,7 +17,7 @@ private:
 	void Begin() 
 	{
 		std::string Name = GameEngineString::AnsiToUTF8Return(GetNameConstPtr());
-		ImGui::Begin(Name.c_str());
+		ImGui::Begin(Name.c_str(), &IsUpdateRef());
 	}
 
 	void End() 

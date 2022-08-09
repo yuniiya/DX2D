@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -131,6 +132,7 @@
     <FxCompile Include="Debug3D.hlsl" />
     <FxCompile Include="Texture.hlsl" />
     <FxCompile Include="TextureAtlas.hlsl" />
+    <FxCompile Include="DebugTexture.hlsl" />
     <FxCompile Include="TransformHeader.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

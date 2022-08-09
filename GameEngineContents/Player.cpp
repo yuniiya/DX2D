@@ -310,13 +310,13 @@ bool Player::StagePixelCheck()
 	//float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
 	//float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
 
-	MiddleColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y));
-	BottomDownColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 47.f);
-	BottomColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 43.f);	// 발 밑 픽셀의 값을 얻어온다
-	BottomUpColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 41.f);	// 발보다 조금위
-	TopColor = MapTexture_->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) - 25.f);
-	float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
-	float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
+	MiddleColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y));
+	BottomDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 47.f);
+	BottomColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 43.f);	// 발 밑 픽셀의 값을 얻어온다
+	BottomUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 41.f);	// 발보다 조금위
+	TopColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) - 25.f);
+	float4 LeftColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
+	float4 RightColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
 
 	
 	// 땅
@@ -417,7 +417,7 @@ bool Player::StagePixelCheck()
 
 void Player::ObjectPixelCheck()
 {
-	float4 Color = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()));
+	float4 Color = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()));
 
 	if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
 	{

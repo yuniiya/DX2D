@@ -133,12 +133,15 @@ public:
 		return Result;
 	}
 
+	void AllClear();
+
 protected:
 	
 
 
 
 private:
+
 	void ActorOnEvent();
 
 	void ActorOffEvent();
