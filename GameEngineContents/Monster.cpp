@@ -17,6 +17,8 @@ Monster::Monster()
 	, MonsterDir_(ACTORDIR::MAX)
 	, MonsterName_(MONSTERNAME::MAX)
 	, MonsterType_(MONSTERTYPE::MAX)
+	, IdleTime_(0)
+	, MoveTime_(0)
 {
 }
 
@@ -50,7 +52,7 @@ void Monster::Start()
 {
 
 	IdleTime_ = GameEngineRandom::MainRandom.RandomInt(3, 6);
-	MoveTime_ = GameEngineRandom::MainRandom.RandomInt(30, 50);
+	MoveTime_ = GameEngineRandom::MainRandom.RandomInt(35, 50);
 
 }
 
@@ -196,14 +198,12 @@ void Monster::IdleStart()
 		break;
 	case MONSTERNAME::Boss:
 		break;
-	case MONSTERNAME::MAX:
-		break;
 	default:
 		break;
 	}
 
-	ReSetAccTime();
-	AddAccTime(Time_);
+	//ReSetAccTime();
+	//AddAccTime(Time_);
 
 	Renderer_->ChangeFrameAnimation("Idle");
 }
@@ -233,14 +233,12 @@ void Monster::MoveStart()
 		break;
 	case MONSTERNAME::Boss:
 		break;
-	case MONSTERNAME::MAX:
-		break;
 	default:
 		break;
 	}
 
-	ReSetAccTime();
-	AddAccTime(Time_);
+	//ReSetAccTime();
+	//AddAccTime(Time_);
 
 	Renderer_->ChangeFrameAnimation("Move");
 }
@@ -269,8 +267,6 @@ void Monster::DamagedStart()
 	case MONSTERNAME::Sparker:
 		break;
 	case MONSTERNAME::Boss:
-		break;
-	case MONSTERNAME::MAX:
 		break;
 	default:
 		break;
@@ -308,8 +304,6 @@ void Monster::DieStart()
 	case MONSTERNAME::Sparker:
 		break;
 	case MONSTERNAME::Boss:
-		break;
-	case MONSTERNAME::MAX:
 		break;
 	default:
 		break;

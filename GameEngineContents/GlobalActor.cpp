@@ -3,6 +3,7 @@
 
 GlobalActor::GlobalActor() 
 	: MapTexture_(nullptr)
+	, CurDir_(ACTORDIR::MAX)
 {
 }
 
@@ -35,23 +36,36 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor, float _LeftRightP
 	float4 RightColor = MapTexture_->GetPixel(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + _LeftRightPos
 		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()))));
 
-	float4 BottomLeftColor = MapTexture_->GetPixel(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) - _LeftRightPos
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos - 10.f)));
+	float4 BottomLeftDownColor = MapTexture_->GetPixel(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) - _LeftRightPos
+		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos - 20.f)));
 
-	float4 BottomRightColor = MapTexture_->GetPixel(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + _LeftRightPos
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos - 10.f)));
+	float4 BottomRightDownColor = MapTexture_->GetPixel(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + _LeftRightPos
+		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos - 20.f)));
 
 	float4 BottomLeftUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - _LeftRightPos)
-		, static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);	// 발보다 조금위
+		, static_cast<float>(-GetTransform().GetWorldPosition().iy()) + _BottomPos + 10.f);	// 발보다 조금위
 
 	float4 BottomRightUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + _LeftRightPos)
-		, static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);	// 발보다 조금위
+		, static_cast<float>(-GetTransform().GetWorldPosition().iy()) + _BottomPos + 10.f);	// 발보다 조금위
 
 	float4 BottomUpColor = MapTexture_->GetPixel(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos) + 10.f));
+		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos) + 2.f));
 
 	float4 BottomDownColor = MapTexture_->GetPixel(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
 		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos) - 70.f));
+
+
+	// 발 밑 조금 위가 땅에 박혔을 때
+	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	{
+		//if (true == BottomLeftUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		//	|| true == BottomRightUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			Pos = float4{ 0.f, 2.f, 0.f };
+			GetTransform().SetWorldMove(Pos);
+		}
+	}
 
 
 	// 허공 => 내려준다
@@ -76,11 +90,15 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor, float _LeftRightP
 		}
 
 	}
+	else
+	{
+		DownPower_ = 0.0f;
+	}
 
 	// 떠있는 지형 위에서 옆이 허공일 때
-	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))				// 발 밑이 땅
 	{
-		if (true == BottomLeftColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f }))
+		if (true == BottomLeftDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f }))		// 발 밑이 땅, 발 밑에서 옆이 허공
 		{
 			Pos = float4{ 2.f, 0.f, 0.f };
 			GetTransform().SetWorldMove(Pos);
@@ -88,7 +106,7 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor, float _LeftRightP
 			//SetDir(ACTORDIR::RIGHT);
 			CurDir_ = ACTORDIR::RIGHT;
 		}
-		else if (true == BottomRightColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f }))
+		else if (true == BottomRightDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f }))
 		{
 			Pos = float4{ -2.f, 0.f, 0.f };
 			GetTransform().SetWorldMove(Pos);
