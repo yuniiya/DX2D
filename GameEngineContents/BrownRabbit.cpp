@@ -21,8 +21,8 @@ void BrownRabbit::Start()
 	Renderer_->GetTransform().SetLocalScale({ 67.f, 68.f });	// Move
 	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Rabbit2_Idle", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Rabbit2_Walk", 0.18f));
-	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Rabbit2_Hit", 0.5f));
-	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Rabbit2_Die", 0.2f));
+	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Rabbit2_Hit", 0.1f));
+	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Rabbit2_Die", 0.1f));
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 

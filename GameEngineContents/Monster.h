@@ -48,7 +48,7 @@ public:
 	Monster& operator=(Monster&& _Other) noexcept = delete;
 
 public:
-	inline int GetHP()
+	int GetHP()
 	{
 		return HP_;
 	}
@@ -63,7 +63,7 @@ public:
 		return CurState_;
 	}
 
-	inline void SetHP(int _HP)
+	void SetHP(int _HP)
 	{
 		HP_ = _HP;
 	}
@@ -118,8 +118,10 @@ protected:
 	virtual void Hit();
 	virtual void DirChange();
 
-	bool MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	virtual bool MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	virtual void CollisonCheck();
+
+	void BindMonsterUpdate(const FrameAnimation_DESC& _Info);
 
 private:
 	int HP_;
@@ -129,15 +131,23 @@ private:
 
 	int IdleTime_;
 	int MoveTime_;
+	float DamageTime_;
+	float DirChangeTime_;
 
 	float BottomPos_;
 	float LeftRightPos_;
 	float4 DownPower_;
 
 	MONSTERSTATE CurState_;
+	MONSTERSTATE PrevState_;
 	MONSTERNAME MonsterName_;
 	MONSTERTYPE MonsterType_;
 	ACTORDIR MonsterDir_;
+
+	bool SoundPlay_;
+	bool IsDie();
+	bool IsHit;
+
 
 protected:
 	GameEngineTextureRenderer* Renderer_;

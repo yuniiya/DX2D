@@ -151,6 +151,9 @@
     <ClInclude Include="Boss.h">
       <Filter>Actor\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Actor\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -258,6 +261,9 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Actor\Title</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

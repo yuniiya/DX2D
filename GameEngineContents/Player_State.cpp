@@ -113,7 +113,10 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("DefaultAtt");
 	}
 
-	UseSkill();
+	if (true == IsSkillKey())
+	{
+		UseSkill();
+	}
 
 	// ¶¥ÀÌ ¾Æ´Ï´Ù
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
@@ -159,7 +162,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	UseSkill();
+	if (true == IsSkillKey())
+	{
+		UseSkill();
+	}
 
 	// ¶¥ÀÌ ¾Æ´Ï´Ù
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
@@ -183,7 +189,10 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	UseSkill();
+	if (true == IsSkillKey())
+	{
+		UseSkill();
+	}
 
 	if (true == TopColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })				
 		|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
@@ -217,7 +226,10 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	UseSkill();
+	if (true == IsSkillKey())
+	{
+		UseSkill();
+	}
 
 	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
@@ -371,19 +383,50 @@ void Player::DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
 	SkillPositionUpdate(CurSkill_);
 
-	InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+
+	switch (CurSkill_)
+	{
+	case PLAYERSKILL::SKILL_IN:
+	{
+		InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	}
+		break;
+	case PLAYERSKILL::SKILL_PA:
+	{
+		PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	}
+		break;
+	case PLAYERSKILL::SKILL_JI:
+	{
+		JiB_Renderer_->AnimationBindEnd("Ji_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));	
+		//JiB_Renderer_->AnimationBindFrame("Ji_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	}
+		break;
+	case PLAYERSKILL::SKILL_SIN:
+	{
+		SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	}
+		break;
+	case PLAYERSKILL::SKILL_SINA:
+		break;
+	case PLAYERSKILL::SKILL_SINB:
+		break;
+	case PLAYERSKILL::SKILL_SINC:
+		break;
+	case PLAYERSKILL::SKILL_SIND:
+		break;
+	case PLAYERSKILL::MAX:
+		break;
+	default:
+		break;
+	}
 	//InB_Renderer_->AnimationBindEnd("In_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 
 	//StateManager.ChangeState("Idle");
 	//return;
-
-
-	if (true == GameEngineInput::GetInst()->IsFree("Skill_Q"))
-	{
-		
-	}
 }
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)

@@ -21,8 +21,8 @@ void BabyCactus::Start()
 	Renderer_->GetTransform().SetLocalScale({ 54.f, 67.f });	// Move
 	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Cactus_Idle", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Cactus_Walk", 0.18f));
-	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Cactus_Hit", 0.5f));
-	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Cactus_Die", 0.2f));
+	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Cactus_Hit", 0.1f));
+	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Cactus_Die", 0.1f));
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 

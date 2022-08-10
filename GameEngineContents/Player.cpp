@@ -40,6 +40,7 @@ Player::Player()
 	, InHit_Renderer_(nullptr)
 	, JiA_Renderer_(nullptr)
 	, JiB_Renderer_(nullptr)
+	, JiC_Renderer_(nullptr)
 	, JiHit_Renderer_(nullptr)
 	, PaA_Renderer_(nullptr)
 	, PaHit_Renderer_(nullptr)
@@ -239,7 +240,139 @@ void Player::Start()
 		InHit_Renderer_->CreateFrameAnimationFolder("In_Hit", FrameAnimation_DESC("In_Hit", 0.06f));
 		InHit_Renderer_->ChangeFrameAnimation("In_Hit");
 		InHit_Renderer_->Off();
+	}
 
+	{
+		JiSkillCollision_ = CreateComponent<GameEngineCollision>();
+		JiSkillCollision_->GetTransform().SetLocalScale({ 970.f, 350.f });
+		JiSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+		JiSkillCollision_->Off();
+
+		JiA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		JiA_Renderer_->GetTransform().SetLocalScale({ 328.f, 297.f });
+		JiA_Renderer_->CreateFrameAnimationFolder("Ji_A", FrameAnimation_DESC("Ji_A", 0.06f));
+		JiA_Renderer_->ChangeFrameAnimation("Ji_A");
+		JiA_Renderer_->Off();
+
+		JiB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		JiB_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
+		JiB_Renderer_->CreateFrameAnimationFolder("Ji_B", FrameAnimation_DESC("Ji_B", 0.06f));
+		JiB_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.06f));
+		JiB_Renderer_->ChangeFrameAnimation("Ji_B");
+		JiB_Renderer_->Off();
+
+		//JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		//JiC_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
+		//JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.06f));
+		//JiC_Renderer_->ChangeFrameAnimation("Ji_C");
+		//JiC_Renderer_->Off();
+
+		JiHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		JiHit_Renderer_->GetTransform().SetLocalScale({ 368.f, 275.f });
+		JiHit_Renderer_->CreateFrameAnimationFolder("Ji_Hit", FrameAnimation_DESC("Ji_Hit", 0.06f));
+		JiHit_Renderer_->ChangeFrameAnimation("Ji_Hit");
+		JiHit_Renderer_->Off();
+	}
+
+	{
+		PaSkillCollision_ = CreateComponent<GameEngineCollision>();
+		PaSkillCollision_->GetTransform().SetLocalScale({ 790.f, 400.f });
+		PaSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+		PaSkillCollision_->Off();
+
+		PaA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		PaA_Renderer_->GetTransform().SetLocalScale({ 792.f, 434.f });
+		PaA_Renderer_->CreateFrameAnimationFolder("Pa_A", FrameAnimation_DESC("Pa_A", 0.06f));
+		PaA_Renderer_->ChangeFrameAnimation("Pa_A");
+		PaA_Renderer_->Off();
+
+		PaHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		PaHit_Renderer_->GetTransform().SetLocalScale({ 272.f, 228.f });
+		PaHit_Renderer_->CreateFrameAnimationFolder("Pa_Hit", FrameAnimation_DESC("Pa_Hit", 0.06f));
+		PaHit_Renderer_->ChangeFrameAnimation("Pa_Hit");
+		PaHit_Renderer_->Off();
+	}
+
+	{
+		SinStart_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinStart_Renderer_->GetTransform().SetLocalScale({ 717.f * 0.8f, 500.f * 0.8f });
+		SinStart_Renderer_->CreateFrameAnimationFolder("Sin_Start", FrameAnimation_DESC("Sin_Start", 0.06f));
+		SinStart_Renderer_->ChangeFrameAnimation("Sin_Start");
+		SinStart_Renderer_->Off();
+		
+		SinA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinA_Renderer_->GetTransform().SetLocalScale({ 982.f * 0.8f, 992.f * 0.8f });
+		SinA_Renderer_->CreateFrameAnimationFolder("Sin_A", FrameAnimation_DESC("SinA", 0.06f));
+		SinA_Renderer_->ChangeFrameAnimation("Sin_A");
+		SinA_Renderer_->Off();
+
+		SinAHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinAHit_Renderer_->GetTransform().SetLocalScale({ 324.f, 328.f });
+		SinAHit_Renderer_->CreateFrameAnimationFolder("SinA_Hit", FrameAnimation_DESC("SinA_Hit", 0.06f));
+		SinAHit_Renderer_->ChangeFrameAnimation("SinA_Hit");
+		SinAHit_Renderer_->Off();
+
+		SinACollision_ = CreateComponent<GameEngineCollision>();
+		SinACollision_->GetTransform().SetLocalScale({ 970.f * 0.8f, 500.f * 0.8f });
+		SinACollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+		SinACollision_->Off();
+	}
+
+	{
+		SinB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinB_Renderer_->GetTransform().SetLocalScale({ 850.f * 0.8f, 1096.f * 0.8f });
+		SinB_Renderer_->CreateFrameAnimationFolder("Sin_B", FrameAnimation_DESC("SinB", 0.06f));
+		SinB_Renderer_->ChangeFrameAnimation("Sin_B");
+		SinB_Renderer_->Off();
+
+		SinBHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinBHit_Renderer_->GetTransform().SetLocalScale({ 324.f, 328.f });
+		SinBHit_Renderer_->CreateFrameAnimationFolder("SinB_Hit", FrameAnimation_DESC("SinB_Hit", 0.06f));
+		SinBHit_Renderer_->ChangeFrameAnimation("SinB_Hit");
+		SinBHit_Renderer_->Off();
+
+		SinBCollision_ = CreateComponent<GameEngineCollision>();
+		SinBCollision_->GetTransform().SetLocalScale({ 500.f * 0.8f, 1000.f * 0.8f });
+		SinBCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+		SinBCollision_->Off();
+	}
+
+	{
+		SinC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinC_Renderer_->GetTransform().SetLocalScale({ 1255.f * 0.8f, 969.f * 0.8f });
+		SinC_Renderer_->CreateFrameAnimationFolder("Sin_C", FrameAnimation_DESC("SinC", 0.06f));
+		SinC_Renderer_->ChangeFrameAnimation("Sin_C");
+		SinC_Renderer_->Off();
+
+		SinCHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinCHit_Renderer_->GetTransform().SetLocalScale({ 324.f, 328.f });
+		SinCHit_Renderer_->CreateFrameAnimationFolder("SinC_Hit", FrameAnimation_DESC("SinC_Hit", 0.06f));
+		SinCHit_Renderer_->ChangeFrameAnimation("SinC_Hit");
+		SinCHit_Renderer_->Off();
+
+		SinCCollision_ = CreateComponent<GameEngineCollision>();
+		SinCCollision_->GetTransform().SetLocalScale({ 700.f * 0.8f, 960.f * 0.8f });
+		SinCCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+		SinCCollision_->Off();
+	}
+
+	{
+		SinD_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinD_Renderer_->GetTransform().SetLocalScale({ 1280.f, 720.f });
+		SinD_Renderer_->CreateFrameAnimationFolder("Sin_D", FrameAnimation_DESC("SinD", 0.06f));
+		SinD_Renderer_->ChangeFrameAnimation("Sin_D");
+		SinD_Renderer_->Off();
+
+		SinDHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		SinDHit_Renderer_->GetTransform().SetLocalScale({ 324.f, 328.f });
+		SinDHit_Renderer_->CreateFrameAnimationFolder("SinD_Hit", FrameAnimation_DESC("SinD_Hit", 0.06f));
+		SinDHit_Renderer_->ChangeFrameAnimation("SinD_Hit");
+		SinDHit_Renderer_->Off();
+
+		SinDCollision_ = CreateComponent<GameEngineCollision>();
+		SinDCollision_->GetTransform().SetLocalScale({ 1280.f, 720.f });
+		SinDCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+		SinDCollision_->Off();
 	}
 }
 
@@ -279,21 +412,21 @@ void Player::DebugModeOnOff()
 
 void Player::DebugRender()
 {
-	float PlayerPosX = GetPosition().x;
-	float PlayerPosY = GetPosition().y;
+	//float PlayerPosX = GetPosition().x;
+	//float PlayerPosY = GetPosition().y;
 
-	if (true == IsDebug)
-	{
-		std::string PosX = "";
-		std::string PosY = "";
+	//if (true == IsDebug)
+	//{
+	//	std::string PosX = "";
+	//	std::string PosY = "";
 
-		PosX = "PosX : " + std::to_string(PlayerPosX);
-		PosY = "PosY : " + std::to_string(PlayerPosY);
+	//	PosX = "PosX : " + std::to_string(PlayerPosX);
+	//	PosY = "PosY : " + std::to_string(PlayerPosY);
 
 
-		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40.f, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x - 30.f, PosX.c_str(), static_cast<int>(PosX.length()));
-		TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40.f, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().y - 10.f, PosY.c_str(), static_cast<int>(PosY.length()));
-	}
+	//	TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40.f, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x - 30.f, PosX.c_str(), static_cast<int>(PosX.length()));
+	//	TextOut(GameEngineWindow::GetHDC(), GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().x + 40.f, GetLevel()->GetMainCameraActor()->GetTransform().GetWorldPosition().y - 10.f, PosY.c_str(), static_cast<int>(PosY.length()));
+	//}
 }
 
 
@@ -520,6 +653,19 @@ bool Player::IsUpDownMoveKey()
 	return false;
 }
 
+bool Player::IsSkillKey()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q")
+		|| true == GameEngineInput::GetInst()->IsDown("Skill_W")
+		|| true == GameEngineInput::GetInst()->IsDown("Skill_E")
+		|| true == GameEngineInput::GetInst()->IsDown("Skill_R"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 void Player::PlayerMove(float _DeltaTime)
 {
 	if (CurDir_ == ACTORDIR::NONE)
@@ -573,7 +719,7 @@ void Player::UseSkill()
 {
 	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
 	{
-		GameEngineSound::SoundPlayControl("InUse.mp3");
+		GameEngineSound::SoundPlayOneShot("InUse.mp3");
 
 		InA_Renderer_->On();
 		InB_Renderer_->On();
@@ -585,17 +731,40 @@ void Player::UseSkill()
 		StateManager.ChangeState("SkillAtt");
 		return;
 	}
-	else if (true == GameEngineInput::GetInst()->IsPress("Skill_W"))
+	else if (true == GameEngineInput::GetInst()->IsDown("Skill_W"))
 	{
+		GameEngineSound::SoundPlayOneShot("PaUse.mp3");
 
+		PaA_Renderer_->On();
+		PaSkillCollision_->On();
+
+		CurSkill_ = PLAYERSKILL::SKILL_PA;
+
+		StateManager.ChangeState("SkillAtt");
+		return;
 	}
-	else if (true == GameEngineInput::GetInst()->IsPress("Skill_E"))
+	else if (true == GameEngineInput::GetInst()->IsDown("Skill_E"))
 	{
+		GameEngineSound::SoundPlayOneShot("JiUse.mp3");
 
+		JiA_Renderer_->On();
+		JiB_Renderer_->On();
+		JiSkillCollision_->On();
+
+		CurSkill_ = PLAYERSKILL::SKILL_JI;
+
+		StateManager.ChangeState("SkillAtt");
+		return;
 	}
-	else if (true == GameEngineInput::GetInst()->IsPress("Skill_R"))
+	else if (true == GameEngineInput::GetInst()->IsDown("Skill_R"))
 	{
+		GameEngineSound::SoundPlayOneShot("SinUse.mp3");
 
+		SinStart_Renderer_->On();
+		CurSkill_ = PLAYERSKILL::SKILL_SIN;
+
+		StateManager.ChangeState("SkillAtt");
+		return;
 	}
 }
 
@@ -604,16 +773,40 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	switch (CurSkill_)
 	{
 	case PLAYERSKILL::SKILL_IN:
-	{
-
+	{	
 		InA_Renderer_->Off();
 		InB_Renderer_->Off();
 		InSkillCollision_->Off();
-
 	}
+	break;
+	case PLAYERSKILL::SKILL_PA:
+	{
+		PaA_Renderer_->Off();
+		PaSkillCollision_->Off();
+	}
+	break;
 	case PLAYERSKILL::SKILL_JI:
 	{
+		//AddAccTime(Time_);
+		JiA_Renderer_->Off();
+
+		//JiB_Renderer_->ChangeFrameAnimation("Ji_C");
+
 	
+		JiB_Renderer_->Off();
+
+		//JiC_Renderer_->On();
+		JiSkillCollision_->Off();
+	}
+	break;
+	case PLAYERSKILL::SKILL_SIN:
+	{
+		SinStart_Renderer_->Off();
+	}
+	break;
+	case PLAYERSKILL::SKILL_SINA:
+	{
+
 	}
 	break;
 	default:
@@ -653,9 +846,25 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		}
 	}
 		break;
-	case PLAYERSKILL::SKILL_JI:
-		break;
 	case PLAYERSKILL::SKILL_PA:
+	{
+		if (ACTORDIR::RIGHT == CurDir_)
+		{
+			PaA_Renderer_->GetTransform().PixLocalNegativeX();
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 20.f, GetPosition().y });
+		}
+		else
+		{
+			PaA_Renderer_->GetTransform().PixLocalPositiveX();
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 20.f, GetPosition().y });
+		}
+	}
+		break;
+	case PLAYERSKILL::SKILL_JI:
+	{
+		JiA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 60.f});
+		JiB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 110.f});
+	}
 		break;
 	case PLAYERSKILL::SKILL_SINA:
 		break;

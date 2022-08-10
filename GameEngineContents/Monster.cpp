@@ -7,6 +7,7 @@ Monster::Monster()
 	: Renderer_(nullptr)
 	, Collision_(nullptr)
 	, CurState_(MONSTERSTATE::IDLE)
+	, PrevState_(CurState_)
 	, HP_(0)
 	, Atk_(0.0f)
 	, Speed_(0.0f)
@@ -19,6 +20,9 @@ Monster::Monster()
 	, MonsterType_(MONSTERTYPE::MAX)
 	, IdleTime_(0)
 	, MoveTime_(0)
+	, IsHit(false)
+	, DamageTime_(0.0f)
+	, DirChangeTime_(0.0f)
 {
 }
 
@@ -28,22 +32,26 @@ Monster::~Monster()
 
 void Monster::TakeDamage(int _Damage)
 {
-	if (HP_ <= 0)
+	//if (DamageTime_ > 2.f)	// 다시 맞은지 2초 지났다
+	//{
+	//	SetHP(GetHP() - _Damage);
+
+	//	DamageTime_ = 0.0f;
+
+	//	ChangeState(MONSTERSTATE::MOVE);
+	//	return;
+	//}
+		
+	if (false == IsHit)				// IsHIt가 아니었으면 Hp깎아준다
 	{
-		ChangeState(MONSTERSTATE::DIE);
-		return;
-	}
-	else
-	{
-		AddAccTime(GameEngineTime::GetDeltaTime());
+		IsHit = true;				// 충돌 On. 시간을 잰다
 
 		HP_ = HP_ - _Damage;
-
-		if (1.f < GetAccTime())
-		{
-			ChangeState(MONSTERSTATE::MOVE);
-			return;
-		}
+		//SetHP(GetHP() - _Damage);
+	}
+	else // IsHit가 true이다
+	{
+		return;
 	}
 
 }
@@ -65,6 +73,7 @@ void Monster::Update(float _DeltaTime)
 
 	CollisonCheck();
 	DirChange();
+
 }
 
 void Monster::ChangeState(MONSTERSTATE _State)
@@ -86,7 +95,7 @@ void Monster::ChangeState(MONSTERSTATE _State)
 			AttackStart();
 			break;
 		case MONSTERSTATE::DIE:
-			DamagedStart();
+			DieStart();
 			break;
 		}
 	}
@@ -119,6 +128,7 @@ void Monster::MonsterStateUpdate()
 void Monster::Hit()
 {
 	TakeDamage(50);
+
 }
 
 void Monster::DirChange()
@@ -141,7 +151,7 @@ void Monster::DirChange()
 
 	if (CurState_ == MONSTERSTATE::MOVE)
 	{
-		AddAccTime(GameEngineTime::GetDeltaTime());
+		AddAccTime(DirChangeTime_);
 
 		if (CurDir_ == ACTORDIR::LEFT)
 		{
@@ -159,17 +169,57 @@ void Monster::DirChange()
 
 bool Monster::MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
+
 	return true;
 }
 
 void Monster::CollisonCheck()
 {
+	if (true == IsHit)	// 충돌 true이면 IsHIt -> On
+	{
+		Collision_->Off();
+		DamageTime_ += GameEngineTime::GetDeltaTime();	// 시간을 잰다
+
+		if (2.f < DamageTime_)	// 2초가 지났으면 다시 IsHit -> Off
+		{
+			IsHit = false;
+			DamageTime_ = 0.0f;	// 시간 리셋
+
+			ChangeState(MONSTERSTATE::MOVE);	// 상태 체인지
+			return;
+		}
+	}
+
+	if (true == IsDie())
+	{
+		ChangeState(MONSTERSTATE::DIE);
+		return;
+	}
+
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D,
 		std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
 	))
 	{
 		ChangeState(MONSTERSTATE::DAMAGED);
 		return;
+	}
+
+	//if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D))
+	//{
+
+	//}
+
+}
+
+bool Monster::IsDie()
+{
+	if (GetHP() <= 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -206,9 +256,6 @@ void Monster::IdleStart()
 	default:
 		break;
 	}
-
-	//ReSetAccTime();
-	//AddAccTime(Time_);
 
 	Renderer_->ChangeFrameAnimation("Idle");
 }
@@ -247,8 +294,7 @@ void Monster::MoveStart()
 		break;
 	}
 
-	//ReSetAccTime();
-	//AddAccTime(Time_);
+	Collision_->On();
 
 	Renderer_->ChangeFrameAnimation("Move");
 }
@@ -260,26 +306,36 @@ void Monster::DamagedStart()
 	case MONSTERNAME::WhiteRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 65.f, 59.f });
+		GameEngineSound::SoundPlayOneShot("R1Damage.mp3");
 	}
 		break;
 	case MONSTERNAME::BrownRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 65.f, 59.f });
+		GameEngineSound::SoundPlayOneShot("R2Damage.mp3");
 	}
 	break;
 	case MONSTERNAME::BabyCactus:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 83.f, 69.f });
+		GameEngineSound::SoundPlayOneShot("CaDamage.mp3");
 	}
 		break;
 	case MONSTERNAME::Sand:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 86.f, 86.f });
+		GameEngineSound::SoundPlayOneShot("SaDamage.mp3");
 	}
 		break;
 	case MONSTERNAME::Freezer:
+	{
+		GameEngineSound::SoundPlayOneShot("FrDamage.mp3");
+	}
 		break;
 	case MONSTERNAME::Sparker:
+	{
+		GameEngineSound::SoundPlayOneShot("SpDamage.mp3");
+	}
 		break;
 	case MONSTERNAME::Boss:
 		break;
@@ -288,6 +344,7 @@ void Monster::DamagedStart()
 	}
 
 	Renderer_->ChangeFrameAnimation("Damaged");
+
 }
 
 void Monster::AttackStart()
@@ -297,37 +354,53 @@ void Monster::AttackStart()
 
 void Monster::DieStart()
 {
+
 	switch (MonsterName_)
 	{
 	case MONSTERNAME::WhiteRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 72.f, 66.f });
+		GameEngineSound::SoundPlayOneShot("R1Die.mp3");
 	}
 	break;
 	case MONSTERNAME::BrownRabbit:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 72.f, 66.f });
+		GameEngineSound::SoundPlayOneShot("R2Die.mp3");
 	}
 	break;
 	case MONSTERNAME::BabyCactus:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 87.f, 73.f });
+		GameEngineSound::SoundPlayOneShot("CaDie.mp3");
 	}
 		break;
 	case MONSTERNAME::Sand:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 97.f, 99.f });
+		GameEngineSound::SoundPlayOneShot("SaDie.mp3");
 	}
 		break;
 	case MONSTERNAME::Freezer:
+	{
+		GameEngineSound::SoundPlayOneShot("FrDie.mp3");
+	}
 		break;
 	case MONSTERNAME::Sparker:
+	{
+		GameEngineSound::SoundPlayOneShot("SpDie.mp3");
+
+	}
 		break;
 	case MONSTERNAME::Boss:
 		break;
 	default:
 		break;
 	}
+
+	AddAccTime(Time_);
+
+	Collision_->Off();
 
 	Renderer_->ChangeFrameAnimation("Die");
 }
@@ -359,57 +432,6 @@ void Monster::DamagedUpdate()
 {
 	Hit();
 
-	if (MONSTERNAME::WhiteRabbit == MonsterName_)
-	{
-		GameEngineSound::SoundPlayControl("R1Damage.mp3");
-	}
-
-	if (MONSTERNAME::BrownRabbit == MonsterName_)
-	{
-		GameEngineSound::SoundPlayControl("R2Damage.mp3");
-	}
-
-	if (MONSTERNAME::BabyCactus == MonsterName_)
-	{
-		GameEngineSound::SoundPlayControl("CaDamage.mp3");
-	}
-
-	//switch (MonsterName_)
-	//{
-	//case MONSTERNAME::WhiteRabbit:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("R1Damage.mp3");
-	//}
-	//case MONSTERNAME::BrownRabbit:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("R2Damage.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::BabyCactus:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("CaDamage.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::Sand:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("SaDamage.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::Freezer:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("FrDamage.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::Sparker:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("SpDamage.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::Boss:
-	//	break;
-	//}
-
-
 }
 
 void Monster::AttackUpdate()
@@ -418,55 +440,11 @@ void Monster::AttackUpdate()
 
 void Monster::DieUpdate()
 {
+	Renderer_->AnimationBindEnd("Die", std::bind(&Monster::BindMonsterUpdate, this, std::placeholders::_1));
+}
 
-	if (MONSTERNAME::WhiteRabbit == MonsterName_)
-	{
-		GameEngineSound::SoundPlayControl("R1Die.mp3");
-	}
-
-	if (MONSTERNAME::BrownRabbit == MonsterName_)
-	{
-		GameEngineSound::SoundPlayControl("R2Die.mp3");
-	}
-
-	if (MONSTERNAME::BabyCactus == MonsterName_)
-	{
-		GameEngineSound::SoundPlayControl("CaDie.mp3");
-	}
-	//switch (MonsterName_)
-	//{
-	//case MONSTERNAME::WhiteRabbit:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("R1Die.mp3");
-	//}
-	//case MONSTERNAME::BrownRabbit:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("R2Die.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::BabyCactus:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("CaDie.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::Sand:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("SaDie.mp3");
-	//}
-	//break;
-	//case MONSTERNAME::Freezer:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("FrDie.mp3");
-	//}
-	//	break;
-	//case MONSTERNAME::Sparker:
-	//{
-	//	GameEngineSound::SoundPlayOneShot("SpDie.mp3");
-	//}
-	//	break;
-	//case MONSTERNAME::Boss:
-	//	break;
-	//}
-
+void Monster::BindMonsterUpdate(const FrameAnimation_DESC& _Info)
+{
+	
 	Death();
 }

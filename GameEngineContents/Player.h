@@ -116,6 +116,7 @@ private:
 
 	GameEngineTextureRenderer* JiA_Renderer_;
 	GameEngineTextureRenderer* JiB_Renderer_;
+	GameEngineTextureRenderer* JiC_Renderer_;
 	GameEngineTextureRenderer* JiHit_Renderer_;
 
 	GameEngineTextureRenderer* PaA_Renderer_;
@@ -142,6 +143,7 @@ protected:
 protected:
 	bool IsMoveKey();
 	bool IsUpDownMoveKey();
+	bool IsSkillKey();
 
 	void PlayerMove(float _DeltaTime);
 	

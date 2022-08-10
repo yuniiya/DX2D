@@ -31,6 +31,26 @@ void ContentsCore::Start()
 		Dir.MoveParentToExitsChildDirectory("Resources");
 		Dir.Move("Resources");
 		Dir.Move("Texture");
+		Dir.Move("Intro");
+
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Title");
+
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
 		Dir.Move("Map");
 		Dir.Move("BossLevel");
 		Dir.Move("Stage_Boss");
@@ -667,7 +687,7 @@ void ContentsCore::Start()
 	}
 
 
-	//CreateLevel<TitleLevel>("Title");
+	CreateLevel<TitleLevel>("Title");
 	CreateLevel<LoginLevel>("Login");
 	CreateLevel<SelectLevel>("Select");
 	CreateLevel<AriantLevel>("Ariant");
