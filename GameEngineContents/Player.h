@@ -57,6 +57,7 @@ private:
 	float4 JumpPower_;
 	float4 DownPower_;
 	float4 Position_;
+	float4 PrevPosition_;
 
 	int HP_;
 	int MP_;
@@ -70,8 +71,10 @@ private:
 	std::string CurLevelName_;
 
 	PLAYERSTATE CurState_;
-	ACTORDIR CurDir_;
 	PLAYERSKILL CurSkill_;
+
+	ACTORDIR CurDir_;
+	ACTORDIR PrevDir_;
 
 protected:
 	float4 BottomColor;

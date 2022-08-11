@@ -18,6 +18,9 @@ void Player::JumpStart(const StateInfo& _Info)
 {
 	GameEngineSound::SoundPlayOneShot("Jump.mp3");
 
+	PrevPosition_ = GetPosition();
+	PrevDir_ = CurDir_;
+
 	AddAccTime(Time_);
 	JumpPower_ = float4{ 0.f, 450.f, 0.f };
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
@@ -60,6 +63,9 @@ void Player::DefaultAttackStart(const StateInfo& _Info)
 
 void Player::SkillAttackStart(const StateInfo& _Info)
 {
+	PrevPosition_ = GetPosition();
+	PrevDir_ = CurDir_;
+
 	PlayerRenderer_->GetTransform().SetLocalScale({ 92.f, 102.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
@@ -127,6 +133,11 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Fall");
 		return;
 	}
+
+	if (CurSkill_ == PLAYERSKILL::SKILL_SIN)
+	{
+		SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	}
 }
 
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -176,6 +187,13 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Fall");
 		return;
 	}
+
+	if (PLAYERSKILL::SKILL_PA == CurSkill_)
+	{
+		SkillPositionUpdate(CurSkill_);
+
+		PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	}
 }
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -222,6 +240,14 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 	}
+
+	if (PLAYERSKILL::SKILL_PA == CurSkill_)
+	{
+		SkillPositionUpdate(CurSkill_);
+
+		PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	}
+
 }
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)

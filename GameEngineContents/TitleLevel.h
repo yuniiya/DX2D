@@ -20,7 +20,11 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
+	void OnEvent() override;
+
 private:
+	float Time_;
+	bool SoundPlay_;
 
 };
 

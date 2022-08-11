@@ -2,6 +2,7 @@
 #include "Monster.h"
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include "Player.h"
 
 Monster::Monster()
 	: Renderer_(nullptr)
@@ -73,6 +74,12 @@ void Monster::Update(float _DeltaTime)
 
 	CollisonCheck();
 	DirChange();
+
+	if (nullptr != GetLevel<GlobalLevel>()->GetPlayer())
+	{
+		float4 PlayerPos = GetLevel<GlobalLevel>()->GetPlayer()->GetPosition();
+
+	}
 
 }
 
@@ -175,17 +182,17 @@ bool Monster::MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollis
 
 void Monster::CollisonCheck()
 {
-	if (true == IsHit)	// 충돌 true이면 IsHIt -> On
+	if (true == IsHit)									// 충돌 true이면 IsHIt -> On
 	{
 		Collision_->Off();
 		DamageTime_ += GameEngineTime::GetDeltaTime();	// 시간을 잰다
 
-		if (2.f < DamageTime_)	// 2초가 지났으면 다시 IsHit -> Off
+		if (2.f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
 		{
 			IsHit = false;
-			DamageTime_ = 0.0f;	// 시간 리셋
-
-			ChangeState(MONSTERSTATE::MOVE);	// 상태 체인지
+			DamageTime_ = 0.0f;							// 시간 리셋
+						
+			ChangeState(MONSTERSTATE::MOVE);			// 상태 체인지
 			return;
 		}
 	}
@@ -203,11 +210,6 @@ void Monster::CollisonCheck()
 		ChangeState(MONSTERSTATE::DAMAGED);
 		return;
 	}
-
-	//if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D))
-	//{
-
-	//}
 
 }
 
@@ -430,8 +432,21 @@ void Monster::MoveUpdate()
 
 void Monster::DamagedUpdate()
 {
-	Hit();
+	//float4 PlayerPos = 
+	//float4 MonsterPos = GetPosition();
 
+	//// 플레이어가 몬스터 왼쪽에 있다
+	//if (PlayerPos.x < MonsterPos.x)
+	//{
+	//	MoveDir.x = 0.3f;
+	//}
+	//else if (PlayerPos.x > MonsterPos.x)
+	//{
+	//	// 몬스터 오른쪽에 있다
+	//	MoveDir.x = -0.3f;
+	//}
+
+	Hit();
 }
 
 void Monster::AttackUpdate()

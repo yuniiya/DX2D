@@ -286,6 +286,11 @@ void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _Order)
 
 void GameEngineLevel::OverChildMove(GameEngineLevel* _NextLevel)
 {
+	if (this == _NextLevel)
+	{
+		return;
+	}
+
 	// 플레이 레벨
 	
 	// 로그인 레벨

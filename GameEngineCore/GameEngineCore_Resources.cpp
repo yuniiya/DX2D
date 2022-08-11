@@ -195,6 +195,7 @@ void EngineRenderingPipeLine()
 		NewPipe->SetPixelShader("DebugTexture.hlsl");
 	}
 
+
 }
 
 void EngineMesh() 

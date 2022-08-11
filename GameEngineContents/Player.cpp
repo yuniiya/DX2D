@@ -67,6 +67,8 @@ Player::Player()
 	, MP_(6000)
 	, Exp_(10000)
 	, Atk_(5000)
+	, PrevPosition_(Position_)
+	, PrevDir_(CurDir_)
 
 {
 }
@@ -276,7 +278,7 @@ void Player::Start()
 
 	{
 		PaSkillCollision_ = CreateComponent<GameEngineCollision>();
-		PaSkillCollision_->GetTransform().SetLocalScale({ 790.f, 400.f });
+		PaSkillCollision_->GetTransform().SetLocalScale({ 790.f, 330.f });
 		PaSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
 		PaSkillCollision_->Off();
 
@@ -557,7 +559,9 @@ void Player::ObjectPixelCheck()
 		// 다음 레벨
 		if (true == Color.CompareInt4D(float4{ 1.0f, 0.0f, 1.0f, 1.0f }))
 		{
-			GameEngineSound::SoundPlayOneShot("Portal.mp3");
+			GameEngineSound::SoundPlayControl("Portal.mp3", 0);
+
+			//GameEngineSound::SoundPlayOneShot("Portal.mp3");
 
 			if ("ARIANT" == CurLevelName_)
 			{
@@ -585,7 +589,9 @@ void Player::ObjectPixelCheck()
 		}	// 이전 레벨
 		else if (true == Color.CompareInt4D(float4{ 0.0f, 0.0f, 1.0f, 1.0f }))
 		{
-			GameEngineSound::SoundPlayOneShot("Portal.mp3");
+			GameEngineSound::SoundPlayControl("Portal.mp3", 0);
+
+			//GameEngineSound::SoundPlayOneShot("Portal.mp3");
 
 			if ("ARIANT" == CurLevelName_)
 			{
@@ -733,14 +739,15 @@ void Player::UseSkill()
 	}
 	else if (true == GameEngineInput::GetInst()->IsDown("Skill_W"))
 	{
-		GameEngineSound::SoundPlayOneShot("PaUse.mp3");
+		//GameEngineSound::SoundPlayOneShot("PaUse.mp3");
+		GameEngineSound::SoundPlayControl("PaUse.mp3", 0);
 
 		PaA_Renderer_->On();
 		PaSkillCollision_->On();
 
 		CurSkill_ = PLAYERSKILL::SKILL_PA;
 
-		StateManager.ChangeState("SkillAtt");
+		StateManager.ChangeState("Jump");
 		return;
 	}
 	else if (true == GameEngineInput::GetInst()->IsDown("Skill_E"))
@@ -750,20 +757,20 @@ void Player::UseSkill()
 		JiA_Renderer_->On();
 		JiB_Renderer_->On();
 		JiSkillCollision_->On();
-
 		CurSkill_ = PLAYERSKILL::SKILL_JI;
 
 		StateManager.ChangeState("SkillAtt");
 		return;
 	}
 	else if (true == GameEngineInput::GetInst()->IsDown("Skill_R"))
+
 	{
 		GameEngineSound::SoundPlayOneShot("SinUse.mp3");
 
 		SinStart_Renderer_->On();
 		CurSkill_ = PLAYERSKILL::SKILL_SIN;
 
-		StateManager.ChangeState("SkillAtt");
+		StateManager.ChangeState("Idle");
 		return;
 	}
 }
@@ -813,13 +820,17 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 		break;
 	}
 
+
 	StateManager.ChangeState("Idle");
 	return;
 }
 
 void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 {
-	if ("SkillAtt" != StateManager.GetCurStateStateName())
+	float4 Pos = GetPosition();
+
+	if ("SkillAtt" != StateManager.GetCurStateStateName()
+		&& "Jump" != StateManager.GetCurStateStateName())
 	{
 		return;
 	}
@@ -828,10 +839,10 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	{
 	case PLAYERSKILL::SKILL_IN:
 	{
-		if (ACTORDIR::RIGHT == CurDir_)
+		if (ACTORDIR::RIGHT == PrevDir_)
 		{
 			InA_Renderer_->GetTransform().PixLocalNegativeX();
-			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 20.f, GetPosition().y });
+			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 20.f, GetPosition().y});
 
 			InB_Renderer_->GetTransform().PixLocalNegativeX();
 			InB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 130.f, GetPosition().y });
@@ -848,22 +859,22 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		break;
 	case PLAYERSKILL::SKILL_PA:
 	{
-		if (ACTORDIR::RIGHT == CurDir_)
+		if (ACTORDIR::RIGHT == PrevDir_)
 		{
 			PaA_Renderer_->GetTransform().PixLocalNegativeX();
-			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 20.f, GetPosition().y });
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 180.f, PrevPosition_.y - 30.f});
 		}
 		else
 		{
 			PaA_Renderer_->GetTransform().PixLocalPositiveX();
-			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 20.f, GetPosition().y });
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 180.f, PrevPosition_.y - 30.f});
 		}
 	}
 		break;
 	case PLAYERSKILL::SKILL_JI:
 	{
-		JiA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 60.f});
-		JiB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 110.f});
+		JiA_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 60.f});
+		JiB_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 110.f});
 	}
 		break;
 	case PLAYERSKILL::SKILL_SINA:

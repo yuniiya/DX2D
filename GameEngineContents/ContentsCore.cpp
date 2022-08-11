@@ -686,6 +686,7 @@ void ContentsCore::Start()
 		GameEngineInput::GetInst()->CreateKey("DebugModeOnOff", VK_OEM_6);			// ]
 	}
 
+	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<LoginLevel>("Login");

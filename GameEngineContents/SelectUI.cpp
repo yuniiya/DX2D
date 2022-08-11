@@ -281,7 +281,9 @@ void SelectUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			GameEngineSound::SoundPlayOneShot("GameIn.mp3");
+			//GameEngineSound::SoundPlayOneShot("GameIn.mp3");
+			GameEngineSound::SoundPlayControl("GameIn.mp3", 0);
+
 
 			GameStartButton_->SetTexture("GameStartBut_Pressed.png");
 			GameStart = true;

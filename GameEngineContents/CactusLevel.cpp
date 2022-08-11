@@ -24,7 +24,6 @@ void CactusLevel::Start()
 	SetBackGround("Back_Cactus.png");
 	SetStage("Stage_Cactus.png");
 
-
 	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	Player_->GetTransform().SetLocalPosition({ 200.0f, -600.0f});
 

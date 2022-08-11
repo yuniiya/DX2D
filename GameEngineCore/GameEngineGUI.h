@@ -62,6 +62,10 @@ public:
 		return Window;
 	}
 
+	static std::string OpenFileDlg(const std::string& _StartPath, const std::string& _Filter);
+
+	static std::string OpenFolderDlg(const std::string& _Title, const std::string& _StartPath);
+
 protected:
 
 private:

@@ -39,6 +39,11 @@ private:
 	GameEngineTextureRenderer* BackRenderer_;
 
 public:
+	inline Player* GetPlayer()
+	{
+		return Player_;
+	}
+
 	inline GameEngineTextureRenderer* GetCollisionMap()
 	{
 		return ColMapRenderer_;
@@ -66,5 +71,6 @@ protected:
 	void SetPortal(float4 _Pos);
 
 private:
+	Player* Player_;
 };
 

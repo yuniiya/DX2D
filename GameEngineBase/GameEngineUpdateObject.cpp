@@ -54,8 +54,8 @@ void GameEngineUpdateObject::AllUpdate(float _DeltaTime)
 
 	for (GameEngineUpdateObject* Com : Childs)
 	{
-		Com->AddAccTime(_DeltaTime);
-		Com->ReleaseUpdate(_DeltaTime);
+		//Com->AddAccTime(_DeltaTime);
+		//Com->ReleaseUpdate(_DeltaTime);
 		if (false == Com->IsUpdate())
 		{
 			continue;

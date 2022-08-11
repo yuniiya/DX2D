@@ -12,7 +12,7 @@ TitleLogo::~TitleLogo()
 void TitleLogo::Start()
 {
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->CreateFrameAnimationFolder("Title", FrameAnimation_DESC("Title", 0.1f));
+	Renderer_->CreateFrameAnimationFolder("Title", FrameAnimation_DESC("Intro", 0.15f));
 	Renderer_->ChangeFrameAnimation("Title");
 	Renderer_->GetTransform().SetLocalScale({ 1280.f, 720.f });
 }

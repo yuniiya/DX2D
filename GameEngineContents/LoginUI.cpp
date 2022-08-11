@@ -60,7 +60,7 @@ void LoginUI::Start()
 
 		IDAreaCol_ = CreateComponent<GameEngineCollision>();
 		IDAreaCol_->GetTransform().SetLocalScale({ 201.f * 0.8f, 45.f * 0.8f});
-		IDAreaCol_->GetTransform().SetLocalPosition(float4{ CamPos.x - 40.f, CamPos.y + 64.f });
+		IDAreaCol_->GetTransform().SetLocalPosition(float4{ CamPos.x - 40.f, CamPos.y + 69.f });
 		IDAreaCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
 
