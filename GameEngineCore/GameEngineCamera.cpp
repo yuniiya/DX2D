@@ -123,7 +123,7 @@ void GameEngineCamera::Release(float _DelataTime)
 	}
 }
 
-float4 GameEngineCamera::GetScreenPosition() 
+float4 GameEngineCamera::GetMouseScreenPosition() 
 {
 	POINT P;
 
@@ -145,18 +145,18 @@ void GameEngineCamera::Update(float _DeltaTime)
 // 뷰포트에 있는거죠?
 float4 GameEngineCamera::GetMouseWorldPosition()
 {
-	float4 Pos = GetScreenPosition();
+	float4 Pos = GetMouseScreenPosition();
 
 	float4x4 ViewPort;
 	ViewPort.ViewPort(Size.x, Size.y, 0, 0, 0, 1);
 	ViewPort.Inverse();
 
 	float4x4 ProjectionInvers = Projection.InverseReturn();
-	float4x4 ViewInverse = View.InverseReturn();
+	float4x4 ViewInverse = View.InverseReturn();	//
 
 	Pos = Pos * ViewPort;
 	Pos = Pos * ProjectionInvers;
-	Pos = Pos * ViewInverse;
+	Pos = Pos * ViewInverse;	//
 	// 마우스는 뷰포트의 좌표다?
 
 	return Pos;

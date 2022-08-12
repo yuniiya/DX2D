@@ -24,6 +24,7 @@ Monster::Monster()
 	, IsHit(false)
 	, DamageTime_(0.0f)
 	, DirChangeTime_(0.0f)
+	, MoveDir_(float4::ZERO)
 {
 }
 
@@ -74,13 +75,6 @@ void Monster::Update(float _DeltaTime)
 
 	CollisonCheck();
 	DirChange();
-
-	if (nullptr != GetLevel<GlobalLevel>()->GetPlayer())
-	{
-		float4 PlayerPos = GetLevel<GlobalLevel>()->GetPlayer()->GetPosition();
-
-	}
-
 }
 
 void Monster::ChangeState(MONSTERSTATE _State)
@@ -193,7 +187,7 @@ void Monster::CollisonCheck()
 		Collision_->Off();
 		DamageTime_ += GameEngineTime::GetDeltaTime();	// 시간을 잰다
 
-		if (2.f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
+		if (1.8f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
 		{
 			IsHit = false;
 			DamageTime_ = 0.0f;							// 시간 리셋
@@ -362,6 +356,10 @@ void Monster::DamagedStart()
 		break;
 	}
 
+	MoveDir_ = GetPosition();
+	PlayerPos_ = Player::MainPlayer_->GetPosition();
+	MonsterPos_ = GetPosition();
+
 	Renderer_->ChangeFrameAnimation("Damaged");
 
 }
@@ -455,19 +453,19 @@ void Monster::MoveUpdate()
 
 void Monster::DamagedUpdate()
 {
-	//float4 PlayerPos = 
-	//float4 MonsterPos = GetPosition();
 
-	//// 플레이어가 몬스터 왼쪽에 있다
-	//if (PlayerPos.x < MonsterPos.x)
-	//{
-	//	MoveDir.x = 0.3f;
-	//}
-	//else if (PlayerPos.x > MonsterPos.x)
-	//{
-	//	// 몬스터 오른쪽에 있다
-	//	MoveDir.x = -0.3f;
-	//}
+	// 플레이어가 몬스터 왼쪽에 있다
+	if (PlayerPos_.x < MonsterPos_.x)
+	{
+		MoveDir_.x = GetPosition().x + 0.7f;
+	}
+	else if (PlayerPos_.x > MonsterPos_.x)
+	{
+		// 몬스터 오른쪽에 있다
+		MoveDir_.x = GetPosition().x - 0.7f;
+	}
+
+	GetTransform().SetLocalPosition({ MoveDir_.x, GetPosition().y});
 
 	Hit();
 }

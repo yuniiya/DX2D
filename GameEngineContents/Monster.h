@@ -49,7 +49,11 @@ public:
 	Monster& operator=(Monster&& _Other) noexcept = delete;
 
 public:
-	int GetHP()
+	inline float4 GetPosition()
+	{
+		return GetTransform().GetLocalPosition();
+	}
+	inline int GetHP()
 	{
 		return HP_;
 	}
@@ -138,6 +142,10 @@ private:
 	float BottomPos_;
 	float LeftRightPos_;
 	float4 DownPower_;
+
+	float4 MoveDir_;
+	float4 PlayerPos_;
+	float4 MonsterPos_;
 
 	MONSTERSTATE CurState_;
 	MONSTERSTATE PrevState_;

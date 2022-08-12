@@ -114,8 +114,20 @@ std::string GameEngineGUI::OpenFolderDlg(const std::string& _Title, const std::s
     return Dlg.result();
 }
 
-std::string GameEngineGUI::OpenFileDlg(const std::string& _StartPath, const std::string& _Filter)
+std::string GameEngineGUI::OpenFileDlg(const std::string& _Title, const std::string& _StartPath)
 {
+    pfd::open_file Dlg = pfd::open_file(_Title, _StartPath, { "All Files", "*" }, pfd::opt::force_path);
+
+    Dlg.kill();
+
+    if (0 != Dlg.result().size())
+    {
+        return Dlg.result()[0];
+    }
+
+    return "";
+
+
     //OPENFILENAME OFN;
     //char filePathName[100] = "";
     //char lpstrFile[100] = "";
@@ -140,8 +152,6 @@ std::string GameEngineGUI::OpenFileDlg(const std::string& _StartPath, const std:
     //}
 
     //return OFN.lpstrFile;
-
-    return "";
 }
 
 void GameEngineGUI::GUIDestroy()

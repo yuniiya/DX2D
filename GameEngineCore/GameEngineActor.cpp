@@ -21,9 +21,19 @@ void GameEngineActor::End() {}
 
 void GameEngineActor::DetachObject()
 {
+	//if (nullptr == GetParent())
+	//{
+	//	MsgBoxAssert("부모가 존재하지 않는 오브젝트는 떼어낼 수 없습니다");
+	//}
+
 	GameEngineUpdateObject::DetachObject();
 
 	GetTransform().DetachTransform();
+
+	if (false == IsDeath())
+	{
+		GetLevel()->PushActor(this, this->GetOrder());
+	}
 }
 
 void GameEngineActor::SetParent(GameEngineUpdateObject* _Object)

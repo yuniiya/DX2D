@@ -36,16 +36,7 @@ void ContentsCore::Start()
 
 		GameEngineFolderTexture::Load(Dir.GetFullPath());
 	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("Resources");
-		Dir.Move("Resources");
-		Dir.Move("Texture");
-		Dir.Move("Title");
 
-
-		GameEngineFolderTexture::Load(Dir.GetFullPath());
-	}
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("Resources");
@@ -742,7 +733,7 @@ void ContentsCore::Start()
 	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Title");
+	ChangeLevel("Cactus");
 
 	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

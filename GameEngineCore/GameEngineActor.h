@@ -68,7 +68,6 @@ protected:
 
 
 private:
-
 	void SetLevel(GameEngineLevel* _ParentLevel)
 	{
 		ParentLevel = _ParentLevel;
