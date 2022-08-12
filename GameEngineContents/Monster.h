@@ -5,6 +5,7 @@ enum class MONSTERSTATE
 {
 	IDLE,
 	MOVE,
+	CHASE,
 	ATTACK,
 	DAMAGED,
 	DIE,
@@ -138,6 +139,7 @@ private:
 	int MoveTime_;
 	float DamageTime_;
 	float DirChangeTime_;
+	float ChaseTime_;
 
 	float BottomPos_;
 	float LeftRightPos_;
@@ -162,14 +164,19 @@ protected:
 	GameEngineTextureRenderer* Renderer_;
 	GameEngineCollision* Collision_;
 
+	GameEngineTextureRenderer* SparkerAtt_;
+	GameEngineTextureRenderer* FreezerAtt_;
+
 	virtual void IdleStart();
 	virtual void MoveStart();
+	virtual void ChaseStart();
 	virtual void DamagedStart();
 	virtual void AttackStart();
 	virtual void DieStart();
 
 	virtual void IdleUpdate();
 	virtual void MoveUpdate();
+	virtual void ChaseUpdate();
 	virtual void DamagedUpdate();
 	virtual void AttackUpdate();
 	virtual void DieUpdate();

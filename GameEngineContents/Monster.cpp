@@ -25,6 +25,12 @@ Monster::Monster()
 	, DamageTime_(0.0f)
 	, DirChangeTime_(0.0f)
 	, MoveDir_(float4::ZERO)
+	, MonsterPos_(0.0f)
+	, PlayerPos_(0.0f)
+	, SparkerAtt_(nullptr)
+	, FreezerAtt_(nullptr)
+	, SoundPlay_(false)
+	, ChaseTime_(0.0f)
 {
 }
 
@@ -49,7 +55,6 @@ void Monster::TakeDamage(int _Damage)
 		IsHit = true;				// 충돌 On. 시간을 잰다
 
 		HP_ = HP_ - _Damage;
-		//SetHP(GetHP() - _Damage);
 	}
 	else // IsHit가 true이다
 	{
@@ -89,6 +94,9 @@ void Monster::ChangeState(MONSTERSTATE _State)
 		case MONSTERSTATE::MOVE:
 			MoveStart();
 			break;
+		case MONSTERSTATE::CHASE:
+			ChaseStart();
+			break;
 		case MONSTERSTATE::DAMAGED:
 			DamagedStart();
 			break;
@@ -114,6 +122,9 @@ void Monster::MonsterStateUpdate()
 	case MONSTERSTATE::MOVE:
 		MoveUpdate();
 		break;
+	case MONSTERSTATE::CHASE:
+		ChaseUpdate();
+		break;
 	case MONSTERSTATE::ATTACK:
 		AttackUpdate();
 		break;
@@ -136,21 +147,25 @@ void Monster::DirChange()
 {
 	DirCheck(Renderer_, CurDir_);
 
-	if (50.f < GetAccTime())
+	if (CurState_ != MONSTERSTATE::CHASE)
 	{
-		if (CurDir_ == ACTORDIR::LEFT)
+		if (50.f < GetAccTime())
 		{
-			CurDir_ = ACTORDIR::RIGHT;
-		}
-		else if (CurDir_ == ACTORDIR::RIGHT)
-		{
-			CurDir_ = ACTORDIR::LEFT;
-		}
+			if (CurDir_ == ACTORDIR::LEFT)
+			{
+				CurDir_ = ACTORDIR::RIGHT;
+			}
+			else if (CurDir_ == ACTORDIR::RIGHT)
+			{
+				CurDir_ = ACTORDIR::LEFT;
+			}
 
-		ReSetAccTime();
+			ReSetAccTime();
+		}
 	}
 
-	if (CurState_ == MONSTERSTATE::MOVE)
+	if (CurState_ == MONSTERSTATE::MOVE
+		|| CurState_ == MONSTERSTATE::CHASE)
 	{
 		AddAccTime(DirChangeTime_);
 
@@ -163,9 +178,7 @@ void Monster::DirChange()
 		{
 			GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * GameEngineTime::GetDeltaTime());
 		}
-
 	}
-	
 }
 
 bool Monster::MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -192,7 +205,7 @@ void Monster::CollisonCheck()
 			IsHit = false;
 			DamageTime_ = 0.0f;							// 시간 리셋
 						
-			ChangeState(MONSTERSTATE::MOVE);			// 상태 체인지
+			ChangeState(MONSTERSTATE::CHASE);			// 상태 체인지
 			return;
 		}
 	}
@@ -250,8 +263,14 @@ void Monster::IdleStart()
 	}
 	break;
 	case MONSTERNAME::Freezer:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 77.f, 82.f });
+	}
 		break;
 	case MONSTERNAME::Sparker:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 77.f, 79.f });
+	}
 		break;
 	case MONSTERNAME::Boss:
 		break;
@@ -292,8 +311,14 @@ void Monster::MoveStart()
 	}
 	break;
 	case MONSTERNAME::Freezer:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 80.f, 82.f });
+	}
 		break;
 	case MONSTERNAME::Sparker:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 80.f, 81.f });
+	}
 		break;
 	case MONSTERNAME::Boss:
 		break;
@@ -304,6 +329,11 @@ void Monster::MoveStart()
 	Collision_->On();
 
 	Renderer_->ChangeFrameAnimation("Move");
+}
+
+void Monster::ChaseStart()
+{
+	MoveStart();
 }
 
 void Monster::DamagedStart()
@@ -342,11 +372,13 @@ void Monster::DamagedStart()
 	break;
 	case MONSTERNAME::Freezer:
 	{
+		Renderer_->GetTransform().SetLocalScale({ 73.f, 92.f });
 		GameEngineSound::SoundPlayOneShot("FrDamage.mp3");
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
+		Renderer_->GetTransform().SetLocalScale({ 77.f, 73.f });
 		GameEngineSound::SoundPlayOneShot("SpDamage.mp3");
 	}
 		break;
@@ -366,7 +398,28 @@ void Monster::DamagedStart()
 
 void Monster::AttackStart()
 {
+	switch (MonsterName_)
+	{
+	case MONSTERNAME::Freezer:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 133.f, 143.f });
+		GameEngineSound::SoundPlayOneShot("FrAttack1.mp3");
+	}
+	break;
+	case MONSTERNAME::Sparker:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 159.f, 147.f });
+		GameEngineSound::SoundPlayOneShot("SpAttack1.mp3");
+	}
+	break;
+	case MONSTERNAME::Boss:
+	{
 
+	}
+	break;
+	}
+
+	Renderer_->ChangeFrameAnimation("Attack");
 }
 
 void Monster::DieStart()
@@ -406,11 +459,13 @@ void Monster::DieStart()
 	break;
 	case MONSTERNAME::Freezer:
 	{
+		Renderer_->GetTransform().SetLocalScale({ 116.f, 107.f });
 		GameEngineSound::SoundPlayOneShot("FrDie.mp3");
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
+		Renderer_->GetTransform().SetLocalScale({ 139.f, 132.f });
 		GameEngineSound::SoundPlayOneShot("SpDie.mp3");
 
 	}
@@ -445,10 +500,34 @@ void Monster::MoveUpdate()
 		ReSetAccTime();
 		ChangeState(MONSTERSTATE::IDLE);
 		return;
-	}
+	}  
 
 	DirChange();
 
+}
+
+void Monster::ChaseUpdate()
+{
+	ChaseTime_ += GameEngineTime::GetDeltaTime();
+
+	PlayerPos_ = Player::MainPlayer_->GetPosition();
+	MonsterPos_ = GetPosition();
+
+	if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
+	{
+		CurDir_ = ACTORDIR::LEFT;
+	}
+	else if (PlayerPos_.x > MonsterPos_.x)
+	{
+		CurDir_ = ACTORDIR::RIGHT;
+	}
+
+	if (7.f < ChaseTime_)
+	{
+		ChaseTime_ = 0.0f;
+		ChangeState(MONSTERSTATE::MOVE);
+		return;
+	}
 }
 
 void Monster::DamagedUpdate()

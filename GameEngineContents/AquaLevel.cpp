@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Mouse.h"
 #include "Fade.h"
+#include "Freezer.h"
+#include "Sparker.h"
 
 AquaLevel::AquaLevel() 
 	: Player_(nullptr)
@@ -29,6 +31,19 @@ void AquaLevel::Start()
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+
+	// Monster
+	{
+		Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
+		Spark1->GetTransform().SetLocalPosition({ 1050.f, -1000.f });
+		Spark1->SetMonsterDir(ACTORDIR::LEFT);
+	}
+
+	{
+		Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez1->GetTransform().SetLocalPosition({ 800.f, -1000.f });
+		Freez1->SetMonsterDir(ACTORDIR::LEFT);
+	}
 }
 
 void AquaLevel::Update(float _DeltaTime)
@@ -42,6 +57,7 @@ void AquaLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
+	//float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
 	float4 PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
