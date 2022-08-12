@@ -123,6 +123,7 @@ protected:
 
 	virtual void Hit();
 	virtual void DirChange();
+	virtual void Attack();
 
 	virtual bool MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	virtual void CollisonCheck();
@@ -148,6 +149,7 @@ private:
 	float4 MoveDir_;
 	float4 PlayerPos_;
 	float4 MonsterPos_;
+	float4 PrevPos_;
 
 	MONSTERSTATE CurState_;
 	MONSTERSTATE PrevState_;

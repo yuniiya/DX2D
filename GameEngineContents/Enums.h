@@ -18,11 +18,18 @@ enum class GAMEOBJGROUP
 
 enum class ZOrder
 {
+	BACKGROUND,
+	STAGE,
 	EFFECT,
 	SKILLBACK,
 	PLAYER,
+	MONSTER,
 	PORTAL,
 	SKILLFRONT,
+	UI,
+	MOUSE,
+
+	MAX,
 };
 
 enum class PLAYERSTATE

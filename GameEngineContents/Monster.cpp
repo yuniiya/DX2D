@@ -31,6 +31,7 @@ Monster::Monster()
 	, FreezerAtt_(nullptr)
 	, SoundPlay_(false)
 	, ChaseTime_(0.0f)
+	, PrevPos_(0.0f)
 {
 }
 
@@ -147,7 +148,8 @@ void Monster::DirChange()
 {
 	DirCheck(Renderer_, CurDir_);
 
-	if (CurState_ != MONSTERSTATE::CHASE)
+	if (CurState_ != MONSTERSTATE::CHASE
+		&& CurState_ != MONSTERSTATE::ATTACK)
 	{
 		if (50.f < GetAccTime())
 		{
@@ -177,6 +179,21 @@ void Monster::DirChange()
 		else if (CurDir_ == ACTORDIR::RIGHT)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * GameEngineTime::GetDeltaTime());
+		}
+	}
+}
+
+void Monster::Attack()
+{
+	if (MonsterType_ == MONSTERTYPE::ATTACK)
+	{
+		PlayerPos_ = Player::MainPlayer_->GetPosition();
+		MonsterPos_ = GetPosition();
+
+		if (100.f >= abs(MonsterPos_.x - PlayerPos_.x))
+		{
+			ChangeState(MONSTERSTATE::ATTACK);
+			return;
 		}
 	}
 }
@@ -235,6 +252,8 @@ bool Monster::IsDie()
 
 void Monster::IdleStart()
 {
+	PrevPos_ = GetPosition();
+
 	switch (MonsterName_)
 	{
 	case MONSTERNAME::WhiteRabbit:
@@ -265,11 +284,13 @@ void Monster::IdleStart()
 	case MONSTERNAME::Freezer:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 77.f, 82.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 77.f, 79.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
 	case MONSTERNAME::Boss:
@@ -283,6 +304,8 @@ void Monster::IdleStart()
 
 void Monster::MoveStart()
 {
+	PrevPos_ = GetPosition();
+
 	switch (MonsterName_)
 	{
 	case MONSTERNAME::WhiteRabbit:
@@ -313,11 +336,13 @@ void Monster::MoveStart()
 	case MONSTERNAME::Freezer:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 80.f, 82.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 80.f, 81.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
 	case MONSTERNAME::Boss:
@@ -403,12 +428,14 @@ void Monster::AttackStart()
 	case MONSTERNAME::Freezer:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 133.f, 143.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 27.f});
 		GameEngineSound::SoundPlayOneShot("FrAttack1.mp3");
 	}
 	break;
 	case MONSTERNAME::Sparker:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 159.f, 147.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f });
 		GameEngineSound::SoundPlayOneShot("SpAttack1.mp3");
 	}
 	break;
@@ -448,6 +475,7 @@ void Monster::DieStart()
 	case MONSTERNAME::Sand:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 97.f, 99.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 10.f});
 		GameEngineSound::SoundPlayOneShot("SaDie.mp3");
 	}
 		break;
@@ -485,6 +513,8 @@ void Monster::DieStart()
 
 void Monster::IdleUpdate()
 {
+	Attack();
+
 	if (IdleTime_ < GetAccTime())
 	{
 		ReSetAccTime();
@@ -495,6 +525,8 @@ void Monster::IdleUpdate()
 
 void Monster::MoveUpdate()
 {
+	Attack();
+
 	if (MoveTime_ < GetAccTime())
 	{
 		ReSetAccTime();
@@ -503,7 +535,6 @@ void Monster::MoveUpdate()
 	}  
 
 	DirChange();
-
 }
 
 void Monster::ChaseUpdate()
@@ -532,16 +563,15 @@ void Monster::ChaseUpdate()
 
 void Monster::DamagedUpdate()
 {
-
 	// 플레이어가 몬스터 왼쪽에 있다
 	if (PlayerPos_.x < MonsterPos_.x)
 	{
-		MoveDir_.x = GetPosition().x + 0.7f;
+		MoveDir_.x = GetPosition().x + 0.5f;
 	}
 	else if (PlayerPos_.x > MonsterPos_.x)
 	{
 		// 몬스터 오른쪽에 있다
-		MoveDir_.x = GetPosition().x - 0.7f;
+		MoveDir_.x = GetPosition().x - 0.5f;
 	}
 
 	GetTransform().SetLocalPosition({ MoveDir_.x, GetPosition().y});
@@ -551,6 +581,14 @@ void Monster::DamagedUpdate()
 
 void Monster::AttackUpdate()
 {
+	PlayerPos_ = Player::MainPlayer_->GetPosition();
+	MonsterPos_ = GetPosition();
+
+	if (130.f < abs(MonsterPos_.x - PlayerPos_.x))
+	{
+		ChangeState(MONSTERSTATE::IDLE);
+		return;
+	}
 }
 
 void Monster::DieUpdate()

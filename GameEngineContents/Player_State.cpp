@@ -5,12 +5,15 @@ void Player::IdleStart(const StateInfo& _Info)
 {
 	JumpPower_ = 0.0f;
 	ReSetAccTime();
-	PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f});
+	//PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f});
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
+
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 }
 
 void Player::MoveStart(const StateInfo& _Info)
 {
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 70.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("Move");
 }
 
@@ -23,17 +26,21 @@ void Player::JumpStart(const StateInfo& _Info)
 
 	AddAccTime(Time_);
 	JumpPower_ = float4{ 0.f, 450.f, 0.f };
+
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
 void Player::FallStart(const StateInfo& _Info)
 {
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("Fall");
 }
 
 void Player::ProneStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 90.f, 130.f, 1.f });
+	//PlayerRenderer_->GetTransform().SetLocalScale({ 90.f, 130.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 87.f, 130.f, 1.f });
 
 	PlayerRenderer_->ChangeFrameAnimation("Prone");
 }
@@ -45,19 +52,21 @@ void Player::ProneStabStart(const StateInfo& _Info)
 
 void Player::LadderStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->ChangeFrameAnimation("LadderA");
+	PlayerRenderer_->GetTransform().SetLocalScale({ 69.f, 74.f, 1.f });
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 85.f, 97.f, 1.f });
+	PlayerRenderer_->ChangeFrameAnimation("LadderA");
 }
 
 void Player::RopeStart(const StateInfo& _Info)
 {
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 78.f, 1.f });
+
 	PlayerRenderer_->ChangeFrameAnimation("RopeA");
 }
 
 void Player::DefaultAttackStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 107.f, 101.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 94.f, 75.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("DefaultAtt");
 }
 
@@ -66,18 +75,22 @@ void Player::SkillAttackStart(const StateInfo& _Info)
 	PrevPosition_ = GetPosition();
 	PrevDir_ = CurDir_;
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 92.f, 102.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 79.f, 76.f, 1.f });
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
 
 void Player::DamagedStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f, 1.f });
+
+	PlayerRenderer_->ChangeFrameAnimation("Damaged");
 
 }
 
 void Player::DieStart(const StateInfo& _Info)
 {
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
+
 	PlayerRenderer_->ChangeFrameAnimation("Die");
 }
 
@@ -200,7 +213,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * GameEngineTime::GetDeltaTime());
 
-	float4 Color = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 45.f);
+	float4 Color = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 34.f);
 	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
 		StateManager.ChangeState("Idle");
@@ -281,15 +294,15 @@ void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsUp("Attack"))
-	{
-		StateManager.ChangeState("Prone");
-		return;
-	}
-
 	if (true == GameEngineInput::GetInst()->IsUp("MoveDown"))
 	{
 		StateManager.ChangeState("Idle");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsUp("Attack"))
+	{
+		StateManager.ChangeState("Prone");
 		return;
 	}
 }
