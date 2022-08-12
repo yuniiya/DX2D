@@ -33,9 +33,9 @@ void BossLevel::Start()
 			StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 		}
 	}
-
-	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f});
+	
+	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	//Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f});
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
@@ -54,7 +54,7 @@ void BossLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-	float4 PlayerPos = Player_->GetTransform().GetLocalPosition();
+	float4 PlayerPos = Player::MainPlayer_->GetTransform().GetLocalPosition();
 	float4 CameraPos = GetMainCameraActor()->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
@@ -72,4 +72,5 @@ void BossLevel::End()
 void BossLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.f, -200.0f });
 }

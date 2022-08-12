@@ -672,7 +672,49 @@ void ContentsCore::Start()
 		GameEngineFolderTexture::Load(Dir.GetFullPath());
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Scol_Idle");
 
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Scol_Walk");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Scol_Hit");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Monster");
+		Dir.Move("Scol_Die");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{
@@ -700,7 +742,7 @@ void ContentsCore::Start()
 	CreateLevel<BossLevel>("Boss");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Cactus");
+	ChangeLevel("Title");
 
 	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

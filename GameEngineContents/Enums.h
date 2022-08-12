@@ -16,6 +16,15 @@ enum class GAMEOBJGROUP
 	MAX,
 };
 
+enum class ZOrder
+{
+	EFFECT,
+	SKILLBACK,
+	PLAYER,
+	PORTAL,
+	SKILLFRONT,
+};
+
 enum class PLAYERSTATE
 {
 	IDLE,

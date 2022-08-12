@@ -33,11 +33,15 @@ void TitleLevel::Update(float _DeltaTime)
 		SoundPlay_ = false;
 		GameEngineSound::SoundPlayOneShot("NxLogo.mp3");
 	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
+	{
+		GEngine::ChangeLevel("Login");
+	}
 }
 
 void TitleLevel::End()
 {
-
 }
 
 void TitleLevel::OnEvent()

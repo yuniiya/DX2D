@@ -182,6 +182,12 @@ bool Monster::MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollis
 
 void Monster::CollisonCheck()
 {
+	if (true == IsDie())
+	{
+		ChangeState(MONSTERSTATE::DIE);
+		return;
+	}
+
 	if (true == IsHit)									// 충돌 true이면 IsHIt -> On
 	{
 		Collision_->Off();
@@ -197,11 +203,6 @@ void Monster::CollisonCheck()
 		}
 	}
 
-	if (true == IsDie())
-	{
-		ChangeState(MONSTERSTATE::DIE);
-		return;
-	}
 
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D,
 		std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
@@ -249,6 +250,11 @@ void Monster::IdleStart()
 		Renderer_->GetTransform().SetLocalScale({ 107.f, 81.f });
 	}
 		break;
+	case MONSTERNAME::Scorpion:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 75.f, 59.f });
+	}
+	break;
 	case MONSTERNAME::Freezer:
 		break;
 	case MONSTERNAME::Sparker:
@@ -286,6 +292,11 @@ void Monster::MoveStart()
 		Renderer_->GetTransform().SetLocalScale({ 108.f, 48.f });
 	}
 		break;
+	case MONSTERNAME::Scorpion:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 79.f, 61.f });
+	}
+	break;
 	case MONSTERNAME::Freezer:
 		break;
 	case MONSTERNAME::Sparker:
@@ -329,6 +340,12 @@ void Monster::DamagedStart()
 		GameEngineSound::SoundPlayOneShot("SaDamage.mp3");
 	}
 		break;
+	case MONSTERNAME::Scorpion:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 101.f, 57.f });
+		GameEngineSound::SoundPlayOneShot("SaDamage.mp3");
+	}
+	break;
 	case MONSTERNAME::Freezer:
 	{
 		GameEngineSound::SoundPlayOneShot("FrDamage.mp3");
@@ -383,6 +400,12 @@ void Monster::DieStart()
 		GameEngineSound::SoundPlayOneShot("SaDie.mp3");
 	}
 		break;
+	case MONSTERNAME::Scorpion:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 109.f, 59.f });
+		GameEngineSound::SoundPlayOneShot("ScDie.mp3");
+	}
+	break;
 	case MONSTERNAME::Freezer:
 	{
 		GameEngineSound::SoundPlayOneShot("FrDie.mp3");
@@ -456,6 +479,7 @@ void Monster::AttackUpdate()
 void Monster::DieUpdate()
 {
 	Renderer_->AnimationBindEnd("Die", std::bind(&Monster::BindMonsterUpdate, this, std::placeholders::_1));
+
 }
 
 void Monster::BindMonsterUpdate(const FrameAnimation_DESC& _Info)

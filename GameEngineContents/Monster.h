@@ -18,6 +18,7 @@ enum class MONSTERNAME
 	BrownRabbit,
 	BabyCactus,
 	Sand,
+	Scorpion,
 	Freezer,
 	Sparker,
 	Boss,

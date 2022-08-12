@@ -22,7 +22,7 @@ public:
 public:
 	inline float4 GetPosition()
 	{
-		Position_ = GetTransform().GetLocalPosition();
+		Position_ = MainPlayer_->GetTransform().GetLocalPosition();
 		return Position_;
 	}
 

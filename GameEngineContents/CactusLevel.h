@@ -20,6 +20,7 @@ protected:
 	void End() override;
 
 	void OnEvent() override;
+	void OffEvent() override;
 
 protected:
 	float4 CameraPos_;

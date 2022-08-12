@@ -154,6 +154,9 @@
     <ClInclude Include="TitleLogo.h">
       <Filter>Actor\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Scorpion.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -264,6 +267,9 @@
     </ClCompile>
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Actor\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Scorpion.cpp">
+      <Filter>Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

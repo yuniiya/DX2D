@@ -246,7 +246,7 @@ void Player::Start()
 
 	{
 		JiSkillCollision_ = CreateComponent<GameEngineCollision>();
-		JiSkillCollision_->GetTransform().SetLocalScale({ 970.f, 350.f });
+		JiSkillCollision_->GetTransform().SetLocalScale({ 900.f, 350.f });
 		JiSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
 		JiSkillCollision_->Off();
 
@@ -278,7 +278,7 @@ void Player::Start()
 
 	{
 		PaSkillCollision_ = CreateComponent<GameEngineCollision>();
-		PaSkillCollision_->GetTransform().SetLocalScale({ 790.f, 330.f });
+		PaSkillCollision_->GetTransform().SetLocalScale({ 680.f, 330.f });
 		PaSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
 		PaSkillCollision_->Off();
 
@@ -863,11 +863,13 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		{
 			PaA_Renderer_->GetTransform().PixLocalNegativeX();
 			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 180.f, PrevPosition_.y - 30.f});
+			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 220.f, PrevPosition_.y - 30.f });
 		}
 		else
 		{
 			PaA_Renderer_->GetTransform().PixLocalPositiveX();
 			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 180.f, PrevPosition_.y - 30.f});
+			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, PrevPosition_.y - 30.f });
 		}
 	}
 		break;

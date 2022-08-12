@@ -20,8 +20,8 @@ void EntranceLevel::Start()
 	SetBackGround("Back_Entrance.png");
 	SetStage("Stage_Entrance.png");
 
-	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f});
+	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	//Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f});
 
 	SetPortal({ 2123.f, -1109.f});
 	SetPortal({ 976.f, -643.f});	
@@ -43,7 +43,7 @@ void EntranceLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
+	float4 PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
@@ -61,4 +61,10 @@ void EntranceLevel::End()
 void EntranceLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -500.0f });
+}
+
+void EntranceLevel::OffEvent()
+{
+	Player::MainPlayer_->SetLevelOverOn();
 }

@@ -22,8 +22,8 @@ void CastleLevel::Start()
 	SetBackGround("Back_Castle2.png");
 	SetStage("Stage_Castle3.png");
 
-	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f});
+	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	//Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f});
 
 	SetPortal({ 273.f, -495.f});
 
@@ -43,7 +43,7 @@ void CastleLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-	float4 PlayerPos = Player_->GetTransform().GetLocalPosition();
+	float4 PlayerPos = Player::MainPlayer_ ->GetTransform().GetLocalPosition();
 	float4 CameraPos = GetMainCameraActor()->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
@@ -61,4 +61,10 @@ void CastleLevel::End()
 void CastleLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 300.0f, -400.0f });
+}
+
+void CastleLevel::OffEvent()
+{
+	Player::MainPlayer_->SetLevelOverOn();
 }

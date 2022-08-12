@@ -19,10 +19,10 @@ void Sand::Start()
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->GetTransform().SetLocalScale({ 108.f, 48.f });	// Move
-	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Sand_Idle", 0.1f));
+	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Sand_Idle", 0.18f));
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Sand_Walk", 0.18f));
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Sand_Hit", 0.5f));
-	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Sand_Die", 0.2f));
+	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Sand_Die", 0.1f));
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 

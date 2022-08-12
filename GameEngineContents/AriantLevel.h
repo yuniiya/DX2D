@@ -24,6 +24,7 @@ protected:
 	void End() override;
 
 	void OnEvent() override;
+	void OffEvent() override;
 
 private:
 	Player* Player_;

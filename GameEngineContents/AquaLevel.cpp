@@ -20,8 +20,8 @@ void AquaLevel::Start()
 	SetBackGround("Back_Aqua2.png");
 	SetStage("Stage_Aqua.png");
 
-	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f});
+	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	//Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f});
 
 	SetPortal({ 97.f, -1123.f});
 	SetPortal({ 1494.f, -1064.f});
@@ -42,7 +42,7 @@ void AquaLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-	float4 PlayerPos_ = Player_->GetTransform().GetLocalPosition();
+	float4 PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
@@ -59,4 +59,10 @@ void AquaLevel::End()
 void AquaLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f });
+}
+
+void AquaLevel::OffEvent()
+{
+	Player::MainPlayer_->SetLevelOverOn();
 }

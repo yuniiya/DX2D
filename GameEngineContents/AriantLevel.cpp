@@ -22,8 +22,9 @@ void AriantLevel::Start()
 	SetBackGround("Back_Ariant.png");
 	SetStage("Stage_Ariant.png");
 
-	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 2600.f, -600.0f});
+	Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	//Player_->GetTransform().SetLocalPosition({ 2600.f, -600.0f});
 
 	SetPortal({ 3008.f, -750.f});
 	SetPortal({ 3410.f, -750.f});
@@ -46,7 +47,7 @@ void AriantLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-	PlayerPos_ = Player_->GetTransform().GetLocalPosition();
+	PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
@@ -64,5 +65,11 @@ void AriantLevel::End()
 void AriantLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 3200.f, -600.0f });
+}
+
+void AriantLevel::OffEvent()
+{
+	Player::MainPlayer_->SetLevelOverOn();
 }
 

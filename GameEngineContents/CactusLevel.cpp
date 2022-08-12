@@ -24,8 +24,8 @@ void CactusLevel::Start()
 	SetBackGround("Back_Cactus.png");
 	SetStage("Stage_Cactus.png");
 
-	Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	Player_->GetTransform().SetLocalPosition({ 200.0f, -600.0f});
+	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
+	//Player_->GetTransform().SetLocalPosition({ 200.0f, -600.0f});
 
 	SetPortal({ 111.f, -776.f});
 	SetPortal({ 1864.f, -776.f});
@@ -43,6 +43,10 @@ void CactusLevel::Start()
 		WhiteRabbit* Rabbit2 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
 		Rabbit2->GetTransform().SetLocalPosition({ 300.f, -600.f });
 		Rabbit2->SetMonsterDir(ACTORDIR::RIGHT);
+
+		WhiteRabbit* Rabbit3 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit3->GetTransform().SetLocalPosition({ 500.f, -600.f });
+		Rabbit3->SetMonsterDir(ACTORDIR::RIGHT);
 	}
 
 	{
@@ -53,6 +57,10 @@ void CactusLevel::Start()
 		BrownRabbit* Rabbit2 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
 		Rabbit2->GetTransform().SetLocalPosition({ 500.f, -300.f });
 		Rabbit2->SetMonsterDir(ACTORDIR::LEFT);
+
+		BrownRabbit* Rabbit3 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit3->GetTransform().SetLocalPosition({ 600.f, -300.f });
+		Rabbit3->SetMonsterDir(ACTORDIR::LEFT);
 	}
 
 
@@ -83,7 +91,7 @@ void CactusLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-	PlayerPos_ = Player_->GetTransform().GetLocalPosition();
+	PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
 
 	if (false == GetMainCameraActor()->IsFreeCameraMode())
 	{
@@ -100,4 +108,10 @@ void CactusLevel::End()
 void CactusLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -600.0f });
+}
+
+void CactusLevel::OffEvent()
+{
+	Player::MainPlayer_->SetLevelOverOn();
 }
