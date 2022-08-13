@@ -76,6 +76,8 @@ private:
 	ACTORDIR CurDir_;
 	ACTORDIR PrevDir_;
 
+	int SkillAttCount_;
+
 protected:
 	float4 BottomColor;
 	float4 JumpHighColor;
@@ -98,8 +100,8 @@ private:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime);
-	void End()  {}
+	void Update(float _DeltaTime) override;
+	void End() override;
 
 protected:
 	void DebugModeOnOff();

@@ -389,6 +389,11 @@ void Player::Update(float _DeltaTime)
 	StagePixelCheck();
 }
 
+void Player::End()
+{
+	JiB_Renderer_->Off();
+}
+
 void Player::DebugModeOnOff()
 {
 	if (GetCurLevelName() == "BOSS")
@@ -757,6 +762,7 @@ void Player::UseSkill()
 
 		JiA_Renderer_->On();
 		JiB_Renderer_->On();
+		JiB_Renderer_->ChangeFrameAnimation("Ji_B");
 		JiSkillCollision_->On();
 		CurSkill_ = PLAYERSKILL::SKILL_JI;
 

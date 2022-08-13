@@ -27,11 +27,17 @@ Monster::Monster()
 	, MoveDir_(float4::ZERO)
 	, MonsterPos_(0.0f)
 	, PlayerPos_(0.0f)
-	, SparkerAtt_(nullptr)
-	, FreezerAtt_(nullptr)
+	, SparkerAttEffect_(nullptr)
+	, FreezerAttEffect_(nullptr)
 	, SoundPlay_(false)
 	, ChaseTime_(0.0f)
 	, PrevPos_(0.0f)
+	, IsAttack(false)
+	, CanAttTime_(0.0f)
+	, AttEndTime_(0.0f)
+	, IsAttackEnd(false)
+	, SparkerAttCol_(nullptr)
+	, FreezerAttCol_(nullptr)
 {
 }
 
@@ -64,6 +70,94 @@ void Monster::TakeDamage(int _Damage)
 
 }
 
+void Monster::CollisionPositionUpdate()
+{
+	MonsterPos_ = GetPosition();
+
+	switch (MonsterName_)
+	{
+	case MONSTERNAME::Freezer:
+	{
+		if (nullptr == FreezerAttCol_)
+		{
+			return;
+		}
+
+		if (CurDir_ == ACTORDIR::LEFT)
+		{
+			FreezerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x - 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL});
+		}
+		else if (CurDir_ == ACTORDIR::RIGHT)
+		{
+			FreezerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x + 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL });
+		}
+
+	}
+	break;
+	case MONSTERNAME::Sparker:
+	{
+		if (nullptr == SparkerAttCol_)
+		{
+			return;
+		}
+
+		if (CurDir_ == ACTORDIR::LEFT)
+		{
+			SparkerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x - 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL });
+		}
+		else if (CurDir_ == ACTORDIR::RIGHT)
+		{
+			SparkerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x + 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL });
+		}
+	}
+	break;
+	}
+}
+
+void Monster::EffectPositionUpdate()
+{
+	PlayerPos_ = Player::MainPlayer_->GetPosition();
+
+	switch (MonsterName_)
+	{
+	case MONSTERNAME::Freezer:
+	{
+		if (nullptr == FreezerAttEffect_)
+		{
+			return;
+		}
+
+		if (CurDir_ == ACTORDIR::LEFT)
+		{
+			FreezerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+		}
+		else if (CurDir_ == ACTORDIR::RIGHT)
+		{
+			FreezerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+		}
+
+	}
+	break;
+	case MONSTERNAME::Sparker:
+	{
+		if (nullptr == SparkerAttEffect_)
+		{
+			return;
+		}
+
+		if (CurDir_ == ACTORDIR::LEFT)
+		{
+			SparkerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+		}
+		else if (CurDir_ == ACTORDIR::RIGHT)
+		{
+			SparkerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+		}
+	}
+	break;
+	}
+}
+
 void Monster::Start()
 {
 
@@ -81,6 +175,31 @@ void Monster::Update(float _DeltaTime)
 
 	CollisonCheck();
 	DirChange();
+
+	if (CanAttTime_ > 3.f)
+	{
+		CanAttTime_ = 0.0f;
+		IsAttack = false;
+	}
+
+	if (AttEndTime_ > 0.04f)
+	{
+		AttEndTime_ = 0.0f;
+		IsAttackEnd = false;
+
+		ChangeState(MONSTERSTATE::IDLE);
+		return;
+	}
+
+	if (true == IsAttack)
+	{
+		CanAttTime_ += GameEngineTime::GetDeltaTime();
+	}
+
+	if (true == IsAttackEnd)
+	{
+		AttEndTime_ += GameEngineTime::GetDeltaTime();
+	}
 }
 
 void Monster::ChangeState(MONSTERSTATE _State)
@@ -185,6 +304,11 @@ void Monster::DirChange()
 
 void Monster::Attack()
 {
+	if (true == IsAttack)
+	{
+		return;
+	}
+
 	if (MonsterType_ == MONSTERTYPE::ATTACK)
 	{
 		PlayerPos_ = Player::MainPlayer_->GetPosition();
@@ -200,7 +324,6 @@ void Monster::Attack()
 
 bool Monster::MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-
 	return true;
 }
 
@@ -227,7 +350,6 @@ void Monster::CollisonCheck()
 		}
 	}
 
-
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D,
 		std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
 	))
@@ -236,6 +358,45 @@ void Monster::CollisonCheck()
 		return;
 	}
 
+
+
+	if (MONSTERSTATE::ATTACK == CurState_
+		&& MONSTERTYPE::ATTACK == MonsterType_)
+	{
+		CollisionPositionUpdate();
+
+		if (MONSTERNAME::Freezer == MonsterName_)
+		{
+			if (true == FreezerAttCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::PLAYER, CollisionType::CT_OBB2D,
+				std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
+			))
+			{
+				EffectPositionUpdate();
+				FreezerAttEffect_->On();
+			}
+			else
+			{
+				FreezerAttEffect_->Off();
+			}
+
+		}
+		if (MONSTERNAME::Sparker == MonsterName_)
+		{
+
+			if (true == SparkerAttCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::PLAYER, CollisionType::CT_OBB2D,
+				std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
+			))
+			{
+				EffectPositionUpdate();
+				SparkerAttEffect_->On();
+			}
+			else
+			{
+				SparkerAttEffect_->Off();
+			}
+		}
+	}
+	
 }
 
 bool Monster::IsDie()
@@ -430,6 +591,8 @@ void Monster::AttackStart()
 		Renderer_->GetTransform().SetLocalScale({ 133.f, 143.f });
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 27.f});
 		GameEngineSound::SoundPlayOneShot("FrAttack1.mp3");
+
+		FreezerAttCol_->On();
 	}
 	break;
 	case MONSTERNAME::Sparker:
@@ -437,6 +600,8 @@ void Monster::AttackStart()
 		Renderer_->GetTransform().SetLocalScale({ 159.f, 147.f });
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f });
 		GameEngineSound::SoundPlayOneShot("SpAttack1.mp3");
+
+		SparkerAttCol_->On();
 	}
 	break;
 	case MONSTERNAME::Boss:
@@ -451,7 +616,6 @@ void Monster::AttackStart()
 
 void Monster::DieStart()
 {
-
 	switch (MonsterName_)
 	{
 	case MONSTERNAME::WhiteRabbit:
@@ -584,21 +748,51 @@ void Monster::AttackUpdate()
 	PlayerPos_ = Player::MainPlayer_->GetPosition();
 	MonsterPos_ = GetPosition();
 
-	if (130.f < abs(MonsterPos_.x - PlayerPos_.x))
+	if (200.f < abs(MonsterPos_.x - PlayerPos_.x))
 	{
 		ChangeState(MONSTERSTATE::IDLE);
 		return;
 	}
+
+	if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
+	{
+		CurDir_ = ACTORDIR::LEFT;
+	}
+	else if (PlayerPos_.x > MonsterPos_.x)
+	{
+		CurDir_ = ACTORDIR::RIGHT;
+	}
+
+	Renderer_->AnimationBindEnd("Attack", std::bind(&Monster::BindAttackEndCheck, this, std::placeholders::_1));
+	IsAttack = true;
 }
 
 void Monster::DieUpdate()
 {
-	Renderer_->AnimationBindEnd("Die", std::bind(&Monster::BindMonsterUpdate, this, std::placeholders::_1));
-
+	Renderer_->AnimationBindEnd("Die", std::bind(&Monster::BindMonsterDeathCheck, this, std::placeholders::_1));
 }
 
-void Monster::BindMonsterUpdate(const FrameAnimation_DESC& _Info)
+void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 {
-	
 	Death();
+}
+
+void Monster::BindAttackEndCheck(const FrameAnimation_DESC& _Info)
+{
+	switch (MonsterName_)
+	{
+	case MONSTERNAME::Freezer:
+	{
+		FreezerAttCol_->Off();
+	}
+		break;
+	case MONSTERNAME::Sparker:
+	{
+		SparkerAttCol_->Off();
+	}
+		break;
+
+	}
+
+	IsAttackEnd = true;
 }

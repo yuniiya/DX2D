@@ -112,6 +112,9 @@ public:
 	}
 
 	void TakeDamage(int _Damage);
+	void CollisionPositionUpdate();
+	void EffectPositionUpdate();
+
 
 protected:
 	void Start() override;
@@ -128,19 +131,23 @@ protected:
 	virtual bool MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	virtual void CollisonCheck();
 
-	void BindMonsterUpdate(const FrameAnimation_DESC& _Info);
+	void BindMonsterDeathCheck(const FrameAnimation_DESC& _Info);
+	void BindAttackEndCheck(const FrameAnimation_DESC& _Info);
+
 
 private:
 	int HP_;
 	float Atk_;
 	float Speed_;
-	float Time_; 
+	float Time_;
 
 	int IdleTime_;
 	int MoveTime_;
 	float DamageTime_;
 	float DirChangeTime_;
 	float ChaseTime_;
+	float CanAttTime_;
+	float AttEndTime_;
 
 	float BottomPos_;
 	float LeftRightPos_;
@@ -160,14 +167,18 @@ private:
 	bool SoundPlay_;
 	bool IsDie();
 	bool IsHit;
-
+	bool IsAttack;
+	bool IsAttackEnd;
 
 protected:
 	GameEngineTextureRenderer* Renderer_;
 	GameEngineCollision* Collision_;
 
-	GameEngineTextureRenderer* SparkerAtt_;
-	GameEngineTextureRenderer* FreezerAtt_;
+	GameEngineCollision* SparkerAttCol_;
+	GameEngineCollision* FreezerAttCol_;
+
+	GameEngineTextureRenderer* SparkerAttEffect_;
+	GameEngineTextureRenderer* FreezerAttEffect_;
 
 	virtual void IdleStart();
 	virtual void MoveStart();

@@ -16,6 +16,16 @@ void Freezer::Start()
 	Collision_->GetTransform().SetLocalScale({ 70.f, 70.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);
 
+	FreezerAttCol_ = CreateComponent<GameEngineCollision>();
+	FreezerAttCol_->GetTransform().SetLocalScale({ 70.f, 70.f });
+	FreezerAttCol_->ChangeOrder(GAMEOBJGROUP::MONSTERSKILL);
+	FreezerAttCol_->Off();
+
+	FreezerAttEffect_ = CreateComponent<GameEngineTextureRenderer>();
+	FreezerAttEffect_->CreateFrameAnimationFolder("Effect", FrameAnimation_DESC("Freezer_Eff", 0.08f));
+	FreezerAttEffect_->GetTransform().SetLocalScale({ 104.f, 113.f });
+	FreezerAttEffect_->ChangeFrameAnimation("Effect");
+	FreezerAttEffect_->Off();
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->GetTransform().SetLocalScale({ 80.f, 82.f });	// Move
