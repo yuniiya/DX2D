@@ -35,6 +35,20 @@ public:
 
 	void TakeDamage(int _Damage);
 	
+	inline int GetHP()
+	{
+		return HP_;
+	}
+
+	inline int GetMP()
+	{
+		return MP_;
+	}
+
+	inline int GetExp()
+	{
+		return Exp_;
+	}
 
 	inline void UseMP(int _MP)
 	{
@@ -52,21 +66,21 @@ public:
 	}
 
 private:
+	int HP_;
+	int MP_;
+	int Exp_;
+	float Atk_;
 	float Speed_;
-	float Time_;
+
 	float4 JumpPower_;
 	float4 DownPower_;
 	float4 Position_;
 	float4 PrevPosition_;
 
-	int HP_;
-	int MP_;
-	int Exp_;
-	float Atk_;
-
 	bool IsDebug;
 	bool IsGround;
 	bool CanMove;
+	bool IsHit;
 
 	std::string CurLevelName_;
 
@@ -76,7 +90,11 @@ private:
 	ACTORDIR CurDir_;
 	ACTORDIR PrevDir_;
 
+private:
 	int SkillAttCount_;
+
+	float Time_;
+	float DamageTime_;
 
 protected:
 	float4 BottomColor;
@@ -143,7 +161,7 @@ private:
 protected:
 	bool StagePixelCheck();
 	void ObjectPixelCheck();
-	void ColiisionCheck();
+	void CollisionCheck();
 
 protected:
 	bool IsMoveKey();
@@ -155,6 +173,8 @@ protected:
 	void UseSkill();
 	void SkillEnd(const FrameAnimation_DESC& _Info);
 	void SkillPositionUpdate(PLAYERSKILL _CurSkill);
+	void JiCFrameEnd(const FrameAnimation_DESC& _Info);
+
 
 protected:
 	void IdleStart(const StateInfo& _Info);

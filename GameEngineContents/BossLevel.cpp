@@ -72,5 +72,5 @@ void BossLevel::End()
 void BossLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.f, -200.0f });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.f, -200.0f, (int)ZOrder::PLAYER });
 }

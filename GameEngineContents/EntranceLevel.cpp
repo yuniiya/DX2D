@@ -23,8 +23,8 @@ void EntranceLevel::Start()
 	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	//Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f});
 
-	SetPortal({ 2123.f, -1109.f});
-	SetPortal({ 976.f, -643.f});	
+	SetPortal({ 2123.f, -1109.f, (int)ZOrder::PORTAL });
+	SetPortal({ 976.f, -643.f, (int)ZOrder::PORTAL });
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
@@ -61,7 +61,7 @@ void EntranceLevel::End()
 void EntranceLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -500.0f });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -500.0f, (int)ZOrder::PLAYER });
 }
 
 void EntranceLevel::OffEvent()

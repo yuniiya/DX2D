@@ -12,6 +12,7 @@ BabyCactus::~BabyCactus()
 void BabyCactus::Start()
 {
 	Monster::Start();
+
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 50.f, 65.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);

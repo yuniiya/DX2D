@@ -19,9 +19,15 @@ protected:
 	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	void CollisionCheck();
 
+	void MainBarSizeUpdate();
+
 	float4 HpPos_;
 	float4 MpPos_;
 	float4 ExpPos_;
+
+	int CurHP_;
+	int CurMP_;
+	int CurExp_;
 
 protected:
 	void Start() override;

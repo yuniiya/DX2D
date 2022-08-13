@@ -17,7 +17,7 @@
 
 Player* Player::MainPlayer_ = nullptr;
 
-Player::Player() 
+Player::Player()
 	: Speed_(200.0f)
 	, JumpPower_(200.f)
 	, DownPower_(0.0f)
@@ -63,12 +63,14 @@ Player::Player()
 	, CurSkill_(PLAYERSKILL::MAX)
 	, ChoA_Renderer_(nullptr)
 	, ChoB_Renderer_(nullptr)
-	, HP_(8000)
-	, MP_(6000)
-	, Exp_(10000)
+	, HP_(100)
+	, MP_(100)
+	, Exp_(1000)
 	, Atk_(5000)
 	, PrevPosition_(Position_)
 	, PrevDir_(CurDir_)
+	, IsHit(false)
+	, DamageTime_(0.0f)
 
 {
 }
@@ -95,6 +97,7 @@ void Player::TakeDamage(int _Damage)
 	if (HP_ <= 0)
 	{
 		StateManager.ChangeState("Die");
+		return;
 	}
 
 	HP_ = HP_ - _Damage;
@@ -129,13 +132,14 @@ void Player::Start()
 
 	}
 
+	GetTransform().SetLocalPosition({ 0, 0, (int)ZOrder::PLAYER});
 	PlayerCollision_ = CreateComponent<GameEngineCollision>();
-	PlayerCollision_->GetTransform().SetLocalScale({75.f, 75.f});
+	PlayerCollision_->GetTransform().SetLocalScale({75.f, 75.f, (int)ZOrder::PLAYER});
 	PlayerCollision_->ChangeOrder(GAMEOBJGROUP::PLAYER);
 
 	PlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 //	PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f, 1.f});
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f});
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 
 	//PlayerRenderer_->SetTexture("Idle", 0);
 	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
@@ -260,15 +264,15 @@ void Player::Start()
 		JiB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		JiB_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
 		JiB_Renderer_->CreateFrameAnimationFolder("Ji_B", FrameAnimation_DESC("Ji_B", 0.06f));
-		JiB_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.06f));
 		JiB_Renderer_->ChangeFrameAnimation("Ji_B");
 		JiB_Renderer_->Off();
 
-		//JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-		//JiC_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
-		//JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.06f));
-		//JiC_Renderer_->ChangeFrameAnimation("Ji_C");
-		//JiC_Renderer_->Off();
+		JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		JiC_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
+		JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.05f));
+		JiC_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Player::JiCFrameEnd, this, std::placeholders::_1));
+		JiC_Renderer_->ChangeFrameAnimation("Ji_C");
+		JiC_Renderer_->Off();
 
 		JiHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		JiHit_Renderer_->GetTransform().SetLocalScale({ 368.f, 275.f });
@@ -384,14 +388,15 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 
 	PlayerMove(_DeltaTime);
+	CollisionCheck();
 
 	DebugModeOnOff();
 	StagePixelCheck();
+
 }
 
 void Player::End()
 {
-	JiB_Renderer_->Off();
 }
 
 void Player::DebugModeOnOff()
@@ -467,6 +472,7 @@ bool Player::StagePixelCheck()
 		{
 			Pos = float4{ 0.f, 2.f, 0.f };
 			GetTransform().SetWorldMove(Pos);
+
 		}
 	}
 
@@ -638,8 +644,35 @@ void Player::ObjectPixelCheck()
 	}
 }
 
-void Player::ColiisionCheck()
+void Player::CollisionCheck()
 {
+	if (true == IsHit)
+	{
+		PlayerCollision_->Off();
+		DamageTime_ += GameEngineTime::GetDeltaTime();	// 시간을 잰다
+
+		if (2.5f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
+		{
+			IsHit = false;
+			DamageTime_ = 0.0f;							// 시간 리셋
+
+			StateManager.ChangeState("Idle");
+			return;
+		}
+	}
+
+	if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MONSTER, CollisionType::CT_OBB2D)
+		|| true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MONSTERSKILL, CollisionType::CT_OBB2D))
+	{
+		//IsHit = true;
+
+		//TakeDamage(10.f);
+
+		//StateManager.ChangeState("Damaged");
+		//return;
+	}
+
+
 }
 
 
@@ -729,6 +762,7 @@ void Player::PlayerMove(float _DeltaTime)
 
 void Player::UseSkill()
 {
+
 	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
 	{
 		GameEngineSound::SoundPlayOneShot("InUse.mp3");
@@ -803,11 +837,10 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	{
 		//AddAccTime(Time_);
 		JiA_Renderer_->Off();
-
-		//JiB_Renderer_->ChangeFrameAnimation("Ji_C");
-
-	
 		JiB_Renderer_->Off();
+		//JiB_Renderer_->ChangeFrameAnimation("Ji_C");
+		
+		JiC_Renderer_->On();
 
 		//JiC_Renderer_->On();
 		JiSkillCollision_->Off();
@@ -836,11 +869,11 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 {
 	float4 Pos = GetPosition();
 
-	if ("SkillAtt" != StateManager.GetCurStateStateName()
-		&& "Jump" != StateManager.GetCurStateStateName())
-	{
-		return;
-	}
+	//if ("SkillAtt" != StateManager.GetCurStateStateName()
+	//	&& "Jump" != StateManager.GetCurStateStateName())
+	//{
+	//	return;
+	//}
 
 	switch (_CurSkill)
 	{
@@ -849,18 +882,18 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		if (ACTORDIR::RIGHT == PrevDir_)
 		{
 			InA_Renderer_->GetTransform().PixLocalNegativeX();
-			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 20.f, GetPosition().y});
+			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 20.f, GetPosition().y, (int)ZOrder::SKILLFRONT});
 
 			InB_Renderer_->GetTransform().PixLocalNegativeX();
-			InB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 130.f, GetPosition().y });
+			InB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 130.f, GetPosition().y, (int)ZOrder::SKILLFRONT });
 		}
 		else
 		{
 			InA_Renderer_->GetTransform().PixLocalPositiveX();
-			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 20.f, GetPosition().y });
+			InA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 20.f, GetPosition().y, (int)ZOrder::SKILLFRONT });
 
 			InB_Renderer_->GetTransform().PixLocalPositiveX();
-			InB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 130.f, GetPosition().y });
+			InB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 130.f, GetPosition().y, (int)ZOrder::SKILLFRONT });
 		}
 	}
 		break;
@@ -869,23 +902,29 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		if (ACTORDIR::RIGHT == PrevDir_)
 		{
 			PaA_Renderer_->GetTransform().PixLocalNegativeX();
-			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 180.f, PrevPosition_.y - 30.f});
-			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 220.f, PrevPosition_.y - 30.f });
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 180.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
+			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 220.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
 		}
 		else
 		{
 			PaA_Renderer_->GetTransform().PixLocalPositiveX();
-			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 180.f, PrevPosition_.y - 30.f});
-			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, PrevPosition_.y - 30.f });
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 180.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
+			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
 		}
 	}
 		break;
 	case PLAYERSKILL::SKILL_JI:
 	{
-		JiA_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 60.f});
-		JiB_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 110.f});
+		JiA_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 60.f, (int)ZOrder::SKILLBACK });
+		JiB_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 110.f, (int)ZOrder::SKILLBACK });
+		JiC_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 110.f, (int)ZOrder::SKILLBACK });
 	}
 		break;
+	case PLAYERSKILL::SKILL_SIN:
+	{
+		SinStart_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+	}
+	break;
 	case PLAYERSKILL::SKILL_SINA:
 		break;
 	case PLAYERSKILL::SKILL_SINB:
@@ -899,5 +938,10 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	default:
 		break;
 	}
+}
+
+void Player::JiCFrameEnd(const FrameAnimation_DESC& _Info)
+{
+	JiC_Renderer_->Off();
 }
 

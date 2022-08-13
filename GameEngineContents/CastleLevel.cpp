@@ -25,7 +25,7 @@ void CastleLevel::Start()
 	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	//Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f});
 
-	SetPortal({ 273.f, -495.f});
+	SetPortal({ 273.f, -495.f, (int)ZOrder::PORTAL });
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
@@ -61,7 +61,7 @@ void CastleLevel::End()
 void CastleLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 300.0f, -400.0f });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, (int)ZOrder::PLAYER });
 }
 
 void CastleLevel::OffEvent()

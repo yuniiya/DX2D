@@ -25,8 +25,8 @@ void AquaLevel::Start()
 	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	//Player_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f});
 
-	SetPortal({ 97.f, -1123.f});
-	SetPortal({ 1494.f, -1064.f});
+	SetPortal({ 97.f, -1123.f, (int)ZOrder::PORTAL});
+	SetPortal({ 1494.f, -1064.f, (int)ZOrder::PORTAL });
 
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
@@ -35,13 +35,13 @@ void AquaLevel::Start()
 	// Monster
 	{
 		Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-		Spark1->GetTransform().SetLocalPosition({ 1050.f, -1000.f });
+		Spark1->GetTransform().SetLocalPosition({ 1050.f, -1000.f, (int)ZOrder::MONSTER });
 		Spark1->SetMonsterDir(ACTORDIR::LEFT);
 	}
 
 	{
 		Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-		Freez1->GetTransform().SetLocalPosition({ 800.f, -1000.f });
+		Freez1->GetTransform().SetLocalPosition({ 800.f, -1000.f, (int)ZOrder::MONSTER });
 		Freez1->SetMonsterDir(ACTORDIR::LEFT);
 	}
 }
@@ -75,7 +75,7 @@ void AquaLevel::End()
 void AquaLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f, (int)ZOrder::PLAYER });
 }
 
 void AquaLevel::OffEvent()

@@ -3,17 +3,19 @@
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	PlayerCollision_->On();
+
 	JumpPower_ = 0.0f;
 	ReSetAccTime();
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f});
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
+	//PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f, (int)ZOrder::PLAYER});
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 }
 
 void Player::MoveStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 70.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 70.f});
 	PlayerRenderer_->ChangeFrameAnimation("Move");
 }
 
@@ -27,20 +29,20 @@ void Player::JumpStart(const StateInfo& _Info)
 	AddAccTime(Time_);
 	JumpPower_ = float4{ 0.f, 450.f, 0.f };
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
 void Player::FallStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Fall");
 }
 
 void Player::ProneStart(const StateInfo& _Info)
 {
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 90.f, 130.f, 1.f });
-	PlayerRenderer_->GetTransform().SetLocalScale({ 87.f, 130.f, 1.f });
+	//PlayerRenderer_->GetTransform().SetLocalScale({ 90.f, 130.f});
+	PlayerRenderer_->GetTransform().SetLocalScale({ 87.f, 130.f});
 
 	PlayerRenderer_->ChangeFrameAnimation("Prone");
 }
@@ -52,21 +54,21 @@ void Player::ProneStabStart(const StateInfo& _Info)
 
 void Player::LadderStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 69.f, 74.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 69.f, 74.f });
 
 	PlayerRenderer_->ChangeFrameAnimation("LadderA");
 }
 
 void Player::RopeStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 78.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 78.f});
 
 	PlayerRenderer_->ChangeFrameAnimation("RopeA");
 }
 
 void Player::DefaultAttackStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 94.f, 75.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 94.f, 75.f });
 	PlayerRenderer_->ChangeFrameAnimation("DefaultAtt");
 }
 
@@ -75,21 +77,20 @@ void Player::SkillAttackStart(const StateInfo& _Info)
 	PrevPosition_ = GetPosition();
 	PrevDir_ = CurDir_;
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 79.f, 76.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 79.f, 76.f });
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
 
 void Player::DamagedStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
-
 }
 
 void Player::DieStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 
 	PlayerRenderer_->ChangeFrameAnimation("Die");
 }
@@ -149,6 +150,8 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (CurSkill_ == PLAYERSKILL::SKILL_SIN)
 	{
+		SkillPositionUpdate(CurSkill_);
+
 		SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 	}
 }
@@ -425,7 +428,7 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	SkillPositionUpdate(CurSkill_);
 
-
+	
 	switch (CurSkill_)
 	{
 	case PLAYERSKILL::SKILL_IN:

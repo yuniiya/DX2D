@@ -85,11 +85,11 @@ void Monster::CollisionPositionUpdate()
 
 		if (CurDir_ == ACTORDIR::LEFT)
 		{
-			FreezerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x - 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL});
+			FreezerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x - 50.f, MonsterPos_.y});
 		}
 		else if (CurDir_ == ACTORDIR::RIGHT)
 		{
-			FreezerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x + 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL });
+			FreezerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x + 50.f, MonsterPos_.y});
 		}
 
 	}
@@ -103,11 +103,11 @@ void Monster::CollisionPositionUpdate()
 
 		if (CurDir_ == ACTORDIR::LEFT)
 		{
-			SparkerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x - 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL });
+			SparkerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x - 50.f, MonsterPos_.y});
 		}
 		else if (CurDir_ == ACTORDIR::RIGHT)
 		{
-			SparkerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x + 50.f, MonsterPos_.y, (int)ZOrder::MONSTERSKILL });
+			SparkerAttCol_->GetTransform().SetWorldPosition({ MonsterPos_.x + 50.f, MonsterPos_.y});
 		}
 	}
 	break;
@@ -129,11 +129,11 @@ void Monster::EffectPositionUpdate()
 
 		if (CurDir_ == ACTORDIR::LEFT)
 		{
-			FreezerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+			FreezerAttEffect_->GetTransform().SetWorldPosition({ PlayerPos_.x + 30.f, PlayerPos_.y });
 		}
 		else if (CurDir_ == ACTORDIR::RIGHT)
 		{
-			FreezerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+			FreezerAttEffect_->GetTransform().SetWorldPosition({ PlayerPos_.x + 30.f, PlayerPos_.y });
 		}
 
 	}
@@ -147,11 +147,11 @@ void Monster::EffectPositionUpdate()
 
 		if (CurDir_ == ACTORDIR::LEFT)
 		{
-			SparkerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+			SparkerAttEffect_->GetTransform().SetWorldPosition({ PlayerPos_.x, PlayerPos_.y });
 		}
 		else if (CurDir_ == ACTORDIR::RIGHT)
 		{
-			SparkerAttEffect_->GetTransform().SetWorldPosition(PlayerPos_);
+			SparkerAttEffect_->GetTransform().SetWorldPosition({ PlayerPos_.x, PlayerPos_.y});
 		}
 	}
 	break;
@@ -164,6 +164,7 @@ void Monster::Start()
 	IdleTime_ = GameEngineRandom::MainRandom.RandomInt(3, 6);
 	MoveTime_ = GameEngineRandom::MainRandom.RandomInt(35, 50);
 
+	GetTransform().SetLocalPosition({ 0, 0, (int)ZOrder::MONSTER });
 }
 
 void Monster::Update(float _DeltaTime)
@@ -497,13 +498,13 @@ void Monster::MoveStart()
 	case MONSTERNAME::Freezer:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 80.f, 82.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y});
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 80.f, 81.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y});
 	}
 		break;
 	case MONSTERNAME::Boss:
@@ -588,7 +589,7 @@ void Monster::AttackStart()
 	{
 	case MONSTERNAME::Freezer:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 133.f, 143.f });
+		Renderer_->GetTransform().SetLocalScale({ 133.f, 143.f});
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 27.f});
 		GameEngineSound::SoundPlayOneShot("FrAttack1.mp3");
 
@@ -598,7 +599,7 @@ void Monster::AttackStart()
 	case MONSTERNAME::Sparker:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 159.f, 147.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f});
 		GameEngineSound::SoundPlayOneShot("SpAttack1.mp3");
 
 		SparkerAttCol_->On();
@@ -639,7 +640,7 @@ void Monster::DieStart()
 	case MONSTERNAME::Sand:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 97.f, 99.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 10.f});
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 10.f });
 		GameEngineSound::SoundPlayOneShot("SaDie.mp3");
 	}
 		break;
@@ -738,7 +739,7 @@ void Monster::DamagedUpdate()
 		MoveDir_.x = GetPosition().x - 0.5f;
 	}
 
-	GetTransform().SetLocalPosition({ MoveDir_.x, GetPosition().y});
+	GetTransform().SetLocalPosition({ MoveDir_.x, GetPosition().y });
 
 	Hit();
 }

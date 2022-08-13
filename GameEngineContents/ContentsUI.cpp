@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "ContentsUI.h"
+#include "Player.h"
 
 ContentsUI::ContentsUI() 
 	: MainBar_(nullptr)
@@ -9,6 +10,9 @@ ContentsUI::ContentsUI()
 	, HpBar_(nullptr)
 	, MpBar_(nullptr)
 	, ExpBar_(nullptr)
+	, CurHP_(0)
+	, CurMP_(0)
+	, CurExp_(0)
 {
 }
 
@@ -23,6 +27,27 @@ bool ContentsUI::MouseCollisionCheck(GameEngineCollision* _This, GameEngineColli
 
 void ContentsUI::CollisionCheck()
 {
+}
+
+void ContentsUI::MainBarSizeUpdate()
+{
+	CurHP_ = Player::MainPlayer_->GetHP();
+	CurMP_ = Player::MainPlayer_->GetMP();
+	CurExp_ = Player::MainPlayer_->GetExp();
+
+	switch (CurHP_)
+	{
+	case 90:
+	{
+		HpBar_->GetTransform().SetLocalScale({ HpBar_->GetTransform().GetLocalScale().x * 0.9f, HpBar_->GetTransform().GetLocalScale().y });
+		HpBar_->SetPivot(PIVOTMODE::LEFTTOP);
+	}
+	break;
+	default:
+		break;
+	}
+
+	float4 Size = HpBar_->GetTransform().GetLocalScale();
 }
 
 void ContentsUI::Start()
@@ -71,5 +96,8 @@ void ContentsUI::Update(float _DeltaTime)
 	QuickSlot_->GetTransform().SetLocalPosition(float4{ CamPos.x + 465.f, CamPos.y - 308.f });
 	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos.x + 2.f, CamPos.y - 352.f });
 	ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos.x + 1.f , CamPos.y - 352.5f });
+
+	//MainBarSizeUpdate();
+
 }
 

@@ -42,6 +42,10 @@ void GlobalLevel::SetBackGround(const std::string& _Name)
 	BackRenderer_->SetTexture(_Name);
 	BackRenderer_->ScaleToTexture();
 	BackRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
+	BackRenderer_->GetTransform().SetLocalPosition(
+		{ BackRenderer_->GetTransform().GetLocalPosition().x
+		, BackRenderer_->GetTransform().GetLocalPosition().y
+		, (int)ZOrder::BACKGROUND });
 }
 
 void GlobalLevel::SetStage(const std::string& _Name)
@@ -52,6 +56,10 @@ void GlobalLevel::SetStage(const std::string& _Name)
 	StageRenderer_->SetTexture(_Name);
 	StageRenderer_->ScaleToTexture();
 	StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
+	StageRenderer_->GetTransform().SetLocalPosition(
+		{ StageRenderer_->GetTransform().GetLocalPosition().x
+		, StageRenderer_->GetTransform().GetLocalPosition().y
+		, (int)ZOrder::STAGE });
 }
 
 void GlobalLevel::SetCollisionMap(const std::string& _Name)
@@ -62,6 +70,10 @@ void GlobalLevel::SetCollisionMap(const std::string& _Name)
 	ColMapRenderer_->SetTexture(_Name);
 	ColMapRenderer_->ScaleToTexture();
 	ColMapRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
+	ColMapRenderer_->GetTransform().SetLocalPosition(
+		{ ColMapRenderer_->GetTransform().GetLocalPosition().x
+		, ColMapRenderer_->GetTransform().GetLocalPosition().y
+		, (int)ZOrder::BACKGROUND });
 }
 
 void GlobalLevel::SetPortal(float4 _Pos)

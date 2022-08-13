@@ -12,6 +12,7 @@ WhiteRabbit::~WhiteRabbit()
 void WhiteRabbit::Start()
 {
 	Monster::Start();
+
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 50.f, 50.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);
