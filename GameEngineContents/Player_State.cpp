@@ -21,7 +21,10 @@ void Player::MoveStart(const StateInfo& _Info)
 
 void Player::JumpStart(const StateInfo& _Info)
 {
-	GameEngineSound::SoundPlayOneShot("Jump.mp3");
+	if (false == IsUsePaSkill)
+	{
+		GameEngineSound::SoundPlayOneShot("Jump.mp3");
+	}
 
 	PrevPosition_ = GetPosition();
 	PrevDir_ = CurDir_;

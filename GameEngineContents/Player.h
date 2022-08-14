@@ -81,6 +81,7 @@ private:
 	bool IsGround;
 	bool CanMove;
 	bool IsHit;
+	bool IsUsePaSkill;
 
 	std::string CurLevelName_;
 

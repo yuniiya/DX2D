@@ -71,6 +71,7 @@ Player::Player()
 	, PrevDir_(CurDir_)
 	, IsHit(false)
 	, DamageTime_(0.0f)
+	, IsUsePaSkill(false)
 
 {
 }
@@ -797,6 +798,7 @@ void Player::UseSkill()
 		PaSkillCollision_->On();
 
 		CurSkill_ = PLAYERSKILL::SKILL_PA;
+		IsUsePaSkill = true;
 
 		StateManager.ChangeState("Jump");
 		return;
@@ -840,6 +842,8 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	break;
 	case PLAYERSKILL::SKILL_PA:
 	{
+		IsUsePaSkill = false;
+
 		PaA_Renderer_->Off();
 		PaSkillCollision_->Off();
 	}
@@ -913,14 +917,14 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		if (ACTORDIR::RIGHT == PrevDir_)
 		{
 			PaA_Renderer_->GetTransform().PixLocalNegativeX();
-			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 180.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
-			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 220.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 150.f, PrevPosition_.y + 20.f, (int)ZOrder::SKILLBACK });
+			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, PrevPosition_.y + 20.f, (int)ZOrder::SKILLBACK });
 		}
 		else
 		{
 			PaA_Renderer_->GetTransform().PixLocalPositiveX();
-			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 180.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
-			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, PrevPosition_.y - 30.f, (int)ZOrder::SKILLBACK });
+			PaA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 150.f, PrevPosition_.y + 20.f, (int)ZOrder::SKILLBACK });
+			PaSkillCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, PrevPosition_.y + 20.f, (int)ZOrder::SKILLBACK });
 		}
 	}
 		break;
