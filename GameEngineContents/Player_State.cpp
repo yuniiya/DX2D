@@ -473,6 +473,11 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (true == IsMoveKey())
+	{
+		StateManager.ChangeState("Move");
+		return;
+	}
 }
 
 void Player::DieUpdate(float _DeltaTime, const StateInfo& _Info)

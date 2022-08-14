@@ -22,7 +22,8 @@ void Freezer::Start()
 	FreezerAttCol_->Off();
 
 	FreezerAttEffect_ = CreateComponent<GameEngineTextureRenderer>();
-	FreezerAttEffect_->CreateFrameAnimationFolder("Effect", FrameAnimation_DESC("Freezer_Eff", 0.08f));
+	FreezerAttEffect_->CreateFrameAnimationFolder("Effect", FrameAnimation_DESC("Freezer_Eff", 0.15f));
+	FreezerAttEffect_->AnimationBindEnd("Effect", std::bind(&Freezer::BindAttackEffectEndCheck, this, std::placeholders::_1));
 	FreezerAttEffect_->GetTransform().SetLocalScale({ 104.f, 113.f });
 	FreezerAttEffect_->ChangeFrameAnimation("Effect");
 	FreezerAttEffect_->Off();
@@ -48,6 +49,11 @@ void Freezer::Start()
 void Freezer::Update(float _DeltaTime)
 {
 	Monster::Update(_DeltaTime);
+}
+
+void Freezer::BindAttackEffectEndCheck(const FrameAnimation_DESC& _Info)
+{
+	FreezerAttEffect_->Off();
 }
 
 

@@ -19,6 +19,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void BindAttackEffectEndCheck(const FrameAnimation_DESC& _Info) override;
+
 private:
 
 };

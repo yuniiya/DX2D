@@ -133,7 +133,7 @@ void Monster::EffectPositionUpdate()
 		}
 		else if (CurDir_ == ACTORDIR::RIGHT)
 		{
-			FreezerAttEffect_->GetTransform().SetWorldPosition({ PlayerPos_.x + 30.f, PlayerPos_.y });
+			FreezerAttEffect_->GetTransform().SetWorldPosition({ PlayerPos_.x, PlayerPos_.y });
 		}
 
 	}
@@ -360,11 +360,12 @@ void Monster::CollisonCheck()
 	}
 
 
-
+	// 몬스터 스킬 - 스파커, 프리저
 	if (MONSTERSTATE::ATTACK == CurState_
 		&& MONSTERTYPE::ATTACK == MonsterType_)
 	{
 		CollisionPositionUpdate();
+		EffectPositionUpdate();
 
 		if (MONSTERNAME::Freezer == MonsterName_)
 		{
@@ -372,12 +373,7 @@ void Monster::CollisonCheck()
 				std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
 			))
 			{
-				EffectPositionUpdate();
 				FreezerAttEffect_->On();
-			}
-			else
-			{
-				FreezerAttEffect_->Off();
 			}
 
 		}
@@ -388,12 +384,7 @@ void Monster::CollisonCheck()
 				std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
 			))
 			{
-				EffectPositionUpdate();
 				SparkerAttEffect_->On();
-			}
-			else
-			{
-				SparkerAttEffect_->Off();
 			}
 		}
 	}
@@ -612,6 +603,11 @@ void Monster::AttackStart()
 	break;
 	}
 
+	Renderer_->AnimationBindStart("Attack", std::bind(&Monster::BindAttackStartCheck, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Attack", std::bind(&Monster::BindAttackEndCheck, this, std::placeholders::_1));
+
+
+
 	Renderer_->ChangeFrameAnimation("Attack");
 }
 
@@ -764,7 +760,6 @@ void Monster::AttackUpdate()
 		CurDir_ = ACTORDIR::RIGHT;
 	}
 
-	Renderer_->AnimationBindEnd("Attack", std::bind(&Monster::BindAttackEndCheck, this, std::placeholders::_1));
 	IsAttack = true;
 }
 
@@ -778,7 +773,7 @@ void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 	Death();
 }
 
-void Monster::BindAttackEndCheck(const FrameAnimation_DESC& _Info)
+void Monster::BindAttackStartCheck(const FrameAnimation_DESC& _Info)
 {
 	switch (MonsterName_)
 	{
@@ -786,14 +781,17 @@ void Monster::BindAttackEndCheck(const FrameAnimation_DESC& _Info)
 	{
 		FreezerAttCol_->Off();
 	}
-		break;
+	break;
 	case MONSTERNAME::Sparker:
 	{
 		SparkerAttCol_->Off();
 	}
-		break;
-
+	break;
 	}
+}
 
+void Monster::BindAttackEndCheck(const FrameAnimation_DESC& _Info)
+{
 	IsAttackEnd = true;
 }
+

@@ -651,7 +651,7 @@ void Player::CollisionCheck()
 		PlayerCollision_->Off();
 		DamageTime_ += GameEngineTime::GetDeltaTime();	// 시간을 잰다
 
-		if (2.5f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
+		if (1.5f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
 		{
 			IsHit = false;
 			DamageTime_ = 0.0f;							// 시간 리셋
@@ -661,18 +661,27 @@ void Player::CollisionCheck()
 		}
 	}
 
-	if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MONSTER, CollisionType::CT_OBB2D)
-		|| true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MONSTERSKILL, CollisionType::CT_OBB2D))
+	// 몬스터 
+	if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MONSTER, CollisionType::CT_OBB2D))
 	{
-		//IsHit = true;
+		IsHit = true;
 
-		//TakeDamage(10.f);
+		TakeDamage(10.f);
 
-		//StateManager.ChangeState("Damaged");
-		//return;
+		StateManager.ChangeState("Damaged");
+		return;
 	}
 
+	// 몬스터 스킬 
+	if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MONSTERSKILL, CollisionType::CT_OBB2D))
+	{
+		IsHit = true;
 
+		TakeDamage(10.f);
+
+		StateManager.ChangeState("Damaged");
+		return;
+	}
 }
 
 
@@ -729,7 +738,8 @@ void Player::PlayerMove(float _DeltaTime)
 				&& StateManager.GetCurStateStateName() != "ProneStab"
 				&& StateManager.GetCurStateStateName() != "Ladder"
 				&& StateManager.GetCurStateStateName() != "Rope"
-				)
+				&& StateManager.GetCurStateStateName() != "Damaged"
+				&& StateManager.GetCurStateStateName() != "Die")
 			{
 				/*float4 Pos = MainPlayer_->GetTransform().GetLocalPosition();
 				float4 Pos2 = MainPlayer_->GetTransform().GetWorldPosition();*/
@@ -745,7 +755,8 @@ void Player::PlayerMove(float _DeltaTime)
 				&& StateManager.GetCurStateStateName() != "ProneStab"
 				&& StateManager.GetCurStateStateName() != "Ladder"
 				&& StateManager.GetCurStateStateName() != "Rope"
-				)
+				&& StateManager.GetCurStateStateName() != "Damaged"
+				&& StateManager.GetCurStateStateName() != "Die")
 			{
 				GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
 			}

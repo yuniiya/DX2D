@@ -22,7 +22,8 @@ void Sparker::Start()
 	SparkerAttCol_->Off();
 
 	SparkerAttEffect_ = CreateComponent<GameEngineTextureRenderer>();
-	SparkerAttEffect_->CreateFrameAnimationFolder("Effect", FrameAnimation_DESC("Sparker_Eff", 0.08f));
+	SparkerAttEffect_->CreateFrameAnimationFolder("Effect", FrameAnimation_DESC("Sparker_Eff", 0.15f));
+	SparkerAttEffect_->AnimationBindEnd("Effect", std::bind(&Sparker::BindAttackEffectEndCheck, this, std::placeholders::_1));
 	SparkerAttEffect_->GetTransform().SetLocalScale({ 79.f, 75.f });
 	SparkerAttEffect_->ChangeFrameAnimation("Effect");
 	SparkerAttEffect_->Off();
@@ -49,4 +50,9 @@ void Sparker::Start()
 void Sparker::Update(float _DeltaTime)
 {
 	Monster::Update(_DeltaTime);
+}
+
+void Sparker::BindAttackEffectEndCheck(const FrameAnimation_DESC& _Info)
+{
+	SparkerAttEffect_->Off();
 }

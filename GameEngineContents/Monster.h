@@ -132,7 +132,10 @@ protected:
 	virtual void CollisonCheck();
 
 	void BindMonsterDeathCheck(const FrameAnimation_DESC& _Info);
+	void BindAttackStartCheck(const FrameAnimation_DESC& _Info);
 	void BindAttackEndCheck(const FrameAnimation_DESC& _Info);
+	virtual void BindAttackEffectEndCheck(const FrameAnimation_DESC& _Info) {};
+
 
 
 private:
