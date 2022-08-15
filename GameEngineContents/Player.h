@@ -82,6 +82,8 @@ private:
 	bool CanMove;
 	bool IsHit;
 	bool IsUsePaSkill;
+	bool IsUseSinSkill;
+	bool SinAttackEnd;
 
 	std::string CurLevelName_;
 
@@ -92,7 +94,8 @@ private:
 	ACTORDIR PrevDir_;
 
 private:
-	int SkillAttCount_;
+	int SinSkillAttCount_;
+	int SinSkillFrameCount_;
 
 	float Time_;
 	float DamageTime_;
@@ -175,6 +178,8 @@ protected:
 	void SkillEnd(const FrameAnimation_DESC& _Info);
 	void SkillPositionUpdate(PLAYERSKILL _CurSkill);
 	void JiCFrameEnd(const FrameAnimation_DESC& _Info);
+	void SinSkillUpdate(const FrameAnimation_DESC& _Info);
+	void SinSkillSoundUpdate(const FrameAnimation_DESC& _Info);
 
 
 protected:

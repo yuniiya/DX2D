@@ -154,6 +154,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+
 	if (CurSkill_ == PLAYERSKILL::SKILL_SIN)
 	{
 		SkillPositionUpdate(CurSkill_);

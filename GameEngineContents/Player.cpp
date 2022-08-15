@@ -72,6 +72,8 @@ Player::Player()
 	, IsHit(false)
 	, DamageTime_(0.0f)
 	, IsUsePaSkill(false)
+	, SinSkillAttCount_(2)
+	, SinSkillFrameCount_(1)
 
 {
 }
@@ -310,7 +312,7 @@ void Player::Start()
 		
 		SinA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		SinA_Renderer_->GetTransform().SetLocalScale({ 982.f * 0.8f, 992.f * 0.8f });
-		SinA_Renderer_->CreateFrameAnimationFolder("Sin_A", FrameAnimation_DESC("SinA", 0.06f));
+		SinA_Renderer_->CreateFrameAnimationFolder("Sin_A", FrameAnimation_DESC("SinA", 0.08f));
 		SinA_Renderer_->ChangeFrameAnimation("Sin_A");
 		SinA_Renderer_->Off();
 
@@ -329,7 +331,7 @@ void Player::Start()
 	{
 		SinB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		SinB_Renderer_->GetTransform().SetLocalScale({ 850.f * 0.8f, 1096.f * 0.8f });
-		SinB_Renderer_->CreateFrameAnimationFolder("Sin_B", FrameAnimation_DESC("SinB", 0.06f));
+		SinB_Renderer_->CreateFrameAnimationFolder("Sin_B", FrameAnimation_DESC("SinB", 0.08f));
 		SinB_Renderer_->ChangeFrameAnimation("Sin_B");
 		SinB_Renderer_->Off();
 
@@ -348,7 +350,7 @@ void Player::Start()
 	{
 		SinC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		SinC_Renderer_->GetTransform().SetLocalScale({ 1255.f * 0.8f, 969.f * 0.8f });
-		SinC_Renderer_->CreateFrameAnimationFolder("Sin_C", FrameAnimation_DESC("SinC", 0.06f));
+		SinC_Renderer_->CreateFrameAnimationFolder("Sin_C", FrameAnimation_DESC("SinC", 0.08f));
 		SinC_Renderer_->ChangeFrameAnimation("Sin_C");
 		SinC_Renderer_->Off();
 
@@ -367,7 +369,7 @@ void Player::Start()
 	{
 		SinD_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		SinD_Renderer_->GetTransform().SetLocalScale({ 1280.f, 720.f });
-		SinD_Renderer_->CreateFrameAnimationFolder("Sin_D", FrameAnimation_DESC("SinD", 0.06f));
+		SinD_Renderer_->CreateFrameAnimationFolder("Sin_D", FrameAnimation_DESC("SinD", 0.09f));
 		SinD_Renderer_->ChangeFrameAnimation("Sin_D");
 		SinD_Renderer_->Off();
 
@@ -382,6 +384,16 @@ void Player::Start()
 		SinDCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
 		SinDCollision_->Off();
 	}
+
+	SinA_Renderer_->AnimationBindEnd("Sin_A", std::bind(&Player::SinSkillUpdate, this, std::placeholders::_1));
+	SinB_Renderer_->AnimationBindEnd("Sin_B", std::bind(&Player::SinSkillUpdate, this, std::placeholders::_1));
+	SinC_Renderer_->AnimationBindEnd("Sin_C", std::bind(&Player::SinSkillUpdate, this, std::placeholders::_1));
+	SinD_Renderer_->AnimationBindEnd("Sin_D", std::bind(&Player::SinSkillUpdate, this, std::placeholders::_1));
+
+	SinA_Renderer_->AnimationBindFrame("Sin_A", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
+	SinB_Renderer_->AnimationBindFrame("Sin_B", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
+	SinC_Renderer_->AnimationBindFrame("Sin_C", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
+	SinD_Renderer_->AnimationBindFrame("Sin_D", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
 }
 
 void Player::Update(float _DeltaTime)
@@ -393,6 +405,11 @@ void Player::Update(float _DeltaTime)
 
 	DebugModeOnOff();
 	StagePixelCheck();
+
+	if (true == IsUseSinSkill)
+	{
+		SkillPositionUpdate(CurSkill_);
+	}
 
 }
 
@@ -817,7 +834,6 @@ void Player::UseSkill()
 		return;
 	}
 	else if (true == GameEngineInput::GetInst()->IsDown("Skill_R"))
-
 	{
 		GameEngineSound::SoundPlayOneShot("SinUse.mp3");
 
@@ -863,7 +879,12 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	break;
 	case PLAYERSKILL::SKILL_SIN:
 	{
+		IsUseSinSkill = true;
 		SinStart_Renderer_->Off();
+		
+		SinA_Renderer_->On();
+		SinSkillFrameCount_ = 1;
+		CurSkill_ = PLAYERSKILL::SKILL_SINA;
 	}
 	break;
 	case PLAYERSKILL::SKILL_SINA:
@@ -941,12 +962,57 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	}
 	break;
 	case PLAYERSKILL::SKILL_SINA:
+	{
+		if (ACTORDIR::RIGHT == CurDir_)
+		{
+			SinA_Renderer_->GetTransform().PixLocalNegativeX();
+			SinA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 40.f, (int)ZOrder::SKILLBACK });
+			SinACollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 20.f, (int)ZOrder::SKILLBACK });
+		}
+		else
+		{
+			SinA_Renderer_->GetTransform().PixLocalPositiveX();
+			SinA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 40.f, (int)ZOrder::SKILLBACK });
+			SinACollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 20.f, (int)ZOrder::SKILLBACK });
+		}
+	}
+
 		break;
 	case PLAYERSKILL::SKILL_SINB:
+	{
+		if (ACTORDIR::RIGHT == CurDir_)
+		{
+			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+		}
+		else
+		{
+			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+		}
+		
+	}
 		break;
 	case PLAYERSKILL::SKILL_SINC:
+	{
+		if (ACTORDIR::RIGHT == CurDir_)
+		{
+			SinC_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinCCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+		}
+		else
+		{
+			SinC_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinCCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+		}
+
+	}
 		break;
 	case PLAYERSKILL::SKILL_SIND:
+	{
+		float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
+		SinD_Renderer_->GetTransform().SetWorldPosition({ CamPos.x, CamPos.y, (int)ZOrder::SKILLFRONT});
+	}
 		break;
 	case PLAYERSKILL::MAX:
 		break;
@@ -958,5 +1024,98 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 void Player::JiCFrameEnd(const FrameAnimation_DESC& _Info)
 {
 	JiC_Renderer_->Off();
+}
+
+void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
+{
+	switch (CurSkill_)
+	{
+	case PLAYERSKILL::SKILL_SINA:
+	{
+		SinA_Renderer_->Off();
+		SinACollision_->Off();
+
+		SinB_Renderer_->On();
+		SinBCollision_->On();
+		CurSkill_ = PLAYERSKILL::SKILL_SINB;
+		SinSkillFrameCount_ = 1;
+	}
+	break;
+	case PLAYERSKILL::SKILL_SINB:
+	{
+		SinB_Renderer_->Off();
+		SinBCollision_->Off();
+
+		SinC_Renderer_->On();
+		SinCCollision_->On();
+		CurSkill_ = PLAYERSKILL::SKILL_SINC;
+		SinSkillFrameCount_ = 1;
+	}
+	break;
+	case PLAYERSKILL::SKILL_SINC:
+	{
+		SinC_Renderer_->Off();
+		SinCCollision_->Off();
+
+		SinD_Renderer_->On();
+		SinDCollision_->On();
+		CurSkill_ = PLAYERSKILL::SKILL_SIND;
+		SinSkillFrameCount_ = 1;
+	}
+		break;
+	case PLAYERSKILL::SKILL_SIND:
+	{
+		SinD_Renderer_->Off();
+		SinDCollision_->Off();
+	}
+		break;
+	case PLAYERSKILL::MAX:
+		break;
+	default:
+		break;
+	}
+}
+
+void Player::SinSkillSoundUpdate(const FrameAnimation_DESC& _Info)
+{
+	if (SinSkillFrameCount_ == 0)
+	{
+		switch (CurSkill_)
+		{
+		case PLAYERSKILL::SKILL_SINA:
+		{
+			GameEngineSound::SoundPlayOneShot("SinAttack1.mp3");
+			//SinSkillFrameCount_ = 1;
+		}
+		break;
+		case PLAYERSKILL::SKILL_SINB:
+		{
+			GameEngineSound::SoundPlayOneShot("SinAttack2.mp3");
+		}
+		break;
+		case PLAYERSKILL::SKILL_SINC:
+		{
+			GameEngineSound::SoundPlayOneShot("SinAttack3.mp3");
+		}
+			break;
+		case PLAYERSKILL::SKILL_SIND:
+		{
+			GameEngineSound::SoundPlayOneShot("SinAttack4.mp3");
+		}
+			break;
+		case PLAYERSKILL::MAX:
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (SinSkillFrameCount_ < 0)
+	{
+		SinSkillFrameCount_ = 0;
+	}
+
+	SinSkillFrameCount_ -= 1;
+
 }
 
