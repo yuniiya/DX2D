@@ -74,7 +74,10 @@ Player::Player()
 	, IsUsePaSkill(false)
 	, SinSkillAttCount_(2)
 	, SinSkillFrameCount_(1)
-
+	, IsUseSinSkill(false)
+	, IsSinLoopStart(false)
+	, SinLoopTime_(0.0f)
+	, SinEndTime_(0.0f)
 {
 }
 
@@ -406,11 +409,7 @@ void Player::Update(float _DeltaTime)
 	DebugModeOnOff();
 	StagePixelCheck();
 
-	if (true == IsUseSinSkill)
-	{
-		SkillPositionUpdate(CurSkill_);
-	}
-
+	SkillSinLoop();
 }
 
 void Player::End()
@@ -791,6 +790,10 @@ void Player::PlayerMove(float _DeltaTime)
 
 void Player::UseSkill()
 {
+	if (true == IsUseSinSkill)
+	{
+		return;
+	}
 
 	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
 	{
@@ -845,6 +848,66 @@ void Player::UseSkill()
 	}
 }
 
+void Player::SkillSinLoop()
+{
+
+	if (SinLoopTime_ > 1.5f)
+	{
+		IsSinLoopStart = false;
+		SinLoopTime_ = 0.0f;	// 초기화
+	}
+
+	if (SinEndTime_ > 0.7f
+		&& true == IsSinLoopEnd)	// 완전히 끝
+	{
+		IsSinLoopEnd = false;
+		IsUseSinSkill = false;
+
+		SinLoopTime_ = 0.0f;
+		SinDCollision_->Off();
+	}
+
+	if (true == IsSinLoopStart)
+	{
+		SinLoopTime_ += GameEngineTime::GetDeltaTime();
+	}
+
+	if (true == IsSinLoopEnd)
+	{
+		SinEndTime_ += GameEngineTime::GetDeltaTime();
+	}
+
+	if (true == IsUseSinSkill)
+	{
+		SkillPositionUpdate(CurSkill_);
+
+		if (false == IsSinLoopStart
+			&& false == IsSinLoopEnd)
+		{
+			switch (CurSkill_)
+			{
+			case PLAYERSKILL::SKILL_SINA:
+				break;
+			case PLAYERSKILL::SKILL_SINB:
+			{
+				SinB_Renderer_->On();
+			}
+			break;
+			case PLAYERSKILL::SKILL_SINC:
+			{
+				SinC_Renderer_->On();
+			}
+			break;
+			case PLAYERSKILL::SKILL_SIND:
+			{
+				SinD_Renderer_->On();
+			}
+			break;
+			}
+		}
+	}
+}
+
 void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 {
 	switch (CurSkill_)
@@ -880,6 +943,7 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	case PLAYERSKILL::SKILL_SIN:
 	{
 		IsUseSinSkill = true;
+
 		SinStart_Renderer_->Off();
 		
 		SinA_Renderer_->On();
@@ -982,12 +1046,12 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	{
 		if (ACTORDIR::RIGHT == CurDir_)
 		{
-			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
-			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 200.f, (int)ZOrder::SKILLBACK });
+			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 170.f, (int)ZOrder::SKILLBACK });
 		}
 		else
 		{
-			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 200.f, (int)ZOrder::SKILLBACK });
 			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
 		}
 		
@@ -997,8 +1061,8 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	{
 		if (ACTORDIR::RIGHT == CurDir_)
 		{
-			SinC_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
-			SinCCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinC_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
+			SinCCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
 		}
 		else
 		{
@@ -1035,8 +1099,7 @@ void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
 		SinA_Renderer_->Off();
 		SinACollision_->Off();
 
-		SinB_Renderer_->On();
-		SinBCollision_->On();
+		IsSinLoopStart = true;
 		CurSkill_ = PLAYERSKILL::SKILL_SINB;
 		SinSkillFrameCount_ = 1;
 	}
@@ -1046,8 +1109,7 @@ void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
 		SinB_Renderer_->Off();
 		SinBCollision_->Off();
 
-		SinC_Renderer_->On();
-		SinCCollision_->On();
+		IsSinLoopStart = true;
 		CurSkill_ = PLAYERSKILL::SKILL_SINC;
 		SinSkillFrameCount_ = 1;
 	}
@@ -1057,22 +1119,24 @@ void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
 		SinC_Renderer_->Off();
 		SinCCollision_->Off();
 
-		SinD_Renderer_->On();
-		SinDCollision_->On();
+		IsSinLoopStart = true;
+	//	SinDCollision_->On();		// ** 수정 필요
 		CurSkill_ = PLAYERSKILL::SKILL_SIND;
 		SinSkillFrameCount_ = 1;
 	}
 		break;
 	case PLAYERSKILL::SKILL_SIND:
 	{
+		IsSinLoopEnd = true;
+
 		SinD_Renderer_->Off();
-		SinDCollision_->Off();
+		SinDCollision_->On();		// ** 수정 필요
 	}
 		break;
 	case PLAYERSKILL::MAX:
 		break;
 	default:
-		break;
+		break;	
 	}
 }
 
@@ -1084,17 +1148,19 @@ void Player::SinSkillSoundUpdate(const FrameAnimation_DESC& _Info)
 		{
 		case PLAYERSKILL::SKILL_SINA:
 		{
+			SinACollision_->On();
 			GameEngineSound::SoundPlayOneShot("SinAttack1.mp3");
-			//SinSkillFrameCount_ = 1;
 		}
 		break;
 		case PLAYERSKILL::SKILL_SINB:
 		{
+			SinBCollision_->On();
 			GameEngineSound::SoundPlayOneShot("SinAttack2.mp3");
 		}
 		break;
 		case PLAYERSKILL::SKILL_SINC:
 		{
+			SinCCollision_->On();
 			GameEngineSound::SoundPlayOneShot("SinAttack3.mp3");
 		}
 			break;
@@ -1102,8 +1168,6 @@ void Player::SinSkillSoundUpdate(const FrameAnimation_DESC& _Info)
 		{
 			GameEngineSound::SoundPlayOneShot("SinAttack4.mp3");
 		}
-			break;
-		case PLAYERSKILL::MAX:
 			break;
 		default:
 			break;

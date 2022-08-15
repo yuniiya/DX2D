@@ -84,6 +84,8 @@ private:
 	bool IsUsePaSkill;
 	bool IsUseSinSkill;
 	bool SinAttackEnd;
+	bool IsSinLoopStart;
+	bool IsSinLoopEnd;
 
 	std::string CurLevelName_;
 
@@ -99,6 +101,8 @@ private:
 
 	float Time_;
 	float DamageTime_;
+	float SinLoopTime_;
+	float SinEndTime_;
 
 protected:
 	float4 BottomColor;
@@ -175,6 +179,9 @@ protected:
 	void PlayerMove(float _DeltaTime);
 	
 	void UseSkill();
+	void SkillSinLoop();
+
+protected:
 	void SkillEnd(const FrameAnimation_DESC& _Info);
 	void SkillPositionUpdate(PLAYERSKILL _CurSkill);
 	void JiCFrameEnd(const FrameAnimation_DESC& _Info);
