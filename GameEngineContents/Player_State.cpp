@@ -6,6 +6,7 @@ void Player::IdleStart(const StateInfo& _Info)
 	PlayerCollision_->On();
 
 	JumpPower_ = 0.0f;
+	Speed_ = 200.f;
 	ReSetAccTime();
 	PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f});
 	//PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
@@ -87,6 +88,29 @@ void Player::SkillAttackStart(const StateInfo& _Info)
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
 
+void Player::DoubleJumpStart(const StateInfo& _Info)
+{
+	JumpPower_ = float4{ 0.f, 500.f, 0.f };
+	Speed_ = 350.f;
+
+	ChoA_Renderer_->On();
+
+	if (CurDir_ == ACTORDIR::RIGHT)
+	{
+		ChoA_Renderer_->GetTransform().PixLocalNegativeX();
+		ChoA_Renderer_->GetTransform().SetWorldPosition({GetPosition().x - 160.f, GetPosition().y - 60.f, (int)ZOrder::SKILLBACK });
+	}
+	else
+	{
+		ChoA_Renderer_->GetTransform().PixLocalPositiveX();
+		ChoA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 160.f, GetPosition().y - 60.f, (int)ZOrder::SKILLBACK });
+	}
+
+	//PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
+	GameEngineSound::SoundPlayOneShot("Cho.mp3");
+	PlayerRenderer_->ChangeFrameAnimation("Jump");
+}
+
 void Player::DamagedStart(const StateInfo& _Info)
 {
 	//PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
@@ -144,6 +168,11 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		UseSkill();
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("DoubleJump"))
+	{
+		StateManager.ChangeState("DoubleJump");
+	}
+
 	// 땅이 아니다
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
 		|| true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })	// 투명
@@ -199,6 +228,11 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == IsSkillKey())
 	{
 		UseSkill();
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("DoubleJump"))
+	{
+		StateManager.ChangeState("DoubleJump");
 	}
 
 	// 땅이 아니다
@@ -476,6 +510,19 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	//StateManager.ChangeState("Idle");
 	//return;
+}
+
+void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * GameEngineTime::GetDeltaTime());
+
+	float4 Color = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 45.f);	// 34
+	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	{
+		StateManager.ChangeState("Idle");
+		return;
+	}
+
 }
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)

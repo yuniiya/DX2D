@@ -187,6 +187,7 @@ protected:
 	void JiCFrameEnd(const FrameAnimation_DESC& _Info);
 	void SinSkillUpdate(const FrameAnimation_DESC& _Info);
 	void SinSkillSoundUpdate(const FrameAnimation_DESC& _Info);
+	void DoubleJumpEnd(const FrameAnimation_DESC& _Info);
 
 
 protected:
@@ -200,6 +201,7 @@ protected:
 	void RopeStart(const StateInfo& _Info);
 	void DefaultAttackStart(const StateInfo& _Info);
 	void SkillAttackStart(const StateInfo& _Info);
+	void DoubleJumpStart(const StateInfo& _Info);
 	void DamagedStart(const StateInfo& _Info);
 	void DieStart(const StateInfo& _Info);
 
@@ -213,6 +215,7 @@ protected:
 	void RopeUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info);
 	void SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info);
+	void DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DamagedUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DieUpdate(float _DeltaTime, const StateInfo& _Info);
 };

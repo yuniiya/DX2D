@@ -120,6 +120,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Jump", 'X');		
 		GameEngineInput::GetInst()->CreateKey("Pick", 'Z');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_LCONTROL);
+		GameEngineInput::GetInst()->CreateKey("DoubleJump", VK_LSHIFT);
 
 		GameEngineInput::GetInst()->CreateKey("Down", VK_NUMPAD0);
 
@@ -162,6 +163,8 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
+	PlayerRenderer_->CreateFrameAnimationFolder("DoubleJump", FrameAnimation_DESC("Jump", 0.2f));
+
 
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
@@ -205,6 +208,10 @@ void Player::Start()
 	StateManager.CreateStateMember("SkillAtt"
 		, std::bind(&Player::SkillAttackUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::SkillAttackStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("DoubleJump"
+		, std::bind(&Player::DoubleJumpUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DoubleJumpStart, this, std::placeholders::_1)
 	);
 	StateManager.CreateStateMember("Damaged"
 		, std::bind(&Player::DamagedUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -386,6 +393,16 @@ void Player::Start()
 		SinDCollision_->GetTransform().SetLocalScale({ 1280.f, 720.f });
 		SinDCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
 		SinDCollision_->Off();
+	}
+
+	{
+		ChoA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+		ChoA_Renderer_->GetTransform().SetLocalScale({ 440.f, 213.f });
+		ChoA_Renderer_->CreateFrameAnimationFolder("DoubleJump", FrameAnimation_DESC("ChoA", 0.05f));
+		ChoA_Renderer_->AnimationBindEnd("DoubleJump", std::bind(&Player::DoubleJumpEnd, this, std::placeholders::_1));
+		ChoA_Renderer_->ChangeFrameAnimation("DoubleJump");
+	//	ChoA_Renderer_->GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::SKILLBACK });
+		ChoA_Renderer_->Off();
 	}
 
 	SinA_Renderer_->AnimationBindEnd("Sin_A", std::bind(&Player::SinSkillUpdate, this, std::placeholders::_1));
@@ -1181,5 +1198,10 @@ void Player::SinSkillSoundUpdate(const FrameAnimation_DESC& _Info)
 
 	SinSkillFrameCount_ -= 1;
 
+}
+
+void Player::DoubleJumpEnd(const FrameAnimation_DESC& _Info)
+{
+	ChoA_Renderer_->Off();
 }
 
