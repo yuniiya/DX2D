@@ -93,7 +93,12 @@ Player::~Player()
 
 GameEngineTexture* Player::GetCurMapTexture()
 {
-	MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+	if (CurLevelName_ != "TITLE"
+		&& CurLevelName_ != "LOGIN"
+		&& CurLevelName_ != "SELECT")
+	{
+		MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+	}
 
 	if (nullptr == MapTexture_)
 	{
