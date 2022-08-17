@@ -10,6 +10,7 @@
 #include "GameEngineContents/BossLevel.h"
 #include "GameEngineContents/SelectLevel.h"
 #include "GameEngineContents/TitleLevel.h"
+#include "GameEngineContents/TestLevel.h"
 
 
 
@@ -707,6 +708,21 @@ void ContentsCore::Start()
 		GameEngineFolderTexture::Load(Dir.GetFullPath());
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Test");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+	}
+
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{
 		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
@@ -731,6 +747,7 @@ void ContentsCore::Start()
 	CreateLevel<DesertLevel>("Desert");
 	CreateLevel<AquaLevel>("Aqua");
 	CreateLevel<BossLevel>("Boss");
+	CreateLevel<TestLevel>("Test");
 	//CreateLevel<EndingLevel>("End");
 
 	ChangeLevel("Ariant");

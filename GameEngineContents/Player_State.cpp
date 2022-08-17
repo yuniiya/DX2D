@@ -93,6 +93,7 @@ void Player::DoubleJumpStart(const StateInfo& _Info)
 	JumpPower_ = float4{ 0.f, 500.f, 0.f };
 	Speed_ = 350.f;
 
+	AddAccTime(DoubleJumpTime_);
 	ChoA_Renderer_->On();
 
 	if (CurDir_ == ACTORDIR::RIGHT)
@@ -514,7 +515,15 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	
 	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * GameEngineTime::GetDeltaTime());
+
+	if (GetAccTime() > 0.5f)	// ÇÑ¹ø ´õ ¶Ú´Ù
+	{
+		Speed_ = 500.f;
+		JumpPower_ = { 0.f, 400.f, 0.f };
+		GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * GameEngineTime::GetDeltaTime());
+	}
 
 	float4 Color = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 45.f);	// 34
 	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))

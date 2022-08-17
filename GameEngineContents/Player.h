@@ -103,6 +103,7 @@ private:
 	float DamageTime_;
 	float SinLoopTime_;
 	float SinEndTime_;
+	float DoubleJumpTime_;
 
 protected:
 	float4 BottomColor;

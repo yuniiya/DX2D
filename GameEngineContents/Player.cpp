@@ -78,6 +78,7 @@ Player::Player()
 	, IsSinLoopStart(false)
 	, SinLoopTime_(0.0f)
 	, SinEndTime_(0.0f)
+	, DoubleJumpTime_(0.0f)
 {
 }
 
