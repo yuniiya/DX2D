@@ -26,6 +26,7 @@ void BossLevel::Start()
 
 		{
 			StageActor_ = CreateActor<MapStage>((int)GAMEOBJGROUP::STAGE);
+			StageActor_->GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::STAGE });
 			StageRenderer_ = StageActor_->CreateComponent<GameEngineTextureRenderer>();
 			StageRenderer_->GetTransform().SetLocalScale({ 1978.f, 730.f });
 			StageRenderer_->CreateFrameAnimationFolder("Stage_Boss", FrameAnimation_DESC("Stage_Boss", 0.15f));
@@ -72,5 +73,5 @@ void BossLevel::End()
 void BossLevel::OnEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.f, -200.0f, (int)ZOrder::PLAYER });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.f, -300.0f, (int)ZOrder::PLAYER });
 }

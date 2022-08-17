@@ -22,7 +22,7 @@ public:
 
 	GameEngineActor* GetActor()
 	{
-		return GetParent<GameEngineActor>();
+		return GetRoot<GameEngineActor>();
 	}
 
 	template<typename ParentType>

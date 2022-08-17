@@ -38,7 +38,7 @@ void ContentsUI::MainBarSizeUpdate()
 	switch (CurHP_)
 	{
 	case 90:
-	{
+	{	
 		HpBar_->GetTransform().SetLocalScale({ HpBar_->GetTransform().GetLocalScale().x * 0.9f, HpBar_->GetTransform().GetLocalScale().y });
 		HpBar_->SetPivot(PIVOTMODE::LEFTTOP);
 	}
@@ -97,7 +97,7 @@ void ContentsUI::Update(float _DeltaTime)
 	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos.x + 2.f, CamPos.y - 352.f });
 	ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos.x + 1.f , CamPos.y - 352.5f });
 
-	//MainBarSizeUpdate();
+	MainBarSizeUpdate();
 
 }
 

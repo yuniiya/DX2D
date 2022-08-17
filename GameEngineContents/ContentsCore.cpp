@@ -750,7 +750,7 @@ void ContentsCore::Start()
 	CreateLevel<TestLevel>("Test");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Ariant");
+	ChangeLevel("Cactus");
 
 	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

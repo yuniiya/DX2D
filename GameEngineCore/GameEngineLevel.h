@@ -135,17 +135,12 @@ public:
 	void AllClear();
 
 protected:
-	void PushActor(GameEngineActor* _Actor, int _ObjectGroupIndex)
-	{
-		std::list<GameEngineActor*>& Group = AllActors[_ObjectGroupIndex];
-
-		Group.push_back(_Actor);
-	}
-
+	
 
 
 
 private:
+	void PushActor(GameEngineActor* _Actor, int _ObjectGroupIndex);
 
 	void ActorOnEvent();
 

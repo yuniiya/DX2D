@@ -604,7 +604,7 @@ public:
 
 
 	float4(float _x, float _y)
-		: x(_x), y(_y), z(1.0f), w(1.0f)
+		: x(_x), y(_y), z(0.0f), w(1.0f)
 	{
 
 	}

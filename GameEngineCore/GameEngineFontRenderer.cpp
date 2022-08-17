@@ -49,7 +49,8 @@ void GameEngineFontRenderer::Render(float _DeltaTime)
 	// 이전에 존재했던 랜더타겟을 얻고
 	// GameEngineRenderTarget::GetPrevRenderTarget();
 	//FontTarget->Setting();
-	Font->FontDraw(Text, FontSize, ScreenPostion, Color);
+
+	Font->FontDraw(Text, FontSize, ScreenPostion, Color, static_cast<int>(LR) | static_cast<int>(TB));
 	GameEngineRenderingPipeLine::AllShaderReset();
 	//GameEngineRenderTarget::SetPrevRenderTarget();
 	// FontTarget->R();
