@@ -18,8 +18,6 @@ public:
 	ContentsUI& operator=(ContentsUI&& _Other) noexcept = delete;
 
 public:
-	void MainBarSizeUpdate();
-
 	void HPBarUpdate(float _CurHP, float _MaxHP);
 	void MPBarUpdate(float _CurMP, float _MaxMP);
 	void ExpBarUpdate(float _CurExp, float _MaxExp);
@@ -48,7 +46,8 @@ private:
 	float CurMP_;
 	float CurExp_;
 
-	float HPratio_;
+	float ratio_;
+
 	
 private:
 	GameEngineTextureRenderer* MainBar_;
@@ -56,6 +55,7 @@ private:
 	GameEngineTextureRenderer* QuickSlotBack_;
 	GameEngineTextureRenderer* QuickSlot_;
 
+	//static GameEngineTextureRenderer* HpBar_;
 	GameEngineTextureRenderer* HpBar_;
 	GameEngineTextureRenderer* MpBar_;
 	GameEngineTextureRenderer* ExpBar_;

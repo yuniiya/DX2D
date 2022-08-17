@@ -50,14 +50,14 @@ public:
 		return CurExp_;
 	}
 
-	inline void UseMP(int _CurMP)
+	inline void UseMP(int _MP)
 	{
-		CurMP_ = CurHP_ - _CurMP;
+		CurMP_ = CurMP_ - _MP;
 	}
 
-	inline void AddExp(int _CurExp)
+	inline void AddExp(int _Exp)
 	{
-		CurExp_ = CurExp_ + _CurExp;
+		CurExp_ = CurExp_ + _Exp;
 	}
 
 	inline float GetAtk()

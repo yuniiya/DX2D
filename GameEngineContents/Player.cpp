@@ -66,7 +66,7 @@ Player::Player()
 	, ChoB_Renderer_(nullptr)
 	, CurHP_(100.f)
 	, CurMP_(100.f)
-	, CurExp_(1000.f)
+	, CurExp_(60.f)
 	, Atk_(5000)
 	, PrevPosition_(Position_)
 	, PrevDir_(CurDir_)
@@ -705,7 +705,7 @@ void Player::CollisionCheck()
 	{
 		IsHit = true;
 
-		TakeDamage(5.f);
+		TakeDamage(3.f);
 		ContentsUI::MainUI->HPBarUpdate(CurHP_, MaxHP_);
 		
 		StateManager.ChangeState("Damaged");
@@ -717,7 +717,7 @@ void Player::CollisionCheck()
 	{
 		IsHit = true;
 
-		TakeDamage(5.f);
+		TakeDamage(2.f);
 		ContentsUI::MainUI->HPBarUpdate(CurHP_, MaxHP_);
 
 		StateManager.ChangeState("Damaged");
@@ -818,6 +818,9 @@ void Player::UseSkill()
 	{
 		return;
 	}
+
+	UseMP(3.f);
+	ContentsUI::MainUI->MPBarUpdate(CurMP_, MaxMP_);
 
 	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
 	{

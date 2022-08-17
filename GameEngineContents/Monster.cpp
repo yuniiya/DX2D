@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include "Player.h"
+#include "ContentsUI.h"
 
 Monster::Monster()
 	: Renderer_(nullptr)
@@ -668,6 +669,9 @@ void Monster::DieStart()
 	AddAccTime(Time_);
 
 	Collision_->Off();
+
+	Player::MainPlayer_->AddExp(1.f);
+	ContentsUI::MainUI->ExpBarUpdate(Player::MainPlayer_->GetExp(), 100.f);
 
 	Renderer_->ChangeFrameAnimation("Die");
 }
