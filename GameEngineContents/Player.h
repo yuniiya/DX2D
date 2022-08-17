@@ -37,27 +37,27 @@ public:
 	
 	inline int GetHP()
 	{
-		return HP_;
+		return CurHP_;
 	}
 
 	inline int GetMP()
 	{
-		return MP_;
+		return CurMP_;
 	}
 
 	inline int GetExp()
 	{
-		return Exp_;
+		return CurExp_;
 	}
 
-	inline void UseMP(int _MP)
+	inline void UseMP(int _CurMP)
 	{
-		MP_ = MP_ - _MP;
+		CurMP_ = CurHP_ - _CurMP;
 	}
 
-	inline void AddExp(int _Exp)
+	inline void AddExp(int _CurExp)
 	{
-		Exp_ = Exp_ + _Exp;
+		CurExp_ = CurExp_ + _CurExp;
 	}
 
 	inline float GetAtk()
@@ -66,9 +66,13 @@ public:
 	}
 
 private:
-	int HP_;
-	int MP_;
-	int Exp_;
+	float CurHP_;
+	float CurMP_;
+	float CurExp_;
+	float MaxHP_;
+	float MaxMP_;
+	float MaxExp_;
+
 	float Atk_;
 	float Speed_;
 

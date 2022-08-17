@@ -23,7 +23,7 @@ void TestLevel::Start()
 
 	Renderer_ = Player_->CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
-	Renderer_->CreateFrameAnimationFolder("Skill_Ji", FrameAnimation_DESC("Skill_Ji", 0.04));
+	Renderer_->CreateFrameAnimationFolder("Skill_Ji", FrameAnimation_DESC("Skill_Ji", 0.04f));
 	Renderer_->GetTransform().SetLocalPosition({ 600.f, 100.f });
 	Renderer_->ChangeFrameAnimation("Skill_Ji");
 }

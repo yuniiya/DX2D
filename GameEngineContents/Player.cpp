@@ -13,6 +13,7 @@
 #include "GameEngineCore/GEngine.h"
 #include "Fade.h"
 #include "FadeIn.h"
+#include "ContentsUI.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -63,9 +64,9 @@ Player::Player()
 	, CurSkill_(PLAYERSKILL::MAX)
 	, ChoA_Renderer_(nullptr)
 	, ChoB_Renderer_(nullptr)
-	, HP_(100)
-	, MP_(100)
-	, Exp_(1000)
+	, CurHP_(100.f)
+	, CurMP_(100.f)
+	, CurExp_(1000.f)
 	, Atk_(5000)
 	, PrevPosition_(Position_)
 	, PrevDir_(CurDir_)
@@ -79,6 +80,9 @@ Player::Player()
 	, SinLoopTime_(0.0f)
 	, SinEndTime_(0.0f)
 	, DoubleJumpTime_(0.0f)
+	, MaxHP_(CurHP_)
+	, MaxMP_(CurMP_)
+	, MaxExp_(CurExp_)
 {
 }
 
@@ -101,13 +105,13 @@ GameEngineTexture* Player::GetCurMapTexture()
 
 void Player::TakeDamage(int _Damage)
 {
-	if (HP_ <= 0)
+	if (CurHP_ <= 0)
 	{
 		StateManager.ChangeState("Die");
 		return;
 	}
 
-	HP_ = HP_ - _Damage;
+	CurHP_ = CurHP_ - _Damage;
 }
 
 void Player::Start()
@@ -283,7 +287,7 @@ void Player::Start()
 
 		JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		JiC_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
-		JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.03));
+		JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.03f));
 		JiC_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Player::JiCFrameEnd, this, std::placeholders::_1));
 		JiC_Renderer_->ChangeFrameAnimation("Ji_C");
 		JiC_Renderer_->Off();
@@ -701,8 +705,9 @@ void Player::CollisionCheck()
 	{
 		IsHit = true;
 
-		TakeDamage(10.f);
-
+		TakeDamage(5.f);
+		ContentsUI::MainUI->HPBarUpdate(CurHP_, MaxHP_);
+		
 		StateManager.ChangeState("Damaged");
 		return;
 	}
@@ -712,7 +717,8 @@ void Player::CollisionCheck()
 	{
 		IsHit = true;
 
-		TakeDamage(10.f);
+		TakeDamage(5.f);
+		ContentsUI::MainUI->HPBarUpdate(CurHP_, MaxHP_);
 
 		StateManager.ChangeState("Damaged");
 		return;

@@ -2,6 +2,8 @@
 #include "ContentsUI.h"
 #include "Player.h"
 
+ContentsUI* ContentsUI::MainUI = nullptr;
+
 ContentsUI::ContentsUI() 
 	: MainBar_(nullptr)
 	, ExpBack_(nullptr)
@@ -13,6 +15,14 @@ ContentsUI::ContentsUI()
 	, CurHP_(0)
 	, CurMP_(0)
 	, CurExp_(0)
+	, CamPos_(0.f)
+	, HPBarScale_(0.f)
+	, MPBarScale_(0.f)
+	, ExpBarScale_(0.f)
+	, HPBarPos_(0.f)
+	, MPBarPos_(0.f)
+	, ExpBarPos_(0.f)
+	, HPratio_(0.f)
 {
 }
 
@@ -31,23 +41,38 @@ void ContentsUI::CollisionCheck()
 
 void ContentsUI::MainBarSizeUpdate()
 {
+	
+}
+
+void ContentsUI::HPBarUpdate(float _CurHP, float _MaxHP)
+{
+	HPratio_ = _CurHP / _MaxHP;
+
+	HpBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio_, HPBarScale_.y });
+}
+
+void ContentsUI::MPBarUpdate(float _CurMP, float _MaxMP)
+{
+}
+
+void ContentsUI::ExpBarUpdate(float _CurExp, float _MaxExp)
+{
+}
+
+void ContentsUI::MainBarPosUpdate()
+{
 	CurHP_ = Player::MainPlayer_->GetHP();
 	CurMP_ = Player::MainPlayer_->GetMP();
 	CurExp_ = Player::MainPlayer_->GetExp();
 
-	switch (CurHP_)
+	if (100.f == CurHP_)
 	{
-	case 90:
-	{	
-		HpBar_->GetTransform().SetLocalScale({ HpBar_->GetTransform().GetLocalScale().x * 0.9f, HpBar_->GetTransform().GetLocalScale().y });
-		HpBar_->SetPivot(PIVOTMODE::LEFTTOP);
+		HpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 10.5f, CamPos_.y - 308.f });	// 처음 세팅
 	}
-	break;
-	default:
-		break;
+	else
+	{
+		HpBar_->GetTransform().SetLocalPosition(float4{ (CamPos_.x + 10.5f) - (100.f - CurHP_), CamPos_.y - 308.f });
 	}
-
-	float4 Size = HpBar_->GetTransform().GetLocalScale();
 }
 
 void ContentsUI::Start()
@@ -55,6 +80,7 @@ void ContentsUI::Start()
 	HpBar_ = CreateComponent<GameEngineTextureRenderer>();
 	HpBar_->SetTexture("HP.png");
 	HpBar_->ScaleToTexture();
+	HPBarScale_ = HpBar_->GetTransform().GetLocalScale();
 
 	MpBar_ = CreateComponent<GameEngineTextureRenderer>();
 	MpBar_->SetTexture("MP.png");
@@ -71,7 +97,7 @@ void ContentsUI::Start()
 	ExpBar_ = CreateComponent<GameEngineTextureRenderer>();
 	ExpBar_->SetTexture("ExpBar.png");
 	ExpBar_->GetTransform().SetLocalScale({ 1272.f, 12.5f });
-	ExpPos_ = ExpBar_->GetTransform().GetLocalScale();
+	ExpBarPos_ = ExpBar_->GetTransform().GetLocalScale();
 
 	//ExpBar_->GetTransform().SetLocalScale({ ExpPos_.x * 0.7f, ExpPos_.y });
 
@@ -86,18 +112,21 @@ void ContentsUI::Start()
 
 void ContentsUI::Update(float _DeltaTime)
 {
-	float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
+	MainUI = this;
 
-	HpBar_->GetTransform().SetLocalPosition(float4{ CamPos.x + 10.5f, CamPos.y - 308.f });
-	MpBar_->GetTransform().SetLocalPosition(float4{ CamPos.x + 10.5f, CamPos.y - 325.f });
+	CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 
-	MainBar_->GetTransform().SetLocalPosition(float4{ CamPos.x, CamPos.y - 308.f });
-	QuickSlotBack_->GetTransform().SetLocalPosition(float4{ CamPos.x + 465.f, CamPos.y - 308.f });
-	QuickSlot_->GetTransform().SetLocalPosition(float4{ CamPos.x + 465.f, CamPos.y - 308.f });
-	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos.x + 2.f, CamPos.y - 352.f });
-	ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos.x + 1.f , CamPos.y - 352.5f });
+	MainBarPosUpdate();
 
-	MainBarSizeUpdate();
 
+	
+	MpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 10.5f, CamPos_.y - 325.f });
+	ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 1.f , CamPos_.y - 352.5f });
+
+	MainBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x, CamPos_.y - 308.f });
+	QuickSlotBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 465.f, CamPos_.y - 308.f });
+	QuickSlot_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 465.f, CamPos_.y - 308.f });
+	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f });
+	
 }
 

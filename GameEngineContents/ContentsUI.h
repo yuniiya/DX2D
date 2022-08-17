@@ -5,6 +5,8 @@
 class ContentsUI : public GameEngineActor
 {
 public:
+	static ContentsUI* MainUI;
+
 	// constrcuter destructer
 	ContentsUI();
 	~ContentsUI();
@@ -15,25 +17,39 @@ public:
 	ContentsUI& operator=(const ContentsUI& _Other) = delete;
 	ContentsUI& operator=(ContentsUI&& _Other) noexcept = delete;
 
+public:
+	void MainBarSizeUpdate();
+
+	void HPBarUpdate(float _CurHP, float _MaxHP);
+	void MPBarUpdate(float _CurMP, float _MaxMP);
+	void ExpBarUpdate(float _CurExp, float _MaxExp);
+	void MainBarPosUpdate();
+
 protected:
 	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	void CollisionCheck();
-
-	void MainBarSizeUpdate();
-
-	float4 HpPos_;
-	float4 MpPos_;
-	float4 ExpPos_;
-
-	int CurHP_;
-	int CurMP_;
-	int CurExp_;
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+private:
+	float4 HPBarPos_;
+	float4 MPBarPos_;
+	float4 ExpBarPos_;
+	float4 CamPos_;
+
+	float4 HPBarScale_;
+	float4 MPBarScale_;
+	float4 ExpBarScale_;
+
+	float CurHP_;
+	float CurMP_;
+	float CurExp_;
+
+	float HPratio_;
+	
 private:
 	GameEngineTextureRenderer* MainBar_;
 	GameEngineTextureRenderer* ExpBack_;
