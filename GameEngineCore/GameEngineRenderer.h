@@ -31,6 +31,7 @@ struct RenderOption
 };
 
 // Ό³Έν :
+class GameEngineRenderingPipeLine;
 class GameEngineRenderer : public GameEngineTransformComponent
 {
 	friend class GameEngineLevel;
@@ -51,6 +52,8 @@ public:
 
 	// float4x4 ViewPort;
 	void ChangeCamera(CAMERAORDER _Order);
+
+    GameEngineRenderingPipeLine* GetClonePipeLine(GameEngineRenderingPipeLine* _Rendering);
 
 protected:
 	virtual void Start();

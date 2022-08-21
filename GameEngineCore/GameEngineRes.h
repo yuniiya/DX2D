@@ -9,14 +9,30 @@
 template<typename ResType>
 class GameEngineRes : public GameEngineNameObject
 {
+protected:
+	bool Original;
+
+public:
+	bool IsOriginal() 
+	{
+		return Original;
+	}
 
 public:
 	// constrcuter destructer
-	GameEngineRes() {}
+	GameEngineRes() 
+		: Original(true)
+	{
+	}
 	virtual ~GameEngineRes() {}
 
 	// delete Function
-	GameEngineRes(const GameEngineRes& _Other) = delete;
+	GameEngineRes(const GameEngineRes& _Other) 
+		: Original(false)
+	{
+
+	}
+
 	GameEngineRes(GameEngineRes&& _Other) noexcept = delete;
 	GameEngineRes& operator=(const GameEngineRes& _Other) = delete;
 	GameEngineRes& operator=(GameEngineRes&& _Other) noexcept = delete;
