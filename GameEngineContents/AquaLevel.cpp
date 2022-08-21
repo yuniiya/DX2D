@@ -72,13 +72,13 @@ void AquaLevel::End()
 {
 }
 
-void AquaLevel::OnEvent()
+void AquaLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f, (int)ZOrder::PLAYER });
 }
 
-void AquaLevel::OffEvent()
+void AquaLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 }

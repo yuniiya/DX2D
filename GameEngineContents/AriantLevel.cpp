@@ -65,13 +65,13 @@ void AriantLevel::End()
 	//Player_->GetTransform().SetLocalPosition(float4::ZERO);
 }
 
-void AriantLevel::OnEvent()
+void AriantLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 3200.f, -600.0f, (int)ZOrder::PLAYER});
 }
 
-void AriantLevel::OffEvent()
+void AriantLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 }

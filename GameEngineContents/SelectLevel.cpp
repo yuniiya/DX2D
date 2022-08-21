@@ -44,7 +44,7 @@ void SelectLevel::End()
 {
 }
 
-void SelectLevel::OnEvent()
+void SelectLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 }

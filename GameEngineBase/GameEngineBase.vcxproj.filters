@@ -31,6 +31,9 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{bd9eb880-afe9-4dca-9caf-46b430f6193d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enum">
+      <UniqueIdentifier>{40c2ed13-cf85-4feb-8fb6-47dd2686b9be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -46,9 +49,6 @@
       <Filter>IO</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineNameObject.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineUpdateObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRandom.cpp">
@@ -101,9 +101,6 @@
     <ClInclude Include="GameEngineNameObject.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineUpdateObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineMath.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -133,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="magic_enum_fuse.hpp">
+      <Filter>Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="magic_enum_format.hpp">
+      <Filter>Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="magic_enum.hpp">
+      <Filter>Enum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

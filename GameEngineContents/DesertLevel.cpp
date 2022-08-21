@@ -92,13 +92,13 @@ void DesertLevel::End()
 {
 }
 
-void DesertLevel::OnEvent()
+void DesertLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, (int)ZOrder::PLAYER });
 }
 
-void DesertLevel::OffEvent()
+void DesertLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 }

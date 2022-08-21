@@ -62,7 +62,7 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	}
 }
 
-void GameEngineLevel::ActorOnEvent() 
+void GameEngineLevel::ActorLevelStartEvent() 
 {
 	for (const std::pair<int, std::list<GameEngineActor*>>& Group : AllActors)
 	{
@@ -74,12 +74,12 @@ void GameEngineLevel::ActorOnEvent()
 				continue;
 			}
 			// 루트 액터만 뭔가를 하는거죠?
-			Actor->AllOnEvent();
+			Actor->AllLevelStartEvent();
 		}
 	}
 }
 
-void GameEngineLevel::ActorOffEvent()
+void GameEngineLevel::ActorLevelEndEvent()
 {
 	for (const std::pair<int, std::list<GameEngineActor*>>& Group : AllActors)
 	{
@@ -90,7 +90,7 @@ void GameEngineLevel::ActorOffEvent()
 			{
 				continue;
 			}
-			Actor->AllOffEvent();
+			Actor->AllLevelEndEvent();
 		}
 	}
 }

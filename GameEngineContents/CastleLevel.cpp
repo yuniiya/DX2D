@@ -58,13 +58,13 @@ void CastleLevel::End()
 {
 }
 
-void CastleLevel::OnEvent()
+void CastleLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, (int)ZOrder::PLAYER });
 }
 
-void CastleLevel::OffEvent()
+void CastleLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 }

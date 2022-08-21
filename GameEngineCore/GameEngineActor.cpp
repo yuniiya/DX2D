@@ -56,3 +56,4 @@ void GameEngineActor::SetParent(GameEngineUpdateObject* _Object)
 
 	MsgBoxAssert("트랜스폼이 없는 컴포넌트에 트랜스폼이 있는 부모를 붙이려고 했습니다.");
 }
+

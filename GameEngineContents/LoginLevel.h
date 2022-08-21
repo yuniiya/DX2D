@@ -26,7 +26,7 @@ protected:
 		CurPos_.y = GetMainCameraActorTransform().GetLocalPosition().y;
 	}
 
-	void OnEvent() override;
+	void LevelStartEvent() override;
 
 private:
 	float4 CurPos_;

@@ -105,13 +105,13 @@ void CactusLevel::End()
 {
 }
 
-void CactusLevel::OnEvent()
+void CactusLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -600.0f, (int)ZOrder::PLAYER });
 }
 
-void CactusLevel::OffEvent()
+void CactusLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 }

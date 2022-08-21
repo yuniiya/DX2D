@@ -19,8 +19,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
-	void OnEvent() override;
-	void OffEvent() override;
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
 
 protected:
 	float4 CameraPos_;

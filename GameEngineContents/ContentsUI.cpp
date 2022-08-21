@@ -89,15 +89,14 @@ void ContentsUI::MainBarPosUpdate()
 	{		
 		ExpBar_->GetTransform().SetLocalScale({ ExpBarScale_.x * 0.6f, ExpBarScale_.y });
 		ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 252.f , CamPos_.y - 352.5f, (int)ZOrder::UI });	// 초기 세팅
-
 	}
 	else if (60.f < CurExp_)
 	{
-		ExpBar_->GetTransform().SetLocalPosition(float4{ (CamPos_.x - 252.f) + ((CurExp_ - 60.f) + 6.f), CamPos_.y - 352.5f, (int)ZOrder::UI});
+		ExpBar_->GetTransform().SetLocalPosition(float4{ (CamPos_.x - 252.f) + CurExp_, CamPos_.y - 352.5f, (int)ZOrder::UI});
 	}
 	else if(60.f > CurExp_)
 	{
-		ExpBar_->GetTransform().SetLocalPosition(float4{ (CamPos_.x - 252.f) + (100.f - CurExp_), CamPos_.y - 352.5f, (int)ZOrder::UI });
+		ExpBar_->GetTransform().SetLocalPosition(float4{ (CamPos_.x - 252.f) + CurExp_, CamPos_.y - 352.5f, (int)ZOrder::UI });
 	}
 
 }
@@ -130,6 +129,7 @@ void ContentsUI::Start()
 	ExpBar_->GetTransform().SetLocalScale({ 1272.f, 12.5f });
 	ExpBarPos_ = ExpBar_->GetTransform().GetLocalScale();
 	ExpBarScale_ = ExpBar_->GetTransform().GetLocalScale();
+	ExpBar_->SetPivot(PIVOTMODE::LEFTTOP);
 
 	//ExpBar_->GetTransform().SetLocalScale({ ExpPos_.x * 0.7f, ExpPos_.y });
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngineBase/GameEngineNameObject.h>
-#include <GameEngineBase/GameEngineUpdateObject.h>
+#include "GameEngineUpdateObject.h"
 #include <list>
 #include <map>
 
@@ -142,9 +142,9 @@ protected:
 private:
 	void PushActor(GameEngineActor* _Actor, int _ObjectGroupIndex);
 
-	void ActorOnEvent();
+	void ActorLevelStartEvent();
 
-	void ActorOffEvent();
+	void ActorLevelEndEvent();
 
 	void ActorUpdate(float _DelataTime);
 

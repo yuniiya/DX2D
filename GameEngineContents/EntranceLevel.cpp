@@ -58,13 +58,13 @@ void EntranceLevel::End()
 {
 }
 
-void EntranceLevel::OnEvent()
+void EntranceLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -500.0f, (int)ZOrder::PLAYER });
 }
 
-void EntranceLevel::OffEvent()
+void EntranceLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 }

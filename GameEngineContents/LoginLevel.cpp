@@ -58,7 +58,7 @@ void LoginLevel::End()
 {
 }
 
-void LoginLevel::OnEvent()
+void LoginLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 }

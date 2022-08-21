@@ -83,6 +83,8 @@ Player::Player()
 	, MaxHP_(CurHP_)
 	, MaxMP_(CurMP_)
 	, MaxExp_(CurExp_)
+	, IsSinLoopEnd(false)
+	, SinAttackEnd(false)
 {
 }
 
@@ -108,7 +110,7 @@ GameEngineTexture* Player::GetCurMapTexture()
 	return MapTexture_;
 }
 
-void Player::TakeDamage(int _Damage)
+void Player::TakeDamage(float _Damage)
 {
 	if (CurHP_ <= 0)
 	{
@@ -136,6 +138,8 @@ void Player::Start()
 
 		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
 		GameEngineInput::GetInst()->CreateKey("Ability", 'H');
+
+		GameEngineInput::GetInst()->CreateKey("Test", 'T');
 
 		// 점프 두번 => 초상비
 		// 여의선 인 Q
@@ -175,8 +179,9 @@ void Player::Start()
 	PlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
 	PlayerRenderer_->CreateFrameAnimationFolder("DoubleJump", FrameAnimation_DESC("Jump", 0.2f));
 
-
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
+
+	//PlayerRenderer_->GetPipeLine()->SetOutputMergerBlend("TransparentBlend");
 
 
 	StateManager.CreateStateMember("Idle"
@@ -437,6 +442,12 @@ void Player::Update(float _DeltaTime)
 	StagePixelCheck();
 
 	SkillSinLoop();
+
+	if (true == GameEngineInput::GetInst()->IsDown("Test"))
+	{
+		Player::MainPlayer_->AddExp(1.f);
+		ContentsUI::MainUI->ExpBarUpdate(Player::MainPlayer_->GetExp(), 100.f);
+	}
 }
 
 void Player::End()
@@ -690,6 +701,12 @@ void Player::ObjectPixelCheck()
 
 void Player::CollisionCheck()
 {
+	if ("Ladder" == StateManager.GetCurStateStateName()
+		|| "Rope" == StateManager.GetCurStateStateName())
+	{
+		return;
+	}
+
 	if (true == IsHit)
 	{
 		PlayerCollision_->Off();
@@ -1049,7 +1066,7 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	{
 		JiA_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 60.f, (int)ZOrder::SKILLBACK });
 		JiB_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 110.f, (int)ZOrder::SKILLBACK });
-		JiC_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 110.f, (int)ZOrder::SKILLBACK });
+		JiC_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x - 4.5f, PrevPosition_.y + 139.f, (int)ZOrder::SKILLBACK });
 	}
 		break;
 	case PLAYERSKILL::SKILL_SIN:

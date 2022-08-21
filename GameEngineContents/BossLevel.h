@@ -20,13 +20,10 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
-	void OnEvent() override;
+	void LevelStartEvent() override;
 
 private:
 	MapStage* StageActor_;
 	GameEngineTextureRenderer* StageRenderer_;
-
-	Player* Player_;
-
 };
 

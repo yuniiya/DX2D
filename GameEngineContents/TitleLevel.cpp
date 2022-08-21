@@ -44,7 +44,7 @@ void TitleLevel::End()
 {
 }
 
-void TitleLevel::OnEvent()
+void TitleLevel::LevelStartEvent()
 {
 	//Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 }

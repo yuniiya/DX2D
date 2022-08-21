@@ -65,6 +65,35 @@ void GameEngineUpdateObject::AllUpdate(float _DeltaTime)
 	}
 }
 
+void GameEngineUpdateObject::AllLevelStartEvent()
+{
+	/*this->*/LevelStartEvent();
+
+	for (GameEngineUpdateObject* Com : Childs)
+	{
+		if (false == Com->IsUpdate())
+		{
+			continue;
+		}
+
+		Com->AllLevelStartEvent();
+	}
+}
+void GameEngineUpdateObject::AllLevelEndEvent()
+{
+	/*this->*/LevelEndEvent();
+
+	for (GameEngineUpdateObject* Com : Childs)
+	{
+		if (false == Com->IsUpdate())
+		{
+			continue;
+		}
+
+		Com->AllLevelEndEvent();
+	}
+}
+
 void GameEngineUpdateObject::AllOnEvent()
 {
 	/*this->*/OnEvent();

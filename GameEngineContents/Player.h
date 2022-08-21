@@ -33,29 +33,29 @@ public:
 
 	GameEngineTexture* GetCurMapTexture();
 
-	void TakeDamage(int _Damage);
+	void TakeDamage(float _Damage);
 	
-	inline int GetHP()
+	inline float GetHP()
 	{
 		return CurHP_;
 	}
 
-	inline int GetMP()
+	inline float GetMP()
 	{
 		return CurMP_;
 	}
 
-	inline int GetExp()
+	inline float GetExp()
 	{
 		return CurExp_;
 	}
 
-	inline void UseMP(int _MP)
+	inline void UseMP(float _MP)
 	{
 		CurMP_ = CurMP_ - _MP;
 	}
 
-	inline void AddExp(int _Exp)
+	inline void AddExp(float _Exp)
 	{
 		CurExp_ = CurExp_ + _Exp;
 	}

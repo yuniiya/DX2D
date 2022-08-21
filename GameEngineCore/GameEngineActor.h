@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngineBase/GameEngineNameObject.h>
-#include <GameEngineBase/GameEngineUpdateObject.h>
+#include "GameEngineUpdateObject.h"
 #include <list>
 #include "GameEngineTransformBase.h"
 
@@ -70,6 +70,7 @@ protected:
 	virtual void Start() override;
 	virtual void Update(float _DeltaTime) override;
 	virtual void End() override;
+
 
 
 private:
