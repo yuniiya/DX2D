@@ -291,8 +291,8 @@ void Player::Start()
 		JiB_Renderer_->Off();
 
 		JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-		JiC_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
-		JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.03f));
+		JiC_Renderer_->GetTransform().SetLocalScale({ 1197.f, 508.f });
+		JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.05f));
 		JiC_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Player::JiCFrameEnd, this, std::placeholders::_1));
 		JiC_Renderer_->ChangeFrameAnimation("Ji_C");
 		JiC_Renderer_->Off();
