@@ -64,6 +64,11 @@ public:
 		return Atk_;
 	}
 
+	inline MONSTERNAME GetMonsterName()
+	{
+		return MonsterName_;
+	}
+
 	inline MONSTERSTATE GetCurState()
 	{
 		return CurState_;

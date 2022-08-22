@@ -26,10 +26,11 @@ enum class ZOrder
 	PLAYER = 40,
 	SKILLBACK = 50,
 	EFFECT = 60,
-	MONSTER = 70,
-	PORTAL = 80,
-	STAGE = 90,
-	BACKGROUND = 100,
+	ITEM = 70,
+	MONSTER = 80,
+	PORTAL = 90,
+	STAGE = 100,
+	BACKGROUND = 110,
 
 	MAX,
 };

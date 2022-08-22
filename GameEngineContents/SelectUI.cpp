@@ -87,7 +87,8 @@ void SelectUI::Start()
 
 	{
 		Player_ = CreateComponent<GameEngineTextureRenderer>();
-		Player_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f });
+		//Player_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f });
+		Player_->GetTransform().SetLocalScale({ 65.f, 60.f, 1.f });
 		Player_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
 		Player_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Player_Move", 0.2f));
 		Player_->GetTransform().PixLocalNegativeX();

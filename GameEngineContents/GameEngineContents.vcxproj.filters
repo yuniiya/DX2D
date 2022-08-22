@@ -43,6 +43,9 @@
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{f046c344-41c5-461f-9a13-3bf9f04d9882}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Item">
+      <UniqueIdentifier>{a9d9e398-14a1-4fb4-8594-4d2f4d17f30d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -160,6 +163,12 @@
     <ClInclude Include="TestLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Actor\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Meso.h">
+      <Filter>Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -276,6 +285,12 @@
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Meso.cpp">
+      <Filter>Actor\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

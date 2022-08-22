@@ -236,11 +236,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapBackGround.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="MapStage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Meso.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -390,11 +398,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapBackGround.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="MapStage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Meso.cpp">
       <SubType>
       </SubType>
     </ClCompile>

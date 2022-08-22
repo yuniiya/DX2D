@@ -4,6 +4,8 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include "Player.h"
 #include "ContentsUI.h"
+#include "Item.h"
+#include "Meso.h"
 
 Monster::Monster()
 	: Renderer_(nullptr)
@@ -774,6 +776,13 @@ void Monster::DieUpdate()
 
 void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 {
+	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	ItemActor->MonsterName_ = GetMonsterName();
+	ItemActor->GetTransform().SetLocalPosition({ GetPosition().x - 12.f, GetPosition().y - 14.f});
+
+	Meso* MesoActor = GetLevel()->CreateActor<Meso>(GAMEOBJGROUP::OBJ);
+	MesoActor->GetTransform().SetLocalPosition({ GetPosition().x + 12.f, GetPosition().y - 14.f });
+
 	Death();
 }
 

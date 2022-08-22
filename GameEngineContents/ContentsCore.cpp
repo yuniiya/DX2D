@@ -723,6 +723,43 @@ void ContentsCore::Start()
 		}
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Item");
+		Dir.Move("NormalItem");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (auto& TmpDir : Folder)
+		{
+			std::vector<GameEngineFile> File = TmpDir.GetAllFile();
+
+			for (size_t i = 0; i < File.size(); i++)
+			{
+				GameEngineTexture::Load(File[i].GetFullPath());
+			}
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Item");
+		Dir.Move("Meso");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+	}
+
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{
 		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
