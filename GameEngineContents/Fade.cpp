@@ -76,11 +76,6 @@ void Fade::Update(float _DeltaTime)
 		}
 	}
 
-	/*if (false == FadeEnd_)
-	{
-		
-	}*/
-
 	// 레벨 체인지 
 	//if (true == FadeEnd_)	// 밝아진다
 	//{

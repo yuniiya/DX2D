@@ -155,12 +155,12 @@ void Player::Start()
 
 	GetTransform().SetLocalPosition({ 0, 0, (int)ZOrder::PLAYER});
 	PlayerCollision_ = CreateComponent<GameEngineCollision>();
-	PlayerCollision_->GetTransform().SetLocalScale({75.f, 75.f, (int)ZOrder::PLAYER});
+	PlayerCollision_->GetTransform().SetLocalScale({65.f, 60.f, (int)ZOrder::PLAYER});
 	PlayerCollision_->ChangeOrder(GAMEOBJGROUP::PLAYER);
 
 	PlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
-	PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f});
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
+	//PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f});
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 
 	//PlayerRenderer_->SetTexture("Idle", 0);
 	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
@@ -512,12 +512,12 @@ bool Player::StagePixelCheck()
 	//float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
 
 	MiddleColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y));
-	BottomDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 47.f);	// 36, 32, 30, 17, 23, 23, 15, 15
-	BottomColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 43.f);	// 발 밑 픽셀의 값을 얻어온다
-	BottomUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 41.f);	// 발보다 조금위
-	TopColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) - 25.f);
-	float4 LeftColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
-	float4 RightColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
+	BottomDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 36.f);	// 36, 32, 30, 17, 23, 23, 15, 15
+	BottomColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 32.f);	// 발 밑 픽셀의 값을 얻어온다
+	BottomUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) + 30.f);	// 발보다 조금위
+	TopColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y) - 17.f);
+	float4 LeftColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() - 23.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 15.f);
+	float4 RightColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() + 23.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 15.f));
 
 	
 	// 땅
@@ -712,6 +712,54 @@ void Player::CollisionCheck()
 		PlayerCollision_->Off();
 		DamageTime_ += GameEngineTime::GetDeltaTime();	// 시간을 잰다
 
+		// 깜빡이기
+		PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+
+		if (0.08f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+		}
+		if (0.16f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+		}
+		if (0.24f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+		}
+		if (0.32f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+		}
+		if (0.40f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+		}
+		if (0.48f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+		}
+		if (0.56f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+		}
+		if (0.64f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+		}
+		if (0.72f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+		}
+		if (0.80f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+		}
+		if (0.88f < DamageTime_)
+		{
+			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+		}
+
 		if (1.5f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
 		{
 			IsHit = false;
@@ -772,6 +820,11 @@ bool Player::IsUpDownMoveKey()
 
 bool Player::IsSkillKey()
 {
+	if (CurMP_ == 0.f)
+	{
+		return false;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q")
 		|| true == GameEngineInput::GetInst()->IsDown("Skill_W")
 		|| true == GameEngineInput::GetInst()->IsDown("Skill_E")
