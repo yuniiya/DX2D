@@ -35,6 +35,11 @@ public:
 
 	void TakeDamage(float _Damage);
 	
+	inline float GetPlayerLevel()
+	{
+		return CurLevel_;
+	}
+
 	inline float GetHP()
 	{
 		return CurHP_;
@@ -66,6 +71,7 @@ public:
 	}
 
 private:
+	float CurLevel_;
 	float CurHP_;
 	float CurMP_;
 	float CurExp_;
@@ -81,6 +87,8 @@ private:
 	float4 Position_;
 	float4 PrevPosition_;
 
+	float4 MoveDir_;
+
 	bool IsDebug;
 	bool IsGround;
 	bool CanMove;
@@ -90,6 +98,7 @@ private:
 	bool SinAttackEnd;
 	bool IsSinLoopStart;
 	bool IsSinLoopEnd;
+	bool IsLevelUp;
 
 	std::string CurLevelName_;
 
@@ -141,6 +150,7 @@ protected:
 private:
 	GameEngineTextureRenderer* PlayerRenderer_;
 	GameEngineTextureRenderer* ColMapRenderer_;
+	GameEngineTextureRenderer* LevelUpEffRenderer_;
 
 	GameEngineTexture* MapTexture_;
 	GameEngineStateManager StateManager;
@@ -186,6 +196,8 @@ protected:
 	void UseSkill();
 	void SkillSinLoop();
 
+	void LevelUpUpdate();
+
 protected:
 	void SkillEnd(const FrameAnimation_DESC& _Info);
 	void SkillPositionUpdate(PLAYERSKILL _CurSkill);
@@ -193,6 +205,7 @@ protected:
 	void SinSkillUpdate(const FrameAnimation_DESC& _Info);
 	void SinSkillSoundUpdate(const FrameAnimation_DESC& _Info);
 	void DoubleJumpEnd(const FrameAnimation_DESC& _Info);
+	void LevelUpEffectEnd(const FrameAnimation_DESC& _Info);
 
 
 protected:

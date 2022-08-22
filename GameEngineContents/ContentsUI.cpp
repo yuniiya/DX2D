@@ -24,6 +24,7 @@ ContentsUI::ContentsUI()
 	, MPBarPos_(0.f)
 	, ExpBarPos_(0.f)
 	, ratio_(0.f)
+	, Level_(nullptr)
 {
 }
 
@@ -98,7 +99,24 @@ void ContentsUI::MainBarPosUpdate()
 	{
 		ExpBar_->GetTransform().SetLocalPosition(float4{ (CamPos_.x - 252.f) + CurExp_, CamPos_.y - 352.5f, (int)ZOrder::UI });
 	}
+}
 
+void ContentsUI::LevelImageUpdate()
+{
+	float PlayerLevel = Player::MainPlayer_->GetPlayerLevel();
+
+	if (121.f == PlayerLevel)
+	{
+		Level_->SetTexture("Lv121.png");
+	}
+	else if (122.f == PlayerLevel)
+	{
+		Level_->SetTexture("Lv122.png");
+	}
+	else if (123.f == PlayerLevel)
+	{
+		Level_->SetTexture("Lv123.png");
+	}
 }
 
 void ContentsUI::Start()
@@ -140,6 +158,10 @@ void ContentsUI::Start()
 	QuickSlot_ = CreateComponent<GameEngineTextureRenderer>();
 	QuickSlot_->SetTexture("QuickSlot.png");
 	QuickSlot_->ScaleToTexture();
+
+	Level_ = CreateComponent<GameEngineTextureRenderer>();
+	Level_->SetTexture("Lv120.png");
+	Level_->ScaleToTexture();
 }
 
 void ContentsUI::Update(float _DeltaTime)
@@ -155,8 +177,10 @@ void ContentsUI::Update(float _DeltaTime)
 	QuickSlotBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 465.f, CamPos_.y - 308.f });
 	QuickSlot_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 465.f, CamPos_.y - 308.f });
 	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f, (int)ZOrder::UI });
-	
+	Level_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 49.f, CamPos_.y - 286.f });
+
 	MainBarPosUpdate();
 
+	LevelImageUpdate();
 }
 

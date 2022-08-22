@@ -114,6 +114,7 @@ void Player::DoubleJumpStart(const StateInfo& _Info)
 
 void Player::DamagedStart(const StateInfo& _Info)
 {
+	MoveDir_ = float4{ 0.f, 300.f, 0.f };
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
@@ -408,7 +409,6 @@ void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == IsUpDownMoveKey())
 	{
 		PlayerRenderer_->ChangeFrameAnimation("Rope");
-
 	}
 	else
 	{
@@ -536,8 +536,22 @@ void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	
+	if (0.5f < _Info.StateTime)
+	{
+		StateManager.ChangeState("Idle");
+		return;
+	}
 
+	if (CurDir_ == ACTORDIR::LEFT)
+	{
+		MoveDir_.x = 90.f;
+	}
+	else if (CurDir_ == ACTORDIR::RIGHT)
+	{
+		MoveDir_.x = -90.f;
+	}
+
+	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 }
 
 void Player::DieUpdate(float _DeltaTime, const StateInfo& _Info)

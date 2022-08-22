@@ -22,6 +22,7 @@ public:
 	void MPBarUpdate(float _CurMP, float _MaxMP);
 	void ExpBarUpdate(float _CurExp, float _MaxExp);
 	void MainBarPosUpdate();
+	void LevelImageUpdate();
 
 protected:
 	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
@@ -47,13 +48,13 @@ private:
 	float CurExp_;
 
 	float ratio_;
-
 	
 private:
 	GameEngineTextureRenderer* MainBar_;
 	GameEngineTextureRenderer* ExpBack_;
 	GameEngineTextureRenderer* QuickSlotBack_;
 	GameEngineTextureRenderer* QuickSlot_;
+	GameEngineTextureRenderer* Level_;
 
 	//static GameEngineTextureRenderer* HpBar_;
 	GameEngineTextureRenderer* HpBar_;

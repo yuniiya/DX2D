@@ -14,6 +14,7 @@
 #include "Fade.h"
 #include "FadeIn.h"
 #include "ContentsUI.h"
+#include "Monster.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -85,6 +86,10 @@ Player::Player()
 	, MaxExp_(CurExp_)
 	, IsSinLoopEnd(false)
 	, SinAttackEnd(false)
+	, MoveDir_(0.f)
+	, CurLevel_(120.f)
+	, IsLevelUp(false)
+	, LevelUpEffRenderer_(nullptr)
 {
 }
 
@@ -182,7 +187,6 @@ void Player::Start()
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 
 	//PlayerRenderer_->GetPipeLine()->SetOutputMergerBlend("TransparentBlend");
-
 
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -429,6 +433,13 @@ void Player::Start()
 	SinB_Renderer_->AnimationBindFrame("Sin_B", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
 	SinC_Renderer_->AnimationBindFrame("Sin_C", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
 	SinD_Renderer_->AnimationBindFrame("Sin_D", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
+
+	LevelUpEffRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+	LevelUpEffRenderer_->GetTransform().SetLocalScale({ 904.f, 904.f });
+	LevelUpEffRenderer_->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0.09f));
+	LevelUpEffRenderer_->AnimationBindEnd("LevelUp", std::bind(&Player::LevelUpEffectEnd, this, std::placeholders::_1));
+	LevelUpEffRenderer_->ChangeFrameAnimation("LevelUp");
+	LevelUpEffRenderer_->Off();
 }
 
 void Player::Update(float _DeltaTime)
@@ -442,10 +453,11 @@ void Player::Update(float _DeltaTime)
 	StagePixelCheck();
 
 	SkillSinLoop();
+	LevelUpUpdate();
 
 	if (true == GameEngineInput::GetInst()->IsDown("Test"))
 	{
-		Player::MainPlayer_->AddExp(1.f);
+		Player::MainPlayer_->AddExp(50.f);
 		ContentsUI::MainUI->ExpBarUpdate(Player::MainPlayer_->GetExp(), 100.f);
 	}
 }
@@ -1010,6 +1022,22 @@ void Player::SkillSinLoop()
 	}
 }
 
+void Player::LevelUpUpdate()
+{
+	if (100.f <= CurExp_)
+	{
+		CurLevel_ += 1;
+		IsLevelUp = true;
+		GameEngineSound::SoundPlayOneShot("LevelUp.mp3");
+
+		LevelUpEffRenderer_->On();
+		LevelUpEffRenderer_->GetTransform().SetWorldPosition({GetPosition().x, GetPosition().y + 160.f});
+
+		CurExp_ = 0.f;
+		ContentsUI::MainUI->ExpBarUpdate(Player::MainPlayer_->GetExp(), 100.f);
+	}
+}
+
 void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 {
 	switch (CurSkill_)
@@ -1058,10 +1086,7 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 
 	}
 	break;
-	default:
-		break;
 	}
-
 
 	StateManager.ChangeState("Idle");
 	return;
@@ -1288,5 +1313,10 @@ void Player::SinSkillSoundUpdate(const FrameAnimation_DESC& _Info)
 void Player::DoubleJumpEnd(const FrameAnimation_DESC& _Info)
 {
 	ChoA_Renderer_->Off();
+}
+
+void Player::LevelUpEffectEnd(const FrameAnimation_DESC& _Info)
+{
+	LevelUpEffRenderer_->Off();
 }
 
