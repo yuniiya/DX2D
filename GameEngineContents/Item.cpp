@@ -7,6 +7,8 @@ Item::Item()
 	, MonsterName_(MONSTERNAME::MAX)
 	, IsCreate(false)
 	, Time_(0.0f)
+	, MoveDir_({0.f, 5.f})
+	, MoveTime_(0.0f)
 {
 }
 
@@ -21,6 +23,8 @@ void Item::TimeAttackStart()
 
 void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 {
+	UpDownMove();
+
 	if (nullptr == _Renderer)
 	{
 		return;
@@ -39,7 +43,27 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 	if (true == IsCreate)
 	{
 		Time_ += GameEngineTime::GetDeltaTime();
+		MoveTime_ += GameEngineTime::GetDeltaTime();
 	}
+}
+
+void Item::UpDownMove()
+{
+	if (0.8f < MoveTime_)
+	{
+		if (5.f == MoveDir_.y)
+		{
+			MoveDir_.y = -5.f;
+		}
+		else if (-5.f == MoveDir_.y)
+		{
+			MoveDir_.y = 5.f;
+		}
+		
+		MoveTime_ = 0.f;
+	}
+
+	GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
 }
 
 void Item::Start()

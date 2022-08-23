@@ -18,6 +18,7 @@ public:
 public:
 	virtual void TimeAttackStart();
 	virtual void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer);
+	virtual void UpDownMove();
 
 protected:
 	void Start() override;
@@ -25,7 +26,10 @@ protected:
 	void End() override {};
 
 	bool IsCreate;
+
 	float Time_;
+	float MoveTime_;
+	float4 MoveDir_;
 
 public:
 	MONSTERNAME MonsterName_;

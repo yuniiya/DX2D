@@ -5,7 +5,8 @@
 #include "MapStage.h"
 #include "Mouse.h"
 #include "Fade.h"
-
+#include "Item.h"
+#include "Meso.h"
 
 AriantLevel::AriantLevel() 
 	: Player_(nullptr)
@@ -35,6 +36,16 @@ void AriantLevel::Start()
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+
+
+	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+	ItemActor->GetTransform().SetLocalPosition({ 3200.f, -800.f });
+	ItemActor->TimeAttackStart();
+
+	Meso* MesoActor = CreateActor<Meso>(GAMEOBJGROUP::OBJ);
+	MesoActor->GetTransform().SetLocalPosition({ 3220.f, -800.f });
+	MesoActor->TimeAttackStart();
 
 }
 

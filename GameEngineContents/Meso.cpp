@@ -4,6 +4,7 @@
 
 Meso::Meso() 
 	: Random_(0)
+	, MesoAmount_(0.f)
 {
 }
 
@@ -38,18 +39,21 @@ void Meso::Update(float _DeltaTime)
 	{
 		Renderer_->ChangeFrameAnimation("MesoA");
 		Renderer_->GetTransform().SetLocalScale({ 25.f, 24.f });
+		MesoAmount_ = 50.f;
 	}
 	break;
 	case 1:
 	{
 		Renderer_->ChangeFrameAnimation("MesoB");
 		Renderer_->GetTransform().SetLocalScale({ 33.f, 33.f });
+		MesoAmount_ = 500.f;
 	}
 	break;
 	case 2:
 	{
 		Renderer_->ChangeFrameAnimation("MesoC");
 		Renderer_->GetTransform().SetLocalScale({ 32.f, 31.f });
+		MesoAmount_ = 5000.f;
 	}
 	break;
 	}

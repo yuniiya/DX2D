@@ -25,6 +25,7 @@ private:
 	GameEngineTextureRenderer* Renderer_;
 
 	int Random_;
+	float MesoAmount_;
 
 };
 
