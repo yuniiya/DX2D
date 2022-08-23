@@ -24,5 +24,7 @@ protected:
 private:
 	GameEngineTextureRenderer* Renderer_;
 
+	int Random_;
+
 };
 

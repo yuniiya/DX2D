@@ -26,7 +26,7 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 		return;
 	}
 
-	if (Time_ > 3.f)
+	if (Time_ > 10.f)
 	{
 		_Renderer->GetColorData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
 
