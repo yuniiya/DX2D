@@ -673,7 +673,6 @@ void Monster::DieStart()
 	Collision_->Off();
 
 	Player::MainPlayer_->AddExp(1.f);
-	ContentsUI::MainUI->ExpBarUpdate(Player::MainPlayer_->GetExp(), 100.f);
 
 	Renderer_->ChangeFrameAnimation("Die");
 }
@@ -776,6 +775,8 @@ void Monster::DieUpdate()
 
 void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 {
+	GameEngineSound::SoundPlayOneShot("DropItem.mp3");
+
 	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::OBJ);
 	ItemActor->MonsterName_ = GetMonsterName();
 	ItemActor->GetTransform().SetLocalPosition({ GetPosition().x - 12.f, GetPosition().y - 14.f});

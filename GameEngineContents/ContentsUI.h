@@ -21,7 +21,7 @@ public:
 	void HPBarUpdate(float _CurHP, float _MaxHP);
 	void MPBarUpdate(float _CurMP, float _MaxMP);
 	void ExpBarUpdate(float _CurExp, float _MaxExp);
-	void MainBarPosUpdate();
+	void MainBarScaleUpdate();
 	void LevelImageUpdate();
 
 protected:
@@ -47,7 +47,7 @@ private:
 	float CurMP_;
 	float CurExp_;
 
-	float ratio_;
+	bool IsInvenOn;
 	
 private:
 	GameEngineTextureRenderer* MainBar_;
@@ -60,5 +60,7 @@ private:
 	GameEngineTextureRenderer* HpBar_;
 	GameEngineTextureRenderer* MpBar_;
 	GameEngineTextureRenderer* ExpBar_;
+
+	GameEngineTextureRenderer* Inventory_;
 };
 

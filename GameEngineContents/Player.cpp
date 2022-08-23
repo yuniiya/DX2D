@@ -457,8 +457,7 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst()->IsDown("Test"))
 	{
-		Player::MainPlayer_->AddExp(50.f);
-		ContentsUI::MainUI->ExpBarUpdate(Player::MainPlayer_->GetExp(), 100.f);
+		Player::MainPlayer_->AddExp(1.f);
 	}
 }
 
@@ -788,7 +787,6 @@ void Player::CollisionCheck()
 		IsHit = true;
 
 		TakeDamage(3.f);
-		ContentsUI::MainUI->HPBarUpdate(CurHP_, MaxHP_);
 		
 		StateManager.ChangeState("Damaged");
 		return;
@@ -800,7 +798,6 @@ void Player::CollisionCheck()
 		IsHit = true;
 
 		TakeDamage(2.f);
-		ContentsUI::MainUI->HPBarUpdate(CurHP_, MaxHP_);
 
 		StateManager.ChangeState("Damaged");
 		return;
@@ -907,7 +904,6 @@ void Player::UseSkill()
 	}
 
 	UseMP(3.f);
-	ContentsUI::MainUI->MPBarUpdate(CurMP_, MaxMP_);
 
 	if (true == GameEngineInput::GetInst()->IsDown("Skill_Q"))
 	{
@@ -1034,7 +1030,6 @@ void Player::LevelUpUpdate()
 		LevelUpEffRenderer_->GetTransform().SetWorldPosition({GetPosition().x, GetPosition().y + 160.f});
 
 		CurExp_ = 0.f;
-		ContentsUI::MainUI->ExpBarUpdate(Player::MainPlayer_->GetExp(), 100.f);
 	}
 }
 
