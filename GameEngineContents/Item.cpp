@@ -5,6 +5,8 @@
 Item::Item() 
 	: Renderer_(nullptr)
 	, MonsterName_(MONSTERNAME::MAX)
+	, IsCreate(false)
+	, Time_(0.0f)
 {
 }
 
@@ -12,11 +14,38 @@ Item::~Item()
 {
 }
 
+void Item::TimeAttackStart()
+{
+	IsCreate = true;
+}
+
+void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
+{
+	if (nullptr == _Renderer)
+	{
+		return;
+	}
+
+	if (Time_ > 3.f)
+	{
+		_Renderer->GetColorData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
+
+		if (_Renderer->GetColorData().MulColor.a < 0)
+		{
+			Death();
+		}
+	}
+
+	if (true == IsCreate)
+	{
+		Time_ += GameEngineTime::GetDeltaTime();
+	}
+}
+
 void Item::Start()
 {
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::ITEM});
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-
 }
 
 void Item::Update(float _DeltaTime)
@@ -66,5 +95,7 @@ void Item::Update(float _DeltaTime)
 	}
 		break;
 	}
+
+	TimeAttackUpdate(Renderer_);
 }
 

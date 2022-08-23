@@ -1,8 +1,9 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+//#include <GameEngineCore/GameEngineActor.h>
+#include "Item.h"
 
 class GameEngineTextureRenderer;
-class Meso : public GameEngineActor
+class Meso : public Item
 {
 public:
 	// constrcuter destructer

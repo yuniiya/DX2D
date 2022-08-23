@@ -780,9 +780,11 @@ void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::OBJ);
 	ItemActor->MonsterName_ = GetMonsterName();
 	ItemActor->GetTransform().SetLocalPosition({ GetPosition().x - 12.f, GetPosition().y - 14.f});
+	ItemActor->TimeAttackStart();
 
 	Meso* MesoActor = GetLevel()->CreateActor<Meso>(GAMEOBJGROUP::OBJ);
 	MesoActor->GetTransform().SetLocalPosition({ GetPosition().x + 12.f, GetPosition().y - 14.f });
+	MesoActor->TimeAttackStart();
 
 	Death();
 }
