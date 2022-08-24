@@ -35,6 +35,7 @@ private:
 	bool IsInvenOn;
 
 	float4 Position_;
+	float4 ItemPosition_;
 
 private:
 	GameEngineTextureRenderer* Inventory_;
@@ -43,5 +44,6 @@ private:
 	GameEngineTextureRenderer* Item_2;
 	GameEngineTextureRenderer* Item_3;
 	GameEngineTextureRenderer* Item_4;
+	GameEngineTextureRenderer* Item_5;
 };
 

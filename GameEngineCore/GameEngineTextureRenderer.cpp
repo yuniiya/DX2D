@@ -137,7 +137,7 @@ void GameEngineTextureRenderer::SetTextureRendererSetting()
 
 	ShaderResources.SetConstantBufferLink("AtlasData", AtlasDataInst);
 	ShaderResources.SetConstantBufferLink("ColorData", ColorData);
-
+	
 }
 
 void GameEngineTextureRenderer::CurAnimationPauseSwitch()
@@ -145,7 +145,7 @@ void GameEngineTextureRenderer::CurAnimationPauseSwitch()
 	CurAni->PauseSwtich();
 }
 
-void GameEngineTextureRenderer::Start()
+void GameEngineTextureRenderer::Start() 
 {
 	GameEngineDefaultRenderer::Start();
 
@@ -227,7 +227,7 @@ void GameEngineTextureRenderer::SetTexture(const std::string& _Name)
 
 void GameEngineTextureRenderer::SetFrame(UINT _Index)
 {
-	FrameData = CurTex->GetFrameData(_Index);
+	AtlasDataInst.FrameData = CurTex->GetFrameData(_Index);
 }
 
 GameEngineTexture* GameEngineTextureRenderer::GetCurTexture()
@@ -277,6 +277,7 @@ void GameEngineTextureRenderer::CreateFrameAnimationFolder(const std::string& _A
 
 	FrameAnimation& NewAni = FrameAni[Name];
 	NewAni.Info = _Desc;
+	NewAni.Info.Renderer = this;
 	NewAni.ParentRenderer = this;
 	NewAni.Texture = nullptr;
 	NewAni.FolderTexture = GameEngineFolderTexture::Find(_Desc.TextureName);
@@ -302,6 +303,7 @@ void GameEngineTextureRenderer::CreateFrameAnimationCutTexture(const std::string
 
 	FrameAnimation& NewAni = FrameAni[Name];
 	NewAni.Info = _Desc;
+	NewAni.Info.Renderer = this;
 	NewAni.ParentRenderer = this;
 	NewAni.Texture = GameEngineTexture::Find(_Desc.TextureName);
 	NewAni.FolderTexture = nullptr;
@@ -342,7 +344,7 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 
 void GameEngineTextureRenderer::FrameDataReset()
 {
-	FrameData = { 0.0f , 0.0f, 1.0f, 1.0f};
+	AtlasDataInst.FrameData = { 0.0f , 0.0f, 1.0f, 1.0f};
 }
 
 
@@ -400,4 +402,19 @@ void GameEngineTextureRenderer::CurAnimationReset()
 void GameEngineTextureRenderer::CurAnimationSetStartPivotFrame(int SetFrame)
 {
 	CurAni->Info.CurFrame = SetFrame;
+}
+
+void GameEngineTextureRenderer::CurAnimationPauseOn() 
+{
+	CurAni->Pause = true;
+}
+
+void GameEngineTextureRenderer::CurAnimationPauseOff() 
+{
+	CurAni->Pause = false;
+}
+
+bool GameEngineTextureRenderer::IsCurAnimationPause() 
+{
+	return CurAni->Pause;
 }

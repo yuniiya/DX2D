@@ -29,6 +29,17 @@ struct RenderOption
      int Option19;
      int Option20;
 };
+//
+//class GameEngineRenderSet 
+//{
+//public:
+//    // 이미 만들어진 랜더링 파이프라인을 얻어와서 쓴다.
+//    GameEngineRenderingPipeLine* PipeLine;
+//    GameEngineShaderResourcesHelper ShaderHelper;
+//
+//
+//
+//};
 
 // 설명 :
 class GameEngineRenderingPipeLine;

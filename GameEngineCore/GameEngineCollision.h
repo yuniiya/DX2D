@@ -50,7 +50,7 @@ public:
 		Color = _Color;
 	}
 
-	void DebugRender();
+	virtual void DebugRender();
 
 protected:
 

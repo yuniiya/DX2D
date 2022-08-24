@@ -34,7 +34,7 @@ struct ColorData
 	}
 };
 
-struct AtlasData
+struct AtlasData 
 {
 public:
 	float4 FrameData;
@@ -42,7 +42,7 @@ public:
 };
 
 
-class FrameAnimation_DESC
+class FrameAnimation_DESC 
 {
 public:
 	std::string TextureName;
@@ -90,7 +90,7 @@ public:
 		, Frames(_Frames)
 		, FrameTime(0.0f)
 	{
-
+		
 	}
 
 
@@ -132,7 +132,7 @@ class FrameAnimation : public GameEngineNameObject
 	void Update(float _DeltaTime);
 
 public:
-	FrameAnimation()
+	FrameAnimation() 
 		: bOnceStart(true)
 		, bOnceEnd(false)
 		, Pause(false)
@@ -165,12 +165,12 @@ public:
 		ScaleMode = SCALEMODE::IMAGE;
 	}
 
-	void SetScaleRatio(float _Scale)
+	void SetScaleRatio(float _Scale) 
 	{
 		ScaleRatio = _Scale;
 	}
 
-	float GetScaleRatio()
+	float GetScaleRatio() 
 	{
 		return ScaleRatio;
 	}
@@ -206,11 +206,17 @@ public:
 
 	void CurAnimationPauseSwitch();
 
+	void CurAnimationPauseOn();
+
+	void CurAnimationPauseOff();
+
+	bool IsCurAnimationPause();
+
 	void CurAnimationReset();
 
 	void CurAnimationSetStartPivotFrame(int SetFrame);
 
-	ColorData& GetColorData()
+	ColorData& GetColorData() 
 	{
 		return ColorData;
 	}
@@ -283,7 +289,6 @@ private:
 	float ScaleRatio;
 
 	GameEngineTexture* CurTex;
-	float4 FrameData;
 
 	ColorData ColorData;
 	AtlasData AtlasDataInst;

@@ -34,6 +34,11 @@ void GameEngineShaderResourcesHelper::AllResourcesSetting()
 
 void GameEngineShaderResourcesHelper::ResourcesCheck(GameEngineRenderingPipeLine* _Line)
 {
+	if (nullptr == _Line)
+	{
+		MsgBoxAssert("파이프라인이 nullptr 입니다 정상적인 파이프라인을 넣어주세요");
+	}
+
 	ShaderCheck(_Line->GetVertexShader());
 	ShaderCheck(_Line->GetPixelShader());
 
