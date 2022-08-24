@@ -759,6 +759,24 @@ void ContentsCore::Start()
 			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Item");
+		Dir.Move("InvenItem");
+
+
+		std::vector<GameEngineFile> File = Dir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineTexture::Load(File[i].GetFullPath());
+		}
+	}
+
+	GameEngineTexture::Cut("Item2.png", 5, 4);
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{
@@ -771,6 +789,7 @@ void ContentsCore::Start()
 		GameEngineInput::GetInst()->CreateKey("FreeCameraOnOff", VK_OEM_4);		// [
 		GameEngineInput::GetInst()->CreateKey("DebugModeOnOff", VK_OEM_6);			// ]
 	}
+
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

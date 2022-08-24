@@ -169,6 +169,12 @@
     <ClInclude Include="Meso.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -291,6 +297,12 @@
     </ClCompile>
     <ClCompile Include="Meso.cpp">
       <Filter>Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>Actor\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

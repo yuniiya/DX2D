@@ -128,6 +128,7 @@ protected:
 
 private:
 	GameEngineCollision* PlayerCollision_;
+	GameEngineCollision* PlayerCenterCollision_;
 
 	GameEngineCollision* InSkillCollision_;
 	GameEngineCollision* PaSkillCollision_;

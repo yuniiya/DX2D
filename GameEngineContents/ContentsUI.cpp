@@ -24,21 +24,10 @@ ContentsUI::ContentsUI()
 	, MPBarPos_(0.f)
 	, ExpBarPos_(0.f)
 	, Level_(nullptr)
-	, Inventory_(nullptr)
-	, IsInvenOn(false)
 {
 }
 
 ContentsUI::~ContentsUI() 
-{
-}
-
-bool ContentsUI::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
-{
-	return true;
-}
-
-void ContentsUI::CollisionCheck()
 {
 }
 
@@ -170,12 +159,6 @@ void ContentsUI::Start()
 	Level_ = CreateComponent<GameEngineTextureRenderer>();
 	Level_->SetTexture("Lv120.png");
 	Level_->ScaleToTexture();
-
-	Inventory_ = CreateComponent<GameEngineTextureRenderer>();
-	Inventory_->SetTexture("Inventory.png");
-	Inventory_->SetPivot(PIVOTMODE::LEFTTOP);
-	Inventory_->ScaleToTexture();
-	Inventory_->Off();
 }
 
 void ContentsUI::Update(float _DeltaTime)
@@ -195,25 +178,9 @@ void ContentsUI::Update(float _DeltaTime)
 	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f, (int)ZOrder::UI });
 	Level_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 49.f, CamPos_.y - 286.f });
 
-	Inventory_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 400.f, CamPos_.y + 308.f });
-
 	MainBarScaleUpdate();
 
 	LevelImageUpdate();
 
-	if (true == GameEngineInput::GetInst()->IsDown("Inventory"))
-	{
-		if (false == IsInvenOn)
-		{
-			IsInvenOn = true;
-			Inventory_->On();
-		}
-		else
-		{
-			IsInvenOn = false;
-			Inventory_->Off();
-		}
-
-	}
 }
 

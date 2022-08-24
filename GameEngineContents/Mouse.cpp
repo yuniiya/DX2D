@@ -28,6 +28,8 @@ void Mouse::GetCurPos()
 
 void Mouse::Start()
 {
+	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::MOUSE });
+
 	GetCurPos();
 	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y });
 

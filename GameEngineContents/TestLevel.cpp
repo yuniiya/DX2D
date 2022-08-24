@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "TestLevel.h"
 #include <GameEngineCore/GameEngineTextureRenderer.h>
+#include "Item.h"
 
 TestLevel::TestLevel() 
 	: Renderer_(nullptr)
@@ -23,9 +24,17 @@ void TestLevel::Start()
 
 	Renderer_ = Player_->CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
-	Renderer_->CreateFrameAnimationFolder("Skill_Ji", FrameAnimation_DESC("Skill_Ji", 0.04f));
-	Renderer_->GetTransform().SetLocalPosition({ 600.f, 100.f });
-	Renderer_->ChangeFrameAnimation("Skill_Ji");
+	Renderer_->CreateFrameAnimationFolder("SinD", FrameAnimation_DESC("SinD", 0.04f));
+	Renderer_->GetTransform().SetLocalPosition({ 1280.f, 720.f });
+	Renderer_->ChangeFrameAnimation("SinD");
+
+
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3200.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
 }
 
 void TestLevel::Update(float _DeltaTime)

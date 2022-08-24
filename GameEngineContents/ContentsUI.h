@@ -25,10 +25,6 @@ public:
 	void LevelImageUpdate();
 
 protected:
-	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
-	void CollisionCheck();
-
-protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
@@ -46,8 +42,6 @@ private:
 	float CurHP_;
 	float CurMP_;
 	float CurExp_;
-
-	bool IsInvenOn;
 	
 private:
 	GameEngineTextureRenderer* MainBar_;
@@ -61,6 +55,5 @@ private:
 	GameEngineTextureRenderer* MpBar_;
 	GameEngineTextureRenderer* ExpBar_;
 
-	GameEngineTextureRenderer* Inventory_;
 };
 

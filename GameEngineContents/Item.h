@@ -19,6 +19,14 @@ public:
 	virtual void TimeAttackStart();
 	virtual void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer);
 	virtual void UpDownMove();
+	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer);
+	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer);
+
+
+	inline virtual float4 GetItemPosition()
+	{
+		return GetTransform().GetLocalPosition();
+	}
 
 protected:
 	void Start() override;
@@ -26,9 +34,11 @@ protected:
 	void End() override {};
 
 	bool IsCreate;
+	bool IsPick;
 
 	float Time_;
 	float MoveTime_;
+	float PickTime_;
 	float4 MoveDir_;
 
 public:
@@ -36,6 +46,7 @@ public:
 
 private:
 	GameEngineTextureRenderer* Renderer_;
+	GameEngineCollision* Collision_;
 
 
 };

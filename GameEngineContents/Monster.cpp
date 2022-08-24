@@ -204,6 +204,8 @@ void Monster::Update(float _DeltaTime)
 	{
 		AttEndTime_ += GameEngineTime::GetDeltaTime();
 	}
+
+
 }
 
 void Monster::ChangeState(MONSTERSTATE _State)

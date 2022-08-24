@@ -23,6 +23,7 @@ protected:
 
 private:
 	GameEngineTextureRenderer* Renderer_;
+	GameEngineCollision* Collision_;
 
 	int Random_;
 	float MesoAmount_;

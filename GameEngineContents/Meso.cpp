@@ -5,6 +5,8 @@
 Meso::Meso() 
 	: Random_(0)
 	, MesoAmount_(0.f)
+	, Renderer_(nullptr)
+	, Collision_(nullptr)
 {
 }
 
@@ -25,6 +27,11 @@ void Meso::Start()
 	Renderer_->CreateFrameAnimationFolder("MesoC", FrameAnimation_DESC("MesoC", 0.16f));
 	Renderer_->ChangeFrameAnimation("MesoA");
 	Renderer_->Off();
+
+	Collision_ = CreateComponent<GameEngineCollision>();
+	Collision_->GetTransform().SetLocalScale({ 25.f, 25.f });
+	Collision_->ChangeOrder(GAMEOBJGROUP::OBJ);
+	Collision_->Off();
 
 	Random_ = GameEngineRandom::MainRandom.RandomInt(0, 2);
 }
@@ -59,5 +66,6 @@ void Meso::Update(float _DeltaTime)
 	}
 
 	TimeAttackUpdate(Renderer_);
+	PickUpItemCheck(Renderer_);
 }
 

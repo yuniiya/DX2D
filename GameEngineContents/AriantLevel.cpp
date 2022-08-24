@@ -7,6 +7,7 @@
 #include "Fade.h"
 #include "Item.h"
 #include "Meso.h"
+#include "Inventory.h"
 
 AriantLevel::AriantLevel() 
 	: Player_(nullptr)
@@ -36,16 +37,7 @@ void AriantLevel::Start()
 	// UI
 	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
-
-
-	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-	ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
-	ItemActor->GetTransform().SetLocalPosition({ 3200.f, -800.f });
-	ItemActor->TimeAttackStart();
-
-	Meso* MesoActor = CreateActor<Meso>(GAMEOBJGROUP::OBJ);
-	MesoActor->GetTransform().SetLocalPosition({ 3220.f, -800.f });
-	MesoActor->TimeAttackStart();
+	CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
 
 }
 
@@ -80,6 +72,58 @@ void AriantLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 3200.f, -600.0f, (int)ZOrder::PLAYER});
+
+
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3200.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
+
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3250.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
+
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3280.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
+
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3310.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
+
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3340.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3370.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->GetTransform().SetLocalPosition({ 3400.f, -800.f });
+		ItemActor->TimeAttackStart();
+	}
+
+	Meso* MesoActor = CreateActor<Meso>(GAMEOBJGROUP::OBJ);
+	MesoActor->GetTransform().SetLocalPosition({ 3220.f, -800.f });
+	MesoActor->TimeAttackStart();
 }
 
 void AriantLevel::LevelEndEvent()

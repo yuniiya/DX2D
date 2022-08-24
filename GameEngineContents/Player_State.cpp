@@ -170,10 +170,10 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		UseSkill();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("DoubleJump"))
+	/*if (true == GameEngineInput::GetInst()->IsPress("DoubleJump"))
 	{
 		StateManager.ChangeState("DoubleJump");
-	}
+	}*/
 
 	// ∂•¿Ã æ∆¥œ¥Ÿ
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
@@ -232,10 +232,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		UseSkill();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("DoubleJump"))
+	/*if (true == GameEngineInput::GetInst()->IsPress("DoubleJump"))
 	{
 		StateManager.ChangeState("DoubleJump");
-	}
+	}*/
 
 	// ∂•¿Ã æ∆¥œ¥Ÿ
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })

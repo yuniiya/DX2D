@@ -90,6 +90,7 @@ Player::Player()
 	, CurLevel_(120.f)
 	, IsLevelUp(false)
 	, LevelUpEffRenderer_(nullptr)
+	, PlayerCenterCollision_(nullptr)
 {
 }
 
@@ -162,6 +163,10 @@ void Player::Start()
 	PlayerCollision_ = CreateComponent<GameEngineCollision>();
 	PlayerCollision_->GetTransform().SetLocalScale({65.f, 60.f, (int)ZOrder::PLAYER});
 	PlayerCollision_->ChangeOrder(GAMEOBJGROUP::PLAYER);
+
+	PlayerCenterCollision_ = CreateComponent<GameEngineCollision>();
+	PlayerCenterCollision_->GetTransform().SetLocalScale({ 10.f, 10.f, (int)ZOrder::PLAYER });
+	PlayerCenterCollision_->ChangeOrder(GAMEOBJGROUP::PLAYERCENTER);
 
 	PlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	//PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f});
@@ -240,17 +245,6 @@ void Player::Start()
 		, std::bind(&Player::DieUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::DieStart, this, std::placeholders::_1)
 	);
-	/*StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
-	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
-	StateManager.CreateStateMember("Fall", this, &Player::FallUpdate, &Player::FallStart);
-	StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
-	StateManager.CreateStateMember("ProneStab", this, &Player::ProneStabUpdate, &Player::ProneStabStart);
-	StateManager.CreateStateMember("Ladder", this, &Player::LadderUpdate, &Player::LadderStart);
-	StateManager.CreateStateMember("Rope", this, &Player::RopeUpdate, &Player::RopeStart);
-	StateManager.CreateStateMember("DefaultAtt", this, &Player::DefaultAttackUpdate, &Player::DefaultAttackStart);
-	StateManager.CreateStateMember("SkillAtt", this, &Player::SkillAttackUpdate, &Player::SkillAttackStart);
-	StateManager.CreateStateMember("Damaged", this, &Player::DamagedUpdate, &Player::DamagedStart);
-	StateManager.CreateStateMember("Die", this, &Player::DieUpdate, &Player::DieStart);*/
 
 	StateManager.ChangeState("Idle");
 
@@ -1197,7 +1191,11 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	case PLAYERSKILL::SKILL_SIND:
 	{
 		float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-		SinD_Renderer_->GetTransform().SetWorldPosition({ CamPos.x, CamPos.y, (int)ZOrder::SKILLFRONT});
+		
+		SinD_Renderer_->GetTransform().SetWorldPosition({ CamPos.x, CamPos.y, 1.f});
+		float z = SinD_Renderer_->GetTransform().GetWorldPosition().z;
+		float Lz = SinD_Renderer_->GetTransform().GetLocalPosition().z;
+
 	}
 		break;
 	case PLAYERSKILL::MAX:
