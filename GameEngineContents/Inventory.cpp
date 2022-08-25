@@ -9,6 +9,15 @@ Inventory::Inventory()
 	, Item_3(nullptr)
 	, Item_4(nullptr)
 	, Item_5(nullptr)
+	, HeaderCollision_(nullptr)
+	, Collision_1(nullptr)
+	, Collision_2(nullptr)
+	, Collision_3(nullptr)
+	, Collision_4(nullptr)
+	, Collision_5(nullptr)
+	, Collision_6(nullptr)
+	, Collision_7(nullptr)
+	, Collision_8(nullptr)
 {
 }
 

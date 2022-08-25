@@ -45,5 +45,18 @@ private:
 	GameEngineTextureRenderer* Item_3;
 	GameEngineTextureRenderer* Item_4;
 	GameEngineTextureRenderer* Item_5;
+
+private:
+	GameEngineCollision* HeaderCollision_;
+
+	GameEngineCollision* Collision_1;
+	GameEngineCollision* Collision_2;
+	GameEngineCollision* Collision_3;
+	GameEngineCollision* Collision_4;
+	GameEngineCollision* Collision_5;
+	GameEngineCollision* Collision_6;
+	GameEngineCollision* Collision_7;
+	GameEngineCollision* Collision_8;
+
 };
 

@@ -39,6 +39,8 @@ private:
 	float4 MPBarScale_;
 	float4 ExpBarScale_;
 
+	float4 SlotPosition_;
+
 	float CurHP_;
 	float CurMP_;
 	float CurExp_;
@@ -50,10 +52,16 @@ private:
 	GameEngineTextureRenderer* QuickSlot_;
 	GameEngineTextureRenderer* Level_;
 
-	//static GameEngineTextureRenderer* HpBar_;
 	GameEngineTextureRenderer* HpBar_;
 	GameEngineTextureRenderer* MpBar_;
 	GameEngineTextureRenderer* ExpBar_;
+
+private:
+	GameEngineCollision* SlotCollision_1;
+	GameEngineCollision* SlotCollision_2;
+	GameEngineCollision* SlotCollision_3;
+	GameEngineCollision* SlotCollision_4;
+	GameEngineCollision* SlotCollision_5;
 
 };
 
