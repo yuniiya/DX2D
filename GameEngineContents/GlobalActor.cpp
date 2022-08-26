@@ -27,32 +27,32 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor, float _LeftRightP
 		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
 	}
 
-	float4 BottomColor = MapTexture_->GetPixelToFloat4(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos)));
+	float4 BottomColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
+		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + (int)_BottomPos)));
 
-	float4 LeftColor = MapTexture_->GetPixelToFloat4(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) - _LeftRightPos
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()))));
+	float4 LeftColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) - (int)_LeftRightPos
+		, -((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy())));
 
-	float4 RightColor = MapTexture_->GetPixelToFloat4(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + _LeftRightPos
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()))));
+	float4 RightColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + (int)_LeftRightPos
+		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()))));
 
-	float4 BottomLeftDownColor = MapTexture_->GetPixelToFloat4(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) - _LeftRightPos
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos - 20.f)));
+	float4 BottomLeftDownColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) - (int)_LeftRightPos
+		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + (int)(_BottomPos - 20.f))));
 
-	float4 BottomRightDownColor = MapTexture_->GetPixelToFloat4(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + _LeftRightPos
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos - 20.f)));
+	float4 BottomRightDownColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + (int)_LeftRightPos
+		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + (int)(_BottomPos - 20.f))));
 
-	float4 BottomLeftUpColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() - _LeftRightPos)
-		, static_cast<float>(-GetTransform().GetWorldPosition().iy()) + _BottomPos + 10.f);	// 발보다 조금위
+	float4 BottomLeftUpColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix() - (int)_LeftRightPos)
+		, (-GetTransform().GetWorldPosition().iy()) + (int)(_BottomPos + 10.f));	// 발보다 조금위
 
-	float4 BottomRightUpColor = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix() + _LeftRightPos)
-		, static_cast<float>(-GetTransform().GetWorldPosition().iy()) + _BottomPos + 10.f);	// 발보다 조금위
+	float4 BottomRightUpColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix() + (int)_LeftRightPos)
+		, (-GetTransform().GetWorldPosition().iy()) + (int)(_BottomPos + 10.f));	// 발보다 조금위
 
-	float4 BottomUpColor = MapTexture_->GetPixelToFloat4(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos) + 2.f));
+	float4 BottomUpColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
+		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + (int)_BottomPos) + 2));
 
-	float4 BottomDownColor = MapTexture_->GetPixelToFloat4(static_cast<float>(dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
-		, -(static_cast<float>((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos) - 70.f));
+	float4 BottomDownColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
+		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + (int)_BottomPos) - 70));
 
 
 	// 발 밑 조금 위가 땅에 박혔을 때

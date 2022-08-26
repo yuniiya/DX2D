@@ -23,16 +23,16 @@ void TestLevel::Start()
 	Player_->GetTransform().SetLocalPosition({ 200.0f, -400.0f});
 
 	Renderer_ = Player_->CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
+	Renderer_->GetTransform().SetLocalScale({ 1280.f, 720.f });
 	Renderer_->CreateFrameAnimationFolder("SinD", FrameAnimation_DESC("SinD", 0.04f));
-	Renderer_->GetTransform().SetLocalPosition({ 1280.f, 720.f });
+	Renderer_->GetTransform().SetLocalPosition({ Player_->GetTransform().GetLocalPosition()});
 	Renderer_->ChangeFrameAnimation("SinD");
 
 
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
-		ItemActor->GetTransform().SetLocalPosition({ 3200.f, -800.f });
+		ItemActor->GetTransform().SetLocalPosition({ 400.f, -400.f });
 		ItemActor->TimeAttackStart();
 	}
 }

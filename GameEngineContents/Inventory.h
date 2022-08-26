@@ -1,7 +1,16 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+enum class InventorySlotType
+{
+	SLOT_PORTION,
+	SLOT_ETC,
+
+	MAX,
+};
+
 class GameEngineTextureRenderer;
+class Item;
 class Inventory : public GameEngineActor
 {
 public:
@@ -35,7 +44,7 @@ private:
 	bool IsInvenOn;
 
 	float4 Position_;
-	float4 ItemPosition_;
+	float4 StartPosition_;
 
 private:
 	GameEngineTextureRenderer* Inventory_;
@@ -58,5 +67,8 @@ private:
 	GameEngineCollision* Collision_7;
 	GameEngineCollision* Collision_8;
 
+private:
+	int Capacity_;
+	int ItemCount_;
 };
 
