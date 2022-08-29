@@ -20,6 +20,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void LevelStartEvent() override;
+
 private:
 	GameEngineTextureRenderer* Renderer_;
 	GameEngineTextureRenderer* Renderer2_;

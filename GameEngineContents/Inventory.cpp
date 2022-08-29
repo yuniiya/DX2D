@@ -1,15 +1,10 @@
 #include "PreCompile.h"
 #include "Inventory.h"
-#include "Item.h"
+#include "InventoryItem.h"
 
 Inventory::Inventory() 
 	: Inventory_(nullptr)
 	, IsInvenOn(false)
-	, Item_1(nullptr)
-	, Item_2(nullptr)
-	, Item_3(nullptr)
-	, Item_4(nullptr)
-	, Item_5(nullptr)
 	, HeaderCollision_(nullptr)
 	, Collision_1(nullptr)
 	, Collision_2(nullptr)
@@ -23,6 +18,7 @@ Inventory::Inventory()
 	, Position_(0.f)
 	, Capacity_(24)
 	, ItemCount_(0)
+	, InventoryItem_(nullptr)
 {
 }
 
@@ -34,67 +30,35 @@ void Inventory::Start()
 {
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
 
-	Inventory_ = CreateComponent<GameEngineTextureRenderer>();
+	Inventory_ = CreateComponent<GameEngineUIRenderer>();
 	Inventory_->SetTexture("Inventory.png");
 	Inventory_->SetPivot(PIVOTMODE::LEFTTOP);
 	Inventory_->ScaleToTexture();
-	//Inventory_->Off();
+	Inventory_->GetTransform().SetLocalPosition({ -390.f, 320.f });
+	Inventory_->Off();
 
+//	InventoryItem_ = GetLevel()->CreateActor<InventoryItem>();
 
-	Item_1 = CreateComponent<GameEngineTextureRenderer>();
-	Item_1->SetTexture("Item2.png", 0);
-	Item_1->SetPivot(PIVOTMODE::LEFTTOP);
-	Item_1->GetTransform().SetLocalScale({ 128.f, 128.f });
-	//Item_1->Off();
-
-	Item_2 = CreateComponent<GameEngineTextureRenderer>();
-	Item_2->SetTexture("Item2.png", 1);
-	Item_2->SetPivot(PIVOTMODE::LEFTTOP);
-	Item_2->GetTransform().SetLocalScale({ 128.f, 128.f });
-//	Item_2->Off();
-
-	Item_3 = CreateComponent<GameEngineTextureRenderer>();
-	Item_3->SetTexture("Item2.png", 2);
-	Item_3->SetPivot(PIVOTMODE::LEFTTOP);
-	Item_3->GetTransform().SetLocalScale({ 128.f, 128.f });;
-//	Item_3->Off();
-
-	Item_4 = CreateComponent<GameEngineTextureRenderer>();
-	Item_4->SetTexture("Item2.png", 3);
-	Item_4->SetPivot(PIVOTMODE::LEFTTOP);
-	Item_4->GetTransform().SetLocalScale({ 128.f, 128.f });
-//	Item_4->Off();
-
-	Item_5 = CreateComponent<GameEngineTextureRenderer>();
-	Item_5->SetTexture("Item2.png", 4);
-	Item_5->SetPivot(PIVOTMODE::LEFTTOP);
-	Item_5->GetTransform().SetLocalScale({ 128.f, 128.f });
-//	Item_5->Off();
-
-
-	// Collision //
-	Collision_1 = CreateComponent<GameEngineCollision>();
-	Collision_1->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_1->ChangeOrder(GAMEOBJGROUP::UI);
-//	Collision_1->Off();
-
-	Collision_2 = CreateComponent<GameEngineCollision>();
-	Collision_2->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_2->ChangeOrder(GAMEOBJGROUP::UI);
-//	Collision_2->Off();
-
-	Collision_3 = CreateComponent<GameEngineCollision>();
-	Collision_3->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_3->ChangeOrder(GAMEOBJGROUP::UI);
-//	Collision_3->Off();
-
-	Collision_4 = CreateComponent<GameEngineCollision>();
-	Collision_4->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_4->ChangeOrder(GAMEOBJGROUP::UI);
+//	// Collision //
+//	Collision_1 = CreateComponent<GameEngineCollision>();
+//	Collision_1->GetTransform().SetLocalScale({ 38.f, 37.f });
+//	Collision_1->ChangeOrder(GAMEOBJGROUP::UI);
+////	Collision_1->Off();
+//
+//	Collision_2 = CreateComponent<GameEngineCollision>();
+//	Collision_2->GetTransform().SetLocalScale({ 38.f, 37.f });
+//	Collision_2->ChangeOrder(GAMEOBJGROUP::UI);
+////	Collision_2->Off();
+//
+//	Collision_3 = CreateComponent<GameEngineCollision>();
+//	Collision_3->GetTransform().SetLocalScale({ 38.f, 37.f });
+//	Collision_3->ChangeOrder(GAMEOBJGROUP::UI);
+////	Collision_3->Off();
+//
+//	Collision_4 = CreateComponent<GameEngineCollision>();
+//	Collision_4->GetTransform().SetLocalScale({ 38.f, 37.f });
+//	Collision_4->ChangeOrder(GAMEOBJGROUP::UI);
 //	Collision_4->Off();
-
-
-	IsInvenOn = true;
 
 	//StartPosition_ = float4({ 2751.f, -317.f });	// ½½·Ô ½ÃÀÛ Æ÷Áö¼Ç
 
@@ -122,8 +86,8 @@ void Inventory::Start()
 
 void Inventory::Update(float _DeltaTime)
 {
-	float4 CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	Inventory_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 400.f, CamPos_.y + 308.f });
+	//float4 CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
+	//Inventory_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 400.f, CamPos_.y + 308.f });
 
 	InventoryOnOffCheck();
 
@@ -131,7 +95,7 @@ void Inventory::Update(float _DeltaTime)
 	{
 		GetInventoryPosition();
 		//StartPosition_ = float4{ Position_.x - 49.f, Position_.y + 13.f };
-		StartPosition_ = float4{ Position_.x - 87.f, Position_.y - 145.f };
+		StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f};
 
 		if (ItemCount_ < 24)	// ³× Ä­
 		{
@@ -149,8 +113,8 @@ void Inventory::Update(float _DeltaTime)
 				Pos.x += 43.f;
 				ItemCount_ += 1;
 
-				Item* ItemActor = GetLevel()->CreateActor<Item>();
-				ItemActor->SetItemType(ItemType::INVENTORY);
+				InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+				//ItemActor->SetItemType(ItemType::INVENTORY);
 				ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
 				ItemActor->GetTransform().SetLocalPosition({ Pos });
 			}
@@ -178,7 +142,6 @@ void Inventory::CollisionCheck()
 
 void Inventory::InventoryOnOffCheck()
 {
-
 	if (true == GameEngineInput::GetInst()->IsDown("Inventory"))
 	{
 		if (false == IsInvenOn)
@@ -186,17 +149,10 @@ void Inventory::InventoryOnOffCheck()
 			GameEngineSound::SoundPlayOneShot("MenuDown.mp3");
 			IsInvenOn = true;
 			Inventory_->On();
-
-			Item_1->On();
-			Item_2->On();
-			Item_3->On();
-			Item_4->On();
-			Item_5->On();
-
-			Collision_1->On();
-			Collision_2->On();
-			Collision_3->On();
-			Collision_4->On();
+			//Collision_1->On();
+			//Collision_2->On();
+			//Collision_3->On();
+			//Collision_4->On();
 
 		}
 		else
@@ -204,17 +160,10 @@ void Inventory::InventoryOnOffCheck()
 			GameEngineSound::SoundPlayOneShot("MenuUp.mp3");
 			IsInvenOn = false;
 			Inventory_->Off();
-
-			Item_1->Off();
-			Item_2->Off();
-			Item_3->Off();
-			Item_4->Off();
-			Item_5->Off();
-
-			Collision_1->Off();
-			Collision_2->Off();
-			Collision_3->Off();
-			Collision_4->Off();
+			//Collision_1->Off();
+			//Collision_2->Off();
+			//Collision_3->Off();B
+			//Collision_4->Off();
 		}
 	}
 }

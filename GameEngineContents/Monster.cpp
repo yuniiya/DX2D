@@ -779,14 +779,15 @@ void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 {
 	GameEngineSound::SoundPlayOneShot("DropItem.mp3");
 
-	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::ITEM);
 	ItemActor->MonsterName_ = GetMonsterName();
 	ItemActor->GetTransform().SetLocalPosition({ GetPosition().x - 12.f, GetPosition().y - 14.f});
-	ItemActor->SetItemType(ItemType::MONSTERDROP);
+	//ItemActor->SetItemType(ItemType::MONSTERDROP);
 	ItemActor->TimeAttackStart();
 
-	Meso* MesoActor = GetLevel()->CreateActor<Meso>(GAMEOBJGROUP::OBJ);
+	Meso* MesoActor = GetLevel()->CreateActor<Meso>(GAMEOBJGROUP::ITEM);
 	MesoActor->GetTransform().SetLocalPosition({ GetPosition().x + 12.f, GetPosition().y - 14.f });
+	//MesoActor->SetItemType(ItemType::MONSTERDROP);
 	MesoActor->TimeAttackStart();
 
 	Death();

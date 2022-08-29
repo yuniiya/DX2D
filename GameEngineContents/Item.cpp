@@ -11,11 +11,8 @@ Item::Item()
 	, MoveDir_({0.f, 6.f})
 	, MoveTime_(0.0f)
 	, IsPick(false)
-	, Collision_(nullptr)
 	, PickTime_(0.f)
-	, InventoryItemType_(InventoryItemType::MAX)
-	, ItemType_(ItemType::MAX)
-	, PortionItemType_(PortionItemType::MAX)
+
 {
 }
 
@@ -30,10 +27,10 @@ void Item::TimeAttackStart()
 
 void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 {
-	if (ItemType::MONSTERDROP != ItemType_)
-	{
-		return;
-	}
+	//if (ItemType::MONSTERDROP != ItemType_)
+	//{
+	//	return;
+	//}
 
 	UpDownMove();
 	PickUpItem(_Renderer);
@@ -124,10 +121,10 @@ void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
 
 void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 {
-	if (ItemType::MONSTERDROP != ItemType_)
-	{
-		return;
-	}
+	//if (ItemType::MONSTERDROP != ItemType_)
+	//{
+	//	return;
+	//}
 
 	// 다 주워졌다
 	if (PickTime_ > 0.5f)
@@ -147,108 +144,155 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 
 void Item::ItemRendererUpdate()
 {
-	switch (ItemType_)
+	switch (MonsterName_)
 	{
-	case ItemType::MONSTERDROP: 
+	case MONSTERNAME::WhiteRabbit:
 	{
-		switch (MonsterName_)
-		{
-		case MONSTERNAME::WhiteRabbit:
-		{
-			Renderer_->SetTexture("Item1_Rabbit1.png");
-			Renderer_->GetTransform().SetLocalScale({ 28.f, 26.f });
-		}
-		break;
-		case MONSTERNAME::BrownRabbit:
-		{
-			Renderer_->SetTexture("Item1_Rabbit2.png");
-			Renderer_->GetTransform().SetLocalScale({ 29.f, 30.f });
-		}
-		break;
-		case MONSTERNAME::BabyCactus:
-		{
-			Renderer_->SetTexture("Item_Cactus1.png");
-			Renderer_->GetTransform().SetLocalScale({ 32.f, 34.f });
-		}
-		break;
-		case MONSTERNAME::Sand:
-		{
-			Renderer_->SetTexture("Item_Sand1.png");
-			Renderer_->GetTransform().SetLocalScale({ 33.f, 29.f });
-		}
-		break;
-		case MONSTERNAME::Scorpion:
-		{
-			Renderer_->SetTexture("Item_Scor1.png");
-			Renderer_->GetTransform().SetLocalScale({ 25.f, 27.f });
-		}
-		break;
-		case MONSTERNAME::Freezer:
-		{
-			Renderer_->SetTexture("Item_Freezer1.png");
-			Renderer_->GetTransform().SetLocalScale({ 31.f, 31.f });
-		}
-		break;
-		case MONSTERNAME::Sparker:
-		{
-			Renderer_->SetTexture("Item_Sparker1.png");
-			Renderer_->GetTransform().SetLocalScale({ 28.f, 28.f });
-		}
-		break;
-		}
+		Renderer_->SetTexture("Item1_Rabbit1.png");
+		Renderer_->GetTransform().SetLocalScale({ 28.f, 26.f });
 	}
-		break;
-	case ItemType::INVENTORY:
+	break;
+	case MONSTERNAME::BrownRabbit:
 	{
-		// 인벤토리 내 아이템 렌더러 //
-		switch (MonsterName_)
-		{
-		case MONSTERNAME::WhiteRabbit:
-		{
-			Renderer_->SetTexture("Item2.png", 1);
-		}
-		break;
-		case MONSTERNAME::BrownRabbit:
-		{
-			Renderer_->SetTexture("Item2.png", 2);
-		}
-		break;
-		case MONSTERNAME::BabyCactus:
-		{
-			Renderer_->SetTexture("Item2.png", 0);
-		}
-		break;
-		case MONSTERNAME::Sand:
-		{
-			Renderer_->SetTexture("Item2.png", 3);
-		}
-		break;
-		case MONSTERNAME::Scorpion:
-		{
-			Renderer_->SetTexture("Item2.png", 4);
-		}
-		break;
-		case MONSTERNAME::Freezer:
-		{
-			Renderer_->SetTexture("Item2.png", 5);
-		}
-		break;
-		case MONSTERNAME::Sparker:
-		{
-			Renderer_->SetTexture("Item2.png", 6);
-		}
-		break;
-		}
+		Renderer_->SetTexture("Item1_Rabbit2.png");
+		Renderer_->GetTransform().SetLocalScale({ 29.f, 30.f });
+	}
+	break;
+	case MONSTERNAME::BabyCactus:
+	{
+		Renderer_->SetTexture("Item_Cactus1.png");
+		Renderer_->GetTransform().SetLocalScale({ 32.f, 34.f });
+	}
+	break;
+	case MONSTERNAME::Sand:
+	{
+		Renderer_->SetTexture("Item_Sand1.png");
+		Renderer_->GetTransform().SetLocalScale({ 33.f, 29.f });
+	}
+	break;
+	case MONSTERNAME::Scorpion:
+	{
+		Renderer_->SetTexture("Item_Scor1.png");
+		Renderer_->GetTransform().SetLocalScale({ 25.f, 27.f });
+	}
+	break;
+	case MONSTERNAME::Freezer:
+	{
+		Renderer_->SetTexture("Item_Freezer1.png");
+		Renderer_->GetTransform().SetLocalScale({ 31.f, 31.f });
+	}
+	break;
+	case MONSTERNAME::Sparker:
+	{
+		Renderer_->SetTexture("Item_Sparker1.png");
+		Renderer_->GetTransform().SetLocalScale({ 28.f, 28.f });
+	}
+	break;
+	}
 
-		Renderer_->SetPivot(PIVOTMODE::LEFTTOP);
-		Renderer_->GetTransform().SetLocalScale({ 128.f, 128.f });
-		
-		Collision_->GetTransform().SetLocalPosition(
-			{ Renderer_ ->GetTransform().GetLocalPosition().x + 73.f
-			, Renderer_->GetTransform().GetLocalPosition().y - 73.f });
-	}
-		break;
-	}
+	//switch (ItemType_)
+	//{
+	//case ItemType::MONSTERDROP: 
+	//{
+	//	switch (MonsterName_)
+	//	{
+	//	case MONSTERNAME::WhiteRabbit:
+	//	{
+	//		Renderer_->SetTexture("Item1_Rabbit1.png");
+	//		Renderer_->GetTransform().SetLocalScale({ 28.f, 26.f });
+	//	}
+	//	break;
+	//	case MONSTERNAME::BrownRabbit:
+	//	{
+	//		Renderer_->SetTexture("Item1_Rabbit2.png");
+	//		Renderer_->GetTransform().SetLocalScale({ 29.f, 30.f });
+	//	}
+	//	break;
+	//	case MONSTERNAME::BabyCactus:
+	//	{
+	//		Renderer_->SetTexture("Item_Cactus1.png");
+	//		Renderer_->GetTransform().SetLocalScale({ 32.f, 34.f });
+	//	}
+	//	break;
+	//	case MONSTERNAME::Sand:
+	//	{
+	//		Renderer_->SetTexture("Item_Sand1.png");
+	//		Renderer_->GetTransform().SetLocalScale({ 33.f, 29.f });
+	//	}
+	//	break;
+	//	case MONSTERNAME::Scorpion:
+	//	{
+	//		Renderer_->SetTexture("Item_Scor1.png");
+	//		Renderer_->GetTransform().SetLocalScale({ 25.f, 27.f });
+	//	}
+	//	break;
+	//	case MONSTERNAME::Freezer:
+	//	{
+	//		Renderer_->SetTexture("Item_Freezer1.png");
+	//		Renderer_->GetTransform().SetLocalScale({ 31.f, 31.f });
+	//	}
+	//	break;
+	//	case MONSTERNAME::Sparker:
+	//	{
+	//		Renderer_->SetTexture("Item_Sparker1.png");
+	//		Renderer_->GetTransform().SetLocalScale({ 28.f, 28.f });
+	//	}
+	//	break;
+	//	}
+	//}
+	//	break;
+	//case ItemType::INVENTORY:
+	//{
+
+	//	// 인벤토리 내 아이템 렌더러 //
+	//	switch (MonsterName_)
+	//	{
+	//	case MONSTERNAME::WhiteRabbit:
+	//	{
+	//		Renderer_->SetTexture("Item2.png", 1);
+	//	}
+	//	break;
+	//	case MONSTERNAME::BrownRabbit:
+	//	{
+	//		Renderer_->SetTexture("Item2.png", 2);
+	//	}
+	//	break;
+	//	case MONSTERNAME::BabyCactus:
+	//	{
+	//		Renderer_->SetTexture("Item2.png", 0);
+	//	}
+	//	break;
+	//	case MONSTERNAME::Sand:
+	//	{
+	//		Renderer_->SetTexture("Item2.png", 3);
+	//	}
+	//	break;
+	//	case MONSTERNAME::Scorpion:
+	//	{
+	//		Renderer_->SetTexture("Item2.png", 4);
+	//	}
+	//	break;
+	//	case MONSTERNAME::Freezer:
+	//	{
+	//		Renderer_->SetTexture("Item2.png", 5);
+	//	}
+	//	break;
+	//	case MONSTERNAME::Sparker:
+	//	{
+	//		Renderer_->SetTexture("Item2.png", 6);
+	//	}
+	//	break;
+	//	}
+
+	//	Renderer_->SetPivot(PIVOTMODE::LEFTTOP);
+	//	Renderer_->GetTransform().SetLocalScale({ 128.f, 128.f });
+	//	
+	//	Collision_->GetTransform().SetLocalPosition(
+	//		{ Renderer_ ->GetTransform().GetLocalPosition().x + 73.f
+	//		, Renderer_->GetTransform().GetLocalPosition().y - 73.f });
+	//}
+	//	break;
+	//}
 	
 }
 
@@ -258,9 +302,9 @@ void Item::Start()
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::ITEM});
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 
-	Collision_ = CreateComponent<GameEngineCollision>();
+	/*Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({28.f, 28.f});
-	Collision_->ChangeOrder(GAMEOBJGROUP::ITEM);
+	Collision_->ChangeOrder(GAMEOBJGROUP::ITEM);*/
 }
 
 void Item::Update(float _DeltaTime)

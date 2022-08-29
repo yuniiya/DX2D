@@ -175,6 +175,9 @@
     <ClInclude Include="Skill.h">
       <Filter>Actor\Player</Filter>
     </ClInclude>
+    <ClInclude Include="InventoryItem.h">
+      <Filter>Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -303,6 +306,9 @@
     </ClCompile>
     <ClCompile Include="Skill.cpp">
       <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryItem.cpp">
+      <Filter>Actor\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

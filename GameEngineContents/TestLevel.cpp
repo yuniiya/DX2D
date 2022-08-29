@@ -2,6 +2,7 @@
 #include "TestLevel.h"
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include "Item.h"
+#include "Scorpion.h"
 
 TestLevel::TestLevel() 
 	: Renderer_(nullptr)
@@ -24,17 +25,10 @@ void TestLevel::Start()
 
 	Renderer_ = Player_->CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->GetTransform().SetLocalScale({ 1280.f, 720.f });
-	Renderer_->CreateFrameAnimationFolder("SinD", FrameAnimation_DESC("SinD", 0.04f));
-	Renderer_->GetTransform().SetLocalPosition({ Player_->GetTransform().GetLocalPosition()});
+	Renderer_->CreateFrameAnimationFolder("SinD", FrameAnimation_DESC("SinD", 0.08f));
+	Renderer_->GetTransform().SetLocalPosition({GetMainCameraActor()->GetTransform().GetLocalPosition()});
 	Renderer_->ChangeFrameAnimation("SinD");
 
-
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
-		ItemActor->GetTransform().SetLocalPosition({ 400.f, -400.f });
-		ItemActor->TimeAttackStart();
-	}
 }
 
 void TestLevel::Update(float _DeltaTime)
@@ -47,4 +41,34 @@ void TestLevel::Update(float _DeltaTime)
 	}
 
 	CameraFix({ 1619.f, 785.f });
+}
+
+void TestLevel::LevelStartEvent()
+{
+	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::ITEM);
+	ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+	ItemActor->GetTransform().SetLocalPosition({ 400.f, -500.f });
+	ItemActor->TimeAttackStart();
+
+	{
+		Scorpion* Scor1 = CreateActor<Scorpion>(GAMEOBJGROUP::MONSTER);
+		Scor1->GetTransform().SetLocalPosition({ 1000.f, -600.f, (int)ZOrder::MONSTER });
+		Scor1->SetMonsterDir(ACTORDIR::LEFT);
+
+		Scorpion* Scor2 = CreateActor<Scorpion>(GAMEOBJGROUP::MONSTER);
+		Scor2->GetTransform().SetLocalPosition({ 400.f, -600.f, (int)ZOrder::MONSTER });
+		Scor2->SetMonsterDir(ACTORDIR::RIGHT);
+
+		Scorpion* Scor3 = CreateActor<Scorpion>(GAMEOBJGROUP::MONSTER);
+		Scor3->GetTransform().SetLocalPosition({ 600.f, -600.f, (int)ZOrder::MONSTER });
+		Scor3->SetMonsterDir(ACTORDIR::RIGHT);
+
+		Scorpion* Scor4 = CreateActor<Scorpion>(GAMEOBJGROUP::MONSTER);
+		Scor4->GetTransform().SetLocalPosition({ 800.f, -600.f, (int)ZOrder::MONSTER });
+		Scor4->SetMonsterDir(ACTORDIR::LEFT);
+
+		Scorpion* Scor5 = CreateActor<Scorpion>(GAMEOBJGROUP::MONSTER);
+		Scor5->GetTransform().SetLocalPosition({ 500.f, -600.f, (int)ZOrder::MONSTER });
+		Scor5->SetMonsterDir(ACTORDIR::LEFT);
+	}
 }

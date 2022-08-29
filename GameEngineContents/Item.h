@@ -1,34 +1,13 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-enum class ItemType
-{
-	MONSTERDROP,
-	INVENTORY,
-
-	MAX,
-};
-
-enum class InventoryItemType
-{
-	ITEM_CACTUS,
-	ITEM_RABBIT1,
-	ITEM_RABBIT2,
-	ITEM_SCOR,
-	ITEM_SAND,
-	ITEM_SPARKER,
-	ITEM_FREEZER,
-
-	MAX,
-};
-
-enum class PortionItemType
-{
-	HP,
-	MP,
-
-	MAX,
-};
+//enum class ItemType
+//{
+//	MONSTERDROP,
+//	INVENTORY,
+//
+//	MAX,
+//};
 
 
 class GameEngineTextureRenderer;
@@ -59,20 +38,12 @@ public:
 		return GetTransform().GetLocalPosition();
 	}
 
-	inline InventoryItemType GetInventoryItemType()
-	{
-		return InventoryItemType_;
-	}
 
-	inline void SetItemType(ItemType _ItemType)
-	{
-		ItemType_ = _ItemType;
-	}
+	//inline void SetItemType(ItemType _ItemType)
+	//{
+	//	ItemType_ = _ItemType;
+	//}
 
-	inline void SetInventoryItemType(InventoryItemType _InventoryItemType)
-	{
-		InventoryItemType_ = _InventoryItemType;
-	}
 
 	inline GameEngineTextureRenderer* GetRenderer()
 	{
@@ -95,16 +66,12 @@ protected:
 
 public:
 	MONSTERNAME MonsterName_;
-
-	ItemType ItemType_;
-	InventoryItemType InventoryItemType_;
-	PortionItemType PortionItemType_;
-
+	//ItemType ItemType_;
 
 private:
 	GameEngineTextureRenderer* Renderer_;
-	GameEngineCollision* Collision_;
 
+//	GameEngineCollision* Collision_;
 
 };
 

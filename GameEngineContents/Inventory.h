@@ -10,7 +10,7 @@ enum class InventorySlotType
 };
 
 class GameEngineTextureRenderer;
-class Item;
+class InventoryItem;
 class Inventory : public GameEngineActor
 {
 public:
@@ -47,13 +47,7 @@ private:
 	float4 StartPosition_;
 
 private:
-	GameEngineTextureRenderer* Inventory_;
-	
-	GameEngineTextureRenderer* Item_1;
-	GameEngineTextureRenderer* Item_2;
-	GameEngineTextureRenderer* Item_3;
-	GameEngineTextureRenderer* Item_4;
-	GameEngineTextureRenderer* Item_5;
+	GameEngineUIRenderer* Inventory_;
 
 private:
 	GameEngineCollision* HeaderCollision_;
@@ -66,6 +60,9 @@ private:
 	GameEngineCollision* Collision_6;
 	GameEngineCollision* Collision_7;
 	GameEngineCollision* Collision_8;
+
+private:
+	InventoryItem* InventoryItem_;
 
 private:
 	int Capacity_;
