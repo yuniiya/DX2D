@@ -8,6 +8,7 @@ class Portal;
 class GameEngineTextureRenderer;
 class Player;
 class ContentsUI;
+class Inventory;
 class GlobalLevel : public GameEngineLevel
 {
 public:
@@ -22,9 +23,11 @@ public:
 	GlobalLevel& operator=(GlobalLevel&& _Other) noexcept = delete;
 
 protected:
-	void Start() override {};
+	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
+
+	void LevelStartEvent() override;
 
 private:
 	float4 CameraPos_;
@@ -42,6 +45,11 @@ public:
 	inline Player* GetPlayer()
 	{
 		return Player_;
+	}
+
+	inline Inventory* GetInventory()
+	{
+		return Inventory_;
 	}
 
 	inline GameEngineTextureRenderer* GetCollisionMap()
@@ -72,5 +80,7 @@ protected:
 
 private:
 	Player* Player_;
+
+	Inventory* Inventory_;
 };
 

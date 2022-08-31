@@ -18,6 +18,8 @@ CastleLevel::~CastleLevel()
 
 void CastleLevel::Start()
 {
+	GlobalLevel::Start();
+
 	SetCollisionMap("ColMap_Castle.png");
 	SetBackGround("Back_Castle2.png");
 	SetStage("Stage_Castle3.png");
@@ -28,8 +30,8 @@ void CastleLevel::Start()
 	SetPortal({ 273.f, -495.f, (int)ZOrder::PORTAL });
 
 	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 }
 
 void CastleLevel::Update(float _DeltaTime)

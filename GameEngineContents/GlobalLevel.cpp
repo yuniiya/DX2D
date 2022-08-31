@@ -7,6 +7,8 @@
 #include "MapStage.h"
 #include "Portal.h"
 #include "Player.h"
+#include "Mouse.h"
+#include "Inventory.h"
 
 GlobalLevel::GlobalLevel() 
 	: MapSizeX_(0.f)
@@ -16,6 +18,7 @@ GlobalLevel::GlobalLevel()
 	, StageRenderer_(nullptr)
 	, ColMapRenderer_(nullptr)
 	, BackRenderer_(nullptr)
+	, Inventory_(nullptr)
 {
 }
 
@@ -23,8 +26,23 @@ GlobalLevel::~GlobalLevel()
 {
 }
 
+void GlobalLevel::Start()
+{
+	// UI
+	Inventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
+	CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
+	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+
+}
+
 void GlobalLevel::Update(float _DeltaTime)
 {
+
+}
+
+void GlobalLevel::LevelStartEvent()
+{
+
 }
 
 void GlobalLevel::SetCamera()

@@ -16,6 +16,17 @@ public:
 	Meso& operator=(const Meso& _Other) = delete;
 	Meso& operator=(Meso&& _Other) noexcept = delete;
 
+public:
+	inline float GetMesoAmount()
+	{
+		return MesoAmount_;
+	}
+
+	inline void SetMesoAmount(float _MesoAmount)
+	{
+		MesoAmount_ = _MesoAmount;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

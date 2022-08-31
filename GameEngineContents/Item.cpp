@@ -2,6 +2,7 @@
 #include "Monster.h"
 #include "Item.h"
 #include "Player.h"
+#include "Inventory.h"
 
 Item::Item() 
 	: Renderer_(nullptr)
@@ -12,8 +13,14 @@ Item::Item()
 	, MoveTime_(0.0f)
 	, IsPick(false)
 	, PickTime_(0.f)
+	//, Count_(0)
+	//, Price_(100)
+	//, ItemType_(ItemType::MAX)
 
 {
+	ItemState_.ItemType_ = ItemType::MAX;
+	ItemState_.Count_ = 0;
+	ItemState_.Price_ = 500;
 }
 
 Item::~Item() 
@@ -121,14 +128,14 @@ void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
 
 void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 {
-	//if (ItemType::MONSTERDROP != ItemType_)
-	//{
-	//	return;
-	//}
-
 	// 다 주워졌다
 	if (PickTime_ > 0.5f)
 	{
+		// ========== 습득 아이템 Inventory쪽 벡터에 넣어두기 ========== //
+		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->ItemsList_.push_back(this);
+		ItemState_.Count_ += 1;
+		// ========================================== //
+
 		Death();	// 저장
 		_Renderer->GetColorData().MulColor.a = 0;
 
@@ -142,7 +149,7 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	}
 }
 
-void Item::ItemRendererUpdate()
+void Item::ItemUpdate()
 {
 	switch (MonsterName_)
 	{
@@ -150,97 +157,55 @@ void Item::ItemRendererUpdate()
 	{
 		Renderer_->SetTexture("Item1_Rabbit1.png");
 		Renderer_->GetTransform().SetLocalScale({ 28.f, 26.f });
+
+		SetItemType(ItemType::ITEM_WHITERABBIT);
 	}
 	break;
 	case MONSTERNAME::BrownRabbit:
 	{
 		Renderer_->SetTexture("Item1_Rabbit2.png");
 		Renderer_->GetTransform().SetLocalScale({ 29.f, 30.f });
+		SetItemType(ItemType::ITEM_BROWNRABBIT);
 	}
 	break;
 	case MONSTERNAME::BabyCactus:
 	{
 		Renderer_->SetTexture("Item_Cactus1.png");
 		Renderer_->GetTransform().SetLocalScale({ 32.f, 34.f });
+		SetItemType(ItemType::ITEM_CACTUS);
 	}
 	break;
 	case MONSTERNAME::Sand:
 	{
 		Renderer_->SetTexture("Item_Sand1.png");
 		Renderer_->GetTransform().SetLocalScale({ 33.f, 29.f });
+		SetItemType(ItemType::ITEM_SAND);
 	}
 	break;
 	case MONSTERNAME::Scorpion:
 	{
 		Renderer_->SetTexture("Item_Scor1.png");
 		Renderer_->GetTransform().SetLocalScale({ 25.f, 27.f });
+		SetItemType(ItemType::ITEM_SCOR);
 	}
 	break;
 	case MONSTERNAME::Freezer:
 	{
 		Renderer_->SetTexture("Item_Freezer1.png");
 		Renderer_->GetTransform().SetLocalScale({ 31.f, 31.f });
+		SetItemType(ItemType::ITEM_FREEZER);
 	}
 	break;
 	case MONSTERNAME::Sparker:
 	{
 		Renderer_->SetTexture("Item_Sparker1.png");
 		Renderer_->GetTransform().SetLocalScale({ 28.f, 28.f });
+		SetItemType(ItemType::ITEM_SPARKER);
 	}
 	break;
 	}
 
-	//switch (ItemType_)
-	//{
-	//case ItemType::MONSTERDROP: 
-	//{
-	//	switch (MonsterName_)
-	//	{
-	//	case MONSTERNAME::WhiteRabbit:
-	//	{
-	//		Renderer_->SetTexture("Item1_Rabbit1.png");
-	//		Renderer_->GetTransform().SetLocalScale({ 28.f, 26.f });
-	//	}
-	//	break;
-	//	case MONSTERNAME::BrownRabbit:
-	//	{
-	//		Renderer_->SetTexture("Item1_Rabbit2.png");
-	//		Renderer_->GetTransform().SetLocalScale({ 29.f, 30.f });
-	//	}
-	//	break;
-	//	case MONSTERNAME::BabyCactus:
-	//	{
-	//		Renderer_->SetTexture("Item_Cactus1.png");
-	//		Renderer_->GetTransform().SetLocalScale({ 32.f, 34.f });
-	//	}
-	//	break;
-	//	case MONSTERNAME::Sand:
-	//	{
-	//		Renderer_->SetTexture("Item_Sand1.png");
-	//		Renderer_->GetTransform().SetLocalScale({ 33.f, 29.f });
-	//	}
-	//	break;
-	//	case MONSTERNAME::Scorpion:
-	//	{
-	//		Renderer_->SetTexture("Item_Scor1.png");
-	//		Renderer_->GetTransform().SetLocalScale({ 25.f, 27.f });
-	//	}
-	//	break;
-	//	case MONSTERNAME::Freezer:
-	//	{
-	//		Renderer_->SetTexture("Item_Freezer1.png");
-	//		Renderer_->GetTransform().SetLocalScale({ 31.f, 31.f });
-	//	}
-	//	break;
-	//	case MONSTERNAME::Sparker:
-	//	{
-	//		Renderer_->SetTexture("Item_Sparker1.png");
-	//		Renderer_->GetTransform().SetLocalScale({ 28.f, 28.f });
-	//	}
-	//	break;
-	//	}
-	//}
-	//	break;
+
 	//case ItemType::INVENTORY:
 	//{
 
@@ -302,17 +267,12 @@ void Item::Start()
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::ITEM});
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 
-	/*Collision_ = CreateComponent<GameEngineCollision>();
-	Collision_->GetTransform().SetLocalScale({28.f, 28.f});
-	Collision_->ChangeOrder(GAMEOBJGROUP::ITEM);*/
 }
 
 void Item::Update(float _DeltaTime)
 {
-	// MonsterDropItem + InventoryItem 체크
-	ItemRendererUpdate();
+	ItemUpdate();
 
-	// MonsterDropItem일 때만 체크
 	PickUpItemCheck(Renderer_);
 	TimeAttackUpdate(Renderer_);
 	

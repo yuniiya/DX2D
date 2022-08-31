@@ -1,18 +1,18 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-//enum class ItemType
-//{
-//	MONSTERDROP,
-//	INVENTORY,
-//
-//	MAX,
-//};
-
+struct ItemState
+{
+	ItemType ItemType_;
+	int Count_;
+	int Price_;
+};
 
 class GameEngineTextureRenderer;
 class Item : public GameEngineActor
 {
+	friend Inventory;
+
 public:
 	// constrcuter destructer
 	Item();
@@ -31,18 +31,32 @@ public:
 	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer);
 	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer);
 
-	void ItemRendererUpdate();
+	void ItemUpdate();
 
 	inline virtual float4 GetItemPosition()
 	{
 		return GetTransform().GetLocalPosition();
 	}
 
+	inline ItemType GetItemType()
+	{
+		return ItemState_.ItemType_;
+	}
 
-	//inline void SetItemType(ItemType _ItemType)
-	//{
-	//	ItemType_ = _ItemType;
-	//}
+	inline int GetCount()
+	{
+		return ItemState_.Count_;
+	}
+
+	inline int GetPrice()
+	{
+		return ItemState_.Price_;
+	}
+
+	inline void SetItemType(ItemType _ItemType)
+	{
+		ItemState_.ItemType_ = _ItemType;
+	}
 
 
 	inline GameEngineTextureRenderer* GetRenderer()
@@ -66,7 +80,7 @@ protected:
 
 public:
 	MONSTERNAME MonsterName_;
-	//ItemType ItemType_;
+	ItemState ItemState_;
 
 private:
 	GameEngineTextureRenderer* Renderer_;

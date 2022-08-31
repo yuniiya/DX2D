@@ -18,19 +18,51 @@ DesertLevel::~DesertLevel()
 
 void DesertLevel::Start()
 {
+	GlobalLevel::Start();
+
 	SetCollisionMap("ColMap_Desert.png");
 	SetBackGround("Back_Desert.png");
 	SetStage("Stage_Desert.png");
-
-	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	//Player_->GetTransform().SetLocalPosition({ 200.0f, -100.0f});
 
 	SetPortal({ 168.f, -240.f, (int)ZOrder::PORTAL});
 	SetPortal({ 1489.f, -542.f, (int)ZOrder::PORTAL});
 
 	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+
+}
+
+void DesertLevel::Update(float _DeltaTime)
+{
+	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
+	{
+		GEngine::ChangeLevel("Entrance");
+	}
+	if (GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+	{
+		GetMainCameraActor()->FreeCameraModeOnOff();
+	}
+
+	float4 PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
+
+	if (false == GetMainCameraActor()->IsFreeCameraMode())
+	{
+		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
+	}
+
+	CameraFix({ 1619.f, 785.f });
+
+}
+
+void DesertLevel::End()
+{
+}
+
+void DesertLevel::LevelStartEvent()
+{
+	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, (int)ZOrder::PLAYER });
 
 	// Monster
 	{
@@ -64,38 +96,6 @@ void DesertLevel::Start()
 		Scor5->GetTransform().SetLocalPosition({ 500.f, -600.f, (int)ZOrder::MONSTER });
 		Scor5->SetMonsterDir(ACTORDIR::LEFT);
 	}
-}
-
-void DesertLevel::Update(float _DeltaTime)
-{
-	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
-	{
-		GEngine::ChangeLevel("Entrance");
-	}
-	if (GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
-	{
-		GetMainCameraActor()->FreeCameraModeOnOff();
-	}
-
-	float4 PlayerPos_ = Player::MainPlayer_->GetTransform().GetLocalPosition();
-
-	if (false == GetMainCameraActor()->IsFreeCameraMode())
-	{
-		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
-	}
-
-	CameraFix({ 1619.f, 785.f });
-
-}
-
-void DesertLevel::End()
-{
-}
-
-void DesertLevel::LevelStartEvent()
-{
-	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, (int)ZOrder::PLAYER });
 }
 
 void DesertLevel::LevelEndEvent()

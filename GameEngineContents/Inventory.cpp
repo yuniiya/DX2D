@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Inventory.h"
 #include "InventoryItem.h"
+#include "Item.h"
 
 Inventory::Inventory() 
 	: Inventory_(nullptr)
@@ -17,8 +18,18 @@ Inventory::Inventory()
 	, StartPosition_(0.f)
 	, Position_(0.f)
 	, Capacity_(24)
-	, ItemCount_(0)
-	, InventoryItem_(nullptr)
+	, ItemSlotCount_(0)
+	, HasItem(false)
+	, Category_1(nullptr)
+	, Category_2(nullptr)
+	, Category_3(nullptr)
+	, Category_4(nullptr)
+	, Category_5(nullptr)
+	, CategoryCollision_1(nullptr)
+	, CategoryCollision_2(nullptr)
+	, CategoryCollision_3(nullptr)
+	, CategoryCollision_4(nullptr)
+	, CategoryCollision_5(nullptr)
 {
 }
 
@@ -34,91 +45,144 @@ void Inventory::Start()
 	Inventory_->SetTexture("Inventory.png");
 	Inventory_->SetPivot(PIVOTMODE::LEFTTOP);
 	Inventory_->ScaleToTexture();
-	Inventory_->GetTransform().SetLocalPosition({ -390.f, 320.f });
-	Inventory_->Off();
 
-//	InventoryItem_ = GetLevel()->CreateActor<InventoryItem>();
+	Inventory_->GetTransform().SetLocalPosition({ -390.f, 320.f, (int)ZOrder::UI });
+	//Inventory_->Off();
 
-//	// Collision //
-//	Collision_1 = CreateComponent<GameEngineCollision>();
-//	Collision_1->GetTransform().SetLocalScale({ 38.f, 37.f });
-//	Collision_1->ChangeOrder(GAMEOBJGROUP::UI);
-////	Collision_1->Off();
-//
-//	Collision_2 = CreateComponent<GameEngineCollision>();
-//	Collision_2->GetTransform().SetLocalScale({ 38.f, 37.f });
-//	Collision_2->ChangeOrder(GAMEOBJGROUP::UI);
-////	Collision_2->Off();
-//
-//	Collision_3 = CreateComponent<GameEngineCollision>();
-//	Collision_3->GetTransform().SetLocalScale({ 38.f, 37.f });
-//	Collision_3->ChangeOrder(GAMEOBJGROUP::UI);
-////	Collision_3->Off();
-//
-//	Collision_4 = CreateComponent<GameEngineCollision>();
-//	Collision_4->GetTransform().SetLocalScale({ 38.f, 37.f });
-//	Collision_4->ChangeOrder(GAMEOBJGROUP::UI);
-//	Collision_4->Off();
+	Category_1 = CreateComponent<GameEngineUIRenderer>();
+	Category_1->SetTexture("Bt_Inven0-0.png");
+	Category_1->GetTransform().SetLocalScale({179.f * 1.1f, 17.f});
+	Category_1->SetPivot(PIVOTMODE::LEFTTOP);
+	Category_1->GetTransform().SetLocalPosition({ -375.f, 293.f, (int)ZOrder::UI});
 
-	//StartPosition_ = float4({ 2751.f, -317.f });	// ½½·Ô ½ÃÀÛ Æ÷Áö¼Ç
+	Category_2 = CreateComponent<GameEngineUIRenderer>();
+	Category_2->SetTexture("Bt_Inven1-0.png");
+	Category_2->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f});
+	Category_2->SetPivot(PIVOTMODE::LEFTTOP);
+	Category_2->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
 
-	//float4 Pos = StartPosition_;
+	Category_3 = CreateComponent<GameEngineUIRenderer>();
+	Category_3->SetTexture("Bt_Inven2-0.png");
+	Category_3->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f});
+	Category_3->SetPivot(PIVOTMODE::LEFTTOP);
+	Category_3->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
 
-	//for (int i = 0; i < 24; ++i)
-	//{
-	//	if (i != 0 && 0 == i % 4)
-	//	{
-	//		//	Pos.y = Startition_.y - 44.f;
-	//		Pos.y -= 44.f;
+	Category_4 = CreateComponent<GameEngineUIRenderer>();
+	Category_4->SetTexture("Bt_Inven3-0.png");
+	Category_4->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f });
+	Category_4->SetPivot(PIVOTMODE::LEFTTOP);
+	Category_4->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
 
-	//		Pos.x = StartPosition_.x;
-	//	}
+	Category_5 = CreateComponent<GameEngineUIRenderer>();
+	Category_5->SetTexture("Bt_Inven4-0.png");
+	Category_5->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f });
+	Category_5->SetPivot(PIVOTMODE::LEFTTOP);
+	Category_5->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
 
-	//	Pos.x += 44.f;
-	//	ItemCount_ += 1;
+	CategoryCollision_1 = CreateComponent<GameEngineCollision>();
+	CategoryCollision_1->GetTransform().SetLocalScale({ 17.f, 17.f });
+	CategoryCollision_1->ChangeOrder(GAMEOBJGROUP::UI);
+	CategoryCollision_1->GetTransform().SetLocalPosition({3008.f, -750.f});
 
-	//	Item* ItemActor = GetLevel()->CreateActor<Item>();
-	//	ItemActor->SetItemType(ItemType::INVENTORY);
-	//	ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
-	//	ItemActor->GetTransform().SetLocalPosition({ Pos });
-	//}
+
+	Item_ = GetLevel()->CreateActor<Item>();
+	Item_->Off();
+
+	// Collision //
+	/*Collision_1 = CreateComponent<GameEngineCollision>();
+	Collision_1->GetTransform().SetLocalScale({ 38.f, 37.f });
+	Collision_1->ChangeOrder(GAMEOBJGROUP::UI);
+	Collision_1->Off();
+
+	Collision_2 = CreateComponent<GameEngineCollision>();
+	Collision_2->GetTransform().SetLocalScale({ 38.f, 37.f });
+	Collision_2->ChangeOrder(GAMEOBJGROUP::UI);
+	Collision_2->Off();
+
+	Collision_3 = CreateComponent<GameEngineCollision>();
+	Collision_3->GetTransform().SetLocalScale({ 38.f, 37.f });
+	Collision_3->ChangeOrder(GAMEOBJGROUP::UI);
+	Collision_3->Off();
+
+	Collision_4 = CreateComponent<GameEngineCollision>();
+	Collision_4->GetTransform().SetLocalScale({ 38.f, 37.f });
+	Collision_4->ChangeOrder(GAMEOBJGROUP::UI);
+	Collision_4->Off();*/
+
+	IsInvenOn = true;
+	GetInventoryPosition();
+	StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f, (int)ZOrder::UI };
+
+	float4 Pos = StartPosition_;
+
+
+	for (int i = 0; i < 24; ++i)
+	{
+		if (i != 0 && 0 == i % 4)
+		{
+			Pos.y -= 43.f;
+			Pos.x = StartPosition_.x;
+		}
+
+		Pos.x += 43.f;
+		ItemSlotCount_ += 1;
+
+		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		InventoryItemsList_.push_back(ItemActor);
+		//ItemActor->Off();
+	}
+
 }
 
 void Inventory::Update(float _DeltaTime)
 {
-	//float4 CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	//Inventory_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 400.f, CamPos_.y + 308.f });
-
 	InventoryOnOffCheck();
-
+	CollisionCheck();
+	
 	if (true == IsInvenOn)
 	{
-		GetInventoryPosition();
-		//StartPosition_ = float4{ Position_.x - 49.f, Position_.y + 13.f };
-		StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f};
+		//GetInventoryPosition();
+		//StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f};
 
-		if (ItemCount_ < 24)	// ³× Ä­
-		{
-			float4 Pos = StartPosition_;
+		//if (false == ItemsList_.empty())
+		//{
+		//	/*	std::vector<Item*>::iterator StartIter = ItemsList_.begin();
 
-			for (int i = 0; i < 24; ++i)
-			{
-				if (i != 0 && 0 == i % 4)
-				{
+		//		for (StartIter; StartIter != ItemsList_.end(); ++StartIter)
+		//		{
+		//			int a = 0;
+		//		}*/
 
-					Pos.y -= 43.f;
-					Pos.x = StartPosition_.x;
-				}
+		//	for (size_t i = 0; i < ItemsList_.size(); i++)
+		//	{
+		//		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+		//		ItemActor->SetItemType(ItemsList_[i]->GetItemType());
+		//		ItemActor->GetTransform().SetLocalPosition({ StartPosition_ });
+		//	}
+		//}
 
-				Pos.x += 43.f;
-				ItemCount_ += 1;
+		//if (ItemSlotCount_ < 24)	// ³× Ä­
+		//{
+		//	float4 Pos = StartPosition_;
 
-				InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
-				//ItemActor->SetItemType(ItemType::INVENTORY);
-				ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
-				ItemActor->GetTransform().SetLocalPosition({ Pos });
-			}
-		}
+		//	for (int i = 0; i < 24; ++i)
+		//	{
+		//		if (i != 0 && 0 == i % 4)
+		//		{
+		//			Pos.y -= 43.f;
+		//			Pos.x = StartPosition_.x;
+		//		}
+
+		//		Pos.x += 43.f;
+		//		ItemSlotCount_ += 1;
+
+		//		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+		//		ItemActor->SetItemType(ItemType::ITEM_BROWNRABBIT);
+		//		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		//	}
+		//}
+
 
 		//Item_1->GetTransform().SetLocalPosition({ StartPosition_.x, StartPosition_.y });
 		//Item_2->GetTransform().SetLocalPosition({ StartPosition_.x + 44.f, StartPosition_.y });
@@ -126,18 +190,25 @@ void Inventory::Update(float _DeltaTime)
 		//Item_4->GetTransform().SetLocalPosition({ StartPosition_.x + 44.f * 3.f, StartPosition_.y });
 		//Item_5->GetTransform().SetLocalPosition({ StartPosition_.x, StartPosition_.y - 44.f});
 
-		//Collision_1->GetTransform().SetLocalPosition({ Item_1->GetTransform().GetLocalPosition().x + 80.f, Item_1->GetTransform().GetLocalPosition().y - 80.f });
-		//Collision_2->GetTransform().SetLocalPosition({ Item_2->GetTransform().GetLocalPosition().x + 80.f, Item_1->GetTransform().GetLocalPosition().y - 80.f });
-		//Collision_3->GetTransform().SetLocalPosition({ Item_3->GetTransform().GetLocalPosition().x + 80.f, Item_1->GetTransform().GetLocalPosition().y - 80.f });
-		//Collision_4->GetTransform().SetLocalPosition({ Item_4->GetTransform().GetLocalPosition().x + 80.f, Item_1->GetTransform().GetLocalPosition().y - 80.f });
+		//Collision_1->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
+		//Collision_2->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
+		//Collision_3->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
+		//Collision_4->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
 	}
 
 
-}
+}   
 
 void Inventory::CollisionCheck()
-{
+{ 
+	if (true == CategoryCollision_1->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	{
+		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
+		{
+			Category_1->SetTexture("Bt_Inven0-1.png");
+		}
 
+	}
 }
 
 void Inventory::InventoryOnOffCheck()
@@ -149,21 +220,47 @@ void Inventory::InventoryOnOffCheck()
 			GameEngineSound::SoundPlayOneShot("MenuDown.mp3");
 			IsInvenOn = true;
 			Inventory_->On();
+
 			//Collision_1->On();
 			//Collision_2->On();
 			//Collision_3->On();
 			//Collision_4->On();
 
+			Category_1->On();
+			Category_2->On();
+			Category_3->On();
+			Category_4->On();
+			Category_5->On();
+
+			CategoryCollision_1->On();
+			//CategoryCollision_2->On();
+			//CategoryCollision_3->On();
+			//CategoryCollision_4->On();
+			//CategoryCollision_5->On();
+	
 		}
 		else
 		{
 			GameEngineSound::SoundPlayOneShot("MenuUp.mp3");
 			IsInvenOn = false;
 			Inventory_->Off();
+
 			//Collision_1->Off();
 			//Collision_2->Off();
-			//Collision_3->Off();B
+			//Collision_3->Off();
 			//Collision_4->Off();
+
+			Category_1->Off();
+			Category_2->Off();
+			Category_3->Off();
+			Category_4->Off();
+			Category_5->Off();
+
+			CategoryCollision_1->Off();
+			//CategoryCollision_2->Off();
+			//CategoryCollision_3->Off();
+			//CategoryCollision_4->Off();
+			//CategoryCollision_5->Off();
 		}
 	}
 }

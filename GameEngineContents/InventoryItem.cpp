@@ -4,9 +4,10 @@
 InventoryItem::InventoryItem() 
 	: Renderer_(nullptr)
 	, Collision_(nullptr)
-	, MonsterName_(MONSTERNAME::MAX)
-	, PortionItemType_(PortionItemType::MAX)
+	//, MonsterName_(MONSTERNAME::MAX)
+	//, PortionItemType_(PortionItemType::MAX)
 	, IsInvenOn(false)
+	, ItemType_(ItemType::MAX)
 {
 }
 
@@ -26,44 +27,43 @@ void InventoryItem::Start()
 
 void InventoryItem::Update(float _DeltaTime)
 {
-	// 인벤토리 내 아이템 렌더러 //
-	switch (MonsterName_)
+	switch (ItemType_)
 	{
-	case MONSTERNAME::WhiteRabbit:
-	{
-		Renderer_->SetTexture("Item2.png", 1);
-	}
-	break;
-	case MONSTERNAME::BrownRabbit:
-	{
-		Renderer_->SetTexture("Item2.png", 2);
-	}
-	break;
-	case MONSTERNAME::BabyCactus:
+	case ItemType::ITEM_CACTUS:
 	{
 		Renderer_->SetTexture("Item2.png", 0);
 	}
-	break;
-	case MONSTERNAME::Sand:
+		break;
+	case ItemType::ITEM_WHITERABBIT:
 	{
-		Renderer_->SetTexture("Item2.png", 3);
+		Renderer_->SetTexture("Item2.png", 1);
 	}
-	break;
-	case MONSTERNAME::Scorpion:
+		break;
+	case ItemType::ITEM_BROWNRABBIT:
+	{
+		Renderer_->SetTexture("Item2.png", 2);
+	}
+		break;
+	case ItemType::ITEM_SCOR:
 	{
 		Renderer_->SetTexture("Item2.png", 4);
 	}
-	break;
-	case MONSTERNAME::Freezer:
+		break;
+	case ItemType::ITEM_SAND:
 	{
-		Renderer_->SetTexture("Item2.png", 5);
+		Renderer_->SetTexture("Item2.png", 3);
 	}
-	break;
-	case MONSTERNAME::Sparker:
+		break;
+	case ItemType::ITEM_SPARKER:
 	{
 		Renderer_->SetTexture("Item2.png", 6);
 	}
-	break;
+		break;
+	case ItemType::ITEM_FREEZER:
+	{
+		Renderer_->SetTexture("Item2.png", 5);
+	}
+		break;
 	}
 
 	IsInvenOn = true;	// 인벤토리 켜졌다

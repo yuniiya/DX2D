@@ -40,6 +40,11 @@ ContentsUI::~ContentsUI()
 
 void ContentsUI::HPBarUpdate(float _CurHP, float _MaxHP)
 {
+	if (_CurHP <= 0)
+	{
+		return;
+	}
+
 	float HPratio = _CurHP / _MaxHP;
 
 	HpBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio, HPBarScale_.y });
@@ -47,6 +52,11 @@ void ContentsUI::HPBarUpdate(float _CurHP, float _MaxHP)
 
 void ContentsUI::MPBarUpdate(float _CurMP, float _MaxMP)
 {
+	if (_CurMP <= 0)
+	{
+		return;
+	}
+
 	float MPratio = _CurMP / _MaxMP;
 
 	MpBar_->GetTransform().SetLocalScale({ MPBarScale_.x * MPratio, MPBarScale_.y });
@@ -96,13 +106,13 @@ void ContentsUI::LevelImageUpdate()
 
 void ContentsUI::Start()
 {
-	//GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::UI});
+	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::UI});
 
 	HpBar_ = CreateComponent<GameEngineTextureRenderer>();
 	HpBar_->SetTexture("HP.png");
 	HpBar_->ScaleToTexture(); 
 	HpBar_->SetPivot(PIVOTMODE::LEFTTOP);
-	HpBar_->GetTransform().SetLocalScale({ HpBar_->GetTransform().GetLocalScale().x, HpBar_->GetTransform().GetLocalScale().y, (int)ZOrder::UI});
+	HpBar_->GetTransform().SetLocalScale({ HpBar_->GetTransform().GetLocalScale().x, HpBar_->GetTransform().GetLocalScale().y });
 	HPBarScale_ = HpBar_->GetTransform().GetLocalScale();
 
 	MpBar_ = CreateComponent<GameEngineTextureRenderer>();
@@ -178,7 +188,7 @@ void ContentsUI::Update(float _DeltaTime)
 	MainBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x, CamPos_.y - 308.f });
 	QuickSlotBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 290.f, CamPos_.y - 275.f });
 	QuickSlot_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 289.f, CamPos_.y - 273.f });
-	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f, (int)ZOrder::UI });
+	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f});
 	Level_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 49.f, CamPos_.y - 286.f });
 
 	// QuickSlot Collision //

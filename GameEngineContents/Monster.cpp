@@ -2,6 +2,7 @@
 #include "Monster.h"
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineBase/GameEngineTime.h>
 #include "Player.h"
 #include "ContentsUI.h"
 #include "Item.h"
@@ -745,6 +746,20 @@ void Monster::DamagedUpdate()
 	GetTransform().SetLocalPosition({ MoveDir_.x, GetPosition().y });
 
 	Hit();
+
+	//if (PlayerPos_.x < MonsterPos_.x)
+	//{
+	//	MoveDir_ = { 10.f, GetPosition().y };
+	//}
+	//else if (PlayerPos_.x > MonsterPos_.x)
+	//{
+	//	// 몬스터 오른쪽에 있다
+	//	MoveDir_ = { -10.f, GetPosition().y};
+	//}
+
+	//GetTransform().SetLocalMove({ MoveDir_ * GameEngineTime::GetDeltaTime()});
+
+	//Hit();
 }
 
 void Monster::AttackUpdate()
@@ -781,13 +796,11 @@ void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 
 	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::ITEM);
 	ItemActor->MonsterName_ = GetMonsterName();
-	ItemActor->GetTransform().SetLocalPosition({ GetPosition().x - 12.f, GetPosition().y - 14.f});
-	//ItemActor->SetItemType(ItemType::MONSTERDROP);
+	ItemActor->GetTransform().SetLocalPosition({ GetPosition().x - 12.f, GetPosition().y - 14.f, (int)ZOrder::ITEM});
 	ItemActor->TimeAttackStart();
-
+	
 	Meso* MesoActor = GetLevel()->CreateActor<Meso>(GAMEOBJGROUP::ITEM);
-	MesoActor->GetTransform().SetLocalPosition({ GetPosition().x + 12.f, GetPosition().y - 14.f });
-	//MesoActor->SetItemType(ItemType::MONSTERDROP);
+	MesoActor->GetTransform().SetLocalPosition({ GetPosition().x + 12.f, GetPosition().y - 14.f, (int)ZOrder::ITEM });
 	MesoActor->TimeAttackStart();
 
 	Death();

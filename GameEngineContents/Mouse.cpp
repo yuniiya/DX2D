@@ -28,11 +28,8 @@ void Mouse::GetCurPos()
 
 void Mouse::Start()
 {
-	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::MOUSE });
-
 	GetCurPos();
-	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y });
-
+	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 
 
 	MouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
@@ -42,11 +39,11 @@ void Mouse::Start()
 
 	MouseRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
-	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f, 0.0f });
+	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 
 	MouseAnimationRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_MouseOver", FrameAnimation_DESC("Cursor_MouseOver", 0.55f));
-	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f, 0.0f });
+	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f });
 	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
 	MouseAnimationRenderer_->Off();
 
@@ -62,9 +59,9 @@ void Mouse::Start()
 void Mouse::Update(float _DeltaTime)
 {
 	GetCurPos();
-	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y });
+	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 
-	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+ 	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 	{
 		ClickSoundOn_ = true;
 	}

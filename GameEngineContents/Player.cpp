@@ -159,7 +159,7 @@ void Player::Start()
 
 	}
 
-	GetTransform().SetLocalPosition({ 0, 0, (int)ZOrder::PLAYER});
+	GetTransform().SetLocalPosition(float4{ 0, 0, (int)ZOrder::PLAYER});
 	PlayerCollision_ = CreateComponent<GameEngineCollision>();
 	PlayerCollision_->GetTransform().SetLocalScale({65.f, 60.f, (int)ZOrder::PLAYER});
 	PlayerCollision_->ChangeOrder(GAMEOBJGROUP::PLAYER);
@@ -546,12 +546,12 @@ bool Player::StagePixelCheck()
 		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f })
 			|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 		{
-			DownPower_ = float4{ 0.f, -9.f, 0.f };
+			DownPower_ = float4{ 0.f, -5.f, 0.f };
 			GetTransform().SetWorldMove(DownPower_);
 		}
 		else
 		{
-			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 20.f;
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 5.f;
 			GetTransform().SetWorldMove(DownPower_);
 			/*Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);*/

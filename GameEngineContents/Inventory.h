@@ -10,6 +10,7 @@ enum class InventorySlotType
 };
 
 class GameEngineTextureRenderer;
+class Item;
 class InventoryItem;
 class Inventory : public GameEngineActor
 {
@@ -31,6 +32,12 @@ public:
 		return Position_;
 	}
 
+	std::vector<Item*> GetItemList_()
+	{
+		return ItemsList_;
+	}
+
+	std::vector<Item*> ItemsList_;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -42,6 +49,7 @@ protected:
 
 private:
 	bool IsInvenOn;
+	bool HasItem;
 
 	float4 Position_;
 	float4 StartPosition_;
@@ -49,8 +57,21 @@ private:
 private:
 	GameEngineUIRenderer* Inventory_;
 
+	GameEngineUIRenderer* Category_1;
+	GameEngineUIRenderer* Category_2;
+	GameEngineUIRenderer* Category_3;
+	GameEngineUIRenderer* Category_4;
+	GameEngineUIRenderer* Category_5;
+
 private:
 	GameEngineCollision* HeaderCollision_;
+
+	GameEngineCollision* CategoryCollision_1;
+	GameEngineCollision* CategoryCollision_2;
+	GameEngineCollision* CategoryCollision_3;
+	GameEngineCollision* CategoryCollision_4;
+	GameEngineCollision* CategoryCollision_5;
+
 
 	GameEngineCollision* Collision_1;
 	GameEngineCollision* Collision_2;
@@ -62,10 +83,11 @@ private:
 	GameEngineCollision* Collision_8;
 
 private:
-	InventoryItem* InventoryItem_;
+	std::vector<InventoryItem*> InventoryItemsList_;
+	Item* Item_;
 
 private:
 	int Capacity_;
-	int ItemCount_;
+	int ItemSlotCount_;
 };
 

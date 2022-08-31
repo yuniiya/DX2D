@@ -791,8 +791,6 @@ void ContentsCore::Start()
 	}
 
 
-	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
-
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<LoginLevel>("Login");
 	CreateLevel<SelectLevel>("Select");
@@ -808,7 +806,7 @@ void ContentsCore::Start()
 
 	ChangeLevel("Ariant");
 
-	//GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
+	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
 
 }

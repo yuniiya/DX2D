@@ -1,26 +1,13 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-enum class InventoryItemType
-{
-	ITEM_CACTUS,
-	ITEM_RABBIT1,
-	ITEM_RABBIT2,
-	ITEM_SCOR,
-	ITEM_SAND,
-	ITEM_SPARKER,
-	ITEM_FREEZER,
-
-	MAX,
-};
-
-enum class PortionItemType
-{
-	HP,
-	MP,
-
-	MAX,
-};
+//enum class PortionItemType
+//{
+//	HP,
+//	MP,
+//
+//	MAX,
+//};
 
 class GameEngineTextureRenderer;
 class InventoryItem : public GameEngineActor
@@ -45,14 +32,9 @@ protected:
 	void OnOffCheck();
 
 public:
-	inline InventoryItemType GetInventoryItemType()
+	inline void SetItemType(ItemType _ItemType)
 	{
-		return InventoryItemType_;
-	}
-
-	inline void SetInventoryItemType(InventoryItemType _InventoryItemType)
-	{
-		InventoryItemType_ = _InventoryItemType;
+		ItemType_ = _ItemType;
 	}
 
 	inline GameEngineTextureRenderer* GetRenderer()
@@ -60,17 +42,24 @@ public:
 		return Renderer_;
 	}
 
-	MONSTERNAME MonsterName_;
+	//inline void SetInventoryItemType(InventoryItemType _InventoryItemType)
+	//{
+	//	InventoryItemType_ = _InventoryItemType;
+	//}
+
+	//MONSTERNAME MonsterName_;
 
 protected:
-	InventoryItemType InventoryItemType_;
-	PortionItemType PortionItemType_;
+	//InventoryItemType InventoryItemType_;
+	//PortionItemType PortionItemType_;
+	ItemType ItemType_;
+
 
 	bool IsInvenOn;
-
 
 private:
 	GameEngineUIRenderer* Renderer_;
 	GameEngineCollision* Collision_;
+
 };
 

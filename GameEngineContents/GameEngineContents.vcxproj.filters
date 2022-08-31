@@ -178,6 +178,9 @@
     <ClInclude Include="InventoryItem.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -309,6 +312,9 @@
     </ClCompile>
     <ClCompile Include="InventoryItem.cpp">
       <Filter>Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

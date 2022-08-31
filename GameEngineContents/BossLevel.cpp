@@ -20,6 +20,8 @@ BossLevel::~BossLevel()
 
 void BossLevel::Start()
 {
+	GlobalLevel::Start();
+
 	{
 		SetBackGround("Back_Boss2.png");
 		SetCollisionMap("ColMap_Boss.png");
@@ -39,8 +41,8 @@ void BossLevel::Start()
 	//Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f});
 
 	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }
 

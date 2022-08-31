@@ -1,6 +1,7 @@
 #pragma once
 #include "GlobalLevel.h"
 
+class Inventory;
 class AriantLevel : public GlobalLevel
 {
 public:
@@ -13,6 +14,7 @@ public:
 	AriantLevel(AriantLevel&& _Other) noexcept = delete;
 	AriantLevel& operator=(const AriantLevel& _Other) = delete;
 	AriantLevel& operator=(AriantLevel&& _Other) noexcept = delete;
+
 
 protected:
 	float4 CameraPos_;

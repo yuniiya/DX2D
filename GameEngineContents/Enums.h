@@ -25,10 +25,11 @@ enum class ZOrder
 	UI = 10,
 	SKILLFRONT = 20,
 	MONSTERSKILL = 30,
-	PLAYER = 40,
-	SKILLBACK = 50,
-	EFFECT = 60,
-	ITEM = 70,
+	ITEM = 40,
+	PLAYER = 50,
+	NPC = 55, 
+	SKILLBACK = 60,
+	EFFECT = 70,
 	MONSTER = 80,
 	PORTAL = 90,
 	STAGE = 100,
@@ -74,6 +75,29 @@ enum class PLAYERSKILL
 	SKILL_SINB,
 	SKILL_SINC,
 	SKILL_SIND,
+
+	MAX,
+};
+
+enum class ItemType
+{
+	ITEM_CACTUS,
+	ITEM_WHITERABBIT,
+	ITEM_BROWNRABBIT,
+	ITEM_SCOR,
+	ITEM_SAND,
+	ITEM_SPARKER,
+	ITEM_FREEZER,
+
+
+	MAX,
+};
+
+enum class NPCType
+{
+	NPC_Ariant,
+	NPC_Entrance,
+	NPC_Castle,
 
 	MAX,
 };

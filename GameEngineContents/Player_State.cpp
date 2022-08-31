@@ -525,7 +525,7 @@ void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * GameEngineTime::GetDeltaTime());
 	}
 
-	float4 Color = MapTexture_->GetPixelToFloat4(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 34.f);	// 34
+	float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 34);	// 34
 	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
 		StateManager.ChangeState("Idle");
@@ -536,7 +536,7 @@ void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (0.5f < _Info.StateTime)
+	if (0.3f < _Info.StateTime)
 	{
 		StateManager.ChangeState("Idle");
 		return;

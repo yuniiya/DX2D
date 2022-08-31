@@ -15,6 +15,7 @@ EntranceLevel::~EntranceLevel()
 
 void EntranceLevel::Start()
 {
+	GlobalLevel::Start();
 
 	SetCollisionMap("ColMap_Entrance.png");
 	SetBackGround("Back_Entrance.png");
@@ -27,8 +28,8 @@ void EntranceLevel::Start()
 	SetPortal({ 976.f, -643.f, (int)ZOrder::PORTAL });
 
 	// UI
-	ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }
 
