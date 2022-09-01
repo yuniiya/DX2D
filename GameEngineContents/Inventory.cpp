@@ -3,6 +3,7 @@
 #include "InventoryItem.h"
 #include "Item.h"
 
+Inventory* Inventory::MainInventory_ = nullptr;
 
 Inventory::Inventory() 
 	: Inventory_(nullptr)
@@ -12,7 +13,6 @@ Inventory::Inventory()
 	, Position_(0.f)
 	, Capacity_(24)
 	, ItemSlotCount_(0)
-	, HasItem(false)
 	, Category_1(nullptr)
 	, Category_2(nullptr)
 	, Category_3(nullptr)
@@ -32,6 +32,8 @@ Inventory::~Inventory()
 
 void Inventory::Start()
 {
+	//MainInventory_ = this;
+
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
 
 	Inventory_ = CreateComponent<GameEngineUIRenderer>();

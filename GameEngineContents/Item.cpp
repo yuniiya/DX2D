@@ -135,7 +135,8 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->ItemsList_.push_back(this);
 		ItemState_.Count_ += 1;
 
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->PushItem(this);
+		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->PushItem(this);
+		Inventory::MainInventory_->PushItem(this);
 
 		Death();	// ÀúÀå
 		_Renderer->GetColorData().MulColor.a = 0;
@@ -172,7 +173,6 @@ void Item::RendererTypeSetting()
 	{
 		Renderer_->SetTexture("Item1_Rabbit1.png");
 		Renderer_->GetTransform().SetLocalScale({ 28.f, 26.f });
-
 		SetItemType(ItemType::ITEM_WHITERABBIT);
 	}
 	break;

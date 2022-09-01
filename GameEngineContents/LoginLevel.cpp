@@ -19,18 +19,25 @@ LoginLevel::~LoginLevel()
 
 void LoginLevel::Start()
 {
-	//GetCameraPos();
-
-	//SetBackGround("LoginBackground.png");
-	//Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::UI);
-
 	{
-		MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
-		GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
+		MapBackGround* BackGroundActor = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
+		GameEngineTextureRenderer* BackGroundRenderer_ = BackGroundActor->GetRenderer();
 
 		BackGroundRenderer_->SetTexture("LoginBackground.png");
 		BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
+		BackGroundRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
+		BackGroundRenderer_->GetTransform().SetLocalPosition({
+			  BackGroundRenderer_->GetTransform().GetLocalPosition().x - GameEngineWindow::GetScale().x / 2.f
+			, BackGroundRenderer_->GetTransform().GetLocalPosition().y + GameEngineWindow::GetScale().y / 2.f
+			, (int)ZOrder::BACKGROUND });
 	}
+	//{
+	//	MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
+	//	GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
+
+	//	BackGroundRenderer_->SetTexture("LoginBackground.png");
+	//	BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
+	//}
 
 
 	LoginUI* UIActor = CreateActor<LoginUI>(GAMEOBJGROUP::UI);

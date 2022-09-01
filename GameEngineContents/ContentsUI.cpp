@@ -2,9 +2,6 @@
 #include "ContentsUI.h"
 #include "Player.h"
 
-ContentsUI* ContentsUI::MainUI = nullptr;
-//GameEngineTextureRenderer* ContentsUI::HpBar_ = nullptr;
-
 ContentsUI::ContentsUI() 
 	: MainBar_(nullptr)
 	, ExpBack_(nullptr)
@@ -176,8 +173,6 @@ void ContentsUI::Start()
 
 void ContentsUI::Update(float _DeltaTime)
 {
-	MainUI = this;
-
 	CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 
 	HpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 300.f });

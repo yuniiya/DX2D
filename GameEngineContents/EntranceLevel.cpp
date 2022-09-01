@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Mouse.h"
 #include "Fade.h"
+#include "Inventory.h"
 
 EntranceLevel::EntranceLevel() 
 {
@@ -68,4 +69,5 @@ void EntranceLevel::LevelStartEvent()
 void EntranceLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
+	Inventory::MainInventory_->SetLevelOverOn();
 }

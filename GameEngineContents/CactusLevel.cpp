@@ -8,6 +8,7 @@
 #include "WhiteRabbit.h"
 #include "BrownRabbit.h"
 #include "BabyCactus.h"
+#include "Inventory.h"
 
 CactusLevel::CactusLevel() 
 	: Player_(nullptr)
@@ -66,7 +67,7 @@ void CactusLevel::LevelStartEvent()
 	Player::MainPlayer_->GetTransform().SetLocalPosition({ 600.0f, -600.0f, (int)ZOrder::PLAYER });
 
 	// Monster
-	/*{
+	{
 		WhiteRabbit* Rabbit1 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
 		Rabbit1->GetTransform().SetLocalPosition({ 1050.f, -600.f, (int)ZOrder::MONSTER });
 		Rabbit1->SetMonsterDir(ACTORDIR::LEFT);
@@ -107,10 +108,11 @@ void CactusLevel::LevelStartEvent()
 		BabyCactus* Cactus3 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
 		Cactus3->GetTransform().SetLocalPosition({ 1000.f, -600.f, (int)ZOrder::MONSTER });
 		Cactus3->SetMonsterDir(ACTORDIR::LEFT);
-	}*/
+	}
 }
 
 void CactusLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
+	Inventory::MainInventory_->SetLevelOverOn();
 }

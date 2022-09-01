@@ -6,6 +6,7 @@
 #include "Fade.h"
 #include "Sand.h"
 #include "Scorpion.h"
+#include "Inventory.h"
 
 DesertLevel::DesertLevel() 
 	: Player_(nullptr)
@@ -101,4 +102,5 @@ void DesertLevel::LevelStartEvent()
 void DesertLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
+	Inventory::MainInventory_->SetLevelOverOn();
 }

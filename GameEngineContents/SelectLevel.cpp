@@ -16,18 +16,20 @@ SelectLevel::~SelectLevel()
 
 void SelectLevel::Start()
 {
-	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-
-
 	{
 		MapBackGround* BackGround_ = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
 		GameEngineTextureRenderer* BackGroundRenderer_ = BackGround_->GetRenderer();
 
 		BackGroundRenderer_->SetTexture("Select.png");
 		BackGroundRenderer_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
+		BackGroundRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
+		BackGroundRenderer_->GetTransform().SetLocalPosition({
+			  BackGroundRenderer_->GetTransform().GetLocalPosition().x - GameEngineWindow::GetScale().x / 2.f
+			, BackGroundRenderer_->GetTransform().GetLocalPosition().y + GameEngineWindow::GetScale().y / 2.f
+			, (int)ZOrder::BACKGROUND });
 	}
 
-	SelectUI* UIActor = CreateActor<SelectUI>(GAMEOBJGROUP::FADE);
+	SelectUI* UIActor = CreateActor<SelectUI>(GAMEOBJGROUP::UI);
 	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }

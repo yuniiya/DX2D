@@ -88,6 +88,7 @@ enum class ItemType
 	ITEM_SAND,
 	ITEM_SPARKER,
 	ITEM_FREEZER,
+	ITEM_MESO,
 
 
 	MAX,

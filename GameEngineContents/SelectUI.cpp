@@ -40,6 +40,8 @@ SelectUI::~SelectUI()
 
 void SelectUI::Start()
 {
+	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
+
 	float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 
 	{
@@ -88,7 +90,7 @@ void SelectUI::Start()
 	{
 		Player_ = CreateComponent<GameEngineTextureRenderer>();
 		//Player_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f });
-		Player_->GetTransform().SetLocalScale({ 65.f, 60.f, 1.f });
+		Player_->GetTransform().SetLocalScale({ 66.f, 69.f, 1.f });
 		Player_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
 		Player_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Player_Move", 0.2f));
 		Player_->GetTransform().PixLocalNegativeX();
@@ -96,7 +98,7 @@ void SelectUI::Start()
 		Player_->ChangeFrameAnimation("Idle");
 
 		PlayerCol_ = CreateComponent<GameEngineCollision>();
-		PlayerCol_->GetTransform().SetLocalScale({ 80.f, 96.f, 1.f });
+		PlayerCol_->GetTransform().SetLocalScale({ 65.f, 65.f });
 		PlayerCol_->GetTransform().SetLocalPosition({ CamPos.x - 405.f, CamPos.y + 80.f });
 		PlayerCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
@@ -194,7 +196,7 @@ void SelectUI::Start()
 	}
 
 	PlayerObjUI_->GetTransform().SetLocalPosition({ CamPos.x - 455.f, CamPos.y + 100.f });
-	Player_->GetTransform().SetLocalPosition({ CamPos.x - 425.f, CamPos.y + 83.f });
+	Player_->GetTransform().SetLocalPosition({ CamPos.x - 425.f, CamPos.y + 73.f });
 	InfoUI_->GetTransform().SetLocalPosition({ CamPos.x + 500.f, CamPos.y - 70.f });
 	GameStartButton_->GetTransform().SetLocalPosition({ CamPos.x + 500.f, CamPos.y - 165.f });
 	PlayerMouseOverEfect_->GetTransform().SetLocalPosition({ CamPos.x - 425.f, CamPos.y + 119.f });
@@ -251,7 +253,6 @@ void SelectUI::CollisionCheck()
 			GameEngineSound::SoundPlayControl("CharSelect.mp3", 0);
 
 			Player_->ChangeFrameAnimation("Move");
-
 			InfoUI_->On();
 			GameStartButton_->On();
 			PlayerMouseOverEfect_->On();
@@ -268,7 +269,7 @@ void SelectUI::CollisionCheck()
 			}
 
 			Player_->ChangeFrameAnimation("Idle");
-
+	
 			InfoUI_->Off();
 			GameStartButton_->Off();
 			PlayerMouseOverEfect_->Off();

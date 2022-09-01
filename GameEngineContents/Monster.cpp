@@ -352,8 +352,11 @@ void Monster::CollisonCheck()
 			IsHit = false;
 			DamageTime_ = 0.0f;							// 시간 리셋
 						
-			ChangeState(MONSTERSTATE::CHASE);			// 상태 체인지
-			return;
+			if (abs(Player::MainPlayer_->GetTransform().GetLocalPosition().y - GetPosition().y) < 100.f)
+			{
+				ChangeState(MONSTERSTATE::CHASE);			// 상태 체인지
+				return;
+			}
 		}
 	}
 

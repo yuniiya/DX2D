@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Mouse.h"
 #include "Fade.h"
+#include "Inventory.h"
 
 BossLevel::BossLevel()
 	: StageActor_(nullptr)

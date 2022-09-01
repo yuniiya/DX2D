@@ -5,7 +5,6 @@
 class ContentsUI : public GameEngineActor
 {
 public:
-	static ContentsUI* MainUI;
 
 	// constrcuter destructer
 	ContentsUI();

@@ -15,6 +15,7 @@ class InventoryItem;
 class Inventory : public GameEngineActor
 {
 public:
+	static Inventory* MainInventory_;
 
 	// constrcuter destructer
 	Inventory();
@@ -34,7 +35,7 @@ public:
 	}
 
 	void PushItem(Item* _Item);
-
+	bool IsInvenOn;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -45,9 +46,6 @@ protected:
 	void InventoryOnOffCheck();
 
 private:
-	bool IsInvenOn;
-	bool HasItem;
-
 	float4 Position_;
 	float4 StartPosition_;
 

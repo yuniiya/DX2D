@@ -26,6 +26,8 @@ LoginUI::~LoginUI()
 
 void LoginUI::Start()
 {
+	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::UI});
+
 	float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 
 	LoginBackUI_ = CreateComponent<GameEngineTextureRenderer>();

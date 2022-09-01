@@ -16,6 +16,7 @@ Meso::~Meso()
 
 void Meso::Start()
 {
+
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::ITEM });
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 //	Renderer_->GetTransform().SetLocalScale({25.f, 24.f});		// MesoA
@@ -26,16 +27,8 @@ void Meso::Start()
 	Renderer_->CreateFrameAnimationFolder("MesoB", FrameAnimation_DESC("MesoB", 0.16f));
 	Renderer_->CreateFrameAnimationFolder("MesoC", FrameAnimation_DESC("MesoC", 0.16f));
 	Renderer_->ChangeFrameAnimation("MesoA");
-	//Renderer_->Off();
-
-	Collision_ = CreateComponent<GameEngineCollision>();
-	Collision_->GetTransform().SetLocalScale({ 25.f, 25.f });
-	Collision_->ChangeOrder(GAMEOBJGROUP::OBJ);
-	Collision_->Off();
 
 	Random_ = GameEngineRandom::MainRandom.RandomInt(0, 2);
-
-	//Renderer_->On();
 
 	switch (Random_)
 	{
@@ -65,6 +58,7 @@ void Meso::Start()
 
 void Meso::Update(float _DeltaTime)
 {
+
 	TimeAttackUpdate(Renderer_);
 	PickUpItemCheck(Renderer_);
 }

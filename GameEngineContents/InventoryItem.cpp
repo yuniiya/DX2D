@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "InventoryItem.h"
+#include "Inventory.h"
 
 InventoryItem::InventoryItem() 
 	: Renderer_(nullptr)
@@ -36,21 +37,12 @@ void InventoryItem::Update(float _DeltaTime)
 {
 	//IsInvenOn = true;	// 인벤토리 켜졌다
 
-	//OnOffCheck();
+	OnOffCheck();
 }
 
 void InventoryItem::OnOffCheck()
 {
-	// 인벤토리가 켜져있는 상태에서 키를 누른다 -> 렌더러 Off
-	if (true == IsInvenOn)	
-	{
-		if (true == GameEngineInput::GetInst()->IsDown("Inventory"))
-		{
-			Death();
-			IsInvenOn = false; // 꺼진 상태이다
-		}
-	}
-	
+
 }
 
 void InventoryItem::SetItemType(ItemType _ItemType)

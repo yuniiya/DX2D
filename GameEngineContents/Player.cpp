@@ -138,12 +138,8 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Jump", 'X');		
 		GameEngineInput::GetInst()->CreateKey("Pick", 'Z');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_LCONTROL);
-		GameEngineInput::GetInst()->CreateKey("DoubleJump", VK_LSHIFT);
-
 		GameEngineInput::GetInst()->CreateKey("Down", VK_NUMPAD0);
-
 		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
-		GameEngineInput::GetInst()->CreateKey("Ability", 'H');
 
 		GameEngineInput::GetInst()->CreateKey("Test", 'T');
 

@@ -6,6 +6,7 @@
 #include "Fade.h"
 #include "Freezer.h"
 #include "Sparker.h"
+#include "Inventory.h"
 
 AquaLevel::AquaLevel() 
 	: Player_(nullptr)
@@ -81,4 +82,5 @@ void AquaLevel::LevelStartEvent()
 void AquaLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
+	Inventory::MainInventory_->SetLevelOverOn();
 }

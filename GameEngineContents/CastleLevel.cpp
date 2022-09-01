@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Mouse.h"
 #include "Fade.h"
+#include "Inventory.h"
 
 CastleLevel::CastleLevel() 
 	: Player_(nullptr)
@@ -69,4 +70,5 @@ void CastleLevel::LevelStartEvent()
 void CastleLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
+	Inventory::MainInventory_->SetLevelOverOn();
 }
