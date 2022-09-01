@@ -523,7 +523,6 @@ bool Player::StagePixelCheck()
 	TopColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy() - 17);
 	float4 LeftColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - 23, -GetTransform().GetWorldPosition().iy() + 15);
 	float4 RightColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() + 23, (-GetTransform().GetWorldPosition().iy() + 15));
-
 	
 	// 땅
 	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
@@ -546,32 +545,57 @@ bool Player::StagePixelCheck()
 		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f })
 			|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 		{
-			DownPower_ = float4{ 0.f, -5.f, 0.f };
-			GetTransform().SetWorldMove(DownPower_);
+			Pos = float4{ 0.f, -2.f, 0.f };
+			GetTransform().SetWorldMove(Pos);
 		}
-		else
+		else // 허공 -> 땅에 닿을 때까지 내려준다
 		{
-			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 5.f;
-			GetTransform().SetWorldMove(DownPower_);
+			if ("Jump" != StateManager.GetCurStateStateName()
+				&& "Damaged" != StateManager.GetCurStateStateName())
+			{
+				DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 5.f;
+				GetTransform().SetWorldMove(DownPower_);
+			}
 			/*Position_ = GetPosition() + float4{ 0.f, -150.f, 0.f } *GameEngineTime::GetDeltaTime();
 			GetTransform().SetLocalPosition(Position_);*/
 		}
 	}
 	else if (true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
-		|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+			|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))	// 로프 쪽으로 점프
 	{
 		if ("Jump" == StateManager.GetCurStateStateName())
 		{
-			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 20.f;
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 5.f;
 			GetTransform().SetWorldMove(DownPower_);
 		}
-
-	}
+	}	
+	else if(true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
+			|| true == MiddleColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))	// 레더 쪽으로 점프
+	{
+		if ("Jump" == StateManager.GetCurStateStateName())
+		{
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 5.f;
+			GetTransform().SetWorldMove(DownPower_);
+		}
+	}	
 	else
 	{
 		DownPower_ = 0.0f;
 	}
+	//else if (true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })	// 로프, 레더
+	//	|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+	//{
+	//	if ("Jump" == StateManager.GetCurStateStateName())
+	//	{
+	//		DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 11.f;
+	//		GetTransform().SetWorldMove(DownPower_);
+	//	}
 
+	//}
+	//else
+	//{
+	//	DownPower_ = 0.0f;
+	//}
 
 	// 카메라 바깥쪽 이동 막기 - 왼쪽
 	if (CurDir_ == ACTORDIR::LEFT)
@@ -892,6 +916,11 @@ void Player::PlayerMove(float _DeltaTime)
 
 void Player::UseSkill()
 {
+	if (CurMP_ <= 0.f)
+	{
+		return;
+	}
+
 	if (true == IsUseSinSkill)
 	{
 		return;

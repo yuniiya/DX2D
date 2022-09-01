@@ -735,15 +735,15 @@ void Monster::DamagedUpdate()
 	// 플레이어가 몬스터 왼쪽에 있다
 	if (PlayerPos_.x < MonsterPos_.x)
 	{
-		MoveDir_.x = GetPosition().x + 0.5f;
+		MoveDir_ = { 18.f, 0.f };
 	}
 	else if (PlayerPos_.x > MonsterPos_.x)
 	{
 		// 몬스터 오른쪽에 있다
-		MoveDir_.x = GetPosition().x - 0.5f;
+		MoveDir_ = { -18.f, 0.f };
 	}
 
-	GetTransform().SetLocalPosition({ MoveDir_.x, GetPosition().y });
+	GetTransform().SetLocalMove({ MoveDir_ * GameEngineTime::GetDeltaTime() });
 
 	Hit();
 

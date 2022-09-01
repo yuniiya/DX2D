@@ -5,12 +5,12 @@ void Player::IdleStart(const StateInfo& _Info)
 {
 	PlayerCollision_->On();
 
+	MoveDir_ = 0.0f;
 	JumpPower_ = 0.0f;
 	Speed_ = 200.f;
 	ReSetAccTime();
 	//PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f});
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
-
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 }
 
@@ -31,7 +31,7 @@ void Player::JumpStart(const StateInfo& _Info)
 	PrevDir_ = CurDir_;
 
 	AddAccTime(Time_);
-	JumpPower_ = float4{ 0.f, 450.f, 0.f };
+	JumpPower_ = float4{ 0.f, 230.f, 0.f };
 
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
@@ -47,7 +47,6 @@ void Player::ProneStart(const StateInfo& _Info)
 {
 	//PlayerRenderer_->GetTransform().SetLocalScale({ 90.f, 130.f});
 	PlayerRenderer_->GetTransform().SetLocalScale({ 87.f, 130.f});
-
 	PlayerRenderer_->ChangeFrameAnimation("Prone");
 }
 
@@ -60,14 +59,12 @@ void Player::LadderStart(const StateInfo& _Info)
 {
 	//PlayerRenderer_->GetTransform().SetLocalScale({ 85.f, 97.f});
 	PlayerRenderer_->GetTransform().SetLocalScale({ 69.f, 74.f });
-
 	PlayerRenderer_->ChangeFrameAnimation("LadderA");
 }
 
 void Player::RopeStart(const StateInfo& _Info)
 {
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 78.f});
-
 	PlayerRenderer_->ChangeFrameAnimation("RopeA");
 }
 
@@ -114,16 +111,15 @@ void Player::DoubleJumpStart(const StateInfo& _Info)
 
 void Player::DamagedStart(const StateInfo& _Info)
 {
-	MoveDir_ = float4{ 0.f, 300.f, 0.f };
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
+	MoveDir_ = float4{ 0.f, 170.f, 0.f };
 
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
 }
 
 void Player::DieStart(const StateInfo& _Info)
 {
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
-
 	PlayerRenderer_->ChangeFrameAnimation("Die");
 }
 
@@ -257,21 +253,14 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (0.3f < _Info.StateTime)
+	{
+		JumpPower_ -= float4{0.f, 3.f, 0.f} * GameEngineTime::GetDeltaTime() * 630.f;
+	}
+
 	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * _DeltaTime);
 
-	float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 34);	// 34
-	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
-	{
-		StateManager.ChangeState("Idle");
-		return;
-	}
-
-	if (true == IsSkillKey())
-	{
-		UseSkill();
-	}
-
-	if (true == TopColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })				
+	if (true == TopColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
 		|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
@@ -299,6 +288,22 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 	}
+
+	float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 34);	// 34
+	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		|| true == Color.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
+		|| true == Color.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+	{
+		StateManager.ChangeState("Idle");
+		return;
+	}
+
+	if (true == IsSkillKey())
+	{
+		UseSkill();
+	}
+
+
 
 	if (PLAYERSKILL::SKILL_PA == CurSkill_)
 	{
@@ -536,7 +541,7 @@ void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (0.3f < _Info.StateTime)
+	if (0.2f < _Info.StateTime)
 	{
 		StateManager.ChangeState("Idle");
 		return;
@@ -544,11 +549,11 @@ void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (CurDir_ == ACTORDIR::LEFT)
 	{
-		MoveDir_.x = 90.f;
+		MoveDir_.x = 110.f;
 	}
 	else if (CurDir_ == ACTORDIR::RIGHT)
 	{
-		MoveDir_.x = -90.f;
+		MoveDir_.x = -110.f;
 	}
 
 	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
