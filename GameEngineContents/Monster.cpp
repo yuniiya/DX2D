@@ -796,6 +796,7 @@ void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 
 	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::ITEM);
 	ItemActor->MonsterName_ = GetMonsterName();
+	ItemActor->RendererTypeSetting();
 	ItemActor->GetTransform().SetLocalPosition({ GetPosition().x - 12.f, GetPosition().y - 14.f, (int)ZOrder::ITEM});
 	ItemActor->TimeAttackStart();
 	

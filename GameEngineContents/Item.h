@@ -61,18 +61,19 @@ public:
 		ItemState_.ItemType_ = _ItemType;
 	}
 
-
 	inline GameEngineTextureRenderer* GetRenderer()
 	{
 		return Renderer_;
 	}
 
+	void RendererTypeSetting();
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+protected:
 	bool IsCreate;
 	bool IsPick;
 

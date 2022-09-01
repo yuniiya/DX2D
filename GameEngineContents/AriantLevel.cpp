@@ -74,6 +74,7 @@ void AriantLevel::LevelStartEvent()
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3200.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
@@ -81,6 +82,7 @@ void AriantLevel::LevelStartEvent()
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3250.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
@@ -88,6 +90,7 @@ void AriantLevel::LevelStartEvent()
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3280.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
@@ -95,6 +98,7 @@ void AriantLevel::LevelStartEvent()
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3310.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
@@ -102,18 +106,21 @@ void AriantLevel::LevelStartEvent()
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3340.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3370.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3400.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}

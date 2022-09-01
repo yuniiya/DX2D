@@ -40,44 +40,49 @@ void Inventory::Start()
 	Inventory_->ScaleToTexture();
 
 	Inventory_->GetTransform().SetLocalPosition({ -390.f, 320.f, (int)ZOrder::UI });
-	//Inventory_->Off();
+	Inventory_->Off();
 
 	Category_1 = CreateComponent<GameEngineUIRenderer>();
 	Category_1->SetTexture("Bt_Inven0-0.png");
 	Category_1->GetTransform().SetLocalScale({179.f * 1.1f, 17.f});
 	Category_1->SetPivot(PIVOTMODE::LEFTTOP);
 	Category_1->GetTransform().SetLocalPosition({ -375.f, 293.f, (int)ZOrder::UI});
+	Category_1->Off();
 
 	Category_2 = CreateComponent<GameEngineUIRenderer>();
 	Category_2->SetTexture("Bt_Inven1-0.png");
 	Category_2->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f});
 	Category_2->SetPivot(PIVOTMODE::LEFTTOP);
 	Category_2->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_2->Off();
 
 	Category_3 = CreateComponent<GameEngineUIRenderer>();
 	Category_3->SetTexture("Bt_Inven2-0.png");
 	Category_3->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f});
 	Category_3->SetPivot(PIVOTMODE::LEFTTOP);
 	Category_3->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_3->Off();
 
 	Category_4 = CreateComponent<GameEngineUIRenderer>();
 	Category_4->SetTexture("Bt_Inven3-0.png");
 	Category_4->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f });
 	Category_4->SetPivot(PIVOTMODE::LEFTTOP);
 	Category_4->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_4->Off();
 
 	Category_5 = CreateComponent<GameEngineUIRenderer>();
 	Category_5->SetTexture("Bt_Inven4-0.png");
 	Category_5->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f });
 	Category_5->SetPivot(PIVOTMODE::LEFTTOP);
 	Category_5->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_5->Off();
 
 	CategoryCollision_1 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_1->GetTransform().SetLocalScale({ 17.f, 17.f });
 	CategoryCollision_1->ChangeOrder(GAMEOBJGROUP::UI);
 	CategoryCollision_1->GetTransform().SetLocalPosition({3008.f, -750.f});
 
-	IsInvenOn = true;
+//	IsInvenOn = true;
 	GetInventoryPosition();
 	StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f, (int)ZOrder::UI };
 
@@ -191,7 +196,7 @@ void Inventory::InventoryOnOffCheck()
 			Category_4->On();
 			Category_5->On();
 
-			CategoryCollision_1->On();
+			//CategoryCollision_1->On();
 			//CategoryCollision_2->On();
 			//CategoryCollision_3->On();
 			//CategoryCollision_4->On();
@@ -210,7 +215,7 @@ void Inventory::InventoryOnOffCheck()
 			Category_4->Off();
 			Category_5->Off();
 
-			CategoryCollision_1->Off();
+			//CategoryCollision_1->Off();
 			//CategoryCollision_2->Off();
 			//CategoryCollision_3->Off();
 			//CategoryCollision_4->Off();

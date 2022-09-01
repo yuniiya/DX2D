@@ -134,9 +134,9 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		// ========== 습득 아이템 Inventory쪽 벡터에 넣어두기 ========== //
 		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->ItemsList_.push_back(this);
 		ItemState_.Count_ += 1;
-	
 
 		dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->PushItem(this);
+
 		Death();	// 저장
 		_Renderer->GetColorData().MulColor.a = 0;
 
@@ -157,6 +157,14 @@ void Item::Start()
 }
 
 void Item::Update(float _DeltaTime)
+{
+
+	PickUpItemCheck(Renderer_);
+	TimeAttackUpdate(Renderer_);
+	
+}
+
+void Item::RendererTypeSetting()
 {
 	switch (MonsterName_)
 	{
@@ -211,9 +219,5 @@ void Item::Update(float _DeltaTime)
 	}
 	break;
 	}
-
-	PickUpItemCheck(Renderer_);
-	TimeAttackUpdate(Renderer_);
-	
 }
 
