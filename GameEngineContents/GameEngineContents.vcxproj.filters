@@ -73,9 +73,6 @@
     <ClInclude Include="BossLevel.h">
       <Filter>Level\Play</Filter>
     </ClInclude>
-    <ClInclude Include="MapBackGround.h">
-      <Filter>Actor\Map</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalLevel.h">
       <Filter>Global</Filter>
     </ClInclude>
@@ -180,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="NPC.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapBackGround.h">
+      <Filter>Actor\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

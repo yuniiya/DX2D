@@ -32,6 +32,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void PickUpItemCheck(GameEngineTextureRenderer* _Renderer) override;
+
 private:
 	GameEngineTextureRenderer* Renderer_;
 	GameEngineCollision* Collision_;

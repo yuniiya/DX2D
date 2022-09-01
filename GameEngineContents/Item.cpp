@@ -134,8 +134,9 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		// ========== 습득 아이템 Inventory쪽 벡터에 넣어두기 ========== //
 		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->ItemsList_.push_back(this);
 		ItemState_.Count_ += 1;
-		// ========================================== //
+	
 
+		dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->PushItem(this);
 		Death();	// 저장
 		_Renderer->GetColorData().MulColor.a = 0;
 
@@ -149,7 +150,13 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	}
 }
 
-void Item::ItemUpdate()
+void Item::Start()
+{
+	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::ITEM});
+	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+}
+
+void Item::Update(float _DeltaTime)
 {
 	switch (MonsterName_)
 	{
@@ -204,74 +211,6 @@ void Item::ItemUpdate()
 	}
 	break;
 	}
-
-
-	//case ItemType::INVENTORY:
-	//{
-
-	//	// 인벤토리 내 아이템 렌더러 //
-	//	switch (MonsterName_)
-	//	{
-	//	case MONSTERNAME::WhiteRabbit:
-	//	{
-	//		Renderer_->SetTexture("Item2.png", 1);
-	//	}
-	//	break;
-	//	case MONSTERNAME::BrownRabbit:
-	//	{
-	//		Renderer_->SetTexture("Item2.png", 2);
-	//	}
-	//	break;
-	//	case MONSTERNAME::BabyCactus:
-	//	{
-	//		Renderer_->SetTexture("Item2.png", 0);
-	//	}
-	//	break;
-	//	case MONSTERNAME::Sand:
-	//	{
-	//		Renderer_->SetTexture("Item2.png", 3);
-	//	}
-	//	break;
-	//	case MONSTERNAME::Scorpion:
-	//	{
-	//		Renderer_->SetTexture("Item2.png", 4);
-	//	}
-	//	break;
-	//	case MONSTERNAME::Freezer:
-	//	{
-	//		Renderer_->SetTexture("Item2.png", 5);
-	//	}
-	//	break;
-	//	case MONSTERNAME::Sparker:
-	//	{
-	//		Renderer_->SetTexture("Item2.png", 6);
-	//	}
-	//	break;
-	//	}
-
-	//	Renderer_->SetPivot(PIVOTMODE::LEFTTOP);
-	//	Renderer_->GetTransform().SetLocalScale({ 128.f, 128.f });
-	//	
-	//	Collision_->GetTransform().SetLocalPosition(
-	//		{ Renderer_ ->GetTransform().GetLocalPosition().x + 73.f
-	//		, Renderer_->GetTransform().GetLocalPosition().y - 73.f });
-	//}
-	//	break;
-	//}
-	
-}
-
-
-void Item::Start()
-{
-	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::ITEM});
-	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-
-}
-
-void Item::Update(float _DeltaTime)
-{
-	ItemUpdate();
 
 	PickUpItemCheck(Renderer_);
 	TimeAttackUpdate(Renderer_);

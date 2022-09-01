@@ -31,11 +31,14 @@ public:
 	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer);
 	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer);
 
-	void ItemUpdate();
-
 	inline virtual float4 GetItemPosition()
 	{
 		return GetTransform().GetLocalPosition();
+	}
+
+	inline void SetMonsterName(MONSTERNAME _MonsterName)
+	{
+		MonsterName_ = _MonsterName;
 	}
 
 	inline ItemType GetItemType()

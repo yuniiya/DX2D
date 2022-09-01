@@ -15,6 +15,7 @@ class InventoryItem;
 class Inventory : public GameEngineActor
 {
 public:
+
 	// constrcuter destructer
 	Inventory();
 	~Inventory();
@@ -32,12 +33,8 @@ public:
 		return Position_;
 	}
 
-	std::vector<Item*> GetItemList_()
-	{
-		return ItemsList_;
-	}
+	void PushItem(Item* _Item);
 
-	std::vector<Item*> ItemsList_;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -72,19 +69,8 @@ private:
 	GameEngineCollision* CategoryCollision_4;
 	GameEngineCollision* CategoryCollision_5;
 
-
-	GameEngineCollision* Collision_1;
-	GameEngineCollision* Collision_2;
-	GameEngineCollision* Collision_3;
-	GameEngineCollision* Collision_4;
-	GameEngineCollision* Collision_5;
-	GameEngineCollision* Collision_6;
-	GameEngineCollision* Collision_7;
-	GameEngineCollision* Collision_8;
-
 private:
 	std::vector<InventoryItem*> InventoryItemsList_;
-	Item* Item_;
 
 private:
 	int Capacity_;

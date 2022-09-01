@@ -34,7 +34,48 @@ protected:
 public:
 	inline void SetItemType(ItemType _ItemType)
 	{
+		Renderer_->On();
+
 		ItemType_ = _ItemType;
+
+		switch (ItemType_)
+		{
+		case ItemType::ITEM_CACTUS:
+		{
+			Renderer_->SetTexture("Item2.png", 0);
+		}
+		break;
+		case ItemType::ITEM_WHITERABBIT:
+		{
+			Renderer_->SetTexture("Item2.png", 1);
+		}
+		break;
+		case ItemType::ITEM_BROWNRABBIT:
+		{
+			Renderer_->SetTexture("Item2.png", 2);
+		}
+		break;
+		case ItemType::ITEM_SCOR:
+		{
+			Renderer_->SetTexture("Item2.png", 4);
+		}
+		break;
+		case ItemType::ITEM_SAND:
+		{
+			Renderer_->SetTexture("Item2.png", 3);
+		}
+		break;
+		case ItemType::ITEM_SPARKER:
+		{
+			Renderer_->SetTexture("Item2.png", 6);
+		}
+		break;
+		case ItemType::ITEM_FREEZER:
+		{
+			Renderer_->SetTexture("Item2.png", 5);
+		}
+		break;
+		}
 	}
 
 	inline GameEngineTextureRenderer* GetRenderer()
@@ -42,8 +83,13 @@ public:
 		return Renderer_;
 	}
 
+	inline ItemType GetItemType()
+	{
+		return ItemType_;
+	}
+
 	//inline void SetInventoryItemType(InventoryItemType _InventoryItemType)
-	//{
+	//{c
 	//	InventoryItemType_ = _InventoryItemType;
 	//}
 

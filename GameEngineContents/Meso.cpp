@@ -26,7 +26,7 @@ void Meso::Start()
 	Renderer_->CreateFrameAnimationFolder("MesoB", FrameAnimation_DESC("MesoB", 0.16f));
 	Renderer_->CreateFrameAnimationFolder("MesoC", FrameAnimation_DESC("MesoC", 0.16f));
 	Renderer_->ChangeFrameAnimation("MesoA");
-	Renderer_->Off();
+	//Renderer_->Off();
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 25.f, 25.f });
@@ -34,11 +34,8 @@ void Meso::Start()
 	Collision_->Off();
 
 	Random_ = GameEngineRandom::MainRandom.RandomInt(0, 2);
-}
 
-void Meso::Update(float _DeltaTime)
-{
-	Renderer_->On();
+	//Renderer_->On();
 
 	switch (Random_)
 	{
@@ -64,8 +61,29 @@ void Meso::Update(float _DeltaTime)
 	}
 	break;
 	}
+}
 
+void Meso::Update(float _DeltaTime)
+{
 	TimeAttackUpdate(Renderer_);
 	PickUpItemCheck(Renderer_);
+}
+
+void Meso::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
+{
+	// 다 주워졌다
+	if (PickTime_ > 0.5f)
+	{
+		Death();	// 저장
+		_Renderer->GetColorData().MulColor.a = 0;
+
+		PickTime_ = 0.f;
+		IsPick = false;
+	}
+	if (true == IsPick)
+	{
+		PickTime_ += GameEngineTime::GetDeltaTime();
+		_Renderer->GetColorData().MulColor.a -= GameEngineTime::GetDeltaTime() * 3.f;
+	}
 }
 

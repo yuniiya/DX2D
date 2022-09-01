@@ -3,18 +3,11 @@
 #include "InventoryItem.h"
 #include "Item.h"
 
+
 Inventory::Inventory() 
 	: Inventory_(nullptr)
 	, IsInvenOn(false)
 	, HeaderCollision_(nullptr)
-	, Collision_1(nullptr)
-	, Collision_2(nullptr)
-	, Collision_3(nullptr)
-	, Collision_4(nullptr)
-	, Collision_5(nullptr)
-	, Collision_6(nullptr)
-	, Collision_7(nullptr)
-	, Collision_8(nullptr)
 	, StartPosition_(0.f)
 	, Position_(0.f)
 	, Capacity_(24)
@@ -84,31 +77,6 @@ void Inventory::Start()
 	CategoryCollision_1->ChangeOrder(GAMEOBJGROUP::UI);
 	CategoryCollision_1->GetTransform().SetLocalPosition({3008.f, -750.f});
 
-
-	Item_ = GetLevel()->CreateActor<Item>();
-	Item_->Off();
-
-	// Collision //
-	/*Collision_1 = CreateComponent<GameEngineCollision>();
-	Collision_1->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_1->ChangeOrder(GAMEOBJGROUP::UI);
-	Collision_1->Off();
-
-	Collision_2 = CreateComponent<GameEngineCollision>();
-	Collision_2->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_2->ChangeOrder(GAMEOBJGROUP::UI);
-	Collision_2->Off();
-
-	Collision_3 = CreateComponent<GameEngineCollision>();
-	Collision_3->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_3->ChangeOrder(GAMEOBJGROUP::UI);
-	Collision_3->Off();
-
-	Collision_4 = CreateComponent<GameEngineCollision>();
-	Collision_4->GetTransform().SetLocalScale({ 38.f, 37.f });
-	Collision_4->ChangeOrder(GAMEOBJGROUP::UI);
-	Collision_4->Off();*/
-
 	IsInvenOn = true;
 	GetInventoryPosition();
 	StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f, (int)ZOrder::UI };
@@ -129,6 +97,7 @@ void Inventory::Start()
 
 		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
 		ItemActor->GetTransform().SetLocalPosition({ Pos });
+	//	ItemActor->SetItemType(ItemType::ITEM_WHITERABBIT);
 		InventoryItemsList_.push_back(ItemActor);
 		//ItemActor->Off();
 	}
@@ -189,11 +158,6 @@ void Inventory::Update(float _DeltaTime)
 		//Item_3->GetTransform().SetLocalPosition({ StartPosition_.x + 44.f * 2.f, StartPosition_.y });
 		//Item_4->GetTransform().SetLocalPosition({ StartPosition_.x + 44.f * 3.f, StartPosition_.y });
 		//Item_5->GetTransform().SetLocalPosition({ StartPosition_.x, StartPosition_.y - 44.f});
-
-		//Collision_1->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
-		//Collision_2->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
-		//Collision_3->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
-		//Collision_4->GetTransform().SetLocalPosition({ StartPosition_.x + 80.f, StartPosition_.y - 80.f });
 	}
 
 
@@ -221,11 +185,6 @@ void Inventory::InventoryOnOffCheck()
 			IsInvenOn = true;
 			Inventory_->On();
 
-			//Collision_1->On();
-			//Collision_2->On();
-			//Collision_3->On();
-			//Collision_4->On();
-
 			Category_1->On();
 			Category_2->On();
 			Category_3->On();
@@ -245,11 +204,6 @@ void Inventory::InventoryOnOffCheck()
 			IsInvenOn = false;
 			Inventory_->Off();
 
-			//Collision_1->Off();
-			//Collision_2->Off();
-			//Collision_3->Off();
-			//Collision_4->Off();
-
 			Category_1->Off();
 			Category_2->Off();
 			Category_3->Off();
@@ -264,4 +218,20 @@ void Inventory::InventoryOnOffCheck()
 		}
 	}
 }
+
+void Inventory::PushItem(Item* _Item)
+{
+	for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+	{
+		// 아이템이 있는 칸이다 -> 다음 칸으로 넘어간다
+		if (ItemType::MAX != InventoryItemsList_[i]->GetItemType())
+		{
+			continue;
+		}
+
+		InventoryItemsList_[i]->SetItemType(_Item->GetItemType());	// 칸에 아이템을 채워넣고 -> for문 멈춘다
+		break;
+	}
+}
+
 

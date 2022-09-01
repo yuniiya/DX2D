@@ -36,6 +36,7 @@ enum class MONSTERTYPE
 };
 
 class Player;
+class Item;
 class Monster : public GlobalActor
 {
 public:
