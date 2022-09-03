@@ -557,7 +557,7 @@ bool Player::StagePixelCheck()
 		}
 	}
 	else if (true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
-			|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))	// 로프 쪽으로 점프
+			|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))	// 레더 쪽으로 점프
 	{
 		if ("Jump" == StateManager.GetCurStateStateName())
 		{
@@ -565,8 +565,8 @@ bool Player::StagePixelCheck()
 			GetTransform().SetWorldMove(DownPower_);
 		}
 	}	
-	else if(true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
-			|| true == MiddleColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))	// 레더 쪽으로 점프
+	else if(true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })
+			|| true == MiddleColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))	// 로프 쪽으로 점프
 	{
 		if ("Jump" == StateManager.GetCurStateStateName())
 		{

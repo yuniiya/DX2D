@@ -112,6 +112,7 @@ void Player::DoubleJumpStart(const StateInfo& _Info)
 void Player::DamagedStart(const StateInfo& _Info)
 {
 	MoveDir_ = float4{ 0.f, 170.f, 0.f };
+	JumpPower_ = 0.0f;
 
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
@@ -256,7 +257,10 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (0.3f < _Info.StateTime)
 	{
 		JumpPower_ -= float4{0.f, 3.f, 0.f} * GameEngineTime::GetDeltaTime() * 630.f;
+	}
 
+	if (0.7f < _Info.StateTime)
+	{
 		float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 34);	// 34
 		if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 			|| true == Color.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })

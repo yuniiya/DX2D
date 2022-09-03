@@ -34,8 +34,9 @@ void Mouse::Start()
 
 
 	MouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
-	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y });
-	MouseCol_->GetTransform().SetLocalScale({ 24.f, 28.f });
+	MouseCol_->SetUIDebugCamera();
+	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 2.f});
+	MouseCol_->GetTransform().SetLocalScale({ 20.f, 20.f });
 	MouseCol_->ChangeOrder(GAMEOBJGROUP::MOUSE);
 
 	MouseRenderer_ = CreateComponent<GameEngineUIRenderer>();
@@ -123,4 +124,5 @@ void Mouse::CollisionCheck()
 	{
 		MouseOverSoundOn_ = true;
 	}
+
 }

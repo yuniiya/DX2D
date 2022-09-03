@@ -39,6 +39,11 @@ public:
 		return Renderer_;
 	}
 
+	inline GameEngineCollision* GetCollision()
+	{
+		return Collision_;
+	}
+
 	inline ItemType GetItemType()
 	{
 		return ItemType_;

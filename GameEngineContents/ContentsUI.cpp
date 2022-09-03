@@ -151,23 +151,23 @@ void ContentsUI::Start()
 	// QuickSlot Collision //
 	SlotCollision_1 = CreateComponent<GameEngineCollision>();
 	SlotCollision_1->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_1->ChangeOrder(GAMEOBJGROUP::UI);
+	SlotCollision_1->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
 	SlotCollision_2 = CreateComponent<GameEngineCollision>();
 	SlotCollision_2->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_2->ChangeOrder(GAMEOBJGROUP::UI);
+	SlotCollision_2->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
 	SlotCollision_3 = CreateComponent<GameEngineCollision>();
 	SlotCollision_3->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_3->ChangeOrder(GAMEOBJGROUP::UI);
+	SlotCollision_3->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
 	SlotCollision_4 = CreateComponent<GameEngineCollision>();
 	SlotCollision_4->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_4->ChangeOrder(GAMEOBJGROUP::UI);
+	SlotCollision_4->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
 	SlotCollision_5 = CreateComponent<GameEngineCollision>();
 	SlotCollision_5->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_5->ChangeOrder(GAMEOBJGROUP::UI);
+	SlotCollision_5->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
 }
 

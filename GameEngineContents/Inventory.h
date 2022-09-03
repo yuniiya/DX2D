@@ -35,7 +35,13 @@ public:
 	}
 
 	void PushItem(Item* _Item);
+
 	bool IsInvenOn;
+	bool IsCategoryOn_1;
+	bool IsCategoryOn_2;
+	bool IsCategoryOn_3;
+	bool IsCategoryOn_4;
+	bool IsCategoryOn_5;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

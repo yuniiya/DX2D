@@ -23,6 +23,11 @@ Inventory::Inventory()
 	, CategoryCollision_3(nullptr)
 	, CategoryCollision_4(nullptr)
 	, CategoryCollision_5(nullptr)
+	, IsCategoryOn_1(false)
+	, IsCategoryOn_2(true)
+	, IsCategoryOn_3(false)
+	, IsCategoryOn_4(false)
+	, IsCategoryOn_5(false)
 {
 }
 
@@ -80,9 +85,46 @@ void Inventory::Start()
 	Category_5->Off();
 
 	CategoryCollision_1 = CreateComponent<GameEngineCollision>();
-	CategoryCollision_1->GetTransform().SetLocalScale({ 17.f, 17.f });
+	CategoryCollision_1->SetUIDebugCamera();
+	CategoryCollision_1->GetTransform().SetLocalScale({ 10.f, 15.f });
 	CategoryCollision_1->ChangeOrder(GAMEOBJGROUP::UI);
-	CategoryCollision_1->GetTransform().SetLocalPosition({3008.f, -750.f});
+	CategoryCollision_1->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x + 17.f, Category_1->GetTransform().GetLocalPosition().y - 10.f});
+	CategoryCollision_1->Off();
+
+	CategoryCollision_2 = CreateComponent<GameEngineCollision>();
+	CategoryCollision_2->SetUIDebugCamera();
+	CategoryCollision_2->GetTransform().SetLocalScale({ 10.f, 15.f });
+	CategoryCollision_2->ChangeOrder(GAMEOBJGROUP::UI);
+	CategoryCollision_2->GetTransform().SetLocalPosition({ (Category_1->GetTransform().GetLocalPosition().x + 17.f) + 32.f, Category_1->GetTransform().GetLocalPosition().y - 10.f });
+	CategoryCollision_2->Off();
+
+	CategoryCollision_3 = CreateComponent<GameEngineCollision>();
+	CategoryCollision_3->SetUIDebugCamera();
+	CategoryCollision_3->GetTransform().SetLocalScale({ 10.f, 15.f });
+	CategoryCollision_3->ChangeOrder(GAMEOBJGROUP::UI);
+	CategoryCollision_3->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x + 17.f + 65.f, Category_1->GetTransform().GetLocalPosition().y - 10.f });
+	CategoryCollision_3->Off();
+
+	CategoryCollision_4 = CreateComponent<GameEngineCollision>();
+	CategoryCollision_4->SetUIDebugCamera();
+	CategoryCollision_4->GetTransform().SetLocalScale({ 10.f, 15.f });
+	CategoryCollision_4->ChangeOrder(GAMEOBJGROUP::UI);
+	CategoryCollision_4->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x + 17.f + 97.f, Category_1->GetTransform().GetLocalPosition().y - 10.f });
+	CategoryCollision_4->Off();
+
+	CategoryCollision_5 = CreateComponent<GameEngineCollision>();
+	CategoryCollision_5->SetUIDebugCamera();
+	CategoryCollision_5->GetTransform().SetLocalScale({ 10.f, 15.f });
+	CategoryCollision_5->ChangeOrder(GAMEOBJGROUP::UI);
+	CategoryCollision_5->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x + 17.f + 130.f, Category_1->GetTransform().GetLocalPosition().y - 10.f });
+	CategoryCollision_5->Off();
+
+	HeaderCollision_ = CreateComponent<GameEngineCollision>();
+	HeaderCollision_->SetUIDebugCamera();
+	HeaderCollision_->GetTransform().SetLocalScale({ 190.f, 15.f });
+	HeaderCollision_->ChangeOrder(GAMEOBJGROUP::SLOTUI);
+	HeaderCollision_->GetTransform().SetLocalPosition({ Inventory_->GetTransform().GetLocalPosition().x + 95.f, Inventory_->GetTransform().GetLocalPosition().y - 11.f});
+	HeaderCollision_->Off();
 
 //	IsInvenOn = true;
 	GetInventoryPosition();
@@ -118,53 +160,41 @@ void Inventory::Update(float _DeltaTime)
 	
 	if (true == IsInvenOn)
 	{
-		//GetInventoryPosition();
-		//StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f};
-
-		//if (false == ItemsList_.empty())
-		//{
-		//	/*	std::vector<Item*>::iterator StartIter = ItemsList_.begin();
-
-		//		for (StartIter; StartIter != ItemsList_.end(); ++StartIter)
-		//		{
-		//			int a = 0;
-		//		}*/
-
-		//	for (size_t i = 0; i < ItemsList_.size(); i++)
-		//	{
-		//		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
-		//		ItemActor->SetItemType(ItemsList_[i]->GetItemType());
-		//		ItemActor->GetTransform().SetLocalPosition({ StartPosition_ });
-		//	}
-		//}
-
-		//if (ItemSlotCount_ < 24)	// ³× Ä­
-		//{
-		//	float4 Pos = StartPosition_;
-
-		//	for (int i = 0; i < 24; ++i)
-		//	{
-		//		if (i != 0 && 0 == i % 4)
-		//		{
-		//			Pos.y -= 43.f;
-		//			Pos.x = StartPosition_.x;
-		//		}
-
-		//		Pos.x += 43.f;
-		//		ItemSlotCount_ += 1;
-
-		//		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
-		//		ItemActor->SetItemType(ItemType::ITEM_BROWNRABBIT);
-		//		ItemActor->GetTransform().SetLocalPosition({ Pos });
-		//	}
-		//}
-
-
-		//Item_1->GetTransform().SetLocalPosition({ StartPosition_.x, StartPosition_.y });
-		//Item_2->GetTransform().SetLocalPosition({ StartPosition_.x + 44.f, StartPosition_.y });
-		//Item_3->GetTransform().SetLocalPosition({ StartPosition_.x + 44.f * 2.f, StartPosition_.y });
-		//Item_4->GetTransform().SetLocalPosition({ StartPosition_.x + 44.f * 3.f, StartPosition_.y });
-		//Item_5->GetTransform().SetLocalPosition({ StartPosition_.x, StartPosition_.y - 44.f});
+		if (true == IsCategoryOn_1)
+		{
+			IsCategoryOn_2 = false;
+			IsCategoryOn_3 = false;
+			IsCategoryOn_4 = false;
+			IsCategoryOn_5 = false;
+		}
+		else if (true == IsCategoryOn_2)
+		{
+			IsCategoryOn_1 = false;
+			IsCategoryOn_3 = false;
+			IsCategoryOn_4 = false;
+			IsCategoryOn_5 = false;
+		}
+		else if (true == IsCategoryOn_3)
+		{
+			IsCategoryOn_1 = false;
+			IsCategoryOn_2 = false;
+			IsCategoryOn_4 = false;
+			IsCategoryOn_5 = false;
+		}
+		else if (true == IsCategoryOn_4)
+		{
+			IsCategoryOn_1 = false;
+			IsCategoryOn_2 = false;
+			IsCategoryOn_3 = false;
+			IsCategoryOn_5 = false;
+		}
+		else if (true == IsCategoryOn_5)
+		{
+			IsCategoryOn_1 = false;
+			IsCategoryOn_2 = false;
+			IsCategoryOn_3 = false;
+			IsCategoryOn_4 = false;
+		}
 	}
 
 
@@ -172,14 +202,142 @@ void Inventory::Update(float _DeltaTime)
 
 void Inventory::CollisionCheck()
 { 
-	if (true == CategoryCollision_1->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 	{
-		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
+		if (true == CategoryCollision_1->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
 			Category_1->SetTexture("Bt_Inven0-1.png");
+			IsCategoryOn_1 = true;
+
+			if (true == IsCategoryOn_2)
+			{
+				Category_2->SetTexture("Bt_Inven1-0.png");
+				IsCategoryOn_2 = false;
+			}
+			else if (true == IsCategoryOn_3)
+			{
+				Category_3->SetTexture("Bt_Inven2-0.png");
+				IsCategoryOn_3 = false;
+			}
+			else if (true == IsCategoryOn_4)
+			{
+				Category_4->SetTexture("Bt_Inven3-0.png");
+				IsCategoryOn_4 = false;
+			}
+			else if (true == IsCategoryOn_5)
+			{
+				Category_5->SetTexture("Bt_Inven4-0.png");
+				IsCategoryOn_5 = false;
+			}
+
+		}
+		else if (true == CategoryCollision_2->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+		{
+			Category_2->SetTexture("Bt_Inven1-1.png");
+			IsCategoryOn_2 = true;
+
+			if (true == IsCategoryOn_1)
+			{
+				Category_1->SetTexture("Bt_Inven0-0.png");
+				IsCategoryOn_1 = false;
+			}
+			else if (true == IsCategoryOn_3)
+			{
+				Category_3->SetTexture("Bt_Inven2-0.png");
+				IsCategoryOn_3 = false;
+			}
+			else if (true == IsCategoryOn_4)
+			{
+				Category_4->SetTexture("Bt_Inven3-0.png");
+				IsCategoryOn_4 = false;
+			}
+			else if (true == IsCategoryOn_5)
+			{
+				Category_5->SetTexture("Bt_Inven4-0.png");
+				IsCategoryOn_5 = false;
+			}
+		}
+		else if (true == CategoryCollision_3->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+		{
+			Category_3->SetTexture("Bt_Inven2-1.png");
+			IsCategoryOn_3 = true;
+
+			if (true == IsCategoryOn_1)
+			{
+				Category_1->SetTexture("Bt_Inven0-0.png");
+				IsCategoryOn_1 = false;
+			}
+			else if (true == IsCategoryOn_2)
+			{
+				Category_2->SetTexture("Bt_Inven1-0.png");
+				IsCategoryOn_2 = false;
+			}
+			else if (true == IsCategoryOn_4)
+			{
+				Category_4->SetTexture("Bt_Inven3-0.png");
+				IsCategoryOn_4 = false;
+			}
+			else if (true == IsCategoryOn_5)
+			{
+				Category_5->SetTexture("Bt_Inven4-0.png");
+				IsCategoryOn_5 = false;
+			}
+		}
+		else if (true == CategoryCollision_4->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+		{
+			Category_4->SetTexture("Bt_Inven3-1.png");
+			IsCategoryOn_4 = true;
+
+			if (true == IsCategoryOn_1)
+			{
+				Category_1->SetTexture("Bt_Inven0-0.png");
+				IsCategoryOn_1 = false;
+			}
+			else if (true == IsCategoryOn_2)
+			{
+				Category_2->SetTexture("Bt_Inven1-0.png");
+				IsCategoryOn_2 = false;
+			}
+			else if (true == IsCategoryOn_3)
+			{
+				Category_3->SetTexture("Bt_Inven2-0.png");
+				IsCategoryOn_3 = false;
+			}
+			else if (true == IsCategoryOn_5)
+			{
+				Category_5->SetTexture("Bt_Inven4-0.png");
+				IsCategoryOn_5 = false;
+			}
+		}
+		else if (true == CategoryCollision_5->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+		{
+			Category_5->SetTexture("Bt_Inven4-1.png");
+			IsCategoryOn_5 = true;
+
+			if (true == IsCategoryOn_1)
+			{
+				Category_1->SetTexture("Bt_Inven0-0.png");
+				IsCategoryOn_1 = false;
+			}
+			else if (true == IsCategoryOn_2)
+			{
+				Category_2->SetTexture("Bt_Inven1-0.png");
+				IsCategoryOn_2 = false;
+			}
+			else if (true == IsCategoryOn_3)
+			{
+				Category_3->SetTexture("Bt_Inven2-0.png");
+				IsCategoryOn_3 = false;
+			}
+			else if (true == IsCategoryOn_4)
+			{
+				Category_4->SetTexture("Bt_Inven3-0.png");
+				IsCategoryOn_4 = false;
+			}
 		}
 
 	}
+	
 }
 
 void Inventory::InventoryOnOffCheck()
@@ -198,21 +356,23 @@ void Inventory::InventoryOnOffCheck()
 			Category_4->On();
 			Category_5->On();
 
-			//CategoryCollision_1->On();
-			//CategoryCollision_2->On();
-			//CategoryCollision_3->On();
-			//CategoryCollision_4->On();
-			//CategoryCollision_5->On();
+			CategoryCollision_1->On();
+			CategoryCollision_2->On();
+			CategoryCollision_3->On();
+			CategoryCollision_4->On();
+			CategoryCollision_5->On();
+			HeaderCollision_->On();
 
-			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+			for (size_t i = 0; i < MainInventory_->InventoryItemsList_.size(); i++)
 			{
 				// ºó Ä­Àº °Ç³Ê¶Ú´Ù
-				if (ItemType::MAX == InventoryItemsList_[i]->GetItemType())
+				if (ItemType::MAX == MainInventory_->InventoryItemsList_[i]->GetItemType())
 				{
 					continue;
 				}
 
-				InventoryItemsList_[i]->GetRenderer()->On();
+				MainInventory_->InventoryItemsList_[i]->GetRenderer()->On();
+
 			}
 	
 		}
@@ -228,20 +388,21 @@ void Inventory::InventoryOnOffCheck()
 			Category_4->Off();
 			Category_5->Off();
 
-			//CategoryCollision_1->Off();
-			//CategoryCollision_2->Off();
-			//CategoryCollision_3->Off();
-			//CategoryCollision_4->Off();
-			//CategoryCollision_5->Off();
+			CategoryCollision_1->Off();
+			CategoryCollision_2->Off();
+			CategoryCollision_3->Off();
+			CategoryCollision_4->Off();
+			CategoryCollision_5->Off();
+			HeaderCollision_->Off();
 
-			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+			for (size_t i = 0; i < MainInventory_->InventoryItemsList_.size(); i++)
 			{
-				if (ItemType::MAX == InventoryItemsList_[i]->GetItemType())
+				if (ItemType::MAX == MainInventory_->InventoryItemsList_[i]->GetItemType())
 				{
 					continue;
 				}
 
-				InventoryItemsList_[i]->GetRenderer()->Off();
+				MainInventory_->InventoryItemsList_[i]->GetRenderer()->Off();
 			}
 		}
 	}

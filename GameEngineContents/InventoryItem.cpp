@@ -25,12 +25,15 @@ void InventoryItem::Start()
 	Renderer_->Off();
 
 	Collision_ = CreateComponent<GameEngineCollision>();
+	Collision_->SetUIDebugCamera();
 	Collision_->GetTransform().SetLocalScale({28.f, 28.f});
-	Collision_->ChangeOrder(GAMEOBJGROUP::UI);
+	Collision_->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
 	Collision_->GetTransform().SetLocalPosition(
 		{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
 		, Renderer_->GetTransform().GetLocalPosition().y - 73.f });
+
+	SetLevelOverOn();
 }
 
 void InventoryItem::Update(float _DeltaTime)
