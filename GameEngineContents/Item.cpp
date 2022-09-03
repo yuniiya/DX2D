@@ -132,11 +132,9 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	if (PickTime_ > 0.5f)
 	{
 		// ========== 습득 아이템 Inventory쪽 벡터에 넣어두기 ========== //
-		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->ItemsList_.push_back(this);
-		ItemState_.Count_ += 1;
-
 		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->PushItem(this);
 		Inventory::MainInventory_->PushItem(this);
+		ItemState_.Count_ += 1;
 
 		Death();	// 저장
 		_Renderer->GetPixelData().MulColor.a = 0;

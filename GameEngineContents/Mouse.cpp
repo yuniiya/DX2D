@@ -21,8 +21,9 @@ Mouse::~Mouse()
 
 void Mouse::GetCurPos()
 {
-	CurPos_.x = GetLevel()->GetMainCamera()->GetMouseWorldPosition().x;
-	CurPos_.y = GetLevel()->GetMainCamera()->GetMouseWorldPosition().y;
+	CurPos_.x = GetLevel()->GetUICamera()->GetMouseWorldPosition().x;
+	CurPos_.y = GetLevel()->GetUICamera()->GetMouseWorldPosition().y;
+
 	std::string CurLevel = GetLevel()->GetNameCopy();
 }
 
@@ -37,11 +38,11 @@ void Mouse::Start()
 	MouseCol_->GetTransform().SetLocalScale({ 24.f, 28.f });
 	MouseCol_->ChangeOrder(GAMEOBJGROUP::MOUSE);
 
-	MouseRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+	MouseRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
 	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 
-	MouseAnimationRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+	MouseAnimationRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_MouseOver", FrameAnimation_DESC("Cursor_MouseOver", 0.55f));
 	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f });
 	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");

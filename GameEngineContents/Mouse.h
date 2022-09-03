@@ -39,8 +39,11 @@ private:
 	bool ClickSoundOn_;
 	bool MouseOverSoundOn_;
 	GameEngineCollision* MouseCol_;
-	GameEngineTextureRenderer* MouseRenderer_;
-	GameEngineTextureRenderer* MouseAnimationRenderer_;
+	//GameEngineTextureRenderer* MouseRenderer_;
+	//GameEngineTextureRenderer* MouseAnimationRenderer_;
+
+	GameEngineUIRenderer* MouseRenderer_;
+	GameEngineUIRenderer* MouseAnimationRenderer_;
 
 
 	float4 CurPos_;
