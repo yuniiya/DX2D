@@ -203,6 +203,17 @@ void Inventory::InventoryOnOffCheck()
 			//CategoryCollision_3->On();
 			//CategoryCollision_4->On();
 			//CategoryCollision_5->On();
+
+			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+			{
+				// ºó Ä­Àº °Ç³Ê¶Ú´Ù
+				if (ItemType::MAX == InventoryItemsList_[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_[i]->GetRenderer()->On();
+			}
 	
 		}
 		else
@@ -222,6 +233,16 @@ void Inventory::InventoryOnOffCheck()
 			//CategoryCollision_3->Off();
 			//CategoryCollision_4->Off();
 			//CategoryCollision_5->Off();
+
+			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+			{
+				if (ItemType::MAX == InventoryItemsList_[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_[i]->GetRenderer()->Off();
+			}
 		}
 	}
 }
@@ -237,6 +258,10 @@ void Inventory::PushItem(Item* _Item)
 		}
 
 		InventoryItemsList_[i]->SetItemType(_Item->GetItemType());	// Ä­¿¡ ¾ÆÀÌÅÛÀ» Ã¤¿ö³Ö°í -> for¹® ¸ØÃá´Ù
+		if (false == IsInvenOn)
+		{
+			InventoryItemsList_[i]->GetRenderer()->Off();
+		}
 		break;
 	}
 }
