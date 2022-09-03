@@ -256,6 +256,15 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (0.3f < _Info.StateTime)
 	{
 		JumpPower_ -= float4{0.f, 3.f, 0.f} * GameEngineTime::GetDeltaTime() * 630.f;
+
+		float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 34);	// 34
+		if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+			|| true == Color.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
+			|| true == Color.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+		{
+			StateManager.ChangeState("Idle");
+			return;
+		}
 	}
 
 	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * _DeltaTime);
@@ -289,14 +298,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 34);	// 34
-	if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
-		|| true == Color.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
-		|| true == Color.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
-	{
-		StateManager.ChangeState("Idle");
-		return;
-	}
+	
 
 	if (true == IsSkillKey())
 	{

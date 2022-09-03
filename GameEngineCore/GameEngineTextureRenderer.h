@@ -21,14 +21,16 @@ enum class SCALEMODE
 	CUSTOM,
 };
 
-struct ColorData
+struct PixelData
 {
 	float4 MulColor;
 	float4 PlusColor;
+	float4 Slice;
 
-	ColorData()
+	PixelData()
 		: MulColor(float4::WHITE)
 		, PlusColor(float4::ZERO)
+		, Slice(float4::ZERO)
 	{
 
 	}
@@ -175,6 +177,15 @@ public:
 		return ScaleRatio;
 	}
 
+	bool IsCurAnimation()
+	{
+		if (nullptr == CurAni)
+		{
+			return false;
+		}
+		return true;
+	}
+
 	void SetTexture(GameEngineTexture* _Texture);
 
 	void SetTexture(const std::string& _Name);
@@ -216,9 +227,9 @@ public:
 
 	void CurAnimationSetStartPivotFrame(int SetFrame);
 
-	ColorData& GetColorData() 
+	PixelData& GetPixelData()
 	{
-		return ColorData;
+		return PixelDataInst;
 	}
 
 
@@ -290,7 +301,7 @@ private:
 
 	GameEngineTexture* CurTex;
 
-	ColorData ColorData;
+	PixelData PixelDataInst;
 	AtlasData AtlasDataInst;
 
 	std::map<std::string, FrameAnimation> FrameAni;

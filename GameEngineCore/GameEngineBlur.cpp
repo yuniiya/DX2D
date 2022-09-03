@@ -21,7 +21,7 @@ void GameEngineBlur::EffectInit()
 	CopyTarget = new GameEngineRenderTarget();
 	CopyTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
 
-	EffectSet.SetPipeLine("TargetMerge");
+	EffectSet.SetPipeLine("Blur");
 
 	// EffetSet
 }

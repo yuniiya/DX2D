@@ -15,14 +15,14 @@ Fade::~Fade()
 
 void Fade::SetFadeOut()
 {
-	Renderer_->GetColorData().MulColor.a = 0;	// 어두워진다
+	Renderer_->GetPixelData().MulColor.a = 0;	// 어두워진다
 
 	FadeOut_ = true;
 }
 
 void Fade::SetFadeIn()
 {
-	Renderer_->GetColorData().MulColor.a = 1;	// 밝아진다
+	Renderer_->GetPixelData().MulColor.a = 1;	// 밝아진다
 
 	FadeIn_ = true;
 }
@@ -41,7 +41,7 @@ void Fade::Start()
 	Renderer_->GetTransform().SetLocalScale({5000.f, 5000.f});
 	Renderer_->GetTransform().SetLocalPosition(CampPos);
 
-	Renderer_->GetColorData().MulColor.a = 1.f;
+	Renderer_->GetPixelData().MulColor.a = 1.f;
 
 	FadeEnd_ = false;
 }
@@ -67,11 +67,11 @@ void Fade::Update(float _DeltaTime)
 
 	if (false == FadeEnd_)
 	{
-		Renderer_->GetColorData().MulColor.a -= _DeltaTime * 1.8f;	// 어두워진다
+		Renderer_->GetPixelData().MulColor.a -= _DeltaTime * 1.8f;	// 어두워진다
 
-		if (0 >= Renderer_->GetColorData().MulColor.a)
+		if (0 >= Renderer_->GetPixelData().MulColor.a)
 		{
-			Renderer_->GetColorData().MulColor.a = 0;
+			Renderer_->GetPixelData().MulColor.a = 0;
 			FadeEnd_ = true;
 		}
 	}

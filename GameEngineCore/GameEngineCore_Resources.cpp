@@ -71,7 +71,6 @@ void EngineSubSetting()
 		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
-
 		GameEngineBlend::Create("AlphaBlend", Desc);
 	}
 
@@ -89,16 +88,8 @@ void EngineSubSetting()
 		Desc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_ONE;
 		// Desc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_DEST_COLOR;
 		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
-		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
-		//blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-		//blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-		//blendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-		//blendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-		//blendStateDescription.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-		//blendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-		//blendStateDescription.RenderTarget[0].RenderTargetWriteMask = 0x0f;
-
 
 		GameEngineBlend::Create("TransparentBlend", Desc);
 	}
@@ -239,6 +230,15 @@ void EngineRenderingPipeLine()
 		GameEngineRenderingPipeLine* NewPipe = GameEngineRenderingPipeLine::Create("DebugTexture");
 		NewPipe->SetVertexShader("DebugTexture.hlsl");
 		NewPipe->SetPixelShader("DebugTexture.hlsl");
+	}
+
+	// PostEffect
+	{
+		GameEngineRenderingPipeLine* NewPipe = GameEngineRenderingPipeLine::Create("Blur");
+		NewPipe->SetInputAssembler1VertexBuffer("FullRect");
+		NewPipe->SetInputAssembler2IndexBuffer("FullRect");
+		NewPipe->SetVertexShader("Blur.hlsl");
+		NewPipe->SetPixelShader("Blur.hlsl");
 	}
 }
 

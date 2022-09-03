@@ -139,7 +139,7 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		Inventory::MainInventory_->PushItem(this);
 
 		Death();	// ÀúÀå
-		_Renderer->GetColorData().MulColor.a = 0;
+		_Renderer->GetPixelData().MulColor.a = 0;
 
 		PickTime_ = 0.f;
 		IsPick = false;
@@ -147,7 +147,7 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	if (true == IsPick)
 	{
 		PickTime_ += GameEngineTime::GetDeltaTime();
-		_Renderer->GetColorData().MulColor.a -= GameEngineTime::GetDeltaTime() * 3.f;
+		_Renderer->GetPixelData().MulColor.a -= GameEngineTime::GetDeltaTime() * 3.f;
 	}
 }
 

@@ -100,7 +100,7 @@ void GameEngineCamera::Start()
 
 void GameEngineCamera::PushRenderer(GameEngineRenderer* _Renderer)
 {
-	AllRenderer_[_Renderer->GetOrder()].push_back(_Renderer);
+	AllRenderer_[_Renderer->RenderingOrder].push_back(_Renderer);
 }
 
 void GameEngineCamera::Release(float _DelataTime)
@@ -173,6 +173,17 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 float4 GameEngineCamera::GetMouseWorldPositionToActor()
 {
 	return GetTransform().GetWorldPosition() + GetMouseWorldPosition();
+}
+
+void GameEngineCamera::ChangeRenderingOrder(GameEngineRenderer* _Renderer, int _ChangeOrder)
+{
+	// 0번째에서 삭제되고
+	AllRenderer_[_Renderer->GetRenderingOrder()].remove(_Renderer);
+
+	_Renderer->RenderingOrder = _ChangeOrder;
+
+	// 10000번째로 이동한다.
+	AllRenderer_[_Renderer->GetRenderingOrder()].push_back(_Renderer);
 }
 
 void GameEngineCamera::OverRenderer(GameEngineCamera* _NextCamera) 

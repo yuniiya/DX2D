@@ -4,7 +4,7 @@
 // 그래픽카드에게 이녀석은 이런 부류니까 니가 자동으로 처리하는 녀석이 있으면 하고.
 
 #include "TransformHeader.fx"
-//#include "RenderOption.fx"
+#include "RenderOption.fx"
 
 // 0                                                                                                1 
 // 0□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□1
@@ -45,7 +45,7 @@ Output TextureAtlas_VS(Input _Input)
     // -0.5, 0.5,     0.5 0.5
     // 0.5, 0.5,     0.5 0.5
     
-    Output NewOutPut = (Output) 0;
+    Output NewOutPut = (Output)0;
     _Input.Pos += PivotPos;
     NewOutPut.Pos = mul(_Input.Pos, WorldViewProjection);
     NewOutPut.PosLocal = _Input.Pos;
@@ -67,15 +67,21 @@ Output TextureAtlas_VS(Input _Input)
     return NewOutPut;
 }
 
-cbuffer ColorData : register(b0)
+cbuffer PixelData : register(b0)
 {
     float4 MulColor;
     float4 PlusColor;
+    float4 Slice;
 }
 
 Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
 float4 TextureAtlas_PS(Output _Input) : SV_Target0
 {
+    if (_Input.Tex.x < Slice.x)
+    {
+        clip(-1);
+    }
+    
     return (Tex.Sample(Smp, _Input.Tex.xy) * MulColor) + PlusColor;
 }

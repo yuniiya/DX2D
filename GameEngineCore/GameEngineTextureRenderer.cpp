@@ -39,10 +39,12 @@ void FrameAnimation::Update(float _Delta)
 		if (Info.Inter <= Info.FrameTime)
 		{
 			if (Info.CurFrame == (Info.Frames.size() - 1)
-				&& false == bOnceEnd
-				&& nullptr != End)
+				&& false == bOnceEnd)
 			{
-				End(Info);
+				if (nullptr != End)
+				{
+					End(Info);
+				}
 				bOnceEnd = true;
 				bOnceStart = false;
 			}
@@ -136,7 +138,7 @@ void GameEngineTextureRenderer::SetTextureRendererSetting()
 	AtlasDataInst.PivotPos = float4::ZERO;
 
 	ShaderResources.SetConstantBufferLink("AtlasData", AtlasDataInst);
-	ShaderResources.SetConstantBufferLink("ColorData", ColorData);
+	ShaderResources.SetConstantBufferLink("PixelData", PixelDataInst);
 	
 }
 

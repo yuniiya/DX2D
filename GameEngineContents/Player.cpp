@@ -738,51 +738,51 @@ void Player::CollisionCheck()
 		DamageTime_ += GameEngineTime::GetDeltaTime();	// ½Ã°£À» Àé´Ù
 
 		// ±ôºýÀÌ±â
-		PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+		PlayerRenderer_->GetPixelData().MulColor = { 0.6f, 0.6f, 0.6f };
 
 		if (0.08f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+			PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 		}
 		if (0.16f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+			PlayerRenderer_->GetPixelData().MulColor = { 0.6f, 0.6f, 0.6f };
 		}
 		if (0.24f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+			PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 		}
 		if (0.32f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+			PlayerRenderer_->GetPixelData().MulColor = { 0.6f, 0.6f, 0.6f };
 		}
 		if (0.40f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+			PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 		}
 		if (0.48f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+			PlayerRenderer_->GetPixelData().MulColor = { 0.6f, 0.6f, 0.6f };
 		}
 		if (0.56f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+			PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 		}
 		if (0.64f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+			PlayerRenderer_->GetPixelData().MulColor = { 0.6f, 0.6f, 0.6f };
 		}
 		if (0.72f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+			PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 		}
 		if (0.80f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 0.6f, 0.6f, 0.6f };
+			PlayerRenderer_->GetPixelData().MulColor = { 0.6f, 0.6f, 0.6f };
 		}
 		if (0.88f < DamageTime_)
 		{
-			PlayerRenderer_->GetColorData().MulColor = { 1.f, 1.f, 1.f };
+			PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 		}
 
 		if (1.5f < DamageTime_)							// 2ÃÊ°¡ Áö³µÀ¸¸é ´Ù½Ã IsHit -> Off

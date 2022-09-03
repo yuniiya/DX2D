@@ -18,7 +18,7 @@ void FadeIn::Start()
 	Renderer_->ScaleToTexture();
 	Renderer_->GetTransform().SetLocalPosition(CampPos);
 
-	Renderer_->GetColorData().MulColor.a = 1;
+	Renderer_->GetPixelData().MulColor.a = 1;
 }
 
 void FadeIn::Update(float _DeltaTime)
@@ -27,7 +27,7 @@ void FadeIn::Update(float _DeltaTime)
 
 	Renderer_->GetTransform().SetLocalPosition(float4{ CamPos.x, CamPos.y });
 
-	Renderer_->GetColorData().MulColor.a -= _DeltaTime;
+	Renderer_->GetPixelData().MulColor.a -= _DeltaTime;
 
 	//if (0 >= Renderer_->GetColorData().MulColor.a)
 	//{

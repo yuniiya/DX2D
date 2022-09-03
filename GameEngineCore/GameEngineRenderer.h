@@ -66,6 +66,13 @@ public:
 
     GameEngineRenderingPipeLine* GetClonePipeLine(GameEngineRenderingPipeLine* _Rendering);
 
+    inline int GetRenderingOrder() 
+    {
+        return RenderingOrder;
+    }
+
+    void SetRenderingOrder(int _Order);
+
 protected:
 	virtual void Start();
 	virtual void Update(float _DeltaTime) {}
@@ -75,8 +82,9 @@ protected:
 	void PushRendererToUICamera();
 
 
+    class GameEngineCamera* Camera;
 	CAMERAORDER CameraOrder;
-
+    int RenderingOrder;
 
 private:
 	virtual void Render(float _DeltaTime) = 0;

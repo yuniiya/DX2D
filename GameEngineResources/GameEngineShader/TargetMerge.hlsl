@@ -47,5 +47,10 @@ float4 TargetMerge_PS(Output _Input) : SV_Target0
         clip(-1);
     }
     
+    if (Color.a >= 1.0f)
+    {
+        Color.a = 1.0f;
+    }
+    
     return Color;
 }
