@@ -56,7 +56,7 @@ public:
 		ScreenPostion = _ScreenPostion;
 	}
 
-	float4 SetScreenPostion()
+	float4 GetScreenPostion()
 	{
 		return ScreenPostion;
 	}

@@ -98,7 +98,7 @@ void AriantLevel::LevelStartEvent()
 
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
 		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3310.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
@@ -106,23 +106,51 @@ void AriantLevel::LevelStartEvent()
 
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
 		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3340.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
 		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3370.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+		ItemActor->MonsterName_ = MONSTERNAME::WhiteRabbit;
 		ItemActor->RendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3400.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::Freezer;
+		ItemActor->RendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3430.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::Sparker;
+		ItemActor->RendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3460.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::Scorpion;
+		ItemActor->RendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3490.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::Sand;
+		ItemActor->RendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3520.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
 

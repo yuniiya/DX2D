@@ -17,12 +17,12 @@ public:
 	Meso& operator=(Meso&& _Other) noexcept = delete;
 
 public:
-	inline float GetMesoAmount()
+	inline int GetMesoAmount()
 	{
 		return MesoAmount_;
 	}
 
-	inline void SetMesoAmount(float _MesoAmount)
+	inline void SetMesoAmount(int _MesoAmount)
 	{
 		MesoAmount_ = _MesoAmount;
 	}
@@ -39,7 +39,9 @@ private:
 	GameEngineCollision* Collision_;
 
 	int Random_;
-	float MesoAmount_;
+	int MesoAmount_;
+
+	int PlayerMeso_;
 
 };
 

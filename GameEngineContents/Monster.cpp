@@ -266,7 +266,7 @@ void Monster::MonsterStateUpdate()
 
 void Monster::Hit()
 {
-	TakeDamage(50);
+	TakeDamage(100);
 
 }
 

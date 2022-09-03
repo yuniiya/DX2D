@@ -10,6 +10,7 @@ enum class InventorySlotType
 };
 
 class GameEngineTextureRenderer;
+class GameEngineFontRenderer;
 class Item;
 class InventoryItem;
 class Inventory : public GameEngineActor
@@ -32,6 +33,11 @@ public:
 	{
 		Position_ = Inventory_->GetTransform().GetLocalPosition();
 		return Position_;
+	}
+
+	inline GameEngineFontRenderer* GetMesoFontRenderer()
+	{
+		return CurMesoFont_;
 	}
 
 	void PushItem(Item* _Item);
@@ -64,9 +70,10 @@ private:
 	GameEngineUIRenderer* Category_4;
 	GameEngineUIRenderer* Category_5;
 
+	GameEngineFontRenderer* CurMesoFont_;
+
 private:
 	GameEngineCollision* HeaderCollision_;
-
 	GameEngineCollision* CategoryCollision_1;
 	GameEngineCollision* CategoryCollision_2;
 	GameEngineCollision* CategoryCollision_3;
@@ -79,5 +86,7 @@ private:
 private:
 	int Capacity_;
 	int ItemSlotCount_;
+
+	int PlayerMeso_;
 };
 

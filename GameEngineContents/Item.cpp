@@ -55,7 +55,7 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 	/*if (Time_ > 10.f)
 	{
 		_Renderer->GetColorData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
-
+		i
 		if (_Renderer->GetColorData().MulColor.a < 0)
 		{
 			Death();
@@ -133,8 +133,9 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	{
 		// ========== 습득 아이템 Inventory쪽 벡터에 넣어두기 ========== //
 		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->PushItem(this);
+	//	ItemState_.Count_ += 1;
 		Inventory::MainInventory_->PushItem(this);
-		ItemState_.Count_ += 1;
+	
 
 		Death();	// 저장
 		_Renderer->GetPixelData().MulColor.a = 0;

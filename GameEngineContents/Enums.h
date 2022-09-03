@@ -13,6 +13,7 @@ enum class GAMEOBJGROUP
 	SKILL,
 	MONSTERSKILL,
 	UI,
+	FONT,
 	SLOTUI,
 	FADE,
 	MOUSE,
@@ -23,6 +24,7 @@ enum class GAMEOBJGROUP
 enum class ZOrder
 {
 	MOUSE = 1,
+	FONT = 5,
 	UI = 10,
 	SKILLFRONT = 20,
 	MONSTERSKILL = 30,

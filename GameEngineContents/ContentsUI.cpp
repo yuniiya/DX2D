@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsUI.h"
 #include "Player.h"
+#include "GameEngineBase/GameEngineTime.h"
 
 ContentsUI::ContentsUI() 
 	: MainBar_(nullptr)
@@ -44,7 +45,7 @@ void ContentsUI::HPBarUpdate(float _CurHP, float _MaxHP)
 
 	float HPratio = _CurHP / _MaxHP;
 
-	HpBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio, HPBarScale_.y });
+	HpBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio, HPBarScale_.y});
 }
 
 void ContentsUI::MPBarUpdate(float _CurMP, float _MaxMP)

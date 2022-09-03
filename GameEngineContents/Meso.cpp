@@ -1,12 +1,15 @@
 #include "PreCompile.h"
 #include "Meso.h"
 #include <GameEngineBase/GameEngineRandom.h>
+#include "GameEngineCore/GameEngineFontRenderer.h"
+#include "Inventory.h"
 
 Meso::Meso() 
 	: Random_(0)
-	, MesoAmount_(0.f)
+	, MesoAmount_(0)
 	, Renderer_(nullptr)
 	, Collision_(nullptr)
+	, PlayerMeso_(Player::MainPlayer_->GetPlayerMeso())
 {
 }
 
@@ -36,21 +39,21 @@ void Meso::Start()
 	{
 		Renderer_->ChangeFrameAnimation("MesoA");
 		Renderer_->GetTransform().SetLocalScale({ 25.f, 24.f });
-		SetMesoAmount(50.f);
+		SetMesoAmount(50);
 	}
 	break;
 	case 1:
 	{
 		Renderer_->ChangeFrameAnimation("MesoB");
 		Renderer_->GetTransform().SetLocalScale({ 33.f, 33.f });
-		SetMesoAmount(500.f);
+		SetMesoAmount(500);
 	}
 	break;
 	case 2:
 	{
 		Renderer_->ChangeFrameAnimation("MesoC");
 		Renderer_->GetTransform().SetLocalScale({ 32.f, 31.f });
-		SetMesoAmount(5000.f);
+		SetMesoAmount(5000);
 	}
 	break;
 	}
@@ -58,7 +61,6 @@ void Meso::Start()
 
 void Meso::Update(float _DeltaTime)
 {
-
 	TimeAttackUpdate(Renderer_);
 	PickUpItemCheck(Renderer_);
 }
@@ -68,6 +70,11 @@ void Meso::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	// 다 주워졌다
 	if (PickTime_ > 0.5f)
 	{
+		Player::MainPlayer_->AddPlayerMeso(GetMesoAmount());
+
+		PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+		Inventory::MainInventory_->GetMesoFontRenderer()->SetText(std::to_string(PlayerMeso_));
+
 		Death();	// 저장
 		_Renderer->GetPixelData().MulColor.a = 0;
 

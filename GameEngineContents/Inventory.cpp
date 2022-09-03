@@ -2,6 +2,7 @@
 #include "Inventory.h"
 #include "InventoryItem.h"
 #include "Item.h"
+#include "GameEngineCore/GameEngineFontRenderer.h"
 
 Inventory* Inventory::MainInventory_ = nullptr;
 
@@ -28,6 +29,8 @@ Inventory::Inventory()
 	, IsCategoryOn_3(false)
 	, IsCategoryOn_4(false)
 	, IsCategoryOn_5(false)
+	, CurMesoFont_(nullptr)
+	, PlayerMeso_(Player::MainPlayer_->GetPlayerMeso())
 {
 }
 
@@ -37,10 +40,9 @@ Inventory::~Inventory()
 
 void Inventory::Start()
 {
-	//MainInventory_ = this;
-
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
 
+	// Rednerer //
 	Inventory_ = CreateComponent<GameEngineUIRenderer>();
 	Inventory_->SetTexture("Inventory.png");
 	Inventory_->SetPivot(PIVOTMODE::LEFTTOP);
@@ -84,6 +86,19 @@ void Inventory::Start()
 	Category_5->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
 	Category_5->Off();
 
+	CurMesoFont_ = CreateComponent<GameEngineFontRenderer>();
+	CurMesoFont_->SetRenderingOrder((int)ZOrder::FONT);
+	PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+	CurMesoFont_->SetText(std::to_string(PlayerMeso_));
+	CurMesoFont_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
+	CurMesoFont_->SetSize(13.5f);
+	CurMesoFont_->SetScreenPostion({
+		  -(Inventory_->GetTransform().GetLocalPosition().x + 30.f)
+		, Inventory_->GetTransform().GetLocalPosition().y + 25.f});
+	CurMesoFont_->ChangeCamera(CAMERAORDER::UICAMERA);
+	CurMesoFont_->Off();
+
+	// Collision //
 	CategoryCollision_1 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_1->SetUIDebugCamera();
 	CategoryCollision_1->GetTransform().SetLocalScale({ 10.f, 15.f });
@@ -131,8 +146,6 @@ void Inventory::Start()
 	StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f, (int)ZOrder::UI };
 
 	float4 Pos = StartPosition_;
-
-
 	for (int i = 0; i < 24; ++i)
 	{
 		if (i != 0 && 0 == i % 4)
@@ -146,9 +159,7 @@ void Inventory::Start()
 
 		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
 		ItemActor->GetTransform().SetLocalPosition({ Pos });
-	//	ItemActor->SetItemType(ItemType::ITEM_WHITERABBIT);
 		InventoryItemsList_.push_back(ItemActor);
-		//ItemActor->Off();
 	}
 
 }
@@ -157,6 +168,10 @@ void Inventory::Update(float _DeltaTime)
 {
 	InventoryOnOffCheck();
 	CollisionCheck();
+
+	
+	//PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+	//CurMesoFont_->SetText(std::to_string(PlayerMeso_), "돋움");
 	
 	if (true == IsInvenOn)
 	{
@@ -363,15 +378,18 @@ void Inventory::InventoryOnOffCheck()
 			CategoryCollision_5->On();
 			HeaderCollision_->On();
 
-			for (size_t i = 0; i < MainInventory_->InventoryItemsList_.size(); i++)
+			CurMesoFont_->On();
+
+			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
 			{
 				// 빈 칸은 건너뛴다
-				if (ItemType::MAX == MainInventory_->InventoryItemsList_[i]->GetItemType())
+				if (ItemType::MAX == InventoryItemsList_[i]->GetItemType())
 				{
 					continue;
 				}
 
-				MainInventory_->InventoryItemsList_[i]->GetRenderer()->On();
+				InventoryItemsList_[i]->GetRenderer()->On();
+				InventoryItemsList_[i]->GetFontRenderer()->On();
 
 			}
 	
@@ -395,14 +413,17 @@ void Inventory::InventoryOnOffCheck()
 			CategoryCollision_5->Off();
 			HeaderCollision_->Off();
 
-			for (size_t i = 0; i < MainInventory_->InventoryItemsList_.size(); i++)
+			CurMesoFont_->Off();
+
+			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
 			{
-				if (ItemType::MAX == MainInventory_->InventoryItemsList_[i]->GetItemType())
+				if (ItemType::MAX ==InventoryItemsList_[i]->GetItemType())
 				{
 					continue;
 				}
 
-				MainInventory_->InventoryItemsList_[i]->GetRenderer()->Off();
+				InventoryItemsList_[i]->GetRenderer()->Off();
+				InventoryItemsList_[i]->GetFontRenderer()->Off();
 			}
 		}
 	}
@@ -412,6 +433,18 @@ void Inventory::PushItem(Item* _Item)
 {
 	for (size_t i = 0; i < InventoryItemsList_.size(); i++)
 	{
+		// 같은 아이템이 있다 -> 개수 증가
+		if (_Item->GetItemType() == InventoryItemsList_[i]->GetItemType())
+		{
+			InventoryItemsList_[i]->SetCount(InventoryItemsList_[i]->GetCount() + 1);
+			InventoryItemsList_[i]->GetFontRenderer()->SetScreenPostion({
+			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 727.f
+			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f});
+			float4 aa = InventoryItemsList_[i]->GetFontRenderer()->GetScreenPostion();
+			InventoryItemsList_[i]->ItemCountFontUpdate();
+
+			break;
+		}
 		// 아이템이 있는 칸이다 -> 다음 칸으로 넘어간다
 		if (ItemType::MAX != InventoryItemsList_[i]->GetItemType())
 		{
@@ -419,9 +452,16 @@ void Inventory::PushItem(Item* _Item)
 		}
 
 		InventoryItemsList_[i]->SetItemType(_Item->GetItemType());	// 칸에 아이템을 채워넣고 -> for문 멈춘다
+		InventoryItemsList_[i]->SetCount(InventoryItemsList_[i]->GetCount() + 1);	// 개수는 1개
+		InventoryItemsList_[i]->GetFontRenderer()->SetScreenPostion({
+			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 727.f
+			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
+		InventoryItemsList_[i]->ItemCountFontUpdate();
+
 		if (false == IsInvenOn)
 		{
 			InventoryItemsList_[i]->GetRenderer()->Off();
+			InventoryItemsList_[i]->GetFontRenderer()->Off();
 		}
 		break;
 	}

@@ -1,15 +1,17 @@
 #include "PreCompile.h"
 #include "InventoryItem.h"
 #include "Inventory.h"
+#include "GameEngineCore/GameEngineFontRenderer.h"
 
 InventoryItem::InventoryItem() 
 	: Renderer_(nullptr)
 	, Collision_(nullptr)
-	//, MonsterName_(MONSTERNAME::MAX)
-	//, PortionItemType_(PortionItemType::MAX)
 	, IsInvenOn(false)
 	, ItemType_(ItemType::MAX)
+	, ItemCountFont_(nullptr)
 {
+	ItemState_.Count_ = 0;
+	ItemState_.Price_ = 500;
 }
 
 InventoryItem::~InventoryItem() 
@@ -23,6 +25,14 @@ void InventoryItem::Start()
 	Renderer_->SetPivot(PIVOTMODE::LEFTTOP);
 	Renderer_->GetTransform().SetLocalScale({ 128.f, 128.f });
 	Renderer_->Off();
+
+	ItemCountFont_ = CreateComponent<GameEngineFontRenderer>();
+	ItemCountFont_->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
+	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
+	ItemCountFont_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
+	ItemCountFont_->SetSize(17);
+	ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
+	ItemCountFont_->Off();
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->SetUIDebugCamera();
@@ -40,17 +50,18 @@ void InventoryItem::Update(float _DeltaTime)
 {
 	//IsInvenOn = true;	// 인벤토리 켜졌다
 
-	OnOffCheck();
 }
 
-void InventoryItem::OnOffCheck()
+void InventoryItem::ItemCountFontUpdate()
 {
-
+	ItemCountFont_->On();
+	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
 }
 
 void InventoryItem::SetItemType(ItemType _ItemType)
 {
 	Renderer_->On();
+	ItemCountFont_->On();
 
 	ItemType_ = _ItemType;
 

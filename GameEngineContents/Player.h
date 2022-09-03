@@ -70,6 +70,16 @@ public:
 		return Atk_;
 	}
 
+	inline int GetPlayerMeso()
+	{
+		return CurMeso_;
+	}
+
+	inline void AddPlayerMeso(int _Meso)
+	{
+		CurMeso_ = CurMeso_+ _Meso;
+	}
+
 private:
 	float CurLevel_;
 	float CurHP_;
@@ -81,6 +91,7 @@ private:
 
 	float Atk_;
 	float Speed_;
+	int CurMeso_;
 
 	float4 JumpPower_;
 	float4 DownPower_;

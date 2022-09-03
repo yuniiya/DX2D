@@ -91,6 +91,7 @@ Player::Player()
 	, IsLevelUp(false)
 	, LevelUpEffRenderer_(nullptr)
 	, PlayerCenterCollision_(nullptr)
+	, CurMeso_(1000)
 {
 }
 
