@@ -181,6 +181,9 @@
     <ClInclude Include="MapBackGround.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
+    <ClInclude Include="QuestUI.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -315,6 +318,9 @@
     </ClCompile>
     <ClCompile Include="NPC.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestUI.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

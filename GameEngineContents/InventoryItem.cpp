@@ -59,8 +59,14 @@ void InventoryItem::Start()
 
 void InventoryItem::Update(float _DeltaTime)
 {
-	//IsInvenOn = true;	// 인벤토리 켜졌다
-	CollisionCheck();
+	// 인벤토리가 켜져있을 때만 충돌체크
+	if (true == Inventory::MainInventory_->IsInvenOn)
+	{
+		if (ItemType_ != ItemType::MAX)
+		{
+			CollisionCheck();
+		}
+	}
 
 	if (true == DragStartSound_)
 	{
@@ -77,10 +83,7 @@ void InventoryItem::Update(float _DeltaTime)
 
 void InventoryItem::CollisionCheck()
 {
-	if (ItemType_ == ItemType::MAX)
-	{
-		return;
-	}
+
 
 	if (true == MouseCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
 	{

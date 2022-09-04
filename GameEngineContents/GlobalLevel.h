@@ -10,6 +10,7 @@ class Player;
 class ContentsUI;
 class Inventory;
 class Mouse;
+class NPC;
 class GlobalLevel : public GameEngineLevel
 {
 public:

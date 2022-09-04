@@ -126,6 +126,18 @@ void Mouse::CollisionCheck()
 		MouseRenderer_->On();
 	}
 
+	if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::NPC, CollisionType::CT_OBB2D,
+		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2))
+		&& true == MouseOverSoundOn_)
+	{
+		MouseOverSoundOn_ = false;
+	}
+	else
+	{
+		MouseAnimationRenderer_->Off();
+		MouseRenderer_->On();
+	}
+
 	if (false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::UI, CollisionType::CT_OBB2D,
 		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)))
 	{

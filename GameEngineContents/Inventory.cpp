@@ -390,7 +390,6 @@ void Inventory::InventoryOnOffCheck()
 
 				InventoryItemsList_[i]->GetRenderer()->On();
 				InventoryItemsList_[i]->GetFontRenderer()->On();
-
 			}
 	
 		}

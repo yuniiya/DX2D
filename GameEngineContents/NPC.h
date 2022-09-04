@@ -1,8 +1,7 @@
 #pragma once
 #include "GameEngineCore/GameEngineActor.h"
 
-
-// Ό³Έν :
+class GameEngineCollision;
 class NPC : public GameEngineActor
 {
 public:
@@ -17,9 +16,13 @@ public:
 	NPC& operator=(NPC&& _Other) noexcept = delete;
 
 public:
-	void SetNPCType(NPCType _NPCType)
+	void SetNPCType(NPCType _NPCType);
+
+	void SetQuestRendererPosition()
 	{
-		NPCType_ = _NPCType;
+		QuestRenderer_->GetTransform().SetLocalPosition({
+			Renderer_->GetTransform().GetLocalPosition().x + 22.f
+			, Renderer_->GetTransform().GetLocalPosition().y + 67.f});
 	}
 
 protected:
@@ -27,11 +30,21 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void CollisonCheck();
+
 private:
 	GameEngineTextureRenderer* Renderer_;
+	GameEngineTextureRenderer* QuestRenderer_;
+	GameEngineUIRenderer* MouseRenderer_;
+	GameEngineUIRenderer* MouseAnimationRenderer_;
+
 	GameEngineCollision* Collision_;
+	GameEngineCollision* MouseCollision_;
 
 	NPCType NPCType_;
+
+private:
+	bool IsClick_;
 
 };
 

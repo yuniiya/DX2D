@@ -5,6 +5,7 @@
 #include "Mouse.h"
 #include "Fade.h"
 #include "Inventory.h"
+#include "NPC.h"
 
 EntranceLevel::EntranceLevel() 
 {
@@ -28,6 +29,10 @@ void EntranceLevel::Start()
 	SetPortal({ 2123.f, -1109.f, (int)ZOrder::PORTAL });
 	SetPortal({ 976.f, -643.f, (int)ZOrder::PORTAL });
 
+	NPC* NPC_ = CreateActor<NPC>((int)GAMEOBJGROUP::OBJ);
+	NPC_->SetNPCType(NPCType::NPC_Entrance);
+	NPC_->GetTransform().SetLocalPosition({ 1070.f, -715.f });
+	NPC_->SetQuestRendererPosition();
 	// UI
 	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);

@@ -9,6 +9,7 @@
 #include "BrownRabbit.h"
 #include "BabyCactus.h"
 #include "Inventory.h"
+#include "NPC.h"
 
 CactusLevel::CactusLevel() 
 	: Player_(nullptr)
@@ -30,6 +31,10 @@ void CactusLevel::Start()
 	SetPortal({ 111.f, -776.f, (int)ZOrder::PORTAL });
 	SetPortal({ 1864.f, -776.f, (int)ZOrder::PORTAL });
 
+	NPC* NPC_ = CreateActor<NPC>((int)GAMEOBJGROUP::OBJ); 
+	NPC_->SetNPCType(NPCType::NPC_Ariant);
+	NPC_->GetTransform().SetLocalPosition({ 170.f, -327.f });
+	NPC_->SetQuestRendererPosition();
 	// UI
 	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);

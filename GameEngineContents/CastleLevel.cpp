@@ -7,6 +7,7 @@
 #include "Mouse.h"
 #include "Fade.h"
 #include "Inventory.h"
+#include "NPC.h"
 
 CastleLevel::CastleLevel() 
 	: Player_(nullptr)
@@ -29,6 +30,11 @@ void CastleLevel::Start()
 	//Player_->GetTransform().SetLocalPosition({ 300.0f, -400.0f});
 
 	SetPortal({ 273.f, -495.f, (int)ZOrder::PORTAL });
+
+	NPC* NPC_ = CreateActor<NPC>((int)GAMEOBJGROUP::OBJ);
+	NPC_->SetNPCType(NPCType::NPC_Castle);
+	NPC_->GetTransform().SetLocalPosition({ 1550.f, -520.f });
+	NPC_->SetQuestRendererPosition();
 
 	// UI
 	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
