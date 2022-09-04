@@ -32,11 +32,13 @@ public:
 
 public:
 	void ItemCountFontUpdate();
+	void CollisionCheck();
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
+
 
 
 public:
@@ -89,11 +91,18 @@ protected:
 	ItemType ItemType_;
 	InventoryItemState ItemState_;
 
-	bool IsInvenOn;
+	bool IsInvenOn_;
+	bool IsHold_;
+	bool DragStartSound_;
+	bool DragEndSound_;
 private:
 	GameEngineUIRenderer* Renderer_;
+	GameEngineUIRenderer* MouseRenderer_;
+	GameEngineUIRenderer* MouseAnimationRenderer_;
 	GameEngineFontRenderer* ItemCountFont_;
+
 	GameEngineCollision* Collision_;
+	GameEngineCollision* MouseCollision_;
 
 };
 

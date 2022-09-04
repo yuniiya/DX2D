@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
+#include "Inventory.h"
 
 Mouse::Mouse() 
 	: MouseCol_(nullptr)
@@ -45,6 +46,7 @@ void Mouse::Start()
 
 	MouseAnimationRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_MouseOver", FrameAnimation_DESC("Cursor_MouseOver", 0.55f));
+	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_Hold", FrameAnimation_DESC("Cursor_Hold", 0.3f));
 	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f });
 	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
 	MouseAnimationRenderer_->Off();
@@ -63,6 +65,13 @@ void Mouse::Update(float _DeltaTime)
 	GetCurPos();
 	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 
+
+	// 인벤토리 아이템과 충돌 시
+	if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
+	{
+		return;
+	}
+
  	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 	{
 		ClickSoundOn_ = true;
@@ -75,6 +84,7 @@ void Mouse::Update(float _DeltaTime)
 	}
 	else
 	{
+	
 		MouseRenderer_->SetTexture("Cursor_Idle.png");
 		MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 	}
@@ -90,6 +100,7 @@ void Mouse::Update(float _DeltaTime)
 bool Mouse::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	MouseAnimationRenderer_->On();
+	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
 	MouseRenderer_->Off();
 
 	if (true == MouseOverSoundOn_)
@@ -107,10 +118,6 @@ void Mouse::CollisionCheck()
 		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2))
 		&& true == MouseOverSoundOn_)
 	{
-		//MouseAnimationRenderer_->On();
-		//MouseRenderer_->Off();
-
-		
 		MouseOverSoundOn_ = false;
 	}
 	else
@@ -124,5 +131,6 @@ void Mouse::CollisionCheck()
 	{
 		MouseOverSoundOn_ = true;
 	}
+
 
 }

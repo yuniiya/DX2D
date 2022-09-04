@@ -1,14 +1,21 @@
 #include "PreCompile.h"
 #include "InventoryItem.h"
 #include "Inventory.h"
-#include "GameEngineCore/GameEngineFontRenderer.h"
+#include <GameEngineCore/GameEngineFontRenderer.h>
+#include "Mouse.h"
 
 InventoryItem::InventoryItem() 
 	: Renderer_(nullptr)
 	, Collision_(nullptr)
-	, IsInvenOn(false)
+	, IsInvenOn_(false)
 	, ItemType_(ItemType::MAX)
 	, ItemCountFont_(nullptr)
+	, MouseCollision_(nullptr)
+	, MouseRenderer_(nullptr)
+	, MouseAnimationRenderer_(nullptr)
+	, DragStartSound_(false)
+	, DragEndSound_(false)
+	, IsHold_(false)
 {
 	ItemState_.Count_ = 0;
 	ItemState_.Price_ = 500;
@@ -31,17 +38,21 @@ void InventoryItem::Start()
 	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
 	ItemCountFont_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
 	ItemCountFont_->SetSize(17);
-	ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
+	ItemCountFont_->ChangeCamera(CAMERAORDER::MAINCAMERA);
 	ItemCountFont_->Off();
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->SetUIDebugCamera();
-	Collision_->GetTransform().SetLocalScale({28.f, 28.f});
+	Collision_->GetTransform().SetLocalScale({24.f, 26.f});
 	Collision_->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
 	Collision_->GetTransform().SetLocalPosition(
 		{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
-		, Renderer_->GetTransform().GetLocalPosition().y - 73.f });
+		, Renderer_->GetTransform().GetLocalPosition().y - 76.f });
+
+	MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
+	MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
+	MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
 
 	SetLevelOverOn();
 }
@@ -49,7 +60,56 @@ void InventoryItem::Start()
 void InventoryItem::Update(float _DeltaTime)
 {
 	//IsInvenOn = true;	// 인벤토리 켜졌다
+	CollisionCheck();
 
+	if (true == DragStartSound_)
+	{
+		GameEngineSound::SoundPlayOneShot("DragStart.mp3");
+		DragStartSound_ = false;
+	}
+	if (true == IsHold_
+		&& true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
+	{
+		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
+		IsHold_ = false;
+	}
+}
+
+void InventoryItem::CollisionCheck()
+{
+	if (ItemType_ == ItemType::MAX)
+	{
+		return;
+	}
+
+	if (true == MouseCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
+	{
+		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		{
+			DragStartSound_ = true;
+		}
+	
+		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
+		{
+			IsHold_ = true;
+
+			MouseAnimationRenderer_->Off();
+			MouseRenderer_->On();
+			MouseRenderer_->SetTexture("Cursor_Hold.png");
+			MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
+		}
+		else
+		{
+			MouseAnimationRenderer_->On();
+			MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_Hold");
+			MouseRenderer_->Off();
+		}
+	}
+	else
+	{
+		MouseAnimationRenderer_->Off();
+		MouseRenderer_->On();
+	}
 }
 
 void InventoryItem::ItemCountFontUpdate()

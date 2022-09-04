@@ -9,6 +9,7 @@ class GameEngineTextureRenderer;
 class Player;
 class ContentsUI;
 class Inventory;
+class Mouse;
 class GlobalLevel : public GameEngineLevel
 {
 public:
@@ -42,6 +43,11 @@ private:
 	GameEngineTextureRenderer* BackRenderer_;
 
 public:
+	inline Mouse* GetMouse()
+	{
+		return Mouse_;
+	}
+
 	inline Player* GetPlayer()
 	{
 		return Player_;
@@ -80,6 +86,7 @@ protected:
 
 private:
 	Player* Player_;
+	Mouse* Mouse_;
 
 	Inventory* Inventory_;
 };

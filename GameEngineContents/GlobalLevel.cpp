@@ -19,6 +19,7 @@ GlobalLevel::GlobalLevel()
 	, ColMapRenderer_(nullptr)
 	, BackRenderer_(nullptr)
 	, Inventory_(nullptr)
+	, Mouse_(nullptr)
 {
 }
 
@@ -31,7 +32,7 @@ void GlobalLevel::Start()
 	// UI
 	//Inventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
 	CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
-	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	Mouse_ = CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }
 

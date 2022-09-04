@@ -31,6 +31,16 @@ public:
 		return MouseCol_;
 	}
 
+	inline GameEngineUIRenderer* GetMouseRenderer()
+	{
+		return MouseRenderer_;
+	}
+
+	inline GameEngineUIRenderer* GetMouseAnimationRenderer()
+	{
+		return MouseAnimationRenderer_;
+	}
+
 protected:
 	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	void CollisionCheck();

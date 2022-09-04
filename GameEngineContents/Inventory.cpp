@@ -31,6 +31,7 @@ Inventory::Inventory()
 	, IsCategoryOn_5(false)
 	, CurMesoFont_(nullptr)
 	, PlayerMeso_(Player::MainPlayer_->GetPlayerMeso())
+
 {
 }
 
@@ -140,6 +141,7 @@ void Inventory::Start()
 	HeaderCollision_->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 	HeaderCollision_->GetTransform().SetLocalPosition({ Inventory_->GetTransform().GetLocalPosition().x + 95.f, Inventory_->GetTransform().GetLocalPosition().y - 11.f});
 	HeaderCollision_->Off();
+
 
 //	IsInvenOn = true;
 	GetInventoryPosition();
@@ -350,9 +352,7 @@ void Inventory::CollisionCheck()
 				IsCategoryOn_4 = false;
 			}
 		}
-
 	}
-	
 }
 
 void Inventory::InventoryOnOffCheck()
