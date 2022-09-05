@@ -38,7 +38,7 @@ void InventoryItem::Start()
 	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
 	ItemCountFont_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
 	ItemCountFont_->SetSize(17);
-	ItemCountFont_->ChangeCamera(CAMERAORDER::MAINCAMERA);
+	ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 	ItemCountFont_->Off();
 
 	Collision_ = CreateComponent<GameEngineCollision>();
@@ -59,6 +59,8 @@ void InventoryItem::Start()
 
 void InventoryItem::Update(float _DeltaTime)
 {
+	ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
+
 	// 인벤토리가 켜져있을 때만 충돌체크
 	if (true == Inventory::MainInventory_->IsInvenOn)
 	{
@@ -83,8 +85,6 @@ void InventoryItem::Update(float _DeltaTime)
 
 void InventoryItem::CollisionCheck()
 {
-
-
 	if (true == MouseCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))

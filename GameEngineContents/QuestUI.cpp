@@ -16,9 +16,8 @@ void QuestUI::Start()
 
 	Renderer_ = CreateComponent<GameEngineUIRenderer>();
 	Renderer_->SetTexture("DialogUI.png");
-	Renderer_->ScaleToTexture();
-	Renderer_->GetTransform().SetLocalPosition({GameEngineWindow::GetScale().x / 2.f, GameEngineWindow::GetScale().y / 2.f });
-	Renderer_->Off();
+	Renderer_->GetTransform().SetLocalScale({751.f * 0.8f, 276.f * 0.8f});
+
 }
 
 void QuestUI::Update(float _DeltaTime)

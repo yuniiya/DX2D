@@ -171,9 +171,7 @@ void Inventory::Update(float _DeltaTime)
 	InventoryOnOffCheck();
 	CollisionCheck();
 
-	
-	//PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
-	//CurMesoFont_->SetText(std::to_string(PlayerMeso_), "µ¸¿ò");
+	CurMesoFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 	
 	if (true == IsInvenOn)
 	{
@@ -438,8 +436,7 @@ void Inventory::PushItem(Item* _Item)
 			InventoryItemsList_[i]->SetCount(InventoryItemsList_[i]->GetCount() + 1);
 			InventoryItemsList_[i]->GetFontRenderer()->SetScreenPostion({
 			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 727.f
-			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f});
-			float4 aa = InventoryItemsList_[i]->GetFontRenderer()->GetScreenPostion();
+			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
 			InventoryItemsList_[i]->ItemCountFontUpdate();
 
 			break;

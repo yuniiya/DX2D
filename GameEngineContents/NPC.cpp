@@ -10,6 +10,7 @@ NPC::NPC()
 	, Collision_(nullptr)
 	, NPCType_(NPCType::MAX)
 	, IsClick_(false)
+	, QuestUI_(nullptr)
 {
 }
 
@@ -74,11 +75,21 @@ void NPC::CollisonCheck()
 {
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 	{
-
+		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		{
+			//QuestUI_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
+		}
+	}
+	else
+	{
+		if (nullptr == QuestUI_)
+		{
+			return;
+		}
 
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{
-			//QuestUI* Quest_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
+			QuestUI_->Death();
 		}
 	}
 }

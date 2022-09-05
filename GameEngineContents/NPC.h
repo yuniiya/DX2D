@@ -2,6 +2,7 @@
 #include "GameEngineCore/GameEngineActor.h"
 
 class GameEngineCollision;
+class QuestUI;
 class NPC : public GameEngineActor
 {
 public:
@@ -46,5 +47,6 @@ private:
 private:
 	bool IsClick_;
 
+	QuestUI* QuestUI_;
 };
 
