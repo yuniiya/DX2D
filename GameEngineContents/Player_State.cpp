@@ -22,6 +22,12 @@ void Player::MoveStart(const StateInfo& _Info)
 
 void Player::JumpStart(const StateInfo& _Info)
 {
+	// 땅이 아니라면 점프할 수 없다
+	if (false == BottomDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	{
+		return;
+	}
+
 	if (false == IsUsePaSkill)
 	{
 		GameEngineSound::SoundPlayOneShot("Jump.mp3");
@@ -261,10 +267,10 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (0.7f < _Info.StateTime)
 	{
-		float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 34);	// 34
+		float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 32);	// 34
 		if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
-			|| true == Color.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
-			|| true == Color.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+/*			|| true == Color.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
+			|| true == Color.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })*/)
 		{
 			StateManager.ChangeState("Idle");
 			return;
@@ -430,7 +436,7 @@ void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 		&& true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
 		GameEngineSound::SoundPlayOneShot("Jump.mp3");
-		StateManager.ChangeState("Jump");
+		StateManager.ChangeState("Fall");
 		return;
 	}
 
@@ -438,7 +444,7 @@ void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 		&& true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 	{
 		GameEngineSound::SoundPlayOneShot("Jump.mp3");
-		StateManager.ChangeState("Jump");
+		StateManager.ChangeState("Fall");
 		return;
 	}
 

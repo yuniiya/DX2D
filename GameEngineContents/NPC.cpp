@@ -68,7 +68,7 @@ void NPC::Start()
 
 void NPC::Update(float _DeltaTime)
 {
-	CollisonCheck();
+	//CollisonCheck();
 }
 
 void NPC::CollisonCheck()

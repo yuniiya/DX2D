@@ -34,6 +34,7 @@ void CactusLevel::Start()
 	NPC* NPC_ = CreateActor<NPC>((int)GAMEOBJGROUP::OBJ); 
 	NPC_->SetNPCType(NPCType::NPC_Ariant);
 	NPC_->GetTransform().SetLocalPosition({ 170.f, -327.f });
+	//NPC_->GetCollision()->GetTransform().SetLocalPosition({ 170.f, -327.f });
 	NPC_->SetQuestRendererPosition();
 	// UI
 	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);

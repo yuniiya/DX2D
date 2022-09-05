@@ -17,6 +17,16 @@ public:
 	NPC& operator=(NPC&& _Other) noexcept = delete;
 
 public:
+	inline GameEngineTextureRenderer* GetRenderer()
+	{
+		return Renderer_;
+	}
+
+	inline GameEngineCollision* GetCollision()
+	{
+		return Collision_;
+	}
+
 	void SetNPCType(NPCType _NPCType);
 
 	void SetQuestRendererPosition()

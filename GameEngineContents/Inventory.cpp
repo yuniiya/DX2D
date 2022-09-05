@@ -435,7 +435,7 @@ void Inventory::PushItem(Item* _Item)
 		{
 			InventoryItemsList_[i]->SetCount(InventoryItemsList_[i]->GetCount() + 1);
 			InventoryItemsList_[i]->GetFontRenderer()->SetScreenPostion({
-			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 727.f
+			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 700.f
 			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
 			InventoryItemsList_[i]->ItemCountFontUpdate();
 
@@ -450,7 +450,7 @@ void Inventory::PushItem(Item* _Item)
 		InventoryItemsList_[i]->SetItemType(_Item->GetItemType());	// 칸에 아이템을 채워넣고 -> for문 멈춘다
 		InventoryItemsList_[i]->SetCount(InventoryItemsList_[i]->GetCount() + 1);	// 개수는 1개
 		InventoryItemsList_[i]->GetFontRenderer()->SetScreenPostion({
-			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 727.f
+			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 700.f
 			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
 		InventoryItemsList_[i]->ItemCountFontUpdate();
 

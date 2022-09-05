@@ -59,11 +59,12 @@ void InventoryItem::Start()
 
 void InventoryItem::Update(float _DeltaTime)
 {
-	ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
-
 	// 인벤토리가 켜져있을 때만 충돌체크
 	if (true == Inventory::MainInventory_->IsInvenOn)
 	{
+		ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
+
+		// 빈 칸이 아니다
 		if (ItemType_ != ItemType::MAX)
 		{
 			CollisionCheck();
@@ -75,8 +76,11 @@ void InventoryItem::Update(float _DeltaTime)
 		GameEngineSound::SoundPlayOneShot("DragStart.mp3");
 		DragStartSound_ = false;
 	}
-	if (true == IsHold_
-		&& true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
+	if (true == IsHold_)
+	{
+	
+	}
+	if(true == IsHold_ && true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
 	{
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
 		IsHold_ = false;
@@ -87,11 +91,13 @@ void InventoryItem::CollisionCheck()
 {
 	if (true == MouseCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
 	{
+		// 아이템 잡았을 때 소리재생
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{
 			DragStartSound_ = true;
 		}
 	
+		// 아이템 잡았다
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
 			IsHold_ = true;
@@ -100,6 +106,8 @@ void InventoryItem::CollisionCheck()
 			MouseRenderer_->On();
 			MouseRenderer_->SetTexture("Cursor_Hold.png");
 			MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
+
+			
 		}
 		else
 		{
