@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include "Inventory.h"
+#include "MouseSlot.h"
 
 Mouse::Mouse() 
 	: MouseCol_(nullptr)
@@ -37,7 +38,6 @@ void Mouse::Start()
 	GetCurPos();
 	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 
-
 	MouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
 	MouseCol_->SetUIDebugCamera();
 	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 2.f});
@@ -62,6 +62,7 @@ void Mouse::Start()
 	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
 	MouseAnimationRenderer_->Off();
 
+	MouseSlot_ = GetLevel()->CreateActor<MouseSlot>();
 
 	if (false == GameEngineInput::GetInst()->IsKey("LeftMouse"))
 	{
@@ -78,11 +79,15 @@ void Mouse::Update(float _DeltaTime)
 	MouseRenderer_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 	MouseAnimationRenderer_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 
-
 	MainCameraMouseCol_->GetTransform().SetLocalPosition({ MainCameraCurPos_.x, MainCameraCurPos_.y + 10.f });
 
 	// 인벤토리 아이템과 충돌 시
 	if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
+	{
+		return;
+	}
+
+	if (true == MouseSlot_->IsHold_)
 	{
 		return;
 	}

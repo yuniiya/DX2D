@@ -68,4 +68,9 @@ void LoginLevel::End()
 void LoginLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+
+	if (nullptr != Player::MainPlayer_)
+	{
+		Player::MainPlayer_->GetTransform().SetWorldMove({ 0.f, -500.f });
+	}
 }

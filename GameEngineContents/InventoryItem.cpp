@@ -3,6 +3,7 @@
 #include "Inventory.h"
 #include <GameEngineCore/GameEngineFontRenderer.h>
 #include "Mouse.h"
+#include "MouseSlot.h"
 
 InventoryItem::InventoryItem() 
 	: Renderer_(nullptr)
@@ -16,6 +17,8 @@ InventoryItem::InventoryItem()
 	, DragStartSound_(false)
 	, DragEndSound_(false)
 	, IsHold_(false)
+	, MouseSlotRenderer_(nullptr)
+	, Index_(0)
 {
 	ItemState_.Count_ = 0;
 	ItemState_.Price_ = 500;
@@ -53,11 +56,17 @@ void InventoryItem::Start()
 	MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
 	MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
 	MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
+	MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
 
 	SetLevelOverOn();
 }
 
 void InventoryItem::Update(float _DeltaTime)
+{
+	ItemMouseHold();
+}
+
+void InventoryItem::ItemMouseHold()
 {
 	// 인벤토리가 켜져있을 때만 충돌체크
 	if (true == Inventory::MainInventory_->IsInvenOn)
@@ -76,12 +85,26 @@ void InventoryItem::Update(float _DeltaTime)
 		GameEngineSound::SoundPlayOneShot("DragStart.mp3");
 		DragStartSound_ = false;
 	}
+
+	// 마우스로 아이템 집었을 때
 	if (true == IsHold_)
 	{
-	
+		//std::string Name = Renderer_->GetCurTexture()->GetNameCopy();
+		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = true;
+		MouseSlotRenderer_->SetTexture("Item2.png", Index_);
+		MouseSlotRenderer_->On();
+		//GetTransform().SetLocalPosition({ MouseRenderer_->GetTransform().GetLocalPosition().x - 78.f
+		//	, MouseRenderer_->GetTransform().GetLocalPosition().y + 80.f, (int)ZOrder::UI });
+
+		//Collision_->GetTransform().SetLocalPosition(
+		//	{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
+		//	, Renderer_->GetTransform().GetLocalPosition().y - 76.f });
 	}
-	if(true == IsHold_ && true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
+
+	if (true == IsHold_ && true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
 	{
+		MouseSlotRenderer_->Off();
+		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
 		IsHold_ = false;
 	}
@@ -109,7 +132,7 @@ void InventoryItem::CollisionCheck()
 
 			
 		}
-		else
+		else  // 아이템 잡지 않은 상태에서는 애니메이션 재생
 		{
 			MouseAnimationRenderer_->On();
 			MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_Hold");
@@ -141,36 +164,43 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	case ItemType::ITEM_CACTUS:
 	{
 		Renderer_->SetTexture("Item2.png", 0);
+		Index_ = 0;
 	}
 	break;
 	case ItemType::ITEM_WHITERABBIT:
 	{
 		Renderer_->SetTexture("Item2.png", 1);
+		Index_ = 1;
 	}
 	break;
 	case ItemType::ITEM_BROWNRABBIT:
 	{
 		Renderer_->SetTexture("Item2.png", 2);
+		Index_ = 2;
 	}
 	break;
 	case ItemType::ITEM_SCOR:
 	{
 		Renderer_->SetTexture("Item2.png", 4);
+		Index_ = 4;
 	}
 	break;
 	case ItemType::ITEM_SAND:
 	{
 		Renderer_->SetTexture("Item2.png", 3);
+		Index_ = 3;
 	}
 	break;
 	case ItemType::ITEM_SPARKER:
 	{
 		Renderer_->SetTexture("Item2.png", 6);
+		Index_ = 6;
 	}
 	break;
 	case ItemType::ITEM_FREEZER:
 	{
 		Renderer_->SetTexture("Item2.png", 5);
+		Index_ = 5;
 	}
 	break;
 	}

@@ -39,7 +39,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
-
+	void ItemMouseHold();
 
 public:
 	inline int GetCount()
@@ -95,14 +95,16 @@ protected:
 	bool IsHold_;
 	bool DragStartSound_;
 	bool DragEndSound_;
+
+	int Index_;
 private:
 	GameEngineUIRenderer* Renderer_;
 	GameEngineUIRenderer* MouseRenderer_;
 	GameEngineUIRenderer* MouseAnimationRenderer_;
+	GameEngineUIRenderer* MouseSlotRenderer_;
 	GameEngineFontRenderer* ItemCountFont_;
 
 	GameEngineCollision* Collision_;
 	GameEngineCollision* MouseCollision_;
-
 };
 

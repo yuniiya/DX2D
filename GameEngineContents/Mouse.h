@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 
 class GameEngineCollision;
+class MouseSlot;
 class Mouse : public GameEngineActor
 {
 public:
@@ -46,6 +47,11 @@ public:
 		return MouseAnimationRenderer_;
 	}
 
+	inline MouseSlot* GetMouseSlot()
+	{
+		return MouseSlot_;
+	}
+
 protected:
 	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	void CollisionCheck();
@@ -62,6 +68,7 @@ private:
 	GameEngineUIRenderer* MouseRenderer_;
 	GameEngineUIRenderer* MouseAnimationRenderer_;
 
+	MouseSlot* MouseSlot_;
 
 	float4 CurPos_;
 	float4 MainCameraCurPos_;

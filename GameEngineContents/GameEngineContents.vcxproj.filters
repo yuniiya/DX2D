@@ -187,6 +187,9 @@
     <ClInclude Include="ContentsFont.h">
       <Filter>Etc</Filter>
     </ClInclude>
+    <ClInclude Include="MouseSlot.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -326,6 +329,9 @@
       <Filter>Actor\UI</Filter>
     </ClCompile>
     <ClCompile Include="ContentsFont.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseSlot.cpp">
       <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>
