@@ -78,6 +78,7 @@ void NPC::CollisonCheck()
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{
 			QuestUI_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
+			QuestUI_->SetNPCType(NPCType_);
 		}
 	}
 }

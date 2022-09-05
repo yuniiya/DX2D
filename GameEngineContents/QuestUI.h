@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+class GameEngineFontRenderer;
 class Mouse;
 class QuestUI : public GameEngineActor
 {
@@ -15,6 +16,9 @@ public:
 	QuestUI& operator=(const QuestUI& _Other) = delete;
 	QuestUI& operator=(QuestUI&& _Other) noexcept = delete;
 
+public:
+	void SetNPCType(NPCType _NPCType);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -23,10 +27,15 @@ protected:
 	void CollisionCheck();
 
 private:
+	GameEngineFontRenderer* NPCNameFont_;
+
 	GameEngineUIRenderer* Renderer_;
+	GameEngineUIRenderer* UINPCRenderer_;
 	GameEngineUIRenderer* But_;
 
 	GameEngineCollision* ButCol_;
 	GameEngineCollision* ExitCol;
+
+	NPCType NPCType_;
 };
 

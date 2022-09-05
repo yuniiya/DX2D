@@ -184,6 +184,9 @@
     <ClInclude Include="QuestUI.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsFont.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -321,6 +324,9 @@
     </ClCompile>
     <ClCompile Include="QuestUI.cpp">
       <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsFont.cpp">
+      <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
