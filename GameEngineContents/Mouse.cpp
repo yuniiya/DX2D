@@ -13,6 +13,7 @@ Mouse::Mouse()
 	, ClickSoundOn_(false)
 	, MouseAnimationRenderer_(nullptr)
 	, MouseOverSoundOn_(false)
+	, MainCameraMouseCol_ (nullptr)
 {
 }
 
@@ -38,7 +39,15 @@ void Mouse::Start()
 	MouseCol_->SetUIDebugCamera();
 	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 2.f});
 	MouseCol_->GetTransform().SetLocalScale({ 20.f, 20.f });
-	MouseCol_->ChangeOrder(GAMEOBJGROUP::MOUSE);
+	MouseCol_->ChangeOrder(GAMEOBJGROUP::MOUSE); 
+
+	//MainCameraMouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
+	//MainCameraMouseCol_->SetDebugCamera(CAMERAORDER::MAINCAMERA);
+	//MainCameraMouseCol_->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.f, 0.f, 1.f, 1.f });
+	//MainCameraMouseCol_->GetTransform().SetLocalPosition({ GetLevel()->GetMainCamera()->GetMouseWorldPosition().x, 
+	//	GetLevel()->GetMainCamera()->GetMouseWorldPosition().y + 10.f });
+	//MainCameraMouseCol_->GetTransform().SetLocalScale({ 20.f, 20.f });
+	//MainCameraMouseCol_->ChangeOrder(GAMEOBJGROUP::MAINMOUSE);
 
 	MouseRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
@@ -65,6 +74,8 @@ void Mouse::Update(float _DeltaTime)
 	GetCurPos();
 	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 
+	//MainCameraMouseCol_->GetTransform().SetLocalPosition({ GetLevel()->GetMainCamera()->GetMouseWorldPosition().x,
+	//	GetLevel()->GetMainCamera()->GetMouseWorldPosition().y + 10.f });
 
 	// 인벤토리 아이템과 충돌 시
 	if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
@@ -126,7 +137,7 @@ void Mouse::CollisionCheck()
 		MouseRenderer_->On();
 	}
 
-	//if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::NPC, CollisionType::CT_OBB2D,
+	//if (true == MainCameraMouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::NPC, CollisionType::CT_OBB2D,
 	//	std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2))
 	//	&& true == MouseOverSoundOn_)
 	//{

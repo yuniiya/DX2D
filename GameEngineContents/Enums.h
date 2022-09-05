@@ -18,6 +18,7 @@ enum class GAMEOBJGROUP
 	FONT,
 	FADE,
 	MOUSE,
+	MAINMOUSE,
 
 	MAX,
 };

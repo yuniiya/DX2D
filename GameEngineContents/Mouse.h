@@ -26,6 +26,11 @@ public:
 		return CurPos_;
 	}
 
+	inline GameEngineCollision* GetMainCameraMouseCol()
+	{
+		return MainCameraMouseCol_;
+	}
+
 	inline GameEngineCollision* GetMouseCol()
 	{
 		return MouseCol_;
@@ -48,7 +53,9 @@ protected:
 private:
 	bool ClickSoundOn_;
 	bool MouseOverSoundOn_;
+
 	GameEngineCollision* MouseCol_;
+	GameEngineCollision* MainCameraMouseCol_;
 	//GameEngineTextureRenderer* MouseRenderer_;
 	//GameEngineTextureRenderer* MouseAnimationRenderer_;
 

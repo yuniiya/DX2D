@@ -52,15 +52,15 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 		return;
 	}
 
-	/*if (Time_ > 10.f)
+	if (Time_ > 15.f)
 	{
-		_Renderer->GetColorData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
-		i
-		if (_Renderer->GetColorData().MulColor.a < 0)
+		_Renderer->GetPixelData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
+		
+		if (_Renderer->GetPixelData().MulColor.a < 0)
 		{
 			Death();
 		}
-	}*/
+	}
 
 	if (true == IsCreate)
 	{
