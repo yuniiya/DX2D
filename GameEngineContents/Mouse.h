@@ -64,6 +64,7 @@ private:
 
 
 	float4 CurPos_;
+	float4 MainCameraCurPos_;
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};

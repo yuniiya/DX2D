@@ -75,22 +75,9 @@ void NPC::CollisonCheck()
 {
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MAINMOUSE, CollisionType::CT_OBB2D))
 	{
-		
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{
 			QuestUI_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
-		}
-	}
-	else
-	{
-		if (nullptr == QuestUI_)
-		{
-			return;
-		}
-
-		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
-		{
-			QuestUI_->Death();
 		}
 	}
 }

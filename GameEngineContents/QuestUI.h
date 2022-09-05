@@ -27,5 +27,6 @@ private:
 	GameEngineUIRenderer* But_;
 
 	GameEngineCollision* ButCol_;
+	GameEngineCollision* ExitCol;
 };
 

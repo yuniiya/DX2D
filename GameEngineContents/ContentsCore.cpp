@@ -820,6 +820,8 @@ void ContentsCore::Start()
 
 		GameEngineInput::GetInst()->CreateKey("FreeCameraOnOff", VK_OEM_4);		// [
 		GameEngineInput::GetInst()->CreateKey("DebugModeOnOff", VK_OEM_6);			// ]
+		GameEngineInput::GetInst()->CreateKey("Exit", VK_ESCAPE);
+		GameEngineInput::GetInst()->CreateKey("Next", VK_SPACE);
 	}
 
 
@@ -836,7 +838,7 @@ void ContentsCore::Start()
 	CreateLevel<TestLevel>("Test");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Title");
+	ChangeLevel("Ariant");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
