@@ -13,10 +13,10 @@ Item::Item()
 	, MoveTime_(0.0f)
 	, IsPick(false)
 	, PickTime_(0.f)
+	, SlotType_(InventorySlotType::MAX)
 	//, Count_(0)
 	//, Price_(100)
 	//, ItemType_(ItemType::MAX)
-
 {
 	ItemState_.ItemType_ = ItemType::MAX;
 	ItemState_.Count_ = 0;
@@ -166,6 +166,8 @@ void Item::Update(float _DeltaTime)
 
 void Item::RendererTypeSetting()
 {
+	SlotType_ = InventorySlotType::SLOT_ETC;
+
 	switch (MonsterName_)
 	{
 	case MONSTERNAME::WhiteRabbit:
@@ -218,5 +220,28 @@ void Item::RendererTypeSetting()
 	}
 	break;
 	}
+}
+
+void Item::PotionRendererTypeSetting()
+{
+	SlotType_ = InventorySlotType::SLOT_POTION;
+
+	switch (ItemState_.ItemType_)
+	{
+	case ItemType::ITEM_HP300:
+	{
+		Renderer_->SetTexture("HP300.png");
+	}
+	break;
+	case ItemType::ITEM_MP300:
+	{
+		Renderer_->SetTexture("MP300.png");
+	}
+	break;
+	default:
+		break;
+	}
+
+	Renderer_->ScaleToTexture();
 }
 

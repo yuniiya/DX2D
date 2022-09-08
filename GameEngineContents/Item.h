@@ -36,14 +36,14 @@ public:
 		return GetTransform().GetLocalPosition();
 	}
 
-	inline void SetMonsterName(MONSTERNAME _MonsterName)
-	{
-		MonsterName_ = _MonsterName;
-	}
-
 	inline ItemType GetItemType()
 	{
 		return ItemState_.ItemType_;
+	}
+
+	inline InventorySlotType GetSlotType()
+	{
+		return SlotType_;
 	}
 
 	inline int GetCount()
@@ -56,17 +56,28 @@ public:
 		return ItemState_.Price_;
 	}
 
-	inline void SetItemType(ItemType _ItemType)
-	{
-		ItemState_.ItemType_ = _ItemType;
-	}
-
 	inline GameEngineTextureRenderer* GetRenderer()
 	{
 		return Renderer_;
 	}
 
+	inline void SetItemType(ItemType _ItemType)
+	{
+		ItemState_.ItemType_ = _ItemType;
+	}
+
+	inline void SetSlotType(InventorySlotType _SlotType)
+	{
+		SlotType_ = _SlotType;
+	}
+
+	inline void SetMonsterName(MONSTERNAME _MonsterName)
+	{
+		MonsterName_ = _MonsterName;
+	}
+
 	void RendererTypeSetting();
+	void PotionRendererTypeSetting();
 
 protected:
 	void Start() override;
@@ -85,6 +96,7 @@ protected:
 public:
 	MONSTERNAME MonsterName_;
 	ItemState ItemState_;
+	InventorySlotType SlotType_;
 
 private:
 	GameEngineTextureRenderer* Renderer_;

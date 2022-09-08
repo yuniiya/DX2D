@@ -47,7 +47,7 @@ void InventoryItem::Start()
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->SetUIDebugCamera();
 	Collision_->GetTransform().SetLocalScale({24.f, 26.f});
-	Collision_->ChangeOrder(GAMEOBJGROUP::SLOTUI);
+	Collision_->ChangeOrder((int)GAMEOBJGROUP::SLOTUI);
 
 	Collision_->GetTransform().SetLocalPosition(
 		{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
@@ -201,6 +201,18 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	{
 		Renderer_->SetTexture("Item2.png", 5);
 		Index_ = 5;
+	}
+	break;
+	case ItemType::ITEM_HP300:
+	{
+		Renderer_->SetTexture("Item2.png", 7);
+		Index_ = 7;
+	}
+	break;
+	case ItemType::ITEM_MP300:
+	{
+		Renderer_->SetTexture("Item2.png", 8);
+		Index_ = 8;
 	}
 	break;
 	}

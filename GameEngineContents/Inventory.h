@@ -1,14 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-enum class InventorySlotType
-{
-	SLOT_PORTION,
-	SLOT_ETC,
-
-	MAX,
-};
-
 class GameEngineTextureRenderer;
 class GameEngineFontRenderer;
 class Item;
@@ -81,7 +73,9 @@ private:
 	GameEngineCollision* CategoryCollision_5;
 
 private:
-	std::vector<InventoryItem*> InventoryItemsList_;
+	std::vector<InventoryItem*> InventoryItemsList_Potion;	// 소비
+	std::vector<InventoryItem*> InventoryItemsList_Etc;		// 기타
+	std::vector<InventoryItem*> InventoryItemsList_None;	// 장비, 캐시 등 안쓰는 인벤토리
 
 private:
 	int Capacity_;

@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-//enum class PortionItemType
+//enum class PotionItemType
 //{
 //	HP,
 //	MP,

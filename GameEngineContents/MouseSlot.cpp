@@ -15,7 +15,7 @@ MouseSlot::~MouseSlot()
 
 void MouseSlot::Start()
 {
-	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
+	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::MOUSESLOT });
 	HoldItemRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	HoldItemRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 	HoldItemRenderer_->GetTransform().SetLocalScale({ 128.f, 128.f });

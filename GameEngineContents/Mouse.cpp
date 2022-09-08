@@ -40,7 +40,7 @@ void Mouse::Start()
 
 	MouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
 	MouseCol_->SetUIDebugCamera();
-	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 2.f});
+	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 10.f });
 	MouseCol_->GetTransform().SetLocalScale({ 20.f, 20.f });
 	MouseCol_->ChangeOrder(GAMEOBJGROUP::MOUSE); 
 
@@ -49,7 +49,7 @@ void Mouse::Start()
 	MainCameraMouseCol_->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.f, 0.f, 1.f, 1.f });
 	MainCameraMouseCol_->GetTransform().SetLocalPosition({ MainCameraCurPos_.x, MainCameraCurPos_.y + 10.f });
 	MainCameraMouseCol_->GetTransform().SetLocalScale({ 20.f, 20.f });
-	MainCameraMouseCol_->ChangeOrder(GAMEOBJGROUP::MAINMOUSE);
+	MainCameraMouseCol_->ChangeOrder((int)GAMEOBJGROUP::MAINMOUSE);
 
 	MouseRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
@@ -75,7 +75,7 @@ void Mouse::Start()
 void Mouse::Update(float _DeltaTime)
 {
 	GetCurPos();
-	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
+	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 10.f, (int)ZOrder::MOUSE });
 	MouseRenderer_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 	MouseAnimationRenderer_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
 

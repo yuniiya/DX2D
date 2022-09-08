@@ -26,6 +26,7 @@ enum class GAMEOBJGROUP
 enum class ZOrder
 {
 	MOUSE = 1,
+	MOUSESLOT = 3,
 	FONT = 5,
 	UI = 10,
 	SKILLFRONT = 20,
@@ -94,7 +95,17 @@ enum class ItemType
 	ITEM_SPARKER,
 	ITEM_FREEZER,
 	ITEM_MESO,
+	ITEM_HP300,
+	ITEM_MP300,
 
+	MAX,
+};
+
+enum class InventorySlotType
+{
+	SLOT_POTION,
+	SLOT_ETC,
+	SLOT_NONE,
 
 	MAX,
 };

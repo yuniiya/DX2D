@@ -25,8 +25,8 @@ Inventory::Inventory()
 	, CategoryCollision_4(nullptr)
 	, CategoryCollision_5(nullptr)
 	, IsCategoryOn_1(false)
-	, IsCategoryOn_2(true)
-	, IsCategoryOn_3(false)
+	, IsCategoryOn_2(false)
+	, IsCategoryOn_3(true)
 	, IsCategoryOn_4(false)
 	, IsCategoryOn_5(false)
 	, CurMesoFont_(nullptr)
@@ -88,7 +88,7 @@ void Inventory::Start()
 	Category_5->Off();
 
 	CurMesoFont_ = CreateComponent<GameEngineFontRenderer>();
-	CurMesoFont_->SetRenderingOrder((int)ZOrder::FONT);
+	CurMesoFont_->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
 	PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
 	CurMesoFont_->SetText(std::to_string(PlayerMeso_));
 	CurMesoFont_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
@@ -142,11 +142,10 @@ void Inventory::Start()
 	HeaderCollision_->GetTransform().SetLocalPosition({ Inventory_->GetTransform().GetLocalPosition().x + 95.f, Inventory_->GetTransform().GetLocalPosition().y - 11.f});
 	HeaderCollision_->Off();
 
-
-//	IsInvenOn = true;
 	GetInventoryPosition();
 	StartPosition_ = float4{ Position_.x - 90.f, Position_.y + 10.f, (int)ZOrder::UI };
-
+	
+	// º“∫Ò√¢
 	float4 Pos = StartPosition_;
 	for (int i = 0; i < 24; ++i)
 	{
@@ -161,7 +160,43 @@ void Inventory::Start()
 
 		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
 		ItemActor->GetTransform().SetLocalPosition({ Pos });
-		InventoryItemsList_.push_back(ItemActor);
+		InventoryItemsList_Potion.push_back(ItemActor);
+	}
+
+	// ±‚≈∏√¢
+	Pos = StartPosition_;
+	for (int i = 0; i < 24; ++i)
+	{
+		if (i != 0 && 0 == i % 4)
+		{
+			Pos.y -= 43.f;
+			Pos.x = StartPosition_.x;
+		}
+
+		Pos.x += 43.f;
+		ItemSlotCount_ += 1;
+
+		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		InventoryItemsList_Etc.push_back(ItemActor);
+	}
+
+	// None
+	Pos = StartPosition_;
+	for (int i = 0; i < 24; ++i)
+	{
+		if (i != 0 && 0 == i % 4)
+		{
+			Pos.y -= 43.f;
+			Pos.x = StartPosition_.x;
+		}
+
+		Pos.x += 43.f;
+		ItemSlotCount_ += 1;
+
+		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		InventoryItemsList_None.push_back(ItemActor);
 	}
 
 }
@@ -177,38 +212,219 @@ void Inventory::Update(float _DeltaTime)
 	{
 		if (true == IsCategoryOn_1)
 		{
+			Category_1->SetTexture("Bt_Inven0-1.png");
 			IsCategoryOn_2 = false;
 			IsCategoryOn_3 = false;
 			IsCategoryOn_4 = false;
 			IsCategoryOn_5 = false;
+
+			for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_None[i]->GetRenderer()->On();
+				InventoryItemsList_None[i]->GetFontRenderer()->On();
+			}
+			
+			for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Potion[i]->GetRenderer()->Off();
+				InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			}
+			for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Etc[i]->GetRenderer()->Off();
+				InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			}
+			
 		}
 		else if (true == IsCategoryOn_2)
 		{
+			Category_2->SetTexture("Bt_Inven1-1.png");
 			IsCategoryOn_1 = false;
 			IsCategoryOn_3 = false;
 			IsCategoryOn_4 = false;
 			IsCategoryOn_5 = false;
+
+			for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Potion[i]->GetRenderer()->On();
+				InventoryItemsList_Potion[i]->GetFontRenderer()->On();
+			}
+			for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_None[i]->GetRenderer()->Off();
+				InventoryItemsList_None[i]->GetFontRenderer()->Off();
+			}
+		
+			for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Etc[i]->GetRenderer()->Off();
+				InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			}
 		}
 		else if (true == IsCategoryOn_3)
 		{
+			Category_3->SetTexture("Bt_Inven2-1.png");
 			IsCategoryOn_1 = false;
 			IsCategoryOn_2 = false;
 			IsCategoryOn_4 = false;
 			IsCategoryOn_5 = false;
+
+			for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Etc[i]->GetRenderer()->On();
+				InventoryItemsList_Etc[i]->GetFontRenderer()->On();
+			}
+			for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_None[i]->GetRenderer()->Off();
+				InventoryItemsList_None[i]->GetFontRenderer()->Off();
+			}
+
+			for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Potion[i]->GetRenderer()->Off();
+				InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			}
 		}
 		else if (true == IsCategoryOn_4)
 		{
+			Category_4->SetTexture("Bt_Inven3-1.png");
 			IsCategoryOn_1 = false;
 			IsCategoryOn_2 = false;
 			IsCategoryOn_3 = false;
 			IsCategoryOn_5 = false;
+
+			for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_None[i]->GetRenderer()->On();
+				InventoryItemsList_None[i]->GetFontRenderer()->On();
+			}
+
+			for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Potion[i]->GetRenderer()->Off();
+				InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			}
+			for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Etc[i]->GetRenderer()->Off();
+				InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			}
 		}
 		else if (true == IsCategoryOn_5)
 		{
+			Category_5->SetTexture("Bt_Inven4-1.png");
 			IsCategoryOn_1 = false;
 			IsCategoryOn_2 = false;
 			IsCategoryOn_3 = false;
 			IsCategoryOn_4 = false;
+
+			for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_None[i]->GetRenderer()->On();
+				InventoryItemsList_None[i]->GetFontRenderer()->On();
+			}
+
+			for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Potion[i]->GetRenderer()->Off();
+				InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			}
+			for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+			{
+				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+				if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+				{
+					continue;
+				}
+
+				InventoryItemsList_Etc[i]->GetRenderer()->Off();
+				InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			}
 		}
 	}
 
@@ -221,7 +437,6 @@ void Inventory::CollisionCheck()
 	{
 		if (true == CategoryCollision_1->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
-			Category_1->SetTexture("Bt_Inven0-1.png");
 			IsCategoryOn_1 = true;
 
 			if (true == IsCategoryOn_2)
@@ -248,7 +463,6 @@ void Inventory::CollisionCheck()
 		}
 		else if (true == CategoryCollision_2->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
-			Category_2->SetTexture("Bt_Inven1-1.png");
 			IsCategoryOn_2 = true;
 
 			if (true == IsCategoryOn_1)
@@ -274,7 +488,6 @@ void Inventory::CollisionCheck()
 		}
 		else if (true == CategoryCollision_3->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
-			Category_3->SetTexture("Bt_Inven2-1.png");
 			IsCategoryOn_3 = true;
 
 			if (true == IsCategoryOn_1)
@@ -300,7 +513,6 @@ void Inventory::CollisionCheck()
 		}
 		else if (true == CategoryCollision_4->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
-			Category_4->SetTexture("Bt_Inven3-1.png");
 			IsCategoryOn_4 = true;
 
 			if (true == IsCategoryOn_1)
@@ -326,7 +538,6 @@ void Inventory::CollisionCheck()
 		}
 		else if (true == CategoryCollision_5->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
-			Category_5->SetTexture("Bt_Inven4-1.png");
 			IsCategoryOn_5 = true;
 
 			if (true == IsCategoryOn_1)
@@ -378,18 +589,125 @@ void Inventory::InventoryOnOffCheck()
 
 			CurMesoFont_->On();
 
-			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+			// º“∫Ò√¢¿Ã ƒ—¡≥¿ª ∂ß -> º“∫Ò√¢∏∏ On«œ∞Ì ¥Ÿ∏•∞« ¥Ÿ Off
+			if (true == IsCategoryOn_2)
 			{
-				// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
-				if (ItemType::MAX == InventoryItemsList_[i]->GetItemType())
+				for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
 				{
-					continue;
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_Potion[i]->GetRenderer()->On();
+					InventoryItemsList_Potion[i]->GetFontRenderer()->On();
 				}
 
-				InventoryItemsList_[i]->GetRenderer()->On();
-				InventoryItemsList_[i]->GetFontRenderer()->On();
+				for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_Etc[i]->GetRenderer()->Off();
+					InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+				}
+
+				for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_None[i]->GetRenderer()->Off();
+					InventoryItemsList_None[i]->GetFontRenderer()->Off();
+				}
 			}
-	
+			else if (true == IsCategoryOn_3)
+			{
+				for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_Etc[i]->GetRenderer()->On();
+					InventoryItemsList_Etc[i]->GetFontRenderer()->On();
+				}
+
+				for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_Potion[i]->GetRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+				}
+
+				for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_None[i]->GetRenderer()->Off();
+					InventoryItemsList_None[i]->GetFontRenderer()->Off();
+				}
+
+			}
+			else
+			{
+				for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_None[i]->GetRenderer()->On();
+					InventoryItemsList_None[i]->GetFontRenderer()->On();
+				}
+
+				for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_Etc[i]->GetRenderer()->Off();
+					InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+				}
+
+				for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+				{
+					// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+					if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_Potion[i]->GetRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+				}
+			}
+		
+
+		
 		}
 		else
 		{
@@ -412,54 +730,124 @@ void Inventory::InventoryOnOffCheck()
 
 			CurMesoFont_->Off();
 
-			for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+			if (true == IsCategoryOn_2)
 			{
-				if (ItemType::MAX ==InventoryItemsList_[i]->GetItemType())
+				for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
 				{
-					continue;
-				}
+					if (ItemType::MAX == InventoryItemsList_Potion[i]->GetItemType())
+					{
+						continue;
+					}
 
-				InventoryItemsList_[i]->GetRenderer()->Off();
-				InventoryItemsList_[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+				}
 			}
+			else if (true == IsCategoryOn_3)
+			{
+				for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+				{
+					if (ItemType::MAX == InventoryItemsList_Etc[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_Etc[i]->GetRenderer()->Off();
+					InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+				}
+			}
+			else
+			{
+				for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
+				{
+					if (ItemType::MAX == InventoryItemsList_None[i]->GetItemType())
+					{
+						continue;
+					}
+
+					InventoryItemsList_None[i]->GetRenderer()->Off();
+					InventoryItemsList_None[i]->GetFontRenderer()->Off();
+				}
+			}
+		
 		}
 	}
 }
 
 void Inventory::PushItem(Item* _Item)
 {
-	for (size_t i = 0; i < InventoryItemsList_.size(); i++)
+	// 1) æ∆¿Ã≈€¿Ã º“∫Ò ≈∏¿‘¿Ã∂Û∏È
+	if (InventorySlotType::SLOT_POTION == _Item->GetSlotType())
 	{
-		// ∞∞¿∫ æ∆¿Ã≈€¿Ã ¿÷¥Ÿ -> ∞≥ºˆ ¡ı∞°
-		if (_Item->GetItemType() == InventoryItemsList_[i]->GetItemType())
+		for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
 		{
-			InventoryItemsList_[i]->SetCount(InventoryItemsList_[i]->GetCount() + 1);
-			InventoryItemsList_[i]->GetFontRenderer()->SetScreenPostion({
-			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 700.f
-			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
-			InventoryItemsList_[i]->ItemCountFontUpdate();
+			// ∞∞¿∫ æ∆¿Ã≈€¿Ã ¿÷¥Ÿ -> ∞≥ºˆ ¡ı∞°
+			if (_Item->GetItemType() == InventoryItemsList_Potion[i]->GetItemType())
+			{
+				InventoryItemsList_Potion[i]->SetCount(InventoryItemsList_Potion[i]->GetCount() + 1);
+				InventoryItemsList_Potion[i]->GetFontRenderer()->SetScreenPostion({
+				  InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 700.f
+				, -InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 440.f });
+				InventoryItemsList_Potion[i]->ItemCountFontUpdate();
 
+				break;
+			}
+			// æ∆¿Ã≈€¿Ã ¿÷¥¬ ƒ≠¿Ã¥Ÿ -> ¥Ÿ¿Ω ƒ≠¿∏∑Œ ≥—æÓ∞£¥Ÿ
+			if (ItemType::MAX != InventoryItemsList_Etc[i]->GetItemType())
+			{
+				continue;
+			}
+
+			InventoryItemsList_Potion[i]->SetItemType(_Item->GetItemType());	// ƒ≠ø° æ∆¿Ã≈€¿ª √§øˆ≥÷∞Ì -> forπÆ ∏ÿ√·¥Ÿ
+			InventoryItemsList_Potion[i]->SetCount(InventoryItemsList_Potion[i]->GetCount() + 1);	// ∞≥ºˆ¥¬ 1∞≥
+			InventoryItemsList_Potion[i]->GetFontRenderer()->SetScreenPostion({
+				  InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 700.f
+				, -InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 440.f });
+			InventoryItemsList_Potion[i]->ItemCountFontUpdate();
+
+			if (false == IsInvenOn)
+			{
+				InventoryItemsList_Potion[i]->GetRenderer()->Off();
+				InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			}
 			break;
 		}
-		// æ∆¿Ã≈€¿Ã ¿÷¥¬ ƒ≠¿Ã¥Ÿ -> ¥Ÿ¿Ω ƒ≠¿∏∑Œ ≥—æÓ∞£¥Ÿ
-		if (ItemType::MAX != InventoryItemsList_[i]->GetItemType())
+	}
+	else if (InventorySlotType::SLOT_ETC == _Item->GetSlotType())	// 2) æ∆¿Ã≈€¿Ã ±‚≈∏ ≈∏¿‘¿Ã∂Û∏È
+	{
+		for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
 		{
-			continue;
-		}
+			// ∞∞¿∫ æ∆¿Ã≈€¿Ã ¿÷¥Ÿ -> ∞≥ºˆ ¡ı∞°
+			if (_Item->GetItemType() == InventoryItemsList_Etc[i]->GetItemType())
+			{
+				InventoryItemsList_Etc[i]->SetCount(InventoryItemsList_Etc[i]->GetCount() + 1);
+				InventoryItemsList_Etc[i]->GetFontRenderer()->SetScreenPostion({
+				  InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 700.f
+				, -InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 440.f });
+				InventoryItemsList_Etc[i]->ItemCountFontUpdate();
 
-		InventoryItemsList_[i]->SetItemType(_Item->GetItemType());	// ƒ≠ø° æ∆¿Ã≈€¿ª √§øˆ≥÷∞Ì -> forπÆ ∏ÿ√·¥Ÿ
-		InventoryItemsList_[i]->SetCount(InventoryItemsList_[i]->GetCount() + 1);	// ∞≥ºˆ¥¬ 1∞≥
-		InventoryItemsList_[i]->GetFontRenderer()->SetScreenPostion({
-			  InventoryItemsList_[i]->GetTransform().GetLocalPosition().x + 700.f
-			, -InventoryItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
-		InventoryItemsList_[i]->ItemCountFontUpdate();
+				break;
+			}
+			// æ∆¿Ã≈€¿Ã ¿÷¥¬ ƒ≠¿Ã¥Ÿ -> ¥Ÿ¿Ω ƒ≠¿∏∑Œ ≥—æÓ∞£¥Ÿ
+			if (ItemType::MAX != InventoryItemsList_Etc[i]->GetItemType())
+			{
+				continue;
+			}
 
-		if (false == IsInvenOn)
-		{
-			InventoryItemsList_[i]->GetRenderer()->Off();
-			InventoryItemsList_[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Etc[i]->SetItemType(_Item->GetItemType());	// ƒ≠ø° æ∆¿Ã≈€¿ª √§øˆ≥÷∞Ì -> forπÆ ∏ÿ√·¥Ÿ
+			InventoryItemsList_Etc[i]->SetCount(InventoryItemsList_Etc[i]->GetCount() + 1);	// ∞≥ºˆ¥¬ 1∞≥
+			InventoryItemsList_Etc[i]->GetFontRenderer()->SetScreenPostion({
+				  InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 700.f
+				, -InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 440.f });
+			InventoryItemsList_Etc[i]->ItemCountFontUpdate();
+
+			if (false == IsInvenOn)
+			{
+				InventoryItemsList_Etc[i]->GetRenderer()->Off();
+				InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			}
+			break;
 		}
-		break;
 	}
 }
 
