@@ -85,6 +85,18 @@ public:
 
 	//MONSTERNAME MonsterName_;
 
+	inline GameEngineUIRenderer* GetMouseSlotRenderer()
+	{
+		return MouseSlotRenderer_;
+	}
+
+	inline int GetIndex()
+	{
+		return Index_;
+	}
+
+	bool IsHold_;
+
 protected:
 	//InventoryItemType InventoryItemType_;
 	//PortionItemType PortionItemType_;
@@ -92,7 +104,6 @@ protected:
 	InventoryItemState ItemState_;
 
 	bool IsInvenOn_;
-	bool IsHold_;
 	bool DragStartSound_;
 	bool DragEndSound_;
 

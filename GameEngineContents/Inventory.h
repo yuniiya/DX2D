@@ -48,6 +48,7 @@ protected:
 protected:
 	void CollisionCheck();
 	void InventoryOnOffCheck();
+	void CategoryOnCheck();
 
 private:
 	float4 Position_;

@@ -80,27 +80,16 @@ void InventoryItem::ItemMouseHold()
 		}
 	}
 
-	if (true == DragStartSound_)
+	// 마우스로 아이템 집었고 && 빈 칸이 아닐 때
+	if (true == IsHold_
+		&& ItemType::MAX != ItemType_)
 	{
-		GameEngineSound::SoundPlayOneShot("DragStart.mp3");
-		DragStartSound_ = false;
-	}
-
-	// 마우스로 아이템 집었을 때
-	if (true == IsHold_)
-	{
-		//std::string Name = Renderer_->GetCurTexture()->GetNameCopy();
 		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = true;
 		MouseSlotRenderer_->SetTexture("Item2.png", Index_);
 		MouseSlotRenderer_->On();
-		//GetTransform().SetLocalPosition({ MouseRenderer_->GetTransform().GetLocalPosition().x - 78.f
-		//	, MouseRenderer_->GetTransform().GetLocalPosition().y + 80.f, (int)ZOrder::UI });
-
-		//Collision_->GetTransform().SetLocalPosition(
-		//	{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
-		//	, Renderer_->GetTransform().GetLocalPosition().y - 76.f });
 	}
 
+	// 마우스로 아이템을 집었고 && 언 클릭 && 빈 칸이 아닐 때 
 	if (true == IsHold_ && true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
 	{
 		MouseSlotRenderer_->Off();
@@ -108,32 +97,37 @@ void InventoryItem::ItemMouseHold()
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
 		IsHold_ = false;
 	}
+
+	//if (true == DragStartSound_)
+	//{
+	//	GameEngineSound::SoundPlayOneShot("DragStart.mp3");
+	//	DragStartSound_ = false;
+	//}
 }
 
 void InventoryItem::CollisionCheck()
 {
+	// 빈 칸이면 리턴
+	if (ItemType_ == ItemType::MAX)
+	{
+		return;
+	}
+
 	if (true == MouseCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
 	{
-		// 아이템 잡았을 때 소리재생
-		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
-		{
-			DragStartSound_ = true;
-		}
-	
 		// 아이템 잡았다
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			IsHold_ = true;
+			//IsHold_ = true;
 
 			MouseAnimationRenderer_->Off();
 			MouseRenderer_->On();
 			MouseRenderer_->SetTexture("Cursor_Hold.png");
 			MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
-
-			
 		}
-		else  // 아이템 잡지 않은 상태에서는 애니메이션 재생
+		else  // 아이템 잡지 않은 상태에서는 아이템 잡는 애니메이션 재생
 		{
+		
 			MouseAnimationRenderer_->On();
 			MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_Hold");
 			MouseRenderer_->Off();

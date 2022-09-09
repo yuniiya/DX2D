@@ -81,11 +81,7 @@ void Mouse::Update(float _DeltaTime)
 
 	MainCameraMouseCol_->GetTransform().SetLocalPosition({ MainCameraCurPos_.x, MainCameraCurPos_.y + 10.f });
 
-	// 인벤토리 아이템과 충돌 시
-	if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
-	{
-		return;
-	}
+
 
 	if (true == MouseSlot_->IsHold_)
 	{
@@ -104,7 +100,11 @@ void Mouse::Update(float _DeltaTime)
 	}
 	else
 	{
-	
+		// 인벤토리 아이템과 충돌 시
+		if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
+		{
+			return;
+		}
 		MouseRenderer_->SetTexture("Cursor_Idle.png");
 		MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 	}

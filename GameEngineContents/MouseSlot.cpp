@@ -39,8 +39,8 @@ void MouseSlot::Update(float _DeltaTime)
 
 
 	HoldItemRenderer_->GetTransform().SetLocalPosition({ 
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 83.f
-		, dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().y + 80.f });
+		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 90.f
+		, dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().y + 85.f });
 
 }
 
