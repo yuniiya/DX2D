@@ -82,12 +82,12 @@ void Mouse::Update(float _DeltaTime)
 	MainCameraMouseCol_->GetTransform().SetLocalPosition({ MainCameraCurPos_.x, MainCameraCurPos_.y + 10.f });
 
 
-
+	// 아이템을 잡은 상태가 아닐때만 일반 애니메이션
 	if (true == MouseSlot_->IsHold_)
 	{
 		return;
 	}
-
+	
  	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 	{
 		ClickSoundOn_ = true;
@@ -98,13 +98,8 @@ void Mouse::Update(float _DeltaTime)
 		MouseRenderer_->SetTexture("Cursor_Click.png");
 		MouseRenderer_->GetTransform().SetLocalScale({ 25.f * 1.2f, 23.f * 1.2f });
 	}
-	else
+	else if(true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
 	{
-		// 인벤토리 아이템과 충돌 시
-		if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
-		{
-			return;
-		}
 		MouseRenderer_->SetTexture("Cursor_Idle.png");
 		MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 	}
@@ -164,5 +159,11 @@ void Mouse::CollisionCheck()
 		MouseOverSoundOn_ = true;
 	}
 
-
+	// 인벤토리 아이템과 충돌 시
+	//if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
+	//{
+	//	MouseAnimationRenderer_->On();
+	//	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_Hold");
+	//	MouseRenderer_->Off();
+	//}
 }

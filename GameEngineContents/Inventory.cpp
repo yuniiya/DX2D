@@ -343,54 +343,49 @@ void Inventory::CollisionCheck()
 				IsCategoryOn_4 = false;
 			}
 		}
-
-		// ============== 마우스 클릭 ==============// 
-		// 소비창
-		if (true == IsCategoryOn_2)
-		{
-			for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
-			{
-				if (true == InventoryItemsList_Potion[i]->IsHold_)
-				{
-					continue;
-				}
-
-				// 마우스와 아이템이 충돌했고 && 아이템을 잡은 상태가 아니고 && 빈 칸이 아닐 때 클릭 시 => 아이템을 잡은걸로 본다 (IsHold) 
-				if (true == InventoryItemsList_Potion[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D)
-					&& false == InventoryItemsList_Potion[i]->IsHold_
-					&& ItemType::MAX != InventoryItemsList_Potion[i]->GetItemType())
-				{
-					InventoryItemsList_Potion[i]->IsHold_ = true;
-					break;
-				}
-
-			}
-		}
-		// 기타창
-		if (true == IsCategoryOn_3)
-		{
-			for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
-			{
-				if (true == InventoryItemsList_Etc[i]->IsHold_)
-				{
-					continue;
-				}
-
-				// 마우스와 아이템이 충돌했고 && 아이템을 잡은 상태가 아니고 && 빈 칸이 아닐 때 클릭 시 => 아이템을 잡은걸로 본다 (IsHold) 
-				if (true == InventoryItemsList_Etc[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D)
-					&& false == InventoryItemsList_Etc[i]->IsHold_
-					&& ItemType::MAX != InventoryItemsList_Etc[i]->GetItemType())
-				{
-					InventoryItemsList_Etc[i]->IsHold_ = true;
-					break;
-				}
-
-			}
-		}
-
 	}
-
 	
+	InventoryItemCollisionCheck();
+}
+
+void Inventory::InventoryItemCollisionCheck()
+{
+	// ============== 마우스 클릭 ==============// 
+	// 소비창
+	//if (true == IsCategoryOn_2)
+	//{
+	//	for (size_t i = 0; i < InventoryItemsList_Potion.size(); i++)
+	//	{
+	//		if (true == InventoryItemsList_Potion[i]->IsHold_)
+	//		{
+	//			continue;
+	//		}
+
+	//		// 마우스와 아이템이 충돌했고 && 아이템을 잡은 상태가 아니고 && 빈 칸이 아닐 때 클릭 시 => 아이템을 잡은걸로 본다 (IsHold) 
+	//		if (true == InventoryItemsList_Potion[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D)
+	//			&& false == InventoryItemsList_Potion[i]->IsHold_
+	//			&& ItemType::MAX != InventoryItemsList_Potion[i]->GetItemType())
+	//		{
+	//			InventoryItemsList_Potion[i]->IsHold_ = true;
+	//			break;
+	//		}
+
+	//	}
+	//}
+	// 기타창
+	if (true == IsCategoryOn_3)
+	{
+		for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
+		{
+			if (true == InventoryItemsList_Etc[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+			{
+				InventoryItemsList_Etc[i]->CollisionCheck();
+
+				break;
+			}
+
+		}
+	}
 }
 
 void Inventory::InventoryOnOffCheck()

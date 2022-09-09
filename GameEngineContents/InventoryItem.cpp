@@ -71,73 +71,71 @@ void InventoryItem::ItemMouseHold()
 	// 인벤토리가 켜져있을 때만 충돌체크
 	if (true == Inventory::MainInventory_->IsInvenOn)
 	{
+		// 인벤토리가 켜져있을 때만 아아템 카운트 On
 		ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
-
-		// 빈 칸이 아니다
-		if (ItemType_ != ItemType::MAX)
-		{
-			CollisionCheck();
-		}
 	}
 
 	// 마우스로 아이템 집었고 && 빈 칸이 아닐 때
-	if (true == IsHold_
-		&& ItemType::MAX != ItemType_)
-	{
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = true;
-		MouseSlotRenderer_->SetTexture("Item2.png", Index_);
-		MouseSlotRenderer_->On();
-	}
-
-	// 마우스로 아이템을 집었고 && 언 클릭 && 빈 칸이 아닐 때 
-	if (true == IsHold_ && true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
-	{
-		MouseSlotRenderer_->Off();
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
-		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
-		IsHold_ = false;
-	}
-
-	//if (true == DragStartSound_)
+	//if (true == IsHold_
+	//	&& ItemType::MAX != ItemType_)
 	//{
-	//	GameEngineSound::SoundPlayOneShot("DragStart.mp3");
-	//	DragStartSound_ = false;
+	//	dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = true;
+	//	MouseSlotRenderer_->SetTexture("Item2.png", Index_);
+	//	MouseSlotRenderer_->On();
 	//}
+
+	//// 마우스로 아이템을 집었고 && 언 클릭 && 빈 칸이 아닐 때 
+	//if (true == IsHold_ && true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
+	//{
+	//	MouseSlotRenderer_->Off();
+	//	dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
+	//	GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
+	//	IsHold_ = false;
+	//}
+	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
+	{
+		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
+		IsHold_ = false;
+		MouseSlotRenderer_->Off();
+		
+		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
+	}
+	if (true == DragStartSound_)
+	{
+		DragStartSound_ = false;
+		GameEngineSound::SoundPlayOneShot("DragStart.mp3");
+	}
 }
 
 void InventoryItem::CollisionCheck()
 {
-	// 빈 칸이면 리턴
-	if (ItemType_ == ItemType::MAX)
+	if (ItemType::MAX == ItemType_)
 	{
 		return;
 	}
 
-	if (true == MouseCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D))
+	if (true == IsHold_
+		|| true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
 	{
-		// 아이템 잡았다
-		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
-		{
-			//IsHold_ = true;
-
-			MouseAnimationRenderer_->Off();
-			MouseRenderer_->On();
-			MouseRenderer_->SetTexture("Cursor_Hold.png");
-			MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
-		}
-		else  // 아이템 잡지 않은 상태에서는 아이템 잡는 애니메이션 재생
-		{
-		
-			MouseAnimationRenderer_->On();
-			MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_Hold");
-			MouseRenderer_->Off();
-		}
+		return;
 	}
-	else
+	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 	{
+		DragStartSound_ = true;
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
+	{
+		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = true;
+		IsHold_ = true;
 		MouseAnimationRenderer_->Off();
 		MouseRenderer_->On();
+		MouseRenderer_->SetTexture("Cursor_Hold.png");
+		MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
+
+		MouseSlotRenderer_->SetTexture("Item2.png", Index_);
+		MouseSlotRenderer_->On();
 	}
+
 }
 
 void InventoryItem::ItemCountFontUpdate()

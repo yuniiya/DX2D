@@ -32,6 +32,11 @@ public:
 		return CurMesoFont_;
 	}
 
+	std::vector<InventoryItem*> GetInventoryListEtc()
+	{
+		return InventoryItemsList_Etc;
+	}
+
 	void PushItem(Item* _Item);
 
 	bool IsInvenOn;
@@ -47,6 +52,7 @@ protected:
 
 protected:
 	void CollisionCheck();
+	void InventoryItemCollisionCheck();
 	void InventoryOnOffCheck();
 	void CategoryOnCheck();
 
