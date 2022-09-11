@@ -87,6 +87,16 @@ public:
 		return SlotIndex_;
 	}
 
+	inline MONSTERNAME GetMonsterName()
+	{
+		return MonsterName_;
+	}
+
+	inline InventorySlotType GetInventorySlotType()
+	{
+		return InventorySlotType_;
+	}
+
 	inline void SetCount(int _Count)
 	{
 		ItemState_.Count_ = _Count;
@@ -105,8 +115,10 @@ public:
 protected:
 	//InventoryItemType InventoryItemType_;
 	//PortionItemType PortionItemType_;
+	InventorySlotType InventorySlotType_;
 	ItemType ItemType_;
 	InventoryItemState ItemState_;
+	MONSTERNAME MonsterName_;
 
 	bool IsInvenOn_;
 	bool DragStartSound_;

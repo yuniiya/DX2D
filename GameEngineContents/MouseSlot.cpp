@@ -2,12 +2,13 @@
 #include "MouseSlot.h"
 #include "Mouse.h"
 
-MouseSlot::MouseSlot() 
+MouseSlot::MouseSlot()
 	: HoldItemRenderer_(nullptr)
 	, Collision_(nullptr)
 	, IsHold_(false)
 	, CurInventoryItem_(nullptr)
 	, PrevInventoryItem_(nullptr)
+	, IsDoneHolding_(false)
 {
 }
 
@@ -42,6 +43,7 @@ void MouseSlot::Update(float _DeltaTime)
 	HoldItemRenderer_->GetTransform().SetLocalPosition({ 
 		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 90.f
 		, dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().y + 85.f });
+
 
 }
 

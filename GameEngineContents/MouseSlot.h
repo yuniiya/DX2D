@@ -23,8 +23,6 @@ public:
 		return HoldItemRenderer_;
 	}
 
-	bool IsHold_;
-
 	inline void SetInventoryItem(InventoryItem* _CurInventoryItem)
 	{
 		CurInventoryItem_ = _CurInventoryItem;
@@ -45,7 +43,8 @@ public:
 		return PrevInventoryItem_;
 	}
 
-	std::vector<InventoryItem*> InventoryItemList_;
+	bool IsHold_;
+	bool IsDoneHolding_;
 
 protected:
 	void Start() override;
@@ -57,8 +56,8 @@ private:
 	GameEngineCollision* Collision_;
 
 	// ¸¶¿ì½º
-	GameEngineUIRenderer* MouseRenderer_;
-	GameEngineCollision* MouseCollision_;
+	//GameEngineUIRenderer* MouseRenderer_;
+	//GameEngineCollision* MouseCollision_;
 
 	InventoryItem* CurInventoryItem_;
 	InventoryItem* PrevInventoryItem_;

@@ -5,8 +5,12 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
+#include <GameEngineCore/GameEngineFontRenderer.h>
 #include "Inventory.h"
 #include "MouseSlot.h"
+#include "Item.h"
+#include "InventoryItem.h"
+#include "Player.h"
 
 Mouse::Mouse() 
 	: MouseCol_(nullptr)
@@ -86,6 +90,36 @@ void Mouse::Update(float _DeltaTime)
 	if (true == MouseSlot_->IsHold_)
 	{
 		return;
+	}
+
+	// 아이템 버리기
+	if (true == MouseSlot_->IsDoneHolding_
+		&& false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::INVENTORY, CollisionType::CT_OBB2D))
+	{
+		MouseSlot_->IsDoneHolding_ = false;
+	
+		Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::ITEM);
+		if (InventorySlotType::SLOT_ETC == MouseSlot_->GetInventoryItem()->GetInventorySlotType())
+		{
+			ItemActor->MonsterName_ = MouseSlot_->GetInventoryItem()->GetMonsterName();
+			ItemActor->RendererTypeSetting();
+		}
+		else if (InventorySlotType::SLOT_POTION == MouseSlot_->GetInventoryItem()->GetInventorySlotType())
+		{
+			ItemActor->SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
+			ItemActor->PotionRendererTypeSetting();
+		}
+		ItemActor->GetTransform().SetLocalPosition({ Player::MainPlayer_->GetPosition().x - 12.f, Player::MainPlayer_->GetPosition().y - 14.f, (int)ZOrder::ITEM});
+		ItemActor->TimeAttackStart();
+
+		MouseSlot_->GetInventoryItem()->SetCount(MouseSlot_->GetInventoryItem()->GetCount() - 1);
+		MouseSlot_->GetInventoryItem()->GetFontRenderer()->SetText(std::to_string(MouseSlot_->GetInventoryItem()->GetCount()));
+		
+		if (MouseSlot_->GetInventoryItem()->GetCount() <= 0)
+		{
+			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
+			MouseSlot_->GetInventoryItem()->GetFontRenderer()->Off();
+		}
 	}
 	
  	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))

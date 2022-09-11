@@ -26,6 +26,7 @@ Inventory::Inventory()
 	, CategoryCollision_3(nullptr)
 	, CategoryCollision_4(nullptr)
 	, CategoryCollision_5(nullptr)
+	, Collision_(nullptr)
 	, IsCategoryOn_1(false)
 	, IsCategoryOn_2(false)
 	, IsCategoryOn_3(true)
@@ -102,6 +103,15 @@ void Inventory::Start()
 	CurMesoFont_->Off();
 
 	// Collision //
+	Collision_ = CreateComponent<GameEngineCollision>();
+	Collision_->SetUIDebugCamera();
+	Collision_->GetTransform().SetLocalScale({ Inventory_->GetTransform().GetLocalScale()});
+	Collision_->GetTransform().SetLocalPosition({
+		Inventory_->GetTransform().GetLocalPosition().x + Inventory_->GetTransform().GetLocalScale().x / 2.f
+		, Inventory_->GetTransform().GetLocalPosition().y - Inventory_->GetTransform().GetLocalScale().y / 2.f });
+	Collision_->ChangeOrder(GAMEOBJGROUP::INVENTORY);
+	Collision_->Off();
+
 	CategoryCollision_1 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_1->SetUIDebugCamera();
 	CategoryCollision_1->GetTransform().SetLocalScale({ 10.f, 15.f });
@@ -364,7 +374,7 @@ void Inventory::InventoryItemCollisionCheck()
 			if (true == InventoryItemsList_Potion[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 			{
 				InventoryItemsList_Potion[i]->CollisionCheck();
-				InventoryItemsList_Potion[i]->SetSlotIndex(i);
+				InventoryItemsList_Potion[i]->SetSlotIndex((int)i);
 
 				break;
 			}
@@ -378,7 +388,7 @@ void Inventory::InventoryItemCollisionCheck()
 			if (true == InventoryItemsList_Etc[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 			{
 				InventoryItemsList_Etc[i]->CollisionCheck();
-				InventoryItemsList_Etc[i]->SetSlotIndex(i);
+				InventoryItemsList_Etc[i]->SetSlotIndex((int)i);
 
 				break;
 			}
@@ -396,7 +406,7 @@ void Inventory::InventoryOnOffCheck()
 			GameEngineSound::SoundPlayOneShot("MenuDown.mp3");
 			IsInvenOn = true;
 			Inventory_->On();
-
+			Collision_->On();
 			Category_1->On();
 			Category_2->On();
 			Category_3->On();
@@ -546,7 +556,7 @@ void Inventory::InventoryOnOffCheck()
 			GameEngineSound::SoundPlayOneShot("MenuUp.mp3");
 			IsInvenOn = false;
 			Inventory_->Off();
-
+			Collision_->Off();
 			Category_1->Off();
 			Category_2->Off();
 			Category_3->Off();

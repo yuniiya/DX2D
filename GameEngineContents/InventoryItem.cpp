@@ -5,7 +5,7 @@
 #include "Mouse.h"
 #include "MouseSlot.h"
 
-InventoryItem::InventoryItem() 
+InventoryItem::InventoryItem()
 	: Renderer_(nullptr)
 	, Collision_(nullptr)
 	, IsInvenOn_(false)
@@ -20,6 +20,8 @@ InventoryItem::InventoryItem()
 	, MouseSlotRenderer_(nullptr)
 	, Index_(0)
 	, SlotIndex_(0)
+	, IsDoneHolding_(false)
+	, InventorySlotType_(InventorySlotType::MAX)
 {
 	ItemState_.Count_ = 0;
 	ItemState_.Price_ = 500;
@@ -72,7 +74,7 @@ void InventoryItem::ItemMouseHold()
 	// 인벤토리가 켜져있을 때만 충돌체크
 	if (true == Inventory::MainInventory_->IsInvenOn)
 	{
-		// 인벤토리가 켜져있을 때만 아아템 카운트 On
+		// 인벤토리가 켜져있을 때만 아이템 카운트 On
 		ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 	}
 
@@ -81,6 +83,7 @@ void InventoryItem::ItemMouseHold()
 	{
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
 		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
+		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsDoneHolding_ = true;
 		IsHold_ = false;
 		MouseSlotRenderer_->Off();
 	}
@@ -102,8 +105,7 @@ void InventoryItem::CollisionCheck()
 		// 4) 놓은 칸의 아이템 타입을 슬롯 아이템의 아이템 타입으로 지정
 		// 5) 슬롯 렌더러 -> 빈 칸으로 지정
 		// 슬롯 -> null
-
-		// 6-1) 슬롯의 아이템과 인벤토리 아이템이 같다 -> 리턴
+		// 6-1) 슬롯의 아이템과 인벤토리 아이템이 같다
 		if (GetItemType() == Slot->GetInventoryItem()->GetItemType())
 		{
 			// 같은 칸이다
@@ -167,9 +169,9 @@ void InventoryItem::CollisionCheck()
 			Slot->GetInventoryItem()->SetItemType(TempItemType);
 			Slot->GetInventoryItem()->SetCount(TempCount);	
 		}
-
-
+		
 	}
+
 	// 빈 칸이 아닐 때만 아래로 들어간다
 	if (ItemType::MAX == ItemType_)
 	{
@@ -201,11 +203,6 @@ void InventoryItem::CollisionCheck()
 
 		// 2) 슬롯의 아이템 = 현재 마우스로 잡은 아이템 (정보를 들고 있는다)
 		Slot->SetInventoryItem(this);
-		
-	/*	if (Slot->GetInventoryItem() != nullptr)
-		{
-	
-		}*/
 	}
 
 	// 소비 아이템 사용
@@ -276,80 +273,101 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	{
 	case ItemType::ITEM_CACTUS:
 	{
+
 		Renderer_->SetTexture("Item2.png", 0);
 		Index_ = 0;
+		MonsterName_ = MONSTERNAME::BabyCactus;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
 	}
 	break;
 	case ItemType::ITEM_WHITERABBIT:
 	{
 		Renderer_->SetTexture("Item2.png", 1);
 		Index_ = 1;
+		MonsterName_ = MONSTERNAME::WhiteRabbit;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
 	}
 	break;
 	case ItemType::ITEM_BROWNRABBIT:
 	{
 		Renderer_->SetTexture("Item2.png", 2);
 		Index_ = 2;
+		MonsterName_ = MONSTERNAME::BrownRabbit;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
 	}
 	break;
 	case ItemType::ITEM_SCOR:
 	{
 		Renderer_->SetTexture("Item2.png", 4);
 		Index_ = 4;
+		MonsterName_ = MONSTERNAME::Scorpion;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
 	}
 	break;
 	case ItemType::ITEM_SAND:
 	{
 		Renderer_->SetTexture("Item2.png", 3);
 		Index_ = 3;
+		MonsterName_ = MONSTERNAME::Sand;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
 	}
 	break;
 	case ItemType::ITEM_SPARKER:
 	{
 		Renderer_->SetTexture("Item2.png", 6);
 		Index_ = 6;
+		MonsterName_ = MONSTERNAME::Sparker;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
 	}
 	break;
 	case ItemType::ITEM_FREEZER:
 	{
 		Renderer_->SetTexture("Item2.png", 5);
 		Index_ = 5;
+		MonsterName_ = MONSTERNAME::Freezer;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
 	}
 	break;
 	case ItemType::ITEM_HP300:
 	{
 		Renderer_->SetTexture("Item2.png", 7);
 		Index_ = 7;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
 	case ItemType::ITEM_MP300:
 	{
 		Renderer_->SetTexture("Item2.png", 8);
 		Index_ = 8;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
 	case ItemType::ITEM_HP5000:
 	{
 		Renderer_->SetTexture("Item2.png", 13);
 		Index_ = 13;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
 	case ItemType::ITEM_HP4000:
 	{
 		Renderer_->SetTexture("Item2.png", 12);
 		Index_ = 12;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
 	case ItemType::ITEM_MP5000:
 	{
 		Renderer_->SetTexture("Item2.png", 15);
 		Index_ = 15;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
 	case ItemType::ITEM_MP4000:
 	{
 		Renderer_->SetTexture("Item2.png", 14);
 		Index_ = 14;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
 	}

@@ -72,6 +72,7 @@ private:
 	GameEngineFontRenderer* CurMesoFont_;
 
 private:
+	GameEngineCollision* Collision_;
 	GameEngineCollision* HeaderCollision_;
 	GameEngineCollision* CategoryCollision_1;
 	GameEngineCollision* CategoryCollision_2;
