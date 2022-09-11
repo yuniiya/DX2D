@@ -75,30 +75,14 @@ void InventoryItem::ItemMouseHold()
 		ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 	}
 
-	// 마우스로 아이템 집었고 && 빈 칸이 아닐 때
-	//if (true == IsHold_
-	//	&& ItemType::MAX != ItemType_)
-	//{
-	//	dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = true;
-	//	MouseSlotRenderer_->SetTexture("Item2.png", Index_);
-	//	MouseSlotRenderer_->On();
-	//}
-
-	//// 마우스로 아이템을 집었고 && 언 클릭 && 빈 칸이 아닐 때 
-	//if (true == IsHold_ && true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
-	//{
-	//	MouseSlotRenderer_->Off();
-	//	dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
-	//	GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
-	//	IsHold_ = false;
-	//}
+	// 아이템을 놨다
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
 	{
+		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
+
 		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
 		IsHold_ = false;
 		MouseSlotRenderer_->Off();
-		
-		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
 	}
 	if (true == DragStartSound_)
 	{
@@ -109,11 +93,61 @@ void InventoryItem::ItemMouseHold()
 
 void InventoryItem::CollisionCheck()
 {
+	MouseSlot* Slot = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
+
+	// 3) 아이템을 잡은 상태에서 놨다
+	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && 
+		Slot->GetInventoryItem() != nullptr)
+	{
+		// 4) 놓은 칸의 아이템 타입을 슬롯 아이템의 아이템 타입으로 지정
+		// 5) 슬롯 렌더러 -> 빈 칸으로 지정
+		// 슬롯 -> null
+
+		// 6-1) 슬롯의 아이템과 인벤토리 아이템이 같다 -> 리턴
+		if (GetItemType() == Slot->GetInventoryItem()->GetItemType())
+		{
+			return;
+		}
+		else if (GetItemType() == ItemType::MAX)								// 6-2) 빈 칸이다
+		{
+			// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
+			SetCount(Slot->GetInventoryItem()->GetCount());
+			ItemCountFontUpdate();
+
+			// 빈칸의 폰트 렌더러 위치 설정
+			ItemCountFont_->SetScreenPostion({GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
+
+			// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
+			SetItemType(Slot->GetInventoryItem()->GetItemType());
+			Slot->GetInventoryItem()->SetItemType(ItemType::MAX);
+
+			// 슬롯 폰트 오프
+			Slot->GetInventoryItem()->SetCount(0);
+			Slot->GetInventoryItem()->GetFontRenderer()->Off();
+			// 슬롯 아이템 null로 만들기
+			Slot->SetInventoryItem(nullptr);
+			
+			
+		}
+		else if (GetItemType() != Slot->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)	// 6-3) 아이템이 이미 있다	
+		{
+			//InventoryItem* temp = Slot->GetInventoryItem();
+
+		}
+	
+
+
+		//Slot->GetInventoryItem();
+		//Renderer_->SetTexture(Slot->GetInventoryItem()->Renderer_->GetCurTexture());
+
+	}
+	// 빈 칸이 아닐 때만 아래로 들어간다
 	if (ItemType::MAX == ItemType_)
 	{
 		return;
 	}
 
+	// 아이템을 이미 잡은 상태 -> 리턴
 	if (true == IsHold_
 		|| true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
 	{
@@ -123,9 +157,10 @@ void InventoryItem::CollisionCheck()
 	{
 		DragStartSound_ = true;
 	}
+	// 1) 마우스가 잡은 아이템이 없고, 아이템을 클릭 했을 때->슬롯의 아이템은 현재 아이템으로 지정
 	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 	{
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = true;
+		Slot->IsHold_ = true;
 		IsHold_ = true;
 		MouseAnimationRenderer_->Off();
 		MouseRenderer_->On();
@@ -134,7 +169,16 @@ void InventoryItem::CollisionCheck()
 
 		MouseSlotRenderer_->SetTexture("Item2.png", Index_);
 		MouseSlotRenderer_->On();
+
+		// 2) 슬롯의 아이템 = 현재 마우스로 잡은 아이템 (정보를 들고 있는다)
+		Slot->SetInventoryItem(this);
+		
+	/*	if (Slot->GetInventoryItem() != nullptr)
+		{
+	
+		}*/
 	}
+
 
 }
 
@@ -146,10 +190,19 @@ void InventoryItem::ItemCountFontUpdate()
 
 void InventoryItem::SetItemType(ItemType _ItemType)
 {
+	ItemType_ = _ItemType;
+
+
+	if (ItemType_ == ItemType::MAX)
+	{
+		Renderer_->Off();
+		ItemCountFont_->Off();
+
+		return;
+	}
+
 	Renderer_->On();
 	ItemCountFont_->On();
-
-	ItemType_ = _ItemType;
 
 	switch (ItemType_)
 	{

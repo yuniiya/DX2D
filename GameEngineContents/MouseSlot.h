@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 
 class GameEngineCollision;
+class InventoryItem;
 class MouseSlot : public GameEngineActor
 {
 public:
@@ -24,6 +25,16 @@ public:
 
 	bool IsHold_;
 
+	inline void SetInventoryItem(InventoryItem* _CurInventoryItem)
+	{
+		CurInventoryItem_ = _CurInventoryItem;
+	}
+
+	inline InventoryItem* GetInventoryItem()
+	{
+		return CurInventoryItem_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -37,5 +48,7 @@ private:
 	// ¸¶¿ì½º
 	GameEngineUIRenderer* MouseRenderer_;
 	GameEngineCollision* MouseCollision_;
+
+	InventoryItem* CurInventoryItem_;
 };
 

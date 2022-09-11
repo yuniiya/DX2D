@@ -6,6 +6,7 @@ MouseSlot::MouseSlot()
 	: HoldItemRenderer_(nullptr)
 	, Collision_(nullptr)
 	, IsHold_(false)
+	, CurInventoryItem_(nullptr)
 {
 }
 
@@ -36,7 +37,6 @@ void MouseSlot::Update(float _DeltaTime)
 	{
 		return;
 	}
-
 
 	HoldItemRenderer_->GetTransform().SetLocalPosition({ 
 		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 90.f

@@ -12,7 +12,6 @@ ContentsFont::~ContentsFont()
 
 void ContentsFont::Start()
 {
-
 	SetRenderingOrder((int)GAMEOBJGROUP::FONT);
 	SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
 	SetSize(17);
