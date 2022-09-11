@@ -35,6 +35,16 @@ public:
 		return CurInventoryItem_;
 	}
 
+	inline void SetPrevInventoryItem(InventoryItem* _PrevInventoryItem)
+	{
+		PrevInventoryItem_ = _PrevInventoryItem;
+	}
+
+	inline InventoryItem* GetPrevInventoryItem()
+	{
+		return PrevInventoryItem_;
+	}
+
 	std::vector<InventoryItem*> InventoryItemList_;
 
 protected:
@@ -51,6 +61,7 @@ private:
 	GameEngineCollision* MouseCollision_;
 
 	InventoryItem* CurInventoryItem_;
+	InventoryItem* PrevInventoryItem_;
 
 };
 

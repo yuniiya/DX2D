@@ -7,6 +7,7 @@ MouseSlot::MouseSlot()
 	, Collision_(nullptr)
 	, IsHold_(false)
 	, CurInventoryItem_(nullptr)
+	, PrevInventoryItem_(nullptr)
 {
 }
 

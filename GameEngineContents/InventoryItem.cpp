@@ -151,14 +151,23 @@ void InventoryItem::CollisionCheck()
 			Slot->SetInventoryItem(nullptr);
 			
 			
-		} // 6-3) 아이템이 이미 있다	
+		} // 6-3) 다른 아이템이 이미 있다	-> 체인지
 		else if (GetItemType() != Slot->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)	
 		{
-			Slot->InventoryItemList_.push_back(this);
+			// 2를 3에 담아두기
+			ItemType TempItemType = GetItemType();
+			int TempCount = GetCount();
+			//Slot->SetInventoryItem(Slot->GetInventoryItem());
+
+			// 2를 1로
+			SetItemType(Slot->GetInventoryItem()->GetItemType());
+			SetCount(Slot->GetInventoryItem()->GetCount());
+			
+			// 1을 3으로
+			Slot->GetInventoryItem()->SetItemType(TempItemType);
+			Slot->GetInventoryItem()->SetCount(TempCount);	
 		}
 
-		//Slot->GetInventoryItem();
-		//Renderer_->SetTexture(Slot->GetInventoryItem()->Renderer_->GetCurTexture());
 
 	}
 	// 빈 칸이 아닐 때만 아래로 들어간다
@@ -199,16 +208,34 @@ void InventoryItem::CollisionCheck()
 		}*/
 	}
 
+	// 소비 아이템 사용
 	if (true == GameEngineInput::GetInst()->IsDown("RightMouse"))
 	{
 		if (ItemType::ITEM_HP300 == ItemType_)
 		{
+			Player::MainPlayer_->AddHP(5.f);
+		}
+		else if (ItemType::ITEM_HP4000 == ItemType_)
+		{
 			Player::MainPlayer_->AddHP(10.f);
+		}
+		else if (ItemType::ITEM_HP5000 == ItemType_)
+		{
+			Player::MainPlayer_->AddHP(11.f);
 		}
 		else if (ItemType::ITEM_MP300 == ItemType_)
 		{
+			Player::MainPlayer_->AddMP(5.f);
+		}
+		else if (ItemType::ITEM_MP5000 == ItemType_)
+		{
 			Player::MainPlayer_->AddMP(10.f);
 		}
+		else if (ItemType::ITEM_MP4000 == ItemType_)
+		{
+			Player::MainPlayer_->AddMP(11.f);
+		}
+
 
 		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
 		SetCount(GetCount() - 1);
@@ -301,6 +328,31 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Index_ = 8;
 	}
 	break;
+	case ItemType::ITEM_HP5000:
+	{
+		Renderer_->SetTexture("Item2.png", 13);
+		Index_ = 13;
 	}
+	break;
+	case ItemType::ITEM_HP4000:
+	{
+		Renderer_->SetTexture("Item2.png", 12);
+		Index_ = 12;
+	}
+	break;
+	case ItemType::ITEM_MP5000:
+	{
+		Renderer_->SetTexture("Item2.png", 15);
+		Index_ = 15;
+	}
+	break;
+	case ItemType::ITEM_MP4000:
+	{
+		Renderer_->SetTexture("Item2.png", 14);
+		Index_ = 14;
+	}
+	break;
+	}
+
 }
 
