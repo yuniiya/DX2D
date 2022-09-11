@@ -364,6 +364,7 @@ void Inventory::InventoryItemCollisionCheck()
 			if (true == InventoryItemsList_Potion[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 			{
 				InventoryItemsList_Potion[i]->CollisionCheck();
+				InventoryItemsList_Potion[i]->SetSlotIndex(i);
 
 				break;
 			}
@@ -381,6 +382,7 @@ void Inventory::InventoryItemCollisionCheck()
 
 				break;
 			}
+
 		}
 	}
 }

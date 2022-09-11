@@ -73,9 +73,9 @@ void ContentsUI::MainBarScaleUpdate()
 	CurMP_ = Player::MainPlayer_->GetMP();
 	CurExp_ = Player::MainPlayer_->GetExp();
 
-	HPBarUpdate(CurHP_, 100.f);
-	MPBarUpdate(CurMP_, 100.f);
-	ExpBarUpdate(CurExp_, 100.f);
+	HPBarUpdate(CurHP_, Player::MainPlayer_->GetMaxHP());
+	MPBarUpdate(CurMP_, Player::MainPlayer_->GetMaxMP());
+	ExpBarUpdate(CurExp_, Player::MainPlayer_->GetMaxExp());
 
 	if (60.f == CurExp_)
 	{

@@ -80,7 +80,6 @@ void InventoryItem::ItemMouseHold()
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
 	{
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
-
 		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
 		IsHold_ = false;
 		MouseSlotRenderer_->Off();
@@ -155,15 +154,8 @@ void InventoryItem::CollisionCheck()
 		} // 6-3) 아이템이 이미 있다	
 		else if (GetItemType() != Slot->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)	
 		{
-			//InventoryItem* temp = Slot->GetInventoryItem();
-
+			Slot->InventoryItemList_.push_back(this);
 		}
-		else
-		{
-
-		}
-	
-
 
 		//Slot->GetInventoryItem();
 		//Renderer_->SetTexture(Slot->GetInventoryItem()->Renderer_->GetCurTexture());
@@ -207,6 +199,27 @@ void InventoryItem::CollisionCheck()
 		}*/
 	}
 
+	if (true == GameEngineInput::GetInst()->IsDown("RightMouse"))
+	{
+		if (ItemType::ITEM_HP300 == ItemType_)
+		{
+			Player::MainPlayer_->AddHP(10.f);
+		}
+		else if (ItemType::ITEM_MP300 == ItemType_)
+		{
+			Player::MainPlayer_->AddMP(10.f);
+		}
+
+		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
+		SetCount(GetCount() - 1);
+		ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
+
+		if (GetCount() <= 0)
+		{
+			SetItemType(ItemType::MAX);
+			ItemCountFont_->Off();
+		}
+	}
 
 }
 

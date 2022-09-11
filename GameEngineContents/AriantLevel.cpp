@@ -75,6 +75,27 @@ void AriantLevel::LevelStartEvent()
 
 	{
 		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->SetItemType(ItemType::ITEM_MP300);
+		ItemActor->PotionRendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3000.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->SetItemType(ItemType::ITEM_MP300);
+		ItemActor->PotionRendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3050.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->SetItemType(ItemType::ITEM_HP300);
+		ItemActor->PotionRendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3100.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
 		ItemActor->SetItemType(ItemType::ITEM_HP300);
 		ItemActor->PotionRendererTypeSetting();
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3150.f, -800.f, (int)ZOrder::ITEM });

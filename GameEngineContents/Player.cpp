@@ -81,9 +81,9 @@ Player::Player()
 	, SinLoopTime_(0.0f)
 	, SinEndTime_(0.0f)
 	, DoubleJumpTime_(0.0f)
-	, MaxHP_(CurHP_)
-	, MaxMP_(CurMP_)
-	, MaxExp_(CurExp_)
+	, MaxHP_(100.f)
+	, MaxMP_(100.f)
+	, MaxExp_(100.f)
 	, IsSinLoopEnd(false)
 	, SinAttackEnd(false)
 	, MoveDir_(0.f)
@@ -431,6 +431,8 @@ void Player::Start()
 	LevelUpEffRenderer_->AnimationBindEnd("LevelUp", std::bind(&Player::LevelUpEffectEnd, this, std::placeholders::_1));
 	LevelUpEffRenderer_->ChangeFrameAnimation("LevelUp");
 	LevelUpEffRenderer_->Off();
+
+	TakeDamage(50.f);
 }
 
 void Player::Update(float _DeltaTime)

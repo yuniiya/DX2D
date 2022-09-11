@@ -55,9 +55,44 @@ public:
 		return CurExp_;
 	}
 
+	inline float GetMaxHP()
+	{
+		return MaxHP_;
+	}
+
+	inline float GetMaxMP()
+	{
+		return MaxMP_;
+	}
+
+	inline float GetMaxExp()
+	{
+		return MaxExp_;
+	}
+
 	inline void UseMP(float _MP)
 	{
 		CurMP_ = CurMP_ - _MP;
+	}
+
+	inline void AddHP(float _HP)
+	{
+		if (CurHP_ + _HP >= MaxHP_)
+		{
+			CurHP_ = 100.f;
+			return;
+		}
+		CurHP_ = CurHP_ + _HP;
+	}
+
+	inline void AddMP(float _MP)
+	{
+		if (CurMP_ + _MP >= MaxMP_)
+		{
+			CurMP_ = 100.f;
+			return;
+		}
+		CurMP_ = CurMP_ + _MP;
 	}
 
 	inline void AddExp(float _Exp)

@@ -100,6 +100,7 @@ public:
 	void SetItemType(ItemType _ItemType);
 
 	bool IsHold_;
+	bool IsDoneHolding_;
 
 protected:
 	//InventoryItemType InventoryItemType_;

@@ -35,6 +35,8 @@ public:
 		return CurInventoryItem_;
 	}
 
+	std::vector<InventoryItem*> InventoryItemList_;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -42,7 +44,6 @@ protected:
 
 private:
 	GameEngineUIRenderer* HoldItemRenderer_;
-
 	GameEngineCollision* Collision_;
 
 	// ¸¶¿ì½º
@@ -50,5 +51,6 @@ private:
 	GameEngineCollision* MouseCollision_;
 
 	InventoryItem* CurInventoryItem_;
+
 };
 
