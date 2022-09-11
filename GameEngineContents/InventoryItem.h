@@ -52,8 +52,6 @@ public:
 		return ItemState_.Price_;
 	}
 
-	void SetItemType(ItemType _ItemType);
-
 	inline GameEngineTextureRenderer* GetRenderer()
 	{
 		return Renderer_;
@@ -74,17 +72,6 @@ public:
 		return ItemType_;
 	}
 
-	inline void SetCount(int _Count)
-	{
-		ItemState_.Count_ = _Count;
-	}
-	//inline void SetInventoryItemType(InventoryItemType _InventoryItemType)
-	//{c
-	//	InventoryItemType_ = _InventoryItemType;
-	//}
-
-	//MONSTERNAME MonsterName_;
-
 	inline GameEngineUIRenderer* GetMouseSlotRenderer()
 	{
 		return MouseSlotRenderer_;
@@ -94,6 +81,23 @@ public:
 	{
 		return Index_;
 	}
+
+	inline int GetSlotIndex()
+	{
+		return SlotIndex_;
+	}
+
+	inline void SetCount(int _Count)
+	{
+		ItemState_.Count_ = _Count;
+	}
+
+	inline void SetSlotIndex(int _SlotIndex)
+	{
+		SlotIndex_ = _SlotIndex;
+	}
+
+	void SetItemType(ItemType _ItemType);
 
 	bool IsHold_;
 
@@ -108,6 +112,7 @@ protected:
 	bool DragEndSound_;
 
 	int Index_;
+	int SlotIndex_;
 private:
 	GameEngineUIRenderer* Renderer_;
 	GameEngineUIRenderer* MouseRenderer_;

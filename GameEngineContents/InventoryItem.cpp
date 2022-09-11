@@ -19,6 +19,7 @@ InventoryItem::InventoryItem()
 	, IsHold_(false)
 	, MouseSlotRenderer_(nullptr)
 	, Index_(0)
+	, SlotIndex_(0)
 {
 	ItemState_.Count_ = 0;
 	ItemState_.Price_ = 500;
@@ -46,7 +47,7 @@ void InventoryItem::Start()
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->SetUIDebugCamera();
-	Collision_->GetTransform().SetLocalScale({24.f, 26.f});
+	Collision_->GetTransform().SetLocalScale({30.f, 26.f});
 	Collision_->ChangeOrder((int)GAMEOBJGROUP::SLOTUI);
 
 	Collision_->GetTransform().SetLocalPosition(
@@ -106,9 +107,32 @@ void InventoryItem::CollisionCheck()
 		// 6-1) 슬롯의 아이템과 인벤토리 아이템이 같다 -> 리턴
 		if (GetItemType() == Slot->GetInventoryItem()->GetItemType())
 		{
-			return;
-		}
-		else if (GetItemType() == ItemType::MAX)								// 6-2) 빈 칸이다
+			// 같은 칸이다
+			if (SlotIndex_ == Slot->GetInventoryItem()->GetSlotIndex())
+			{
+				return;
+			}
+			else // 다른 칸이다
+			{
+				SetCount(Slot->GetInventoryItem()->GetCount() + GetCount());
+				ItemCountFontUpdate();
+
+				// 빈칸의 폰트 렌더러 위치 설정
+				ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
+
+				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
+				SetItemType(Slot->GetInventoryItem()->GetItemType());
+				Slot->GetInventoryItem()->SetItemType(ItemType::MAX);
+
+				// 슬롯 폰트 오프
+				Slot->GetInventoryItem()->SetCount(0);
+				Slot->GetInventoryItem()->GetFontRenderer()->Off();
+				// 슬롯 아이템 null로 만들기
+				Slot->SetInventoryItem(nullptr);
+			}
+			
+		}	// 6-2) 빈 칸이다
+		else if (GetItemType() == ItemType::MAX)								
 		{
 			// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
 			SetCount(Slot->GetInventoryItem()->GetCount());
@@ -128,10 +152,14 @@ void InventoryItem::CollisionCheck()
 			Slot->SetInventoryItem(nullptr);
 			
 			
-		}
-		else if (GetItemType() != Slot->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)	// 6-3) 아이템이 이미 있다	
+		} // 6-3) 아이템이 이미 있다	
+		else if (GetItemType() != Slot->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)	
 		{
 			//InventoryItem* temp = Slot->GetInventoryItem();
+
+		}
+		else
+		{
 
 		}
 	

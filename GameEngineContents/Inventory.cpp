@@ -217,6 +217,11 @@ void Inventory::CollisionCheck()
 { 
 	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 	{
+		if (true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
+		{
+			return;
+		}
+
 		if (true == CategoryCollision_1->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
 			IsCategoryOn_1 = true;
@@ -372,6 +377,7 @@ void Inventory::InventoryItemCollisionCheck()
 			if (true == InventoryItemsList_Etc[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 			{
 				InventoryItemsList_Etc[i]->CollisionCheck();
+				InventoryItemsList_Etc[i]->SetSlotIndex(i);
 
 				break;
 			}

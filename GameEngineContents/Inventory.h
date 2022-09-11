@@ -89,5 +89,6 @@ private:
 	int ItemSlotCount_;
 
 	int PlayerMeso_;
+	bool IsSameItem_;
 };
 
