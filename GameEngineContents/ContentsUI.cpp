@@ -1,7 +1,8 @@
 #include "PreCompile.h"
 #include "ContentsUI.h"
 #include "Player.h"
-#include "GameEngineBase/GameEngineTime.h"
+#include <GameEngineBase/GameEngineTime.h>
+#include <GameEngineCore/GameEngineFontRenderer.h>
 #include "InventoryItem.h"
 
 ContentsUI::ContentsUI() 
@@ -190,6 +191,7 @@ void ContentsUI::Update(float _DeltaTime)
 	MainBarScaleUpdate();
 	LevelImageUpdate();
 //	CollisionCheck();
+//	SlotKeyCheck();
 }
 
 void ContentsUI::CollisionCheck()
@@ -204,5 +206,50 @@ void ContentsUI::CollisionCheck()
 	{
 		InventoryItem_->IsCollideSlot_ = false;
 	}
+}
+
+void ContentsUI::SlotKeyCheck()
+{
+	//if (ItemType_ == ItemType::ITEM_HP300)
+	//{
+	//	if (true == GameEngineInput::GetInst()->IsDown("1"))
+	//	{
+	//		Player::MainPlayer_->AddHP(5.f);
+	//	}
+	//}
+	//else if (ItemType_ == ItemType::ITEM_MP300)
+	//{
+	//	if (true == GameEngineInput::GetInst()->IsDown("2"))
+	//	{
+	//		Player::MainPlayer_->AddMP(5.f);
+	//	}
+	//}
+
+	if (nullptr == InventoryItem_)
+	{
+		return;
+	}
+	if (true == SlotKeyInputCheck())
+	{
+		InventoryItem_->UsePotion();
+	}
+	//if (true == GameEngineInput::GetInst()->IsDown("1"))
+	//{
+	//	InventoryItem_->UsePotion();
+	//}
+	//else if (true == GameEngineInput::GetInst()->IsDown("2"))
+	//{
+	//	InventoryItem_->UsePotion();
+	//}
+}
+
+bool ContentsUI::SlotKeyInputCheck()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("1")
+		|| true == GameEngineInput::GetInst()->IsDown("2"))
+	{
+		return true;
+	}
+	return false;
 }
 

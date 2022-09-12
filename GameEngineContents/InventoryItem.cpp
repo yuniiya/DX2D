@@ -161,6 +161,8 @@ void InventoryItem::CollisionCheck()
 				ContentsUI_->GetInventoryItem()->SetItemType(Slot->GetInventoryItem()->GetItemType());
 				ContentsUI_->GetInventoryItem()->SetCount(Slot->GetInventoryItem()->GetCount());
 				ContentsUI_->GetInventoryItem()->ItemCountFontUpdate();
+				//ContentsUI_->GetInventoryItem()->SetItemType(Slot->GetInventoryItem()->GetItemType());
+
 
 				return;
 			}
@@ -232,41 +234,7 @@ void InventoryItem::CollisionCheck()
 	// 소비 아이템 사용
 	if (true == GameEngineInput::GetInst()->IsDown("RightMouse"))
 	{
-		if (ItemType::ITEM_HP300 == ItemType_)
-		{
-			Player::MainPlayer_->AddHP(5.f);
-		}
-		else if (ItemType::ITEM_HP4000 == ItemType_)
-		{
-			Player::MainPlayer_->AddHP(10.f);
-		}
-		else if (ItemType::ITEM_HP5000 == ItemType_)
-		{
-			Player::MainPlayer_->AddHP(11.f);
-		}
-		else if (ItemType::ITEM_MP300 == ItemType_)
-		{
-			Player::MainPlayer_->AddMP(5.f);
-		}
-		else if (ItemType::ITEM_MP5000 == ItemType_)
-		{
-			Player::MainPlayer_->AddMP(10.f);
-		}
-		else if (ItemType::ITEM_MP4000 == ItemType_)
-		{
-			Player::MainPlayer_->AddMP(11.f);
-		}
-
-
-		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
-		SetCount(GetCount() - 1);
-		ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
-
-		if (GetCount() <= 0)
-		{
-			SetItemType(ItemType::MAX);
-			ItemCountFont_->Off();
-		}
+		UsePotion();
 	}
 
 }
@@ -396,5 +364,44 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	}
 
+}
+
+void InventoryItem::UsePotion()
+{
+	if (ItemType::ITEM_HP300 == ItemType_)
+	{
+		Player::MainPlayer_->AddHP(5.f);
+	}
+	else if (ItemType::ITEM_HP4000 == ItemType_)
+	{
+		Player::MainPlayer_->AddHP(10.f);
+	}
+	else if (ItemType::ITEM_HP5000 == ItemType_)
+	{
+		Player::MainPlayer_->AddHP(11.f);
+	}
+	else if (ItemType::ITEM_MP300 == ItemType_)
+	{
+		Player::MainPlayer_->AddMP(5.f);
+	}
+	else if (ItemType::ITEM_MP5000 == ItemType_)
+	{
+		Player::MainPlayer_->AddMP(10.f);
+	}
+	else if (ItemType::ITEM_MP4000 == ItemType_)
+	{
+		Player::MainPlayer_->AddMP(11.f);
+	}
+
+
+	GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
+	SetCount(GetCount() - 1);
+	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
+
+	if (GetCount() <= 0)
+	{
+		SetItemType(ItemType::MAX);
+		ItemCountFont_->Off();
+	}
 }
 

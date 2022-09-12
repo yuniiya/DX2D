@@ -30,6 +30,16 @@ public:
 		return InventoryItem_;
 	}
 
+	inline ItemType GetItemType()
+	{
+		return ItemType_;
+	}
+
+	inline void SetItemType(ItemType _ItemType)
+	{
+		ItemType_ = _ItemType;
+	}
+
 	inline void SetInventoryItem(InventoryItem* _InventoryItem)
 	{
 		InventoryItem_ = _InventoryItem;
@@ -43,6 +53,8 @@ protected:
 	void End() override {};
 
 	void CollisionCheck();
+	void SlotKeyCheck();
+	bool SlotKeyInputCheck();
 
 private:
 	float4 HPBarPos_;
@@ -81,6 +93,7 @@ private:
 	GameEngineCollision* SlotCollision_5;
 
 	InventoryItem* InventoryItem_;
+	ItemType ItemType_;
 
 };
 

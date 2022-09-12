@@ -113,6 +113,8 @@ public:
 	bool IsDoneHolding_;
 	bool IsCollideSlot_;
 	bool IsSlot_;
+	
+	void UsePotion();
 
 protected:
 	//InventoryItemType InventoryItemType_;

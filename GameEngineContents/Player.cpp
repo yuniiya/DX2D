@@ -154,6 +154,9 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("SKill_E", 'E');
 		GameEngineInput::GetInst()->CreateKey("Skill_R", 'R');
 
+		GameEngineInput::GetInst()->CreateKey("1", '1');
+		GameEngineInput::GetInst()->CreateKey("2", '2');
+
 	}
 
 	GetTransform().SetLocalPosition(float4{ 0, 0, (int)ZOrder::PLAYER});
