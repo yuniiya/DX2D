@@ -7,7 +7,6 @@ MouseSlot::MouseSlot()
 	, Collision_(nullptr)
 	, IsHold_(false)
 	, CurInventoryItem_(nullptr)
-	, PrevInventoryItem_(nullptr)
 	, IsDoneHolding_(false)
 {
 }
@@ -29,8 +28,7 @@ void MouseSlot::Start()
 	Collision_->GetTransform().SetLocalScale({ 24.f, 26.f });
 	Collision_->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
-	//MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
-	//MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
+	SetLevelOverOn();
 }
 
 void MouseSlot::Update(float _DeltaTime)

@@ -2,6 +2,7 @@
 #include "ContentsUI.h"
 #include "Player.h"
 #include "GameEngineBase/GameEngineTime.h"
+#include "InventoryItem.h"
 
 ContentsUI::ContentsUI() 
 	: MainBar_(nullptr)
@@ -28,6 +29,8 @@ ContentsUI::ContentsUI()
 	, SlotCollision_3(nullptr)
 	, SlotCollision_4(nullptr)
 	, SlotCollision_5(nullptr)
+	, SlotCollision_(nullptr)
+	, StartPosition_(0.f)
 
 {
 }
@@ -135,41 +138,40 @@ void ContentsUI::Start()
 	ExpBarScale_ = ExpBar_->GetTransform().GetLocalScale();
 
 
-	QuickSlotBack_ = CreateComponent<GameEngineTextureRenderer>();
+	QuickSlotBack_ = CreateComponent<GameEngineUIRenderer>();
 	QuickSlotBack_->SetTexture("QuickSlotBack.png");
 	QuickSlotBack_->SetPivot(PIVOTMODE::LEFTTOP);
 	QuickSlotBack_->ScaleToTexture();
+	QuickSlotBack_->GetTransform().SetLocalPosition({ 291.f, -276.f });
 
-	QuickSlot_ = CreateComponent<GameEngineTextureRenderer>();
+	QuickSlot_ = CreateComponent<GameEngineUIRenderer>();
 	QuickSlot_->SetTexture("QuickSlot.png");
 	QuickSlot_->SetPivot(PIVOTMODE::LEFTTOP);
 	QuickSlot_->ScaleToTexture();
+	QuickSlot_->GetTransform().SetLocalPosition({ 290.f, -273.f });
 
 	Level_ = CreateComponent<GameEngineTextureRenderer>();
 	Level_->SetTexture("Lv120.png");
 	Level_->ScaleToTexture();
 
-	// QuickSlot Collision //
-	SlotCollision_1 = CreateComponent<GameEngineCollision>();
-	SlotCollision_1->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_1->ChangeOrder(GAMEOBJGROUP::SLOTUI);
 
-	SlotCollision_2 = CreateComponent<GameEngineCollision>();
-	SlotCollision_2->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_2->ChangeOrder(GAMEOBJGROUP::SLOTUI);
+	StartPosition_ = float4{ 192.f, -215.f };
+	float4 Pos = StartPosition_;
+	for (int i = 0; i < 20; ++i)
+	{
+		if (i != 0 && 0 == i % 10)
+		{
+			Pos.y -= 37.f;
+			Pos.x = StartPosition_.x;
+		}
 
-	SlotCollision_3 = CreateComponent<GameEngineCollision>();
-	SlotCollision_3->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_3->ChangeOrder(GAMEOBJGROUP::SLOTUI);
+		Pos.x += 35.f;
 
-	SlotCollision_4 = CreateComponent<GameEngineCollision>();
-	SlotCollision_4->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_4->ChangeOrder(GAMEOBJGROUP::SLOTUI);
-
-	SlotCollision_5 = CreateComponent<GameEngineCollision>();
-	SlotCollision_5->GetTransform().SetLocalScale({ 30.f, 30.f });
-	SlotCollision_5->ChangeOrder(GAMEOBJGROUP::SLOTUI);
-
+		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos.x, Pos.y, (int)ZOrder::UI});
+		InventoryItemsList_.push_back(ItemActor);
+		ItemActor->IsSlot_ = true;
+	}
 }
 
 void ContentsUI::Update(float _DeltaTime)
@@ -182,21 +184,25 @@ void ContentsUI::Update(float _DeltaTime)
 	ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 634.f , CamPos_.y - 346.f });
 
 	MainBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x, CamPos_.y - 308.f });
-	QuickSlotBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 290.f, CamPos_.y - 275.f });
-	QuickSlot_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 289.f, CamPos_.y - 273.f });
 	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f});
 	Level_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 49.f, CamPos_.y - 286.f });
 
-	// QuickSlot Collision //
-	SlotPosition_ = QuickSlotBack_->GetTransform().GetLocalPosition();
-	SlotCollision_1->GetTransform().SetLocalPosition({ SlotPosition_.x + 15.f, SlotPosition_.y - 15.f});
-	SlotCollision_2->GetTransform().SetLocalPosition({ SlotPosition_.x + 15.f + (35.f * 1.f), SlotPosition_.y - 15.f });
-	SlotCollision_3->GetTransform().SetLocalPosition({ SlotPosition_.x + 15.f + (35.f * 2.f), SlotPosition_.y - 15.f });
-	SlotCollision_4->GetTransform().SetLocalPosition({ SlotPosition_.x + 15.f + (35.f * 3.f), SlotPosition_.y - 15.f });
-	SlotCollision_5->GetTransform().SetLocalPosition({ SlotPosition_.x + 15.f + (35.f * 4.f), SlotPosition_.y - 15.f });
-
 	MainBarScaleUpdate();
 	LevelImageUpdate();
+//	CollisionCheck();
+}
 
+void ContentsUI::CollisionCheck()
+{
+	if (nullptr == InventoryItem_)
+	{
+		return;
+	}
+
+	// 아이템을 잡아서 슬롯에 놨다
+	if (true == InventoryItem_->IsCollideSlot_)
+	{
+		InventoryItem_->IsCollideSlot_ = false;
+	}
 }
 

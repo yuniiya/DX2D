@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "InventoryItem.h"
 #include "Player.h"
+#include "ContentsUI.h"
 
 Mouse::Mouse() 
 	: MouseCol_(nullptr)
@@ -85,17 +86,54 @@ void Mouse::Update(float _DeltaTime)
 
 	MainCameraMouseCol_->GetTransform().SetLocalPosition({ MainCameraCurPos_.x, MainCameraCurPos_.y + 10.f });
 
-
 	// 아이템을 잡은 상태가 아닐때만 일반 애니메이션
 	if (true == MouseSlot_->IsHold_)
 	{
 		return;
 	}
 
-	// 아이템 버리기
+	// 아이템을 잡은 마우스가 인벤토리 외부와 충돌
 	if (true == MouseSlot_->IsDoneHolding_
 		&& false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::INVENTORY, CollisionType::CT_OBB2D))
 	{
+		if (nullptr == MouseSlot_->GetInventoryItem())
+		{
+			return;
+		}
+
+		// 슬롯과 충돌했을 경우
+		if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SLOTUI, CollisionType::CT_OBB2D)
+			&& InventorySlotType::SLOT_POTION == MouseSlot_->GetInventoryItem()->GetInventorySlotType())
+		{
+			MouseRenderer_->SetTexture("Cursor_Idle.png");
+			MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
+
+	/*		ItemType TempItemType = MouseSlot_->GetInventoryItem()->GetItemType();
+			int TempCount = MouseSlot_->GetInventoryItem()->GetCount();*/
+
+			MouseSlot_->IsDoneHolding_ = false;
+
+			ContentsUI* ContentsUI_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI();
+			//ContentsUI_->SetInventoryItem(MouseSlot_->GetInventoryItem());
+			//ContentsUI_->GetInventoryItem()->IsCollideSlot_ = true;
+			//ContentsUI_->GetInventoryItem()->SetItemType(TempItemType);
+			//ContentsUI_->GetInventoryItem()->SetCount(TempCount);
+			//ContentsUI_->GetInventoryItem()->ItemCountFontUpdate();
+
+			for (size_t i = 0; i < ContentsUI_->InventoryItemsList_.size(); i++)
+			{
+				if (true == ContentsUI_->InventoryItemsList_[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+				{
+					ContentsUI_->InventoryItemsList_[i]->CollisionCheck();
+
+					break;
+				}
+			}
+			
+			return;
+		}
+
+		// 아이템 버리기 
 		MouseSlot_->IsDoneHolding_ = false;
 	
 		Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::ITEM);
@@ -109,7 +147,7 @@ void Mouse::Update(float _DeltaTime)
 			ItemActor->SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
 			ItemActor->PotionRendererTypeSetting();
 		}
-		ItemActor->GetTransform().SetLocalPosition({ Player::MainPlayer_->GetPosition().x - 12.f, Player::MainPlayer_->GetPosition().y - 14.f, (int)ZOrder::ITEM});
+		ItemActor->GetTransform().SetLocalPosition({ Player::MainPlayer_->GetPosition().x - 12.f, Player::MainPlayer_->GetPosition().y - 17.f, (int)ZOrder::ITEM});
 		ItemActor->TimeAttackStart();
 
 		MouseSlot_->GetInventoryItem()->SetCount(MouseSlot_->GetInventoryItem()->GetCount() - 1);

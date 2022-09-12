@@ -111,6 +111,8 @@ public:
 
 	bool IsHold_;
 	bool IsDoneHolding_;
+	bool IsCollideSlot_;
+	bool IsSlot_;
 
 protected:
 	//InventoryItemType InventoryItemType_;

@@ -20,6 +20,7 @@ GlobalLevel::GlobalLevel()
 	, BackRenderer_(nullptr)
 	, Inventory_(nullptr)
 	, Mouse_(nullptr)
+	, ContentsUI_(nullptr)
 {
 }
 
@@ -31,9 +32,8 @@ void GlobalLevel::Start()
 {
 	// UI
 	//Inventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
-	CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
 	Mouse_ = CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
-
+	ContentsUI_ = CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
 }
 
 void GlobalLevel::Update(float _DeltaTime)

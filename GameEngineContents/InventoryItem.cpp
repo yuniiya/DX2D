@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineFontRenderer.h>
 #include "Mouse.h"
 #include "MouseSlot.h"
+#include "ContentsUI.h"
 
 InventoryItem::InventoryItem()
 	: Renderer_(nullptr)
@@ -22,6 +23,8 @@ InventoryItem::InventoryItem()
 	, SlotIndex_(0)
 	, IsDoneHolding_(false)
 	, InventorySlotType_(InventorySlotType::MAX)
+	, IsCollideSlot_(false)
+	, IsSlot_(false)
 {
 	ItemState_.Count_ = 0;
 	ItemState_.Price_ = 500;
@@ -49,7 +52,7 @@ void InventoryItem::Start()
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->SetUIDebugCamera();
-	Collision_->GetTransform().SetLocalScale({30.f, 26.f});
+	Collision_->GetTransform().SetLocalScale({30.f, 28.f});
 	Collision_->ChangeOrder((int)GAMEOBJGROUP::SLOTUI);
 
 	Collision_->GetTransform().SetLocalPosition(
@@ -108,6 +111,10 @@ void InventoryItem::CollisionCheck()
 		// 6-1) 슬롯의 아이템과 인벤토리 아이템이 같다
 		if (GetItemType() == Slot->GetInventoryItem()->GetItemType())
 		{
+			if (true == IsSlot_)
+			{
+				return;
+			}
 			// 같은 칸이다
 			if (SlotIndex_ == Slot->GetInventoryItem()->GetSlotIndex())
 			{
@@ -123,8 +130,8 @@ void InventoryItem::CollisionCheck()
 
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 				SetItemType(Slot->GetInventoryItem()->GetItemType());
-				Slot->GetInventoryItem()->SetItemType(ItemType::MAX);
 
+				Slot->GetInventoryItem()->SetItemType(ItemType::MAX);
 				// 슬롯 폰트 오프
 				Slot->GetInventoryItem()->SetCount(0);
 				Slot->GetInventoryItem()->GetFontRenderer()->Off();
@@ -144,8 +151,20 @@ void InventoryItem::CollisionCheck()
 
 			// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 			SetItemType(Slot->GetInventoryItem()->GetItemType());
-			Slot->GetInventoryItem()->SetItemType(ItemType::MAX);
 
+			// 슬롯이다
+			if (true == IsSlot_)
+			{
+				ContentsUI* ContentsUI_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI();
+				ContentsUI_->SetInventoryItem(Slot->GetInventoryItem());
+				ContentsUI_->GetInventoryItem()->IsCollideSlot_ = true;
+				ContentsUI_->GetInventoryItem()->SetItemType(Slot->GetInventoryItem()->GetItemType());
+				ContentsUI_->GetInventoryItem()->SetCount(Slot->GetInventoryItem()->GetCount());
+				ContentsUI_->GetInventoryItem()->ItemCountFontUpdate();
+
+				return;
+			}
+			Slot->GetInventoryItem()->SetItemType(ItemType::MAX);
 			// 슬롯 폰트 오프
 			Slot->GetInventoryItem()->SetCount(0);
 			Slot->GetInventoryItem()->GetFontRenderer()->Off();
@@ -156,7 +175,12 @@ void InventoryItem::CollisionCheck()
 		} // 6-3) 다른 아이템이 이미 있다	-> 체인지
 		else if (GetItemType() != Slot->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)	
 		{
-			// 2를 3에 담아두기
+			// 슬롯이다
+			if (true == IsSlot_)
+			{
+				return;
+			}
+			// 2를 3에 담아두기zzzi
 			ItemType TempItemType = GetItemType();
 			int TempCount = GetCount();
 			//Slot->SetInventoryItem(Slot->GetInventoryItem());
@@ -169,7 +193,6 @@ void InventoryItem::CollisionCheck()
 			Slot->GetInventoryItem()->SetItemType(TempItemType);
 			Slot->GetInventoryItem()->SetCount(TempCount);	
 		}
-		
 	}
 
 	// 빈 칸이 아닐 때만 아래로 들어간다
@@ -203,6 +226,7 @@ void InventoryItem::CollisionCheck()
 
 		// 2) 슬롯의 아이템 = 현재 마우스로 잡은 아이템 (정보를 들고 있는다)
 		Slot->SetInventoryItem(this);
+		
 	}
 
 	// 소비 아이템 사용

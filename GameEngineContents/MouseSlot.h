@@ -33,16 +33,6 @@ public:
 		return CurInventoryItem_;
 	}
 
-	inline void SetPrevInventoryItem(InventoryItem* _PrevInventoryItem)
-	{
-		PrevInventoryItem_ = _PrevInventoryItem;
-	}
-
-	inline InventoryItem* GetPrevInventoryItem()
-	{
-		return PrevInventoryItem_;
-	}
-
 	bool IsHold_;
 	bool IsDoneHolding_;
 
@@ -60,7 +50,5 @@ private:
 	//GameEngineCollision* MouseCollision_;
 
 	InventoryItem* CurInventoryItem_;
-	InventoryItem* PrevInventoryItem_;
-
 };
 

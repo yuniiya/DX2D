@@ -2,6 +2,8 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
+class GameEngineUIRenderer;
+class InventoryItem;
 class ContentsUI : public GameEngineActor
 {
 public:
@@ -23,10 +25,24 @@ public:
 	void MainBarScaleUpdate();
 	void LevelImageUpdate();
 
+	inline InventoryItem* GetInventoryItem()
+	{
+		return InventoryItem_;
+	}
+
+	inline void SetInventoryItem(InventoryItem* _InventoryItem)
+	{
+		InventoryItem_ = _InventoryItem;
+	}
+
+	std::vector<InventoryItem*> InventoryItemsList_;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
+
+	void CollisionCheck();
 
 private:
 	float4 HPBarPos_;
@@ -39,6 +55,7 @@ private:
 	float4 ExpBarScale_;
 
 	float4 SlotPosition_;
+	float4 StartPosition_;
 
 	float CurHP_;
 	float CurMP_;
@@ -47,8 +64,8 @@ private:
 private:
 	GameEngineTextureRenderer* MainBar_;
 	GameEngineTextureRenderer* ExpBack_;
-	GameEngineTextureRenderer* QuickSlotBack_;
-	GameEngineTextureRenderer* QuickSlot_;
+	GameEngineUIRenderer* QuickSlotBack_;
+	GameEngineUIRenderer* QuickSlot_;
 	GameEngineTextureRenderer* Level_;
 
 	GameEngineTextureRenderer* HpBar_;
@@ -56,11 +73,14 @@ private:
 	GameEngineTextureRenderer* ExpBar_;
 
 private:
+	GameEngineCollision* SlotCollision_;
 	GameEngineCollision* SlotCollision_1;
 	GameEngineCollision* SlotCollision_2;
 	GameEngineCollision* SlotCollision_3;
 	GameEngineCollision* SlotCollision_4;
 	GameEngineCollision* SlotCollision_5;
+
+	InventoryItem* InventoryItem_;
 
 };
 

@@ -49,6 +49,11 @@ public:
 		return Mouse_;
 	}
 
+	inline ContentsUI* GetContentsUI()
+	{
+		return ContentsUI_;
+	}
+
 	inline Player* GetPlayer()
 	{
 		return Player_;
@@ -88,6 +93,7 @@ protected:
 private:
 	Player* Player_;
 	Mouse* Mouse_;
+	ContentsUI* ContentsUI_;
 
 	Inventory* Inventory_;
 };
