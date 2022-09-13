@@ -969,6 +969,7 @@ void Player::UseSkill()
 		Skill_->GetJiBRenderer()->On();
 		Skill_->GetJiBRenderer()->ChangeFrameAnimation("Ji_B");
 		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 130.f });
+		Skill_->GetCollision()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 100.f });
 		Skill_->GetCollision()->On();
 		CurSkill_ = PLAYERSKILL::SKILL_JI;
 
@@ -1114,6 +1115,7 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	//if ("SkillAtt" != StateManager.GetCurStateStateName()
 	//	&& "Jump" != StateManager.GetCurStateStateName())
 	//{
+	// 
 	//	return;
 	//}
 
@@ -1186,11 +1188,11 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		if (ACTORDIR::RIGHT == CurDir_)
 		{
 			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 200.f, (int)ZOrder::SKILLBACK });
-			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 170.f, (int)ZOrder::SKILLBACK });
+			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 170.f, (int)ZOrder::SKILLBACK });
 		}
 		else
 		{
-			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 200.f, (int)ZOrder::SKILLBACK });
+			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 200.f, (int)ZOrder::SKILLBACK });
 			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
 		}
 		

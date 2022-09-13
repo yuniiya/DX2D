@@ -106,8 +106,7 @@ void InventoryItem::CollisionCheck()
 		Slot->GetInventoryItem() != nullptr)
 	{
 		// 4) 놓은 칸의 아이템 타입을 슬롯 아이템의 아이템 타입으로 지정
-		// 5) 슬롯 렌더러 -> 빈 칸으로 지정
-		// 슬롯 -> null
+		// 5) 슬롯 렌더러 -> 빈 칸으로 지정 및 null로 초기화 
 		// 6-1) 슬롯의 아이템과 인벤토리 아이템이 같다
 		if (GetItemType() == Slot->GetInventoryItem()->GetItemType())
 		{

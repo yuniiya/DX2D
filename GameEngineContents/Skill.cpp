@@ -19,7 +19,7 @@ void Skill::Start()
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::SKILLBACK});
 
 	JiSkillCollision_ = CreateComponent<GameEngineCollision>();
-	JiSkillCollision_->GetTransform().SetLocalScale({ 900.f, 350.f });
+	JiSkillCollision_->GetTransform().SetLocalScale({ 900.f, 300.f });
 	JiSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
 	JiSkillCollision_->Off();
 
