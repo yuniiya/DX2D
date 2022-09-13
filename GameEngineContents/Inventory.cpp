@@ -232,6 +232,11 @@ void Inventory::CollisionCheck()
 			return;
 		}
 
+		//if (true == HeaderCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+		//{
+		//	GetTransform().SetLocalPosition(dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetTransform().GetLocalPosition());
+		//}
+
 		if (true == CategoryCollision_1->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 		{
 			IsCategoryOn_1 = true;

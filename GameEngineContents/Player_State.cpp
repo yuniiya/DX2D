@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
+#include "Skill.h"
 
 void Player::IdleStart(const StateInfo& _Info)
 {
@@ -502,7 +503,12 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 		break;
 	case PLAYERSKILL::SKILL_JI:
 	{
-		JiB_Renderer_->AnimationBindEnd("Ji_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));	
+		if (true == Skill_->IsEnd_)
+		{
+			StateManager.ChangeState("Idle");
+			return;
+		}
+		//JiB_Renderer_->AnimationBindEnd("Ji_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));	
 		//JiB_Renderer_->AnimationBindFrame("Ji_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 	}
 		break;

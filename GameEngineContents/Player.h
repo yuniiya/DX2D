@@ -4,6 +4,7 @@
 
 class GameEngineTextureRenderer;
 class GlobalLevel;
+class Skill;
 class Player : public GlobalActor
 {
 public:
@@ -153,6 +154,8 @@ private:
 
 	ACTORDIR CurDir_;
 	ACTORDIR PrevDir_;
+
+	Skill* Skill_;
 
 private:
 	int SinSkillAttCount_;

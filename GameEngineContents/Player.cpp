@@ -15,6 +15,7 @@
 #include "FadeIn.h"
 #include "ContentsUI.h"
 #include "Monster.h"
+#include "Skill.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -962,10 +963,20 @@ void Player::UseSkill()
 	{
 		GameEngineSound::SoundPlayOneShot("JiUse.mp3");
 
-		JiA_Renderer_->On();
+	/*	JiA_Renderer_->On();
 		JiB_Renderer_->On();
 		JiB_Renderer_->ChangeFrameAnimation("Ji_B");
 		JiSkillCollision_->On();
+		CurSkill_ = PLAYERSKILL::SKILL_JI;*/
+
+		Skill_ = GetLevel()->CreateActor<Skill>();
+		Skill_->GetJiARenderer()->On();
+		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 60.f });
+		Skill_->GetJiBRenderer()->On();
+		Skill_->GetJiBRenderer()->ChangeFrameAnimation("Ji_B");
+		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 110.f });
+		Skill_->GetJiBRenderer()->GetTransform().SetLocalScale({ 972.f, 398.f });
+		Skill_->GetCollision()->On();
 		CurSkill_ = PLAYERSKILL::SKILL_JI;
 
 		StateManager.ChangeState("SkillAtt");
@@ -1079,15 +1090,11 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	break;
 	case PLAYERSKILL::SKILL_JI:
 	{
-		//AddAccTime(Time_);
-		JiA_Renderer_->Off();
-		JiB_Renderer_->Off();
-		//JiB_Renderer_->ChangeFrameAnimation("Ji_C");
-		
-		JiC_Renderer_->On();
-
+		//JiA_Renderer_->Off();
+		//JiB_Renderer_->Off();	
 		//JiC_Renderer_->On();
-		JiSkillCollision_->Off();
+
+		//JiSkillCollision_->Off();
 	}
 	break;
 	case PLAYERSKILL::SKILL_SIN:
