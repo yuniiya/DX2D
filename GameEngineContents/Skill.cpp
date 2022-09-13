@@ -30,20 +30,18 @@ void Skill::Start()
 	JiA_Renderer_->Off();
 
 	JiB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	//JiB_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
+	JiB_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
 	JiB_Renderer_->CreateFrameAnimationFolder("Ji_B", FrameAnimation_DESC("Ji_B", 0.04f));
-	JiB_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.05f));
 	JiB_Renderer_->AnimationBindEnd("Ji_B", std::bind(&Skill::SkillEnd, this, std::placeholders::_1));
-	JiB_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Skill::JiCFrameEnd, this, std::placeholders::_1));
 	JiB_Renderer_->ChangeFrameAnimation("Ji_B");
 	JiB_Renderer_->Off();
 
-	//JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	//JiC_Renderer_->GetTransform().SetLocalScale({ 1197.f, 508.f });
-	//JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.05f));
-	//JiC_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Skill::JiCFrameEnd, this, std::placeholders::_1));
-	//JiC_Renderer_->ChangeFrameAnimation("Ji_C");
-	//JiC_Renderer_->Off();
+	JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+	JiC_Renderer_->GetTransform().SetLocalScale({ 1197.f, 508.f });
+	JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.05f));
+	JiC_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Skill::JiCFrameEnd, this, std::placeholders::_1));
+	JiC_Renderer_->ChangeFrameAnimation("Ji_C");
+	JiC_Renderer_->Off();
 }
 
 void Skill::Update(float _DeltaTime)
@@ -52,21 +50,18 @@ void Skill::Update(float _DeltaTime)
 
 void Skill::SkillEnd(const FrameAnimation_DESC& _Info)
 {
+	JiC_Renderer_->On();
+	JiC_Renderer_->GetTransform().SetLocalPosition({ JiB_Renderer_->GetTransform().GetLocalPosition().x - 4.f
+			, JiB_Renderer_->GetTransform().GetLocalPosition().y + 29.f });
 	JiA_Renderer_->Off();
-	//JiB_Renderer_->Off();
-	JiB_Renderer_->GetTransform().SetLocalScale({ 1197.f, 508.f });
-	JiB_Renderer_->GetTransform().SetLocalPosition({ JiB_Renderer_->GetTransform().GetLocalPosition().x - 5.f
-		, JiB_Renderer_->GetTransform().GetLocalPosition().y + 30.f });
-	JiB_Renderer_->ChangeFrameAnimation("Ji_C");
+	JiB_Renderer_->Off();
 	JiSkillCollision_->Off();
-
 	IsEnd_ = true;
 }
 
 void Skill::JiCFrameEnd(const FrameAnimation_DESC& _Info)
 {
-	JiB_Renderer_->Off();
-
+	JiC_Renderer_->Off();
 	IsEnd_ = false;
 }
 

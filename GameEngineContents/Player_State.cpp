@@ -508,8 +508,6 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 			StateManager.ChangeState("Idle");
 			return;
 		}
-		//JiB_Renderer_->AnimationBindEnd("Ji_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));	
-		//JiB_Renderer_->AnimationBindFrame("Ji_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 	}
 		break;
 	case PLAYERSKILL::SKILL_SIN:

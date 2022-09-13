@@ -963,19 +963,12 @@ void Player::UseSkill()
 	{
 		GameEngineSound::SoundPlayOneShot("JiUse.mp3");
 
-	/*	JiA_Renderer_->On();
-		JiB_Renderer_->On();
-		JiB_Renderer_->ChangeFrameAnimation("Ji_B");
-		JiSkillCollision_->On();
-		CurSkill_ = PLAYERSKILL::SKILL_JI;*/
-
 		Skill_ = GetLevel()->CreateActor<Skill>();
 		Skill_->GetJiARenderer()->On();
-		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 60.f });
+		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 70.f });
 		Skill_->GetJiBRenderer()->On();
 		Skill_->GetJiBRenderer()->ChangeFrameAnimation("Ji_B");
-		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 110.f });
-		Skill_->GetJiBRenderer()->GetTransform().SetLocalScale({ 972.f, 398.f });
+		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 130.f });
 		Skill_->GetCollision()->On();
 		CurSkill_ = PLAYERSKILL::SKILL_JI;
 
@@ -1090,11 +1083,6 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	break;
 	case PLAYERSKILL::SKILL_JI:
 	{
-		//JiA_Renderer_->Off();
-		//JiB_Renderer_->Off();	
-		//JiC_Renderer_->On();
-
-		//JiSkillCollision_->Off();
 	}
 	break;
 	case PLAYERSKILL::SKILL_SIN:
@@ -1169,9 +1157,6 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		break;
 	case PLAYERSKILL::SKILL_JI:
 	{
-		JiA_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 60.f, (int)ZOrder::SKILLBACK });
-		JiB_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x, PrevPosition_.y + 110.f, (int)ZOrder::SKILLBACK });
-		JiC_Renderer_->GetTransform().SetWorldPosition({ PrevPosition_.x - 4.5f, PrevPosition_.y + 139.f, (int)ZOrder::SKILLBACK });
 	}
 		break;
 	case PLAYERSKILL::SKILL_SIN:
