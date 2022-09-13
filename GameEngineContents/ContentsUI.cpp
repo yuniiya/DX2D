@@ -3,7 +3,7 @@
 #include "Player.h"
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
-#include "InventoryItem.h"
+#include "QuickSlotItem.h"
 
 ContentsUI::ContentsUI() 
 	: MainBar_(nullptr)
@@ -32,6 +32,8 @@ ContentsUI::ContentsUI()
 	, SlotCollision_5(nullptr)
 	, SlotCollision_(nullptr)
 	, StartPosition_(0.f)
+	, QuickSlotItem_(nullptr)
+	, ItemType_(ItemType::MAX)
 
 {
 }
@@ -156,7 +158,7 @@ void ContentsUI::Start()
 	Level_->ScaleToTexture();
 
 
-	StartPosition_ = float4{ 192.f, -215.f };
+	StartPosition_ = float4{ 198.f, -215.f };
 	float4 Pos = StartPosition_;
 	for (int i = 0; i < 20; ++i)
 	{
@@ -168,9 +170,9 @@ void ContentsUI::Start()
 
 		Pos.x += 35.f;
 
-		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
+		QuickSlotItem* ItemActor = GetLevel()->CreateActor<QuickSlotItem>();
 		ItemActor->GetTransform().SetLocalPosition({ Pos.x, Pos.y, (int)ZOrder::UI});
-		InventoryItemsList_.push_back(ItemActor);
+		QuickSlotItemsList_.push_back(ItemActor);
 		ItemActor->IsSlot_ = true;
 	}
 }
@@ -196,16 +198,13 @@ void ContentsUI::Update(float _DeltaTime)
 
 void ContentsUI::CollisionCheck()
 {
-	if (nullptr == InventoryItem_)
-	{
-		return;
-	}
+	//if (nullptr == InventoryItem_)
+	//{
+	//	return;
+	//}
 
 	// 아이템을 잡아서 슬롯에 놨다
-	if (true == InventoryItem_->IsCollideSlot_)
-	{
-		InventoryItem_->IsCollideSlot_ = false;
-	}
+
 }
 
 void ContentsUI::SlotKeyCheck()
@@ -225,14 +224,14 @@ void ContentsUI::SlotKeyCheck()
 	//	}
 	//}
 
-	if (nullptr == InventoryItem_)
-	{
-		return;
-	}
-	if (true == SlotKeyInputCheck())
-	{
-		InventoryItem_->UsePotion();
-	}
+	//if (nullptr == InventoryItem_)
+	//{
+	//	return;
+	//}
+	//if (true == SlotKeyInputCheck())
+	//{
+	//	InventoryItem_->UsePotion();
+	//}
 	//if (true == GameEngineInput::GetInst()->IsDown("1"))
 	//{
 	//	InventoryItem_->UsePotion();

@@ -3,7 +3,7 @@
 
 // Ό³Έν :
 class GameEngineUIRenderer;
-class InventoryItem;
+class QuickSlotItem;
 class ContentsUI : public GameEngineActor
 {
 public:
@@ -25,9 +25,9 @@ public:
 	void MainBarScaleUpdate();
 	void LevelImageUpdate();
 
-	inline InventoryItem* GetInventoryItem()
+	inline QuickSlotItem* GetQuickSlotItem()
 	{
-		return InventoryItem_;
+		return QuickSlotItem_;
 	}
 
 	inline ItemType GetItemType()
@@ -40,12 +40,12 @@ public:
 		ItemType_ = _ItemType;
 	}
 
-	inline void SetInventoryItem(InventoryItem* _InventoryItem)
+	inline void SetQuickSlotItem(QuickSlotItem* _QuickSlotItem)
 	{
-		InventoryItem_ = _InventoryItem;
+		QuickSlotItem_ = _QuickSlotItem;
 	}
 
-	std::vector<InventoryItem*> InventoryItemsList_;
+	std::vector<QuickSlotItem*> QuickSlotItemsList_;
 
 protected:
 	void Start() override;
@@ -92,7 +92,7 @@ private:
 	GameEngineCollision* SlotCollision_4;
 	GameEngineCollision* SlotCollision_5;
 
-	InventoryItem* InventoryItem_;
+	QuickSlotItem* QuickSlotItem_;
 	ItemType ItemType_;
 
 };

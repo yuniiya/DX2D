@@ -17,6 +17,7 @@ struct InventoryItemState
 
 class GameEngineFontRenderer;
 class GameEngineTextureRenderer;
+class MouseSlot;
 class InventoryItem : public GameEngineActor
 {
 public:
@@ -32,7 +33,7 @@ public:
 
 public:
 	void ItemCountFontUpdate();
-	void CollisionCheck();
+	virtual void CollisionCheck();
 
 protected:
 	void Start() override;
@@ -130,7 +131,10 @@ protected:
 
 	int Index_;
 	int SlotIndex_;
-private:
+
+	MouseSlot* MouseSlot_;
+
+//private:
 	GameEngineUIRenderer* Renderer_;
 	GameEngineUIRenderer* MouseRenderer_;
 	GameEngineUIRenderer* MouseAnimationRenderer_;

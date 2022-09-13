@@ -166,6 +166,11 @@ void Item::Update(float _DeltaTime)
 
 void Item::RendererTypeSetting()
 {
+	if (nullptr == Renderer_)
+	{
+		return;
+	}
+
 	SlotType_ = InventorySlotType::SLOT_ETC;
 
 	switch (MonsterName_)
@@ -224,6 +229,11 @@ void Item::RendererTypeSetting()
 
 void Item::PotionRendererTypeSetting()
 {
+	if (nullptr == Renderer_)
+	{
+		return; 
+	}
+
 	SlotType_ = InventorySlotType::SLOT_POTION;
 
 	switch (ItemState_.ItemType_)
@@ -231,17 +241,17 @@ void Item::PotionRendererTypeSetting()
 	case ItemType::ITEM_HP300:
 	{
 		Renderer_->SetTexture("HP300.png");
+		Renderer_->ScaleToTexture();
 	}
 	break;
 	case ItemType::ITEM_MP300:
 	{
 		Renderer_->SetTexture("MP300.png");
+		Renderer_->ScaleToTexture();
 	}
 	break;
 	default:
 		break;
 	}
-
-	Renderer_->ScaleToTexture();
 }
 

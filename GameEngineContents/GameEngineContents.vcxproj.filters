@@ -190,6 +190,9 @@
     <ClInclude Include="MouseSlot.h">
       <Filter>Etc</Filter>
     </ClInclude>
+    <ClInclude Include="QuickSlotItem.h">
+      <Filter>Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -333,6 +336,9 @@
     </ClCompile>
     <ClCompile Include="MouseSlot.cpp">
       <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickSlotItem.cpp">
+      <Filter>Actor\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

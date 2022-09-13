@@ -23,14 +23,24 @@ public:
 		return HoldItemRenderer_;
 	}
 
+	inline InventoryItem* GetInventoryItem()
+	{
+		return CurInventoryItem_;
+	}
+
 	inline void SetInventoryItem(InventoryItem* _CurInventoryItem)
 	{
 		CurInventoryItem_ = _CurInventoryItem;
 	}
 
-	inline InventoryItem* GetInventoryItem()
+	inline QuickSlotItem* GetQuickSlotItem()
 	{
-		return CurInventoryItem_;
+		return QuickSlotItem_;
+	}
+
+	inline void SetQuickSlotItem(QuickSlotItem* _QuickSlotItem)
+	{
+		QuickSlotItem_ = _QuickSlotItem;
 	}
 
 	bool IsHold_;
@@ -50,5 +60,6 @@ private:
 	//GameEngineCollision* MouseCollision_;
 
 	InventoryItem* CurInventoryItem_;
+	QuickSlotItem* QuickSlotItem_;
 };
 
