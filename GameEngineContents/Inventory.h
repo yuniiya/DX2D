@@ -32,6 +32,10 @@ public:
 		return CurMesoFont_;
 	}
 
+	std::vector<InventoryItem*> GetInventoryListPotion()
+	{
+		return InventoryItemsList_Potion;
+	}
 	std::vector<InventoryItem*> GetInventoryListEtc()
 	{
 		return InventoryItemsList_Etc;

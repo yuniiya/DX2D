@@ -18,14 +18,27 @@ public:
 public:
 	void CollisionCheck() override;
 	void QuickSlotCollisionCheck();
+	
+	inline int GetQuickSlotIndex()
+	{
+		return QuickSlotIndex_;
+	}
 
+	inline void SetQuickSlotIndex(int _QuickSlotIndex)
+	{
+		QuickSlotIndex_ = _QuickSlotIndex;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void SlotKeyCheck();
+	bool SlotKeyInputCheck();
 	
 private:
-
+	int QuickSlotIndex_;
+	int SlotKey_;
+	InventoryItem* InventoryItem_;
 };
 

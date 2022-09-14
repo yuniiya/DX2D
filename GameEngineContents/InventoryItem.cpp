@@ -72,6 +72,15 @@ void InventoryItem::Start()
 
 void InventoryItem::Update(float _DeltaTime)
 {
+	if (GetCount() <= 0)
+	{
+		SetItemType(ItemType::MAX);
+		SetCount(0);
+		ItemCountFont_->Off();
+	}
+
+
+
 	ItemMouseHold();
 }
 
@@ -370,6 +379,10 @@ void InventoryItem::UsePotion()
 	else if (ItemType::ITEM_MP4000 == ItemType_)
 	{
 		Player::MainPlayer_->AddMP(11.f);
+	}
+	else
+	{
+
 	}
 
 

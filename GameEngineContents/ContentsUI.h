@@ -52,7 +52,6 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
-	void CollisionCheck();
 	void SlotKeyCheck();
 	bool SlotKeyInputCheck();
 
@@ -72,6 +71,10 @@ private:
 	float CurHP_;
 	float CurMP_;
 	float CurExp_;
+
+	int SlotKey_;
+	int SlotKey_1;
+	int SlotKey_2;
 	
 private:
 	GameEngineTextureRenderer* MainBar_;

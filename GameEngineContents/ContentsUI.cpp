@@ -34,6 +34,9 @@ ContentsUI::ContentsUI()
 	, StartPosition_(0.f)
 	, QuickSlotItem_(nullptr)
 	, ItemType_(ItemType::MAX)
+	, SlotKey_1(0)
+	, SlotKey_2(0)
+	, SlotKey_(0)
 
 {
 }
@@ -174,6 +177,7 @@ void ContentsUI::Start()
 		ItemActor->GetTransform().SetLocalPosition({ Pos.x, Pos.y, (int)ZOrder::UI});
 		QuickSlotItemsList_.push_back(ItemActor);
 		ItemActor->IsSlot_ = true;
+		ItemActor->SetQuickSlotIndex(i + 1);
 	}
 }
 
@@ -192,53 +196,33 @@ void ContentsUI::Update(float _DeltaTime)
 
 	MainBarScaleUpdate();
 	LevelImageUpdate();
-//	CollisionCheck();
-//	SlotKeyCheck();
-}
 
-void ContentsUI::CollisionCheck()
-{
-	//if (nullptr == InventoryItem_)
-	//{
-	//	return;
-	//}
-
-	// 아이템을 잡아서 슬롯에 놨다
-
+	SlotKeyCheck();
 }
 
 void ContentsUI::SlotKeyCheck()
 {
-	//if (ItemType_ == ItemType::ITEM_HP300)
-	//{
-	//	if (true == GameEngineInput::GetInst()->IsDown("1"))
-	//	{
-	//		Player::MainPlayer_->AddHP(5.f);
-	//	}
-	//}
-	//else if (ItemType_ == ItemType::ITEM_MP300)
-	//{
-	//	if (true == GameEngineInput::GetInst()->IsDown("2"))
-	//	{
-	//		Player::MainPlayer_->AddMP(5.f);
-	//	}
-	//}
+	if (nullptr == QuickSlotItem_)
+	{
+		return;
+	}
 
-	//if (nullptr == InventoryItem_)
-	//{
-	//	return;
-	//}
+	if (true == SlotKeyInputCheck())
+	{
+		QuickSlotItem_->UsePotion();
+	}
+
 	//if (true == SlotKeyInputCheck())
 	//{
-	//	InventoryItem_->UsePotion();
+	//	QuickSlotItem_->UsePotion();
 	//}
 	//if (true == GameEngineInput::GetInst()->IsDown("1"))
 	//{
-	//	InventoryItem_->UsePotion();
+	//	QuickSlotItem_->UsePotion();
 	//}
 	//else if (true == GameEngineInput::GetInst()->IsDown("2"))
 	//{
-	//	InventoryItem_->UsePotion();
+	//	QuickSlotItem_->UsePotion();
 	//}
 }
 
@@ -250,5 +234,7 @@ bool ContentsUI::SlotKeyInputCheck()
 		return true;
 	}
 	return false;
+
+	
 }
 

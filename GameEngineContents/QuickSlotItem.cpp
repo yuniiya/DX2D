@@ -3,8 +3,11 @@
 #include "MouseSlot.h"
 #include "Mouse.h"
 #include <GameEngineCore/GameEngineFontRenderer.h>
+#include "Inventory.h"
 
 QuickSlotItem::QuickSlotItem() 
+	: QuickSlotIndex_(0)
+	, SlotKey_(0)
 {
 }
 
@@ -66,6 +69,103 @@ void QuickSlotItem::Update(float _DeltaTime)
 		DragStartSound_ = false;
 		GameEngineSound::SoundPlayOneShot("DragStart.mp3");
 	}
+
+	SlotKeyCheck();
+}
+
+void QuickSlotItem::SlotKeyCheck()
+{
+	if (false == SlotKeyInputCheck())
+	{
+		return;
+	}
+
+	if (ItemType_ == ItemType::MAX)
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("1")
+		&& ItemType_ == ItemType::ITEM_HP300)
+	{
+		InventoryItem_->SetCount(InventoryItem_->GetCount()- 1);
+		Player::MainPlayer_->AddHP(5.f);
+	}
+	else if (true == GameEngineInput::GetInst()->IsDown("2")
+		&& ItemType_ == ItemType::ITEM_MP300)
+	{
+		InventoryItem_->SetCount(InventoryItem_->GetCount() - 1);
+		Player::MainPlayer_->AddMP(5.f);
+	}
+
+	GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
+	SetCount(InventoryItem_->GetCount());
+//	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
+
+	if (GetCount() <= 0)
+	{
+		SetItemType(ItemType::MAX);
+		ItemCountFont_->Off();
+	}
+
+	//// 인벤토리
+	//std::vector<InventoryItem*> CurInventoryItem = Inventory::MainInventory_->GetInventoryListPotion();
+	//for (size_t i = 0; i < CurInventoryItem.size(); i++)
+	//{
+	//	if (ItemType_ == CurInventoryItem[i]->GetItemType())
+	//	{
+	//		CurInventoryItem[i]->SetCount(GetCount() - 1);
+
+	//		CurInventoryItem[i]->GetFontRenderer()->SetText(std::to_string(GetCount()));
+
+	//		if (GetCount() <= 0)
+	//		{
+	//			CurInventoryItem[i]->SetItemType(ItemType::MAX);
+	//			CurInventoryItem[i]->SetCount(0);
+	//			CurInventoryItem[i]->GetFontRenderer()->Off();
+	//		}
+
+	//		break;
+	//	}
+	//	else
+	//	{
+	//		continue;
+	//	}
+	//}
+
+	/*SlotKey_ = QuickSlotIndex_;
+
+	if (1 != SlotKey_
+		&& 2 != SlotKey_)
+	{
+		return;
+	}
+
+	if (nullptr == MouseSlot_->GetQuickSlotItem())
+	{
+		return;
+	}
+
+	if (true == SlotKeyInputCheck())
+	{
+		UsePotion();
+	}*/
+}
+
+bool QuickSlotItem::SlotKeyInputCheck()
+{
+	//if (true == GameEngineInput::GetInst()->IsDown(std::to_string(SlotKey_)))
+	//{
+	//	return true;
+	//}
+	//return false;
+
+	if (true == GameEngineInput::GetInst()->IsDown("1")
+		|| true == GameEngineInput::GetInst()->IsDown("2"))
+	{
+		return true;
+	}
+	return false;
 }
 
 void QuickSlotItem::CollisionCheck()
@@ -84,6 +184,7 @@ void QuickSlotItem::CollisionCheck()
 			}	// 6-2) 빈 칸이다
 			else if (GetItemType() == ItemType::MAX)
 			{
+				SetQuickSlotIndex(GetQuickSlotIndex());
 				// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
 				SetCount(MouseSlot_->GetInventoryItem()->GetCount());
 				ItemCountFontUpdate();
@@ -93,6 +194,7 @@ void QuickSlotItem::CollisionCheck()
 
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
+				InventoryItem_ = MouseSlot_->GetInventoryItem();
 
 			} // 6-3) 다른 아이템이 이미 있다	-> 체인지
 			else if (GetItemType() != MouseSlot_->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)
@@ -117,18 +219,16 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 			// 같은 칸이다
 			if (GetItemType() == MouseSlot_->GetQuickSlotItem()->GetItemType())
 			{		
-				if (SlotIndex_ == MouseSlot_->GetQuickSlotItem()->GetSlotIndex())
-				{
-					MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
-					MouseSlot_->GetQuickSlotItem()->SetCount(0);
-					MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
-					MouseSlot_->SetQuickSlotItem(nullptr);
-					return;
-				}
+				MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
+				MouseSlot_->GetQuickSlotItem()->SetCount(0);
+				MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
+				MouseSlot_->SetQuickSlotItem(nullptr);
+				return;
 			}
 			// 6-2) 빈 칸이다
 			else if (GetItemType() == ItemType::MAX)
 			{
+				SetQuickSlotIndex(GetQuickSlotIndex());
 				// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
 				SetCount(MouseSlot_->GetQuickSlotItem()->GetCount());
 				ItemCountFontUpdate();
@@ -155,6 +255,7 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 				MouseSlot_->GetQuickSlotItem()->SetCount(0);
 				MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
 			}
+
 
 			IsSlot_ = false;
 		}

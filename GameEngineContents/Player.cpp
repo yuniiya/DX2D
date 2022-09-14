@@ -437,6 +437,8 @@ void Player::Start()
 	LevelUpEffRenderer_->Off();
 
 	TakeDamage(50.f);
+	UseMP(50.f);
+
 }
 
 void Player::Update(float _DeltaTime)

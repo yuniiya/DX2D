@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineFontRenderer.h>
 
 //enum class PotionItemType
 //{
@@ -101,6 +102,8 @@ public:
 	inline void SetCount(int _Count)
 	{
 		ItemState_.Count_ = _Count;
+
+		ItemCountFont_->SetText(std::to_string(_Count));
 	}
 
 	inline void SetSlotIndex(int _SlotIndex)
@@ -114,6 +117,7 @@ public:
 	bool IsDoneHolding_;
 	bool IsCollideSlot_;
 	bool IsSlot_;
+	bool IsSlotItemCountChange_;
 	
 	void UsePotion();
 
