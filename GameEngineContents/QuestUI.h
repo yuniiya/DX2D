@@ -3,6 +3,7 @@
 
 class GameEngineFontRenderer;
 class Mouse;
+class ContentsFont;
 class QuestUI : public GameEngineActor
 {
 public:
@@ -37,5 +38,7 @@ private:
 	GameEngineCollision* ExitCol;
 
 	NPCType NPCType_;
+
+	ContentsFont* Font_;
 };
 

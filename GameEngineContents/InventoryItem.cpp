@@ -134,8 +134,8 @@ void InventoryItem::CollisionCheck()
 			else // ´Ù¸¥ Ä­ÀÌ´Ù
 			{
 				SetCount(MouseSlot_->GetInventoryItem()->GetCount() + GetCount());
-				//ItemCountFontUpdate();
-				// ºóÄ­ÀÇ ÆùÆ® ·»´õ·¯ À§Ä¡ ¼³Á¤
+				//ItemCountFÆ® ·»´õ·¯ À§Ä¡ ontUpdate();
+				// ºóÄ­ÀÇ Æù¼³Á¤
 				ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 				// ºó Ä­ÀÇ ¾ÆÀÌÅÛ Å¸ÀÔ ½½·Ô ¾ÆÀÌÅÛ Å¸ÀÔÀ¸·Î ¼³Á¤
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());

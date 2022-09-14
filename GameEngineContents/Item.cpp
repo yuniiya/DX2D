@@ -135,7 +135,6 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		//dynamic_cast<GlobalLevel*>(GetLevel())->GetInventory()->PushItem(this);
 	//	ItemState_.Count_ += 1;
 		Inventory::MainInventory_->PushItem(this);
-	
 
 		Death();	// ÀúÀå
 		_Renderer->GetPixelData().MulColor.a = 0;

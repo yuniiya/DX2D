@@ -118,7 +118,7 @@ void QuickSlotItem::SlotKeyCheck()
 	//std::vector<InventoryItem*> CurInventoryItem = Inventory::MainInventory_->GetInventoryListPotion();
 	//for (size_t i = 0; i < CurInventoryItem.size(); i++)
 	//{
-	//	if (ItemType_ == CurInventoryItem[i]->GetItemType())
+	//	if (ItemType_ == Cur0InventoryItem[i]->GetItemType())
 	//	{
 	//		CurInventoryItem[i]->SetCount(GetCount() - 1);
 
@@ -218,15 +218,19 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 		//	// 같은 칸이다
 		//	if (GetItemType() == MouseSlot_->GetQuickSlotItem()->GetItemType())
 		//	{		
+		//		InventoryItem_ = nullptr;
+		//		InventoryItem_ = MouseSlot_->GetQuickSlotItem();
 		//		MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
 		//		MouseSlot_->GetQuickSlotItem()->SetCount(0);
 		//		MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
-		//		MouseSlot_->SetQuickSlotItem(nullptr);
+		//		//MouseSlot_->SetQuickSlotItem(nullptr);
 		//		return;
 		//	}
 		//	// 6-2) 빈 칸이다
 		//	else if (GetItemType() == ItemType::MAX)
 		//	{
+		//		InventoryItem_ = nullptr;
+		//		InventoryItem_ = MouseSlot_->GetQuickSlotItem();
 		//		MouseSlot_->GetQuickSlotItem()->SetQuickSlotIndex(GetQuickSlotIndex());
 		//		// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
 		//		SetCount(MouseSlot_->GetQuickSlotItem()->GetCount());
@@ -243,7 +247,7 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 		//		MouseSlot_->GetQuickSlotItem()->SetCount(0);
 		//		MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
 		//		// 슬롯 아이템 null로 만들기
-		//		MouseSlot_->SetQuickSlotItem(nullptr);
+		//		//MouseSlot_->SetQuickSlotItem(nullptr);
 		//	} // 6-3) 다른 아이템이 이미 있다	-> 덮어 씌우기
 		//	else if (GetItemType() != MouseSlot_->GetQuickSlotItem()->GetItemType() && GetItemType() != ItemType::MAX)
 		//	{

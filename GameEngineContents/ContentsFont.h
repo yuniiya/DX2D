@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineFontRenderer.h>
+#include <GameEngineCore/GameEngineActor.h>
 
-// Ό³Έν :
-class ContentsFont : public GameEngineFontRenderer
+class GameEngineFontRenderer;
+class ContentsFont : public GameEngineActor
 {
 public:
 	// constrcuter destructer
@@ -15,10 +15,21 @@ public:
 	ContentsFont& operator=(const ContentsFont& _Other) = delete;
 	ContentsFont& operator=(ContentsFont&& _Other) noexcept = delete;
 
+public:
+	inline GameEngineFontRenderer* GetFontRenderer()
+	{
+		return FontRenderer_;
+	}
+
 protected:
 	void Start() override;
-	void Render(float _DeltaTime) override;
+	void Update(float _DeltaTime) override;
+	void End() override {};
 
 private:
+	GameEngineFontRenderer* FontRenderer_;
+
+	int Count_;
+	float TypingTimer_;
 };
 

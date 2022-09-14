@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "QuestUI.h"
 #include <GameEngineCore/GameEngineFontRenderer.h>
+#include "ContentsFont.h"
 
 QuestUI::QuestUI() 
 	: Renderer_(nullptr)
@@ -45,6 +46,7 @@ void QuestUI::Update(float _DeltaTime)
 	}
 	if (true == GameEngineInput::GetInst()->IsDown("Exit"))
 	{
+		Font_->Off();
 		Death();
 	}
 }
@@ -62,6 +64,11 @@ void QuestUI::CollisionCheck()
 void QuestUI::SetNPCType(NPCType _NPCType)
 {
 	NPCType_ = _NPCType;
+
+	Font_ = GetLevel()->CreateActor<ContentsFont>();
+	Font_->GetFontRenderer()->SetScreenPostion({ Renderer_->GetTransform().GetLocalPosition().x + 500.f, 
+		Renderer_->GetTransform().GetLocalPosition().y + 300.f});
+	Font_->On();
 
 	switch (NPCType_)
 	{
