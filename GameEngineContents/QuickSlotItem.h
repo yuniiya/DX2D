@@ -28,6 +28,7 @@ public:
 	{
 		QuickSlotIndex_ = _QuickSlotIndex;
 	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

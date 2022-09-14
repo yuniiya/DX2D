@@ -5,6 +5,7 @@
 #include "Mouse.h"
 #include "MouseSlot.h"
 #include "ContentsUI.h"
+#include "QuickSlotItem.h"
 
 InventoryItem::InventoryItem()
 	: Renderer_(nullptr)
@@ -80,7 +81,6 @@ void InventoryItem::Update(float _DeltaTime)
 	}
 
 
-
 	ItemMouseHold();
 }
 
@@ -125,16 +125,16 @@ void InventoryItem::CollisionCheck()
 			// 같은 칸이다
 			if (SlotIndex_ == MouseSlot_->GetInventoryItem()->GetSlotIndex())
 			{
-				MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
+	/*			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
 				MouseSlot_->GetInventoryItem()->SetCount(0);
 				MouseSlot_->GetInventoryItem()->GetFontRenderer()->Off();
-				MouseSlot_->SetInventoryItem(nullptr);
+				MouseSlot_->SetInventoryItem(nullptr);*/
 				return;
 			}
 			else // 다른 칸이다
 			{
 				SetCount(MouseSlot_->GetInventoryItem()->GetCount() + GetCount());
-				ItemCountFontUpdate();
+				//ItemCountFontUpdate();
 				// 빈칸의 폰트 렌더러 위치 설정
 				ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
@@ -153,7 +153,7 @@ void InventoryItem::CollisionCheck()
 		{
 			// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
 			SetCount(MouseSlot_->GetInventoryItem()->GetCount());
-			ItemCountFontUpdate();
+			//ItemCountFontUpdate();
 			// 빈칸의 폰트 렌더러 위치 설정
 			ItemCountFont_->SetScreenPostion({GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 			// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
@@ -206,7 +206,7 @@ void InventoryItem::CollisionCheck()
 	{
 		MouseSlot_->IsHold_ = true;
 		IsHold_ = true;
-		MouseAnimationRenderer_->Off();
+		MouseAnimationRenderer_->Off();  
 		MouseRenderer_->On();
 		MouseRenderer_->SetTexture("Cursor_Hold.png");
 		MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
@@ -385,10 +385,22 @@ void InventoryItem::UsePotion()
 
 	}
 
+	std::vector<QuickSlotItem*> CurItem = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI()->QuickSlotItemsList_;
+	for (size_t i = 0; i < CurItem.size(); i++)
+	{
+		if (ItemType_ == CurItem[i]->GetItemType())
+		{
+			CurItem[i]->SetCount(CurItem[i]->GetCount() - 1);
+			break;
+		}
+	}
+	
+	//QuickSlotItem_->SetCount(QuickSlotItem_->GetCount() - 1);
 
 	GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
 	SetCount(GetCount() - 1);
-	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
+	//SetCount(GetCount() - 1);
+	//ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
 
 	if (GetCount() <= 0)
 	{

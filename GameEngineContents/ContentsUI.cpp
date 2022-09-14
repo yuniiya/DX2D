@@ -177,7 +177,7 @@ void ContentsUI::Start()
 		ItemActor->GetTransform().SetLocalPosition({ Pos.x, Pos.y, (int)ZOrder::UI});
 		QuickSlotItemsList_.push_back(ItemActor);
 		ItemActor->IsSlot_ = true;
-		ItemActor->SetQuickSlotIndex(i + 1);
+		ItemActor->SetQuickSlotIndex(i);
 	}
 }
 
@@ -197,20 +197,16 @@ void ContentsUI::Update(float _DeltaTime)
 	MainBarScaleUpdate();
 	LevelImageUpdate();
 
-	SlotKeyCheck();
 }
 
 void ContentsUI::SlotKeyCheck()
 {
+
 	if (nullptr == QuickSlotItem_)
 	{
 		return;
 	}
 
-	if (true == SlotKeyInputCheck())
-	{
-		QuickSlotItem_->UsePotion();
-	}
 
 	//if (true == SlotKeyInputCheck())
 	//{
@@ -228,13 +224,8 @@ void ContentsUI::SlotKeyCheck()
 
 bool ContentsUI::SlotKeyInputCheck()
 {
-	if (true == GameEngineInput::GetInst()->IsDown("1")
-		|| true == GameEngineInput::GetInst()->IsDown("2"))
-	{
-		return true;
-	}
-	return false;
 
+	return false;
 	
 }
 

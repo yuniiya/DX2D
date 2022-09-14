@@ -879,7 +879,7 @@ void Inventory::PushItem(Item* _Item)
 				InventoryItemsList_Potion[i]->GetFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 440.f });
-				InventoryItemsList_Potion[i]->ItemCountFontUpdate();
+				//InventoryItemsList_Potion[i]->ItemCountFontUpdate();
 
 				if (false == IsInvenOn)
 				{
@@ -903,7 +903,7 @@ void Inventory::PushItem(Item* _Item)
 			InventoryItemsList_Potion[i]->GetFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 440.f });
-			InventoryItemsList_Potion[i]->ItemCountFontUpdate();
+			//InventoryItemsList_Potion[i]->ItemCountFontUpdate();
 
 			if (false == IsInvenOn)
 			{
@@ -925,7 +925,7 @@ void Inventory::PushItem(Item* _Item)
 				InventoryItemsList_Etc[i]->GetFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 440.f });
-				InventoryItemsList_Etc[i]->ItemCountFontUpdate();
+			//	InventoryItemsList_Etc[i]->ItemCountFontUpdate();
 
 				if (false == IsInvenOn)
 				{
@@ -948,7 +948,7 @@ void Inventory::PushItem(Item* _Item)
 			InventoryItemsList_Etc[i]->GetFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 440.f });
-			InventoryItemsList_Etc[i]->ItemCountFontUpdate();
+			//InventoryItemsList_Etc[i]->ItemCountFontUpdate();
 
 			if (false == IsInvenOn)
 			{

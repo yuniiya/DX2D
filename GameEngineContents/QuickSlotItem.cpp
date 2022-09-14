@@ -52,9 +52,12 @@ void QuickSlotItem::Start()
 
 void QuickSlotItem::Update(float _DeltaTime)
 {
-	// 퀵슬롯 아이템끼리 충돌 체크 
-	QuickSlotCollisionCheck();
-
+	if (GetCount() <= 0)
+	{
+		SetItemType(ItemType::MAX);
+		SetCount(0);
+		ItemCountFont_->Off();
+	}
 	// 아이템을 놨다
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
 	{
@@ -70,6 +73,8 @@ void QuickSlotItem::Update(float _DeltaTime)
 		GameEngineSound::SoundPlayOneShot("DragStart.mp3");
 	}
 
+	// 퀵슬롯 아이템끼리 충돌 체크 
+	QuickSlotCollisionCheck();
 	SlotKeyCheck();
 }
 
@@ -85,22 +90,23 @@ void QuickSlotItem::SlotKeyCheck()
 		return;
 	}
 
+
 	if (true == GameEngineInput::GetInst()->IsDown("1")
 		&& ItemType_ == ItemType::ITEM_HP300)
 	{
+		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
 		InventoryItem_->SetCount(InventoryItem_->GetCount()- 1);
 		Player::MainPlayer_->AddHP(5.f);
 	}
 	else if (true == GameEngineInput::GetInst()->IsDown("2")
 		&& ItemType_ == ItemType::ITEM_MP300)
 	{
+		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
 		InventoryItem_->SetCount(InventoryItem_->GetCount() - 1);
 		Player::MainPlayer_->AddMP(5.f);
 	}
 
-	GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
 	SetCount(InventoryItem_->GetCount());
-//	ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
 
 	if (GetCount() <= 0)
 	{
@@ -133,23 +139,6 @@ void QuickSlotItem::SlotKeyCheck()
 	//	}
 	//}
 
-	/*SlotKey_ = QuickSlotIndex_;
-
-	if (1 != SlotKey_
-		&& 2 != SlotKey_)
-	{
-		return;
-	}
-
-	if (nullptr == MouseSlot_->GetQuickSlotItem())
-	{
-		return;
-	}
-
-	if (true == SlotKeyInputCheck())
-	{
-		UsePotion();
-	}*/
 }
 
 bool QuickSlotItem::SlotKeyInputCheck()
@@ -184,24 +173,27 @@ void QuickSlotItem::CollisionCheck()
 			}	// 6-2) 빈 칸이다
 			else if (GetItemType() == ItemType::MAX)
 			{
-				SetQuickSlotIndex(GetQuickSlotIndex());
+				MouseSlot_->GetInventoryItem()->SetSlotIndex(GetQuickSlotIndex());
 				// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
 				SetCount(MouseSlot_->GetInventoryItem()->GetCount());
-				ItemCountFontUpdate();
+				//ItemCountFontUpdate();
 
 				// 빈칸의 폰트 렌더러 위치 설정
 				ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
+				// 인벤토리 칸 아이템은 원래 그대로
 				InventoryItem_ = MouseSlot_->GetInventoryItem();
 
 			} // 6-3) 다른 아이템이 이미 있다	-> 체인지
 			else if (GetItemType() != MouseSlot_->GetInventoryItem()->GetItemType() && GetItemType() != ItemType::MAX)
 			{
+				MouseSlot_->GetInventoryItem()->SetSlotIndex(GetQuickSlotIndex());
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
 				SetCount(MouseSlot_->GetInventoryItem()->GetCount());
-				ItemCountFontUpdate();
+				InventoryItem_ = MouseSlot_->GetInventoryItem();
+				//ItemCountFontUpdate();
 			}
 		}
 	}
@@ -212,92 +204,6 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 {
 	if(true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 	{
-
-		if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") &&
-			MouseSlot_->GetQuickSlotItem() != nullptr)
-		{
-			// 같은 칸이다
-			if (GetItemType() == MouseSlot_->GetQuickSlotItem()->GetItemType())
-			{		
-				MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
-				MouseSlot_->GetQuickSlotItem()->SetCount(0);
-				MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
-				MouseSlot_->SetQuickSlotItem(nullptr);
-				return;
-			}
-			// 6-2) 빈 칸이다
-			else if (GetItemType() == ItemType::MAX)
-			{
-				SetQuickSlotIndex(GetQuickSlotIndex());
-				// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
-				SetCount(MouseSlot_->GetQuickSlotItem()->GetCount());
-				ItemCountFontUpdate();
-
-				// 빈칸의 폰트 렌더러 위치 설정
-				ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
-
-				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
-				SetItemType(MouseSlot_->GetQuickSlotItem()->GetItemType());
-
-				MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
-				// 슬롯 폰트 오프
-				MouseSlot_->GetQuickSlotItem()->SetCount(0);
-				MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
-				// 슬롯 아이템 null로 만들기
-				MouseSlot_->SetQuickSlotItem(nullptr);
-			} // 6-3) 다른 아이템이 이미 있다	-> 덮어 씌우기
-			else if (GetItemType() != MouseSlot_->GetQuickSlotItem()->GetItemType() && GetItemType() != ItemType::MAX)
-			{
-				SetItemType(MouseSlot_->GetQuickSlotItem()->GetItemType());
-				SetCount(MouseSlot_->GetQuickSlotItem()->GetCount());
-
-				MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
-				MouseSlot_->GetQuickSlotItem()->SetCount(0);
-				MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
-			}
-
-
-			IsSlot_ = false;
-		}
-
-		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
-		{
-			IsSlot_ = true;
-			// 빈 칸이 아닐 때만 아래로 들어간다
-			if (ItemType::MAX == ItemType_)
-			{
-				return;
-			}
-
-			// 아이템을 이미 잡은 상태 -> 리턴
-			if (true == IsHold_
-				|| true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
-			{
-				return;
-			}
-			if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
-			{
-				DragStartSound_ = true;
-			}
-			// 1) 마우스가 잡은 아이템이 없고, 아이템을 클릭 했을 때->슬롯의 아이템은 현재 아이템으로 지정
-			if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
-			{
-				MouseSlot_->IsHold_ = true;
-				IsHold_ = true;
-				MouseAnimationRenderer_->Off();
-				MouseRenderer_->On();
-				MouseRenderer_->SetTexture("Cursor_Hold.png");
-				MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
-
-				MouseSlotRenderer_->SetTexture("Item2.png", Index_);
-				MouseSlotRenderer_->On();
-
-				// 2) 슬롯의 아이템 = 현재 마우스로 잡은 아이템 (정보를 들고 있는다)
-				MouseSlot_->SetQuickSlotItem(this);
-
-			}
-		}
-
 		// 오른쪽 마우스 클릭 시 퀵슬롯에서 아이템 삭제 
 		if (true == GameEngineInput::GetInst()->IsDown("RightMouse"))
 		{
@@ -306,6 +212,88 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 			SetCount(0);
 			ItemCountFont_->Off();
 		}
+		//if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") &&
+		//	MouseSlot_->GetQuickSlotItem() != nullptr)
+		//{
+		//	// 같은 칸이다
+		//	if (GetItemType() == MouseSlot_->GetQuickSlotItem()->GetItemType())
+		//	{		
+		//		MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
+		//		MouseSlot_->GetQuickSlotItem()->SetCount(0);
+		//		MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
+		//		MouseSlot_->SetQuickSlotItem(nullptr);
+		//		return;
+		//	}
+		//	// 6-2) 빈 칸이다
+		//	else if (GetItemType() == ItemType::MAX)
+		//	{
+		//		MouseSlot_->GetQuickSlotItem()->SetQuickSlotIndex(GetQuickSlotIndex());
+		//		// 빈 칸의 아이템 카운트 슬롯 아이템 카운트로 설정
+		//		SetCount(MouseSlot_->GetQuickSlotItem()->GetCount());
+		//		//ItemCountFontUpdate();
+
+		//		// 빈칸의 폰트 렌더러 위치 설정
+		//		ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
+
+		//		// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
+		//		SetItemType(MouseSlot_->GetQuickSlotItem()->GetItemType());
+
+		//		MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
+		//		// 슬롯 폰트 오프
+		//		MouseSlot_->GetQuickSlotItem()->SetCount(0);
+		//		MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
+		//		// 슬롯 아이템 null로 만들기
+		//		MouseSlot_->SetQuickSlotItem(nullptr);
+		//	} // 6-3) 다른 아이템이 이미 있다	-> 덮어 씌우기
+		//	else if (GetItemType() != MouseSlot_->GetQuickSlotItem()->GetItemType() && GetItemType() != ItemType::MAX)
+		//	{
+
+		//		return;
+		//	}
+
+
+		//	IsSlot_ = false;
+		//}
+
+		//if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		//{
+		//	IsSlot_ = true;
+		//	// 빈 칸이 아닐 때만 아래로 들어간다
+		//	if (ItemType::MAX == ItemType_)
+		//	{
+		//		return;
+		//	}
+
+		//	// 아이템을 이미 잡은 상태 -> 리턴
+		//	if (true == IsHold_
+		//		|| true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
+		//	{
+		//		return;
+		//	}
+		//	if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		//	{
+		//		DragStartSound_ = true;
+		//	}
+		//	// 1) 마우스가 잡은 아이템이 없고, 아이템을 클릭 했을 때->슬롯의 아이템은 현재 아이템으로 지정
+		//	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
+		//	{
+		//		MouseSlot_->IsHold_ = true;
+		//		IsHold_ = true;
+		//		MouseAnimationRenderer_->Off();
+		//		MouseRenderer_->On();
+		//		MouseRenderer_->SetTexture("Cursor_Hold.png");
+		//		MouseRenderer_->GetTransform().SetLocalScale({ 27.f * 1.2f, 29.f * 1.2f });
+
+		//		MouseSlotRenderer_->SetTexture("Item2.png", Index_);
+		//		MouseSlotRenderer_->On();
+
+		//		// 2) 슬롯의 아이템 = 현재 마우스로 잡은 아이템 (정보를 들고 있는다)
+		//		MouseSlot_->SetQuickSlotItem(this);
+
+		//	}
+		//}
+
+	
 	}
 }
 

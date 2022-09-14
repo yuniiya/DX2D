@@ -137,6 +137,7 @@ protected:
 	int SlotIndex_;
 
 	MouseSlot* MouseSlot_;
+	QuickSlotItem* QuickSlotItem_;
 
 //private:
 	GameEngineUIRenderer* Renderer_;
