@@ -157,6 +157,7 @@ void Player::Start()
 
 		GameEngineInput::GetInst()->CreateKey("1", '1');
 		GameEngineInput::GetInst()->CreateKey("2", '2');
+		GameEngineInput::GetInst()->CreateKey("SpaceBar", VK_SPACE);
 
 	}
 

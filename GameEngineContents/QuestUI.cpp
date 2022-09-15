@@ -66,7 +66,7 @@ void QuestUI::SetNPCType(NPCType _NPCType)
 	NPCType_ = _NPCType;
 
 	Font_ = GetLevel()->CreateActor<ContentsFont>();
-	Font_->GetFontRenderer()->SetScreenPostion({ Renderer_->GetTransform().GetLocalPosition().x + 520.f, 
+	Font_->GetFontRenderer()->SetScreenPostion({ Renderer_->GetTransform().GetLocalPosition().x + 540.f, 
 		Renderer_->GetTransform().GetLocalPosition().y + 300.f});
 	Font_->SetNPCDialog(_NPCType);
 	Font_->On();

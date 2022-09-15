@@ -61,15 +61,37 @@ void ContentsFont::Start()
 
 void ContentsFont::Update(float _DeltaTime)
 {
-	if (TypingTimer_ > 0.1f)
+	//if (true == GameEngineInput::GetInst()->IsDown("SpaceBar"))
+	//{
+	//	// 타이핑이 다 안 끝난 상태에서 키를 누르면 전체를 출력
+	//	if (false == IsTypingEnd_)
+	//	{
+	//		TextRender(Text_, TypeCount_);
+	//		IsTypingEnd_ = true;
+	//	}
+	//	else
+	//	{
+	//		// 타이핑이 다 끝난 상태에서 키를 누르면 다음 장으로 이동
+	//		IsTypingEnd_ = false;
+	//	}
+	//}
+
+	if (true == IsTypingEnd_)
+	{
+		return;
+	}
+	if (TypingTimer_ > 0.05f)
 	{
 		for (int Count = TypeCount_; Count < Text_.size(); )
 		{
-		/*	if (TypeCount_ == 10)
+			int TempCount = TypeCount_;
+			if (TempCount != 0 && TempCount % 56 == 0)
 			{
-				std::string Line = "/n";
-				Text_.insert(Count, Line);
-			}*/
+				Text_.insert(TypeCount_, "\n");
+				TypeCount_ += 1;
+
+				break;
+			}
 
 			// 전체 텍스트에서 1바이트씩 잘라온다 ex) 0바이트 시작일 경우, 0 ~ 1바이트 잘라오기
 			SubText_ = Text_.substr(Count, 1);
