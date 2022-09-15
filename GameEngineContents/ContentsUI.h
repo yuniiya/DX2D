@@ -78,6 +78,8 @@ private:
 	
 private:
 	GameEngineTextureRenderer* MainBar_;
+	GameEngineTextureRenderer* BarBgr_1;
+	GameEngineTextureRenderer* BarBgr_2;
 	GameEngineTextureRenderer* ExpBack_;
 	GameEngineUIRenderer* QuickSlotBack_;
 	GameEngineUIRenderer* QuickSlot_;

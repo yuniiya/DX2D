@@ -22,6 +22,7 @@ public:
 	}
 
 	void TextRender(const std::string& _Text, int _Count, const std::string& _Font = "µ¸¿ò");
+	void SetNPCDialog(NPCType _NPCType);
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
