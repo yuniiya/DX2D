@@ -32,9 +32,11 @@ private:
 
 	GameEngineUIRenderer* Renderer_;
 	GameEngineUIRenderer* UINPCRenderer_;
-	GameEngineUIRenderer* But_;
+	GameEngineUIRenderer* ButtonYes_;
+	GameEngineUIRenderer* ButtonNo_;
 
-	GameEngineCollision* ButCol_;
+	GameEngineCollision* ButtonYesCol_;
+	GameEngineCollision* ButtonNoCol_;
 	GameEngineCollision* ExitCol;
 
 	NPCType NPCType_;

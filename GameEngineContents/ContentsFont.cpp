@@ -7,6 +7,8 @@ ContentsFont::ContentsFont()
 	, TypeCount_(0)
 	, TypingTimer_(0.f)
 	, IsTypingEnd_(false)
+	, NPCType_(NPCType::MAX)
+	, IsLineChange_(false)
 {
 }
 
@@ -24,7 +26,9 @@ void ContentsFont::TextRender(const std::string& _Text, int _Count, const std::s
 
 void ContentsFont::SetNPCDialog(NPCType _NPCType)
 {
-	switch (_NPCType)
+	NPCType_ = _NPCType;
+
+	switch (NPCType_)
 	{
 	case NPCType::NPC_Ariant:
 	{
@@ -41,8 +45,6 @@ void ContentsFont::SetNPCDialog(NPCType _NPCType)
 		Text_ = "조심스럽게 서랍을 열어 왕비의 반지를 하나 꺼냈다.";
 	}
 		break;
-	case NPCType::MAX:
-		break;
 	default:
 		break;
 	}
@@ -55,31 +57,28 @@ void ContentsFont::Start()
 	FontRenderer_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
 	FontRenderer_->SetSize(13);
 	FontRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
+
 	
 	Off();
 }
 
 void ContentsFont::Update(float _DeltaTime)
 {
-	//if (true == GameEngineInput::GetInst()->IsDown("SpaceBar"))
-	//{
-	//	// 타이핑이 다 안 끝난 상태에서 키를 누르면 전체를 출력
-	//	if (false == IsTypingEnd_)
-	//	{
-	//		TextRender(Text_, TypeCount_);
-	//		IsTypingEnd_ = true;
-	//	}
-	//	else
-	//	{
-	//		// 타이핑이 다 끝난 상태에서 키를 누르면 다음 장으로 이동
-	//		IsTypingEnd_ = false;
-	//	}
-	//}
-
-	if (true == IsTypingEnd_)
+	if (true == GameEngineInput::GetInst()->IsDown("SpaceBar"))
 	{
-		return;
+		//// 타이핑이 다 안 끝난 상태에서 키를 누르면 전체를 출력
+		//if (false == IsTypingEnd_)
+		//{
+		//	TextRender(Text_, TypeCount_);
+		//	IsTypingEnd_ = true;
+		//}
+		//else
+		//{
+		//	// 타이핑이 다 끝난 상태에서 키를 누르면 다음 장으로 이동
+		//	IsTypingEnd_ = false;
+		//}
 	}
+
 	if (TypingTimer_ > 0.05f)
 	{
 		for (int Count = TypeCount_; Count < Text_.size(); )
@@ -87,9 +86,34 @@ void ContentsFont::Update(float _DeltaTime)
 			int TempCount = TypeCount_;
 			if (TempCount != 0 && TempCount % 56 == 0)
 			{
-				Text_.insert(TypeCount_, "\n");
-				TypeCount_ += 1;
+				std::string TempText1_ = Text_.substr(TempCount, 1);
+				std::string TempText2_ = Text_.substr(TempCount + 2, 1);
+				std::string TempText3_ = Text_.substr(TempCount + 4, 1);
+				std::string TempText4_ = Text_.substr(TempCount + 5, 1);
 
+				// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
+				if (" " == TempText1_)
+				{
+					Text_.insert(TypeCount_ + 1, "\n");
+				}
+				else if(" " == TempText2_)
+				{
+					// 한 글자 뒤가 공백이다
+					Text_.insert(TypeCount_ + 3, "\n");					
+				}
+				else if (" " == TempText3_)
+				{
+					// 두 글자 뒤가 공백이다
+					Text_.insert(TypeCount_ + 5, "\n");
+				}
+				else
+				{
+					// 한 칸 뒤가 공백이 아니다 -> 바로 줄바꿈
+					Text_.insert(TypeCount_, "\n");
+				}
+
+				// 줄바꿈한 곳 까지 출력할거니까 크기 + 1
+				TypeCount_ += 1;
 				break;
 			}
 

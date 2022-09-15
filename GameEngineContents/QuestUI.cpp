@@ -8,6 +8,10 @@ QuestUI::QuestUI()
 	, ExitCol(nullptr)
 	, UINPCRenderer_(nullptr)
 	, NPCNameFont_(nullptr)
+	, ButtonYes_(nullptr)
+	, ButtonNo_(nullptr)
+	, ButtonYesCol_(nullptr)
+	, ButtonNoCol_(nullptr)
 {
 }
 
@@ -20,12 +24,12 @@ void QuestUI::Start()
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
 
 	Renderer_ = CreateComponent<GameEngineUIRenderer>();
-	Renderer_->SetTexture("DialogUI.png");
-	Renderer_->GetTransform().SetLocalScale({751.f * 0.8f, 276.f * 0.8f});
+	Renderer_->SetTexture("DialogUI2.png");
+	Renderer_->GetTransform().SetLocalScale({ 751.f * 0.8f, 276.f * 0.8f });
 
 	UINPCRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	UINPCRenderer_->GetTransform().SetLocalPosition({ Renderer_->GetTransform().GetLocalPosition().x - 210.f
-		, Renderer_->GetTransform().GetLocalPosition().y + 30.f});
+		, Renderer_->GetTransform().GetLocalPosition().y + 30.f });
 
 	NPCNameFont_ = CreateComponent<GameEngineFontRenderer>();
 	NPCNameFont_->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
@@ -33,9 +37,37 @@ void QuestUI::Start()
 	NPCNameFont_->SetSize(13);
 	NPCNameFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 	NPCNameFont_->SetScreenPostion({ UINPCRenderer_->GetTransform().GetLocalPosition().x + 600.f
-		, -UINPCRenderer_->GetTransform().GetLocalPosition().y + 404.f});
-}
+		, -UINPCRenderer_->GetTransform().GetLocalPosition().y + 404.f });
 
+	// ¹öÆ°
+	ButtonYes_ = CreateComponent<GameEngineUIRenderer>();
+	ButtonYes_->SetTexture("BtOK.normal.png");
+	ButtonYes_->ScaleToTexture();
+	ButtonYes_->GetTransform().SetLocalPosition({ Renderer_->GetTransform().GetLocalPosition().x + 200.f
+		, Renderer_->GetTransform().GetLocalPosition().y - 93.f });
+
+	ButtonNo_ = CreateComponent<GameEngineUIRenderer>();
+	ButtonNo_->SetTexture("BtNo.normal.0.png");
+	ButtonNo_->ScaleToTexture();
+	ButtonNo_->GetTransform().SetLocalPosition({ Renderer_->GetTransform().GetLocalPosition().x + 265.f
+	, Renderer_->GetTransform().GetLocalPosition().y - 93.f });
+
+	ButtonYesCol_ = CreateComponent<GameEngineCollision>("ButtonYesCol");
+	ButtonYesCol_->SetUIDebugCamera();
+	ButtonYesCol_->GetTransform().SetLocalPosition(ButtonYes_->GetTransform().GetLocalPosition());
+	ButtonYesCol_->GetTransform().SetLocalScale({ ButtonYes_->GetTransform().GetLocalScale().x / 2.f
+		, ButtonYes_->GetTransform().GetLocalScale().y});
+	ButtonYesCol_->ChangeOrder(GAMEOBJGROUP::UI);
+
+	ButtonNoCol_ = CreateComponent<GameEngineCollision>("ButtonNoCol");
+	ButtonNoCol_->SetUIDebugCamera();
+	ButtonNoCol_->GetTransform().SetLocalPosition(ButtonNo_->GetTransform().GetLocalPosition());
+	ButtonNoCol_->GetTransform().SetLocalScale({ ButtonNo_->GetTransform().GetLocalScale().x / 2.f
+		, ButtonNo_->GetTransform().GetLocalScale().y });
+	ButtonNoCol_->ChangeOrder(GAMEOBJGROUP::UI);
+
+
+}
 void QuestUI::Update(float _DeltaTime)
 {
 	CollisionCheck();
@@ -56,6 +88,40 @@ void QuestUI::CollisionCheck()
 	if (nullptr == this)
 	{
 		return;
+	}
+
+	//if (true == ButtonYesCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	//{
+	//	ButtonYes_->SetTexture("BtOK.mouseOver.0.png");
+	//	ButtonNo_->SetTexture("BtNo.normal.0.png");
+	//}
+	//else if(true == ButtonNoCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	//{
+	//	ButtonNo_->SetTexture("BtNo.mouseOver.0.png");
+	//	ButtonYes_->SetTexture("BtOK.normal.png");
+	//}
+	//else
+	//{
+	//	ButtonYes_->SetTexture("BtOK.normal.png");
+	//	ButtonNo_->SetTexture("BtNo.normal.0.png");
+	//}
+
+	if (true == ButtonYesCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	{
+		ButtonYes_->SetTexture("BtOK.mouseOver.0.png");
+	}
+	else
+	{
+		ButtonYes_->SetTexture("BtOK.normal.png");
+	}
+
+	if (true == ButtonNoCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	{
+		ButtonNo_->SetTexture("BtNo.mouseOver.0.png");
+	}
+	else
+	{
+		ButtonNo_->SetTexture("BtNo.normal.0.png");
 	}
 
 

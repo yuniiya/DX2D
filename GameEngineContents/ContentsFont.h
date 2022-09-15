@@ -31,12 +31,20 @@ protected:
 private:
 	GameEngineFontRenderer* FontRenderer_;
 
+	std::vector<std::string> AriantDialogList_;
+	std::vector<std::string> EntranceDialogList_;
+	std::vector<std::string> CastleDialogList_;
+
+private:
 	int TypeCount_;
 	float TypingTimer_;
 
 	bool IsTypingEnd_;
+	bool IsLineChange_;
 
 	std::string Text_;
 	std::string SubText_;
+
+	NPCType NPCType_;
 };
 
