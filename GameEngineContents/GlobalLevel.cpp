@@ -102,7 +102,7 @@ void GlobalLevel::SetPortal(float4 _Pos)
 	
 	PortalRenderer->CreateFrameAnimationFolder("Portal", FrameAnimation_DESC("Portal", 0.08f));
 	PortalRenderer->ChangeFrameAnimation("Portal");
-	PortalRenderer->GetTransform().SetLocalPosition(_Pos);
+	PortalRenderer->GetTransform().SetLocalPosition({ _Pos .x, _Pos.y, (int)ZOrder::PORTAL});
 	PortalRenderer->GetTransform().SetLocalScale({104.f, 142.f});
 }
 

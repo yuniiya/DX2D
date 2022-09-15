@@ -153,6 +153,7 @@ void Item::Start()
 {
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::ITEM});
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+
 }
 
 void Item::Update(float _DeltaTime)

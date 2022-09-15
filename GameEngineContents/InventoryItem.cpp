@@ -220,9 +220,12 @@ void InventoryItem::CollisionCheck()
 	}
 
 	// 소비 아이템 사용
-	if (true == GameEngineInput::GetInst()->IsDown("RightMouse"))
+	if (InventorySlotType::SLOT_POTION == InventorySlotType_)
 	{
-		UsePotion();
+		if (true == GameEngineInput::GetInst()->IsDown("RightMouse"))
+		{
+			UsePotion();
+		}
 	}
 
 }

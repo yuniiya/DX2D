@@ -29,7 +29,7 @@ void AriantLevel::Start()
 	if (nullptr == Player::MainPlayer_)
 	{
 		Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-		Inventory::MainInventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
+		Inventory::MainInventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::FONT);
 	}
 	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	//Player_->GetTransform().SetLocalPosition({ 2600.f, -600.0f});

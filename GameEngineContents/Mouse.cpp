@@ -116,7 +116,7 @@ void Mouse::Update(float _DeltaTime)
 				if (true == ContentsUI_->QuickSlotItemsList_[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 				{
 					ContentsUI_->QuickSlotItemsList_[i]->CollisionCheck();
-					ContentsUI_->QuickSlotItemsList_[i]->SetQuickSlotIndex(i);
+					ContentsUI_->QuickSlotItemsList_[i]->SetQuickSlotIndex((int)i);
 
 					break;
 				}

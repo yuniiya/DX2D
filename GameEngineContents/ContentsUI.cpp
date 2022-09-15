@@ -179,6 +179,8 @@ void ContentsUI::Start()
 		ItemActor->IsSlot_ = true;
 		ItemActor->SetQuickSlotIndex(i);
 	}
+
+	SetLevelOverOn();
 }
 
 void ContentsUI::Update(float _DeltaTime)

@@ -21,6 +21,7 @@ public:
 		return FontRenderer_;
 	}
 
+	void TextRender(const std::string& _Text, int _Count, const std::string& _Font = "µ¸¿ò");
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -29,7 +30,12 @@ protected:
 private:
 	GameEngineFontRenderer* FontRenderer_;
 
-	int Count_;
+	int TypeCount_;
 	float TypingTimer_;
+
+	bool IsTypingEnd_;
+
+	std::string Text_;
+	std::string SubText_;
 };
 
