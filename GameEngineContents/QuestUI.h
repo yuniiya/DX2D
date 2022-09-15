@@ -26,6 +26,7 @@ protected:
 	void End() override {};
 
 	void CollisionCheck();
+	void TextSetting(const std::string& _Text, NPCType _NPCType);
 
 private:
 	GameEngineFontRenderer* NPCNameFont_;
@@ -42,5 +43,12 @@ private:
 	NPCType NPCType_;
 
 	ContentsFont* Font_;
+
+	int DialogCount_;
+
+private:
+	std::vector<std::string> AriantDialogList_;
+	std::vector<std::string> EntranceDialogList_;
+	std::vector<std::string> CastleDialogList_;
 };
 

@@ -97,6 +97,8 @@ void Mouse::Update(float _DeltaTime)
 	if (true == MouseSlot_->IsDoneHolding_
 		&& false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::INVENTORY, CollisionType::CT_OBB2D))
 	{
+
+		MouseSlot_->GetInventoryItem();
 		if (nullptr == MouseSlot_->GetInventoryItem())
 		{
 			return;

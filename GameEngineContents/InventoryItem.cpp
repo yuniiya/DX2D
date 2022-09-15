@@ -134,8 +134,8 @@ void InventoryItem::CollisionCheck()
 			else // 다른 칸이다
 			{
 				SetCount(MouseSlot_->GetInventoryItem()->GetCount() + GetCount());
-				//ItemCountF트 렌더러 위치 ontUpdate();
-				// 빈칸의 폰설정
+				//ItemCountFontUpdate();
+				// 빈칸의 폰트 렌더러 위치 설정
 				ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
@@ -216,7 +216,6 @@ void InventoryItem::CollisionCheck()
 
 		// 2) 슬롯의 아이템 = 현재 마우스로 잡은 아이템 (정보를 들고 있는다)
 		MouseSlot_->SetInventoryItem(this);
-		
 	}
 
 	// 소비 아이템 사용

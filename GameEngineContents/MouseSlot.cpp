@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MouseSlot.h"
 #include "Mouse.h"
+#include "InventoryItem.h"
 
 MouseSlot::MouseSlot()
 	: HoldItemRenderer_(nullptr)

@@ -69,6 +69,17 @@ void NPC::Start()
 void NPC::Update(float _DeltaTime)
 {
 	CollisonCheck();
+
+	if (nullptr == QuestUI_)
+	{
+		return;
+	}
+
+	// 대화창이 꺼져있을 때만 NPC 클릭
+	if (true == QuestUI_->IsDeath())
+	{
+		Collision_->On();
+	}
 }
 
 void NPC::CollisonCheck()
@@ -79,6 +90,7 @@ void NPC::CollisonCheck()
 		{
 			QuestUI_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
 			QuestUI_->SetNPCType(NPCType_);
+			Collision_->Off();
 		}
 	}
 }

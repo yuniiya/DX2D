@@ -21,8 +21,15 @@ public:
 		return FontRenderer_;
 	}
 
+	inline void SetNPCType(NPCType _NPCType)
+	{
+		NPCType_ = _NPCType;
+	}
+
+	void TextRenderingUpdate();
 	void TextRender(const std::string& _Text, int _Count, const std::string& _Font = "µ¸¿ò");
-	void SetNPCDialog(NPCType _NPCType);
+	void SetText(const std::string& _Text);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -31,16 +38,11 @@ protected:
 private:
 	GameEngineFontRenderer* FontRenderer_;
 
-	std::vector<std::string> AriantDialogList_;
-	std::vector<std::string> EntranceDialogList_;
-	std::vector<std::string> CastleDialogList_;
-
 private:
 	int TypeCount_;
 	float TypingTimer_;
 
 	bool IsTypingEnd_;
-	bool IsLineChange_;
 
 	std::string Text_;
 	std::string SubText_;
