@@ -30,6 +30,7 @@ protected:
 	void ResetDialog();
 	void ButtonOn();
 	void ButtonOff();
+	void ChangeToNextDialog();
 
 private:
 	GameEngineFontRenderer* NPCNameFont_;

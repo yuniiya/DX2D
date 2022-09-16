@@ -104,50 +104,7 @@ void QuestUI::Update(float _DeltaTime)
 	// 다음 장으로 넘긴다
 	if (true == GameEngineInput::GetInst()->IsDown("SpaceBar"))
 	{
-		Font_->ResetType();
-		DialogCount_ += 1;
-
-		switch (NPCType_)
-		{
-		case NPCType::NPC_Ariant: 
-		{
-			if (DialogCount_ == 1)			// 2장
-			{
-				ButtonOff();
-			}
-			else if (DialogCount_ == 3)		// 3장
-			{
-				ResetDialog();
-				return;
-			}
-
-			Font_->SetText(AriantDialogList_[DialogCount_]);
-		}
-			break;
-		case NPCType::NPC_Entrance:
-		{	
-			if (DialogCount_ == 1)	
-			{
-				ButtonOn();
-			}
-			else if (DialogCount_ == 3)
-			{
-				ResetDialog();
-				return;
-			}
-
-			Font_->SetText(EntranceDialogList_[DialogCount_]);
-		}
-			break;
-		case NPCType::NPC_Castle:
-		{
-			ResetDialog();
-			return;
-		}
-			break;
-		default:
-			break;
-		}
+		ChangeToNextDialog();
 	}
 }
 
@@ -161,6 +118,11 @@ void QuestUI::CollisionCheck()
 	if (true == ButtonYesCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 	{
 		ButtonYes_->SetTexture("BtOK.mouseOver.0.png");
+
+		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		{
+			ChangeToNextDialog();
+		}
 	}
 	else
 	{
@@ -170,6 +132,11 @@ void QuestUI::CollisionCheck()
 	if (true == ButtonNoCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 	{
 		ButtonNo_->SetTexture("BtNo.mouseOver.0.png");
+
+		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		{
+			ResetDialog();
+		}
 	}
 	else
 	{
@@ -266,4 +233,56 @@ void QuestUI::ButtonOff()
 	ButtonYesCol_->Off();
 	ButtonNo_->Off();
 	ButtonNoCol_->Off();
+}
+
+void QuestUI::ChangeToNextDialog()
+{
+	Font_->ResetType();
+	DialogCount_ += 1;
+
+	switch (NPCType_)
+	{
+	case NPCType::NPC_Ariant:
+	{
+		if (DialogCount_ == 1)			// 2장
+		{
+			ButtonOff();
+		}
+		else if (DialogCount_ == 3)		// 3장
+		{
+			ResetDialog();
+			return;
+		}
+
+		Font_->SetText(AriantDialogList_[DialogCount_]);
+	}
+	break;
+	case NPCType::NPC_Entrance:
+	{
+		if (DialogCount_ == 1)
+		{
+			ButtonOn();
+		}
+		else if (DialogCount_ == 2)
+		{
+			ButtonOff();
+		}
+		else if (DialogCount_ == 3)
+		{
+			ResetDialog();
+			return;
+		}
+
+		Font_->SetText(EntranceDialogList_[DialogCount_]);
+	}
+	break;
+	case NPCType::NPC_Castle:
+	{
+		ResetDialog();
+		return;
+	}
+	break;
+	default:
+		break;
+	}
 }
