@@ -26,6 +26,12 @@ public:
 		NPCType_ = _NPCType;
 	}
 
+	inline void ResetType()
+	{
+		TypeCount_ = 0;
+		TypingTimer_ = 0.f;
+	}
+
 	void TextRenderingUpdate();
 	void TextRender(const std::string& _Text, int _Count, const std::string& _Font = "µ¸¿ò");
 	void SetText(const std::string& _Text);
@@ -41,6 +47,7 @@ private:
 private:
 	int TypeCount_;
 	float TypingTimer_;
+	int ChangeLineCount_;
 
 	bool IsTypingEnd_;
 

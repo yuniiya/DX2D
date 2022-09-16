@@ -27,6 +27,9 @@ protected:
 
 	void CollisionCheck();
 	void TextSetting(const std::string& _Text, NPCType _NPCType);
+	void ResetDialog();
+	void ButtonOn();
+	void ButtonOff();
 
 private:
 	GameEngineFontRenderer* NPCNameFont_;

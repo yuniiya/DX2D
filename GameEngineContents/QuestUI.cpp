@@ -69,6 +69,8 @@ void QuestUI::Start()
 		, ButtonNo_->GetTransform().GetLocalScale().y });
 	ButtonNoCol_->ChangeOrder(GAMEOBJGROUP::UI);
 
+	ButtonOff();
+
 	// Ariant
 	TextSetting("오, 모래그림단의 든든한 후원자께서 오셨군. 마침 기다리고 있었소. 이번에야말로 왕비의 보물을 훔칠 생각인데... 물론 당신께서도 도와주시겠지?", NPCType::NPC_Ariant);
 	TextSetting("하하하! 역시! 그럴 줄 알았소. 해야 할 일은 왕비의 장식장에서 왕비의 보물을 훔쳐오는 것이라오. 궁전 가장 깊은 곳, 왕의 옆 쪽에 있는 장식장까지 가는 것이 물론 쉽지 않은 일이지만 모래그림단을 위한 일이잖소? 당신이라면 해낼 거라고 믿소.후후후....", NPCType::NPC_Ariant);
@@ -94,7 +96,7 @@ void QuestUI::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst()->IsDown("Exit"))
 	{
-
+		DialogCount_ = 0;
 		Font_->Off();
 		Death();
 	}
@@ -102,7 +104,50 @@ void QuestUI::Update(float _DeltaTime)
 	// 다음 장으로 넘긴다
 	if (true == GameEngineInput::GetInst()->IsDown("SpaceBar"))
 	{
-		
+		Font_->ResetType();
+		DialogCount_ += 1;
+
+		switch (NPCType_)
+		{
+		case NPCType::NPC_Ariant: 
+		{
+			if (DialogCount_ == 1)			// 2장
+			{
+				ButtonOff();
+			}
+			else if (DialogCount_ == 3)		// 3장
+			{
+				ResetDialog();
+				return;
+			}
+
+			Font_->SetText(AriantDialogList_[DialogCount_]);
+		}
+			break;
+		case NPCType::NPC_Entrance:
+		{	
+			if (DialogCount_ == 1)	
+			{
+				ButtonOn();
+			}
+			else if (DialogCount_ == 3)
+			{
+				ResetDialog();
+				return;
+			}
+
+			Font_->SetText(EntranceDialogList_[DialogCount_]);
+		}
+			break;
+		case NPCType::NPC_Castle:
+		{
+			ResetDialog();
+			return;
+		}
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -140,7 +185,6 @@ void QuestUI::SetNPCType(NPCType _NPCType)
 	Font_ = GetLevel()->CreateActor<ContentsFont>();
 	Font_->GetFontRenderer()->SetScreenPostion({ Renderer_->GetTransform().GetLocalPosition().x + 540.f, 
 		Renderer_->GetTransform().GetLocalPosition().y + 300.f});
-	//Font_->SetNPCType(_NPCType);
 	Font_->On();
 
 	switch (NPCType_)
@@ -149,22 +193,22 @@ void QuestUI::SetNPCType(NPCType _NPCType)
 	{
 		UINPCRenderer_->SetTexture("NPC1.png");
 		NPCNameFont_->SetText(" 수상한 남자");
-		Font_->SetText(AriantDialogList_[0]);
+		Font_->SetText(AriantDialogList_[DialogCount_]);
+		ButtonOn();
 	}
 		break;
 	case NPCType::NPC_Entrance:
 	{
 		UINPCRenderer_->SetTexture("NPC2.png");
 		NPCNameFont_->SetText("      티건");
-
-		Font_->SetText(EntranceDialogList_[0]);
+		Font_->SetText(EntranceDialogList_[DialogCount_]);
 	}
 		break;
 	case NPCType::NPC_Castle:
 	{
 		UINPCRenderer_->SetTexture("NPC3.png");
 		NPCNameFont_->SetText("왕비의 장식장");
-		Font_->SetText(CastleDialogList_[0]);
+		Font_->SetText(CastleDialogList_[DialogCount_]);
 	}
 		break;
 	}
@@ -199,4 +243,27 @@ void QuestUI::TextSetting(const std::string& _Text, NPCType _NPCType)
 	default:
 		break;
 	}
+}
+
+void QuestUI::ResetDialog()
+{
+	DialogCount_ = 0;
+	Font_->Off();
+	Death();
+}
+
+void QuestUI::ButtonOn()
+{
+	ButtonYes_->On();
+	ButtonYesCol_->On();
+	ButtonNo_->On();
+	ButtonNoCol_->On();
+}
+
+void QuestUI::ButtonOff()
+{
+	ButtonYes_->Off();
+	ButtonYesCol_->Off();
+	ButtonNo_->Off();
+	ButtonNoCol_->Off();
 }
