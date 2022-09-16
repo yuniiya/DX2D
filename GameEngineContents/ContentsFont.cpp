@@ -131,7 +131,7 @@ void ContentsFont::Update(float _DeltaTime)
 					// 한 글자 뒤가 공백이다
 					Text_.insert(TypeCount_ + 3, "\n");
 				}
-				else if (" " == TempText3_)
+				if (" " == TempText2_ || "," == TempText1_)
 				{
 					// 두 글자 뒤가 공백이다
 					Text_.insert(TypeCount_ + 5, "\n");
