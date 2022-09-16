@@ -225,6 +225,10 @@ void Inventory::Update(float _DeltaTime)
 
 void Inventory::CollisionCheck()
 { 
+	if (nullptr == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse())
+	{
+		return;
+	}
 	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 	{
 		if (true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)

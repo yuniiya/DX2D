@@ -73,4 +73,5 @@ void LoginLevel::LevelStartEvent()
 	{
 		Player::MainPlayer_->GetTransform().SetWorldMove({ 0.f, -500.f });
 	}
+
 }

@@ -73,6 +73,7 @@ void QuestUI::Start()
 
 	// Ariant
 	TextSetting("오, 모래그림단의 든든한 후원자께서 오셨군. 마침 기다리고 있었소. 이번에야말로 왕비의 보물을 훔칠 생각인데... 물론 당신께서도 도와주시겠지?", NPCType::NPC_Ariant);
+	//Str_ = "왕비의 장식장";
 	TextSetting("하하하! 역시! 그럴 줄 알았소. 해야 할 일은 왕비의 장식장에서 왕비의 보물을 훔쳐오는 것이라오. 궁전 가장 깊은 곳, 왕의 옆 쪽에 있는 장식장까지 가는 것이 물론 쉽지 않은 일이지만 모래그림단을 위한 일이잖소? 당신이라면 해낼 거라고 믿소.후후후....", NPCType::NPC_Ariant);
 	TextSetting("보석을 새로 들여놓은지 얼마 되지 않아서 궁 안은 경비가 삼엄하오. 최대한 조심스럽게 장식장으로 가서 보물을 찾아오시오. 그럼 기대하겠소.", NPCType::NPC_Ariant);
 
@@ -238,6 +239,7 @@ void QuestUI::ButtonOff()
 void QuestUI::ChangeToNextDialog()
 {
 	Font_->ResetType();
+	Font_->ResetByteCount();
 	DialogCount_ += 1;
 
 	switch (NPCType_)

@@ -54,5 +54,7 @@ private:
 	std::vector<std::string> AriantDialogList_;
 	std::vector<std::string> EntranceDialogList_;
 	std::vector<std::string> CastleDialogList_;
+
+	std::string Str_;
 };
 

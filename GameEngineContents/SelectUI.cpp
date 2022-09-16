@@ -193,6 +193,7 @@ void SelectUI::Start()
 		GameStartButtonCol_->GetTransform().SetLocalScale({ 140.f * 1.2f, 52.f * 1.2f });
 		GameStartButtonCol_->GetTransform().SetLocalPosition({ CamPos.x + 500.f, CamPos.y - 190.f });
 		GameStartButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
+		GameStartButtonCol_->Off();
 	}
 
 	PlayerObjUI_->GetTransform().SetLocalPosition({ CamPos.x - 455.f, CamPos.y + 100.f });
@@ -255,6 +256,7 @@ void SelectUI::CollisionCheck()
 			Player_->ChangeFrameAnimation("Move");
 			InfoUI_->On();
 			GameStartButton_->On();
+			GameStartButtonCol_->On();
 			PlayerMouseOverEfect_->On();
 			PlayerSelectEffect_->On();
 		}
@@ -272,6 +274,7 @@ void SelectUI::CollisionCheck()
 	
 			InfoUI_->Off();
 			GameStartButton_->Off();
+			GameStartButtonCol_->Off();
 			PlayerMouseOverEfect_->Off();
 			PlayerSelectEffect_->Off();
 		}

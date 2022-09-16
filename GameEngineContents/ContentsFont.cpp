@@ -8,7 +8,8 @@ ContentsFont::ContentsFont()
 	, TypingTimer_(0.f)
 	, IsTypingEnd_(false)
 	, NPCType_(NPCType::MAX)
-
+	, LineChangeCount_(0)
+	, ByteCount_(0)
 {
 }
 
@@ -18,7 +19,7 @@ ContentsFont::~ContentsFont()
 
 void ContentsFont::TextRenderingUpdate()
 {
-	if (TypingTimer_ >= 0.05f)
+	if (TypingTimer_ > 0.08f)
 	{
 		for (int Count = TypeCount_; Count < Text_.size(); )
 		{
@@ -26,52 +27,61 @@ void ContentsFont::TextRenderingUpdate()
 			if (TempCount != 0 && TempCount % 56 == 0)
 			{
 				std::string TempText1_ = Text_.substr(TempCount, 1);
-				std::string TempText2_ = Text_.substr(TempCount + 2, 1);
+				std::string TempText2_ = Text_.substr(TempCount + 1, 1);
 				std::string TempText3_ = Text_.substr(TempCount + 4, 1);
 				//std::string TempText4_ = Text_.substr(TempCount + 5, 1);
 
-				// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
-				if (" " == TempText1_)
+
+				if ("," == TempText1_ && " " == TempText2_)
+				{
+					// 반점 뒤에 공백이 있다 -> 반점이 아닌 공백 뒤 + 한글에서 줄바꿈 
+					Text_.insert(TypeCount_ + 4, "\n");
+
+					Count += 5;
+					TypeCount_ += 5;
+				}
+				else if (" " == TempText1_)// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
 				{
 					Text_.insert(TypeCount_ + 1, "\n");
+
+					Count += 2;
+					TypeCount_ += 2;
 				}
-				else if (" " == TempText2_)
-				{
-					// 한 글자 뒤가 공백이다
-					Text_.insert(TypeCount_ + 3, "\n");
-				}
-				else if (" " == TempText3_)
-				{
-					// 두 글자 뒤가 공백이다
-					Text_.insert(TypeCount_ + 5, "\n");
-				}
+
+				//else if (" " == TempText3_)
+				//{
+				//	// 두 글자 뒤가 공백이다
+				//	Text_.insert(TypeCount_ + 5, "\n");
+				//}
 				else
 				{
-					// 한 칸 뒤가 공백이 아니다 -> 바로 줄바꿈
-					Text_.insert(TypeCount_, "\n");
+					// 읽어 올수 없다 -> 한글 
+					Text_.insert(TypeCount_ + 2, "\n");
+
+					Count += 2;
+					TypeCount_ += 2;
 				}
 
 				// 줄바꿈한 곳 까지 출력할거니까 크기 + 1
-				TypeCount_ += 1;
+				break;
+
+				// 전체 텍스트에서 1바이트씩 잘라온다 ex) 0바이트 시작일 경우, 0 ~ 1바이트 잘라오기
+				SubText_ = Text_.substr(Count, 1);
+
+				// 띄어쓰기 -> 1바이트
+				if (" " == SubText_ || "," == SubText_ || "." == SubText_ || "?" == SubText_ || "!" == SubText_)
+				{
+					Count += 1;
+				}
+				else
+				{
+					// 한글
+					Count += 2;
+				}
+
+				TypeCount_ = Count;
 				break;
 			}
-
-			// 전체 텍스트에서 1바이트씩 잘라온다 ex) 0바이트 시작일 경우, 0 ~ 1바이트 잘라오기
-			SubText_ = Text_.substr(Count, 1);
-
-			// 띄어쓰기 -> 1바이트
-			if (" " == SubText_ || "," == SubText_ || "." == SubText_ || "?" == SubText_ || "!" == SubText_)
-			{
-				Count += 1;
-			}
-			else
-			{
-				// 한글
-				Count += 2;
-			}
-
-			TypeCount_ = Count;
-			break;
 
 		}
 
@@ -107,43 +117,59 @@ void ContentsFont::Start()
 
 void ContentsFont::Update(float _DeltaTime)
 {
-	if (TypingTimer_ >= 0.05f)
+	if (TypingTimer_ > 0.05f)
 	{
+		ByteCount_ += 1;
+
 		for (int Count = TypeCount_; Count < Text_.size(); )
 		{
- 			int TempCount = TypeCount_;
-			ChangeLineCount_ = 56;
-			if (TempCount != 0 && TempCount % ChangeLineCount_ == 0)
+			int TempCount = TypeCount_;
+			if (ByteCount_ != 0 && ByteCount_ % 34 == 0)
 			{
-	
- 				std::string TempText1_ = Text_.substr(TempCount, 1);
-				std::string TempText2_ = Text_.substr(TempCount + 2, 1);
-				std::string TempText3_ = Text_.substr(TempCount + 4, 1);
+				std::string TempText1_ = Text_.substr(TempCount, 1);		// 1바이트 뒤
+				std::string TempText2_ = Text_.substr(TempCount + 1, 1);	// 2바이트 뒤
+				std::string TempText3_ = Text_.substr(TempCount + 3, 1);	// 4바이트 뒤
 				//std::string TempText4_ = Text_.substr(TempCount + 5, 1);
 
-				// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
-				if (" " == TempText1_)
+				
+  				if ("," == TempText1_ && " " == TempText2_)
 				{
-					Text_.insert(TypeCount_ + 1, "\n");
+					// 반점 뒤에 공백이 있다 -> 반점이 아닌 공백 뒤 + 한글에서 줄바꿈 
+					Text_.insert(TypeCount_ + 4, "\n");
+
+					Count += 5;
+					TypeCount_ += 5;
 				}
-				else if (" " == TempText2_)
+				else if (" " == TempText1_)// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
 				{
-					// 한 글자 뒤가 공백이다
-					Text_.insert(TypeCount_ + 3, "\n");
-				}
-				if (" " == TempText2_ || "," == TempText1_)
-				{
-					// 두 글자 뒤가 공백이다
-					Text_.insert(TypeCount_ + 5, "\n");
+ 					Text_.insert(TypeCount_ + 1, "\n");
+
+					Count += 2;
+					TypeCount_ += 2;
 				}
 				else
 				{
-					// 한 칸 뒤가 공백이 아니다 -> 바로 줄바꿈
-					Text_.insert(TypeCount_, "\n");
+					// 읽어 올수 없다 -> 한글 
+					// 한글 뒤에 공백이 있다 -> 한글 + 공백보다 한 칸 뒤에서 줄바꿈
+					if (" " == TempText3_)
+					{
+						Text_.insert(TypeCount_ + 4, "\n");
+
+						Count += 5;
+						TypeCount_ += 5;
+					}
+					else
+					{
+						Text_.insert(TypeCount_ + 2, "\n");
+
+						Count += 2;
+						TypeCount_ += 2;
+					}
+			
 				}
 
+				ByteCount_ = 0;
 				// 줄바꿈한 곳 까지 출력할거니까 크기 + 1
-				TypeCount_ += 1;
 				break;
 			}
 

@@ -60,12 +60,14 @@ void Mouse::Start()
 	MouseRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
 	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
+	MouseRenderer_->SetRenderingOrder(1000);
 
 	MouseAnimationRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_MouseOver", FrameAnimation_DESC("Cursor_MouseOver", 0.55f));
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_Hold", FrameAnimation_DESC("Cursor_Hold", 0.3f));
 	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f });
 	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
+	MouseAnimationRenderer_->SetRenderingOrder(1000);
 	MouseAnimationRenderer_->Off();
 
 	MouseSlot_ = GetLevel()->CreateActor<MouseSlot>();
