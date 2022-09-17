@@ -116,6 +116,11 @@ public:
 		CurMeso_ = CurMeso_+ _Meso;
 	}
 
+	inline void UsePlayerMeso(int _Meso)
+	{
+		CurMeso_ = CurMeso_ - _Meso;
+	}
+
 private:
 	float CurLevel_;
 	float CurHP_;

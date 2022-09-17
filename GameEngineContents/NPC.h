@@ -47,12 +47,12 @@ protected:
 
 	void CollisonCheck();
 
+	GameEngineCollision* Collision_;
+
 private:
 	GameEngineTextureRenderer* Renderer_;
 	GameEngineTextureRenderer* QuestRenderer_;
 	GameEngineUIRenderer* QuestClearRenderer_;
-
-	GameEngineCollision* Collision_;
 
 	NPCType NPCType_;
 

@@ -72,43 +72,42 @@ void NPC::Update(float _DeltaTime)
 {
 	CollisonCheck();
 	
-	if (true == IsQuestClear_)
-	{
-		QuestClearUI* QuestClear_ = GetLevel()->CreateActor<QuestClearUI>();
-		QuestClear_->GetRenderer()->GetTransform().SetLocalPosition({180.f, -200.f});
-		
-		IsQuestClear_ = false;
-	}
-
 	if (nullptr == QuestUI_)
 	{
 		return;
 	}
 
-	// 대화창이 꺼져있을 때만 NPC 클릭
-	if (false == QuestUI_->IsUpdate())
+	if (true == IsQuestOngoing_ && false == IsQuestEnd_)
 	{
-		if (true == IsQuestOngoing_)
-		{
-			QuestRenderer_->ChangeFrameAnimation("Quest1");
-			Collision_->Off();
-		}
-		else if (true == IsQuestEnd_)
-		{
-			QuestRenderer_->Off();
-			Collision_->Off();
-		}
-		else if (true == IsQuestClear_)
-		{
-			QuestRenderer_->ChangeFrameAnimation("Quest2");
-			Collision_->Off();
-		}
-		else
-		{
-			Collision_->On();
-		}
+		QuestRenderer_->ChangeFrameAnimation("Quest1");
+	}
+	else if (true == IsQuestEnd_)
+	{
+		QuestRenderer_->Off();
+	}
+	else if (true == IsQuestClear_ && false == IsQuestEnd_)
+	{
+		QuestRenderer_->ChangeFrameAnimation("Quest2");
 	}
 
+	//if (true == IsQuestClear_ || true == IsQuestEnd_)
+	//{
+	//	if (true == IsQuestEnd_)
+	//	{
+	//		Collision_->Off();
+	//	}
+ //		QuestClearUI* QuestClear_ = GetLevel()->CreateActor<QuestClearUI>();
+	//	QuestClear_->GetRenderer()->GetTransform().SetLocalPosition({194.f, -290.f});
+	//	
+	//	IsQuestClear_ = false;
+	//	IsQuestEnd_ = false;
+	//}
+
+	// 대화창이 꺼져있을 때만 NPC 클릭
+	//if (true == QuestUI_->IsUpdate())
+	//{
+	//	Collision_->Off();
+	//}
 }
 
 void NPC::CollisonCheck()

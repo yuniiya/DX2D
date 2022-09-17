@@ -182,6 +182,13 @@ void AriantLevel::LevelStartEvent()
 		ItemActor->GetTransform().SetLocalPosition(float4{ 3520.f, -800.f, (int)ZOrder::ITEM });
 		ItemActor->TimeAttackStart();
 	}
+	{
+		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+		ItemActor->MonsterName_ = MONSTERNAME::None;
+		ItemActor->RendererTypeSetting();
+		ItemActor->GetTransform().SetLocalPosition(float4{ 3550.f, -800.f, (int)ZOrder::ITEM });
+		ItemActor->TimeAttackStart();
+	}
 
 
 	Meso* MesoActor = CreateActor<Meso>(GAMEOBJGROUP::OBJ);

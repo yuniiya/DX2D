@@ -33,6 +33,7 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
+	void LevelEndEvent() override;
 
 	void SlotKeyCheck();
 	bool SlotKeyInputCheck();

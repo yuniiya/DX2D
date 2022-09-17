@@ -103,6 +103,7 @@ enum class ItemType
 	ITEM_MP300,
 	ITEM_MP4000,
 	ITEM_MP5000,
+	ITEM_QUEST,
 
 	MAX,
 };

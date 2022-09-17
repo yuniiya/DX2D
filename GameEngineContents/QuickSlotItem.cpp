@@ -46,11 +46,7 @@ void QuickSlotItem::Start()
 	//MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
 	//MouseSlot_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
 
-	
-
-
 	SetLevelOverOn();
-
 }
 
 void QuickSlotItem::Update(float _DeltaTime)
@@ -61,6 +57,8 @@ void QuickSlotItem::Update(float _DeltaTime)
 		SetCount(0);
 		ItemCountFont_->Off();
 	}
+
+	ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 	// ¾ÆÀÌÅÛÀ» ³ù´Ù
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
 	{
@@ -82,6 +80,11 @@ void QuickSlotItem::Update(float _DeltaTime)
 	// Äü½½·Ô ¾ÆÀÌÅÛ³¢¸® Ãæµ¹ Ã¼Å© 
 	QuickSlotCollisionCheck();
 	SlotKeyCheck();
+}
+
+void QuickSlotItem::LevelEndEvent()
+{
+	ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 }
 
 void QuickSlotItem::SlotKeyCheck()

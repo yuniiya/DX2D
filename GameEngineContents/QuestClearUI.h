@@ -30,6 +30,7 @@ private:
 	GameEngineUIRenderer* Renderer_;
 
 	bool IsClearSoundOn_;
-	float AlertTime_;
+	bool IsQuestEnd_;
+	float Time_;
 };
 

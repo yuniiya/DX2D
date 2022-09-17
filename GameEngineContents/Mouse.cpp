@@ -96,7 +96,6 @@ void Mouse::Update(float _DeltaTime)
 	// 아이템을 잡은 상태가 아닐때만 일반 애니메이션
 	if (true == MouseSlot_->IsHold_)
 	{
-		GameEngineDebug::OutPutString("Ok");
 		return;
 	}
 
@@ -104,8 +103,6 @@ void Mouse::Update(float _DeltaTime)
 	if (true == MouseSlot_->IsDoneHolding_
 		&& false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::INVENTORY, CollisionType::CT_OBB2D))
 	{
-
-		MouseSlot_->GetInventoryItem();
 		if (nullptr == MouseSlot_->GetInventoryItem())
 		{
 			return;

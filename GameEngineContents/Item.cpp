@@ -222,6 +222,13 @@ void Item::RendererTypeSetting()
 		SetItemType(ItemType::ITEM_SPARKER);
 	}
 	break;
+	case MONSTERNAME::None:
+	{
+		Renderer_->SetTexture("QuestItem1.png");
+		Renderer_->GetTransform().SetLocalScale({ 29.f, 30.f });
+		SetItemType(ItemType::ITEM_QUEST);
+	}
+	break;
 	}
 }
 

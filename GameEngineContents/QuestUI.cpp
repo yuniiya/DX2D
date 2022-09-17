@@ -133,13 +133,10 @@ void QuestUI::Update(float _DeltaTime)
 			break;
 			case NPCType::NPC_Entrance:
 			{
-				if (1 == DialogCount_)
-				{
-					NPC_->IsQuestOngoing_ = true;
-				}
-				else if (1 == DialogCount_)
+				if (2 == DialogCount_)
 				{
 					NPC_->IsQuestClear_ = true;
+ 					NPC_->IsQuestEnd_ = true;
 				}
 			}
 			break;
@@ -182,7 +179,6 @@ void QuestUI::CollisionCheck()
 				break;
 			case NPCType::NPC_Entrance:
 			{
-				NPC_->IsQuestClear_ = true;
 				NPC_->IsQuestEnd_ = true;
 			}
 				break;

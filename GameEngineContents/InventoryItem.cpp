@@ -362,6 +362,14 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
+	case ItemType::ITEM_QUEST:
+	{
+		Renderer_->SetTexture("Item2.png", 18);
+		Index_ = 18;
+		MonsterName_ = MONSTERNAME::None;
+		InventorySlotType_ = InventorySlotType::SLOT_ETC;
+	}
+	break;
 	}
 
 }

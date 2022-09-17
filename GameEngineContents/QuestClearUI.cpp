@@ -4,7 +4,8 @@
 QuestClearUI::QuestClearUI() 
 	: Renderer_(nullptr)
 	, IsClearSoundOn_(true)
-	, AlertTime_(0.f)
+	, Time_(0.f)
+	, IsQuestEnd_(false)
 {
 }
 
@@ -18,9 +19,8 @@ void QuestClearUI::Start()
 
 	Renderer_ = CreateComponent<GameEngineUIRenderer>();
 	Renderer_->SetTexture("QuestClear.png");
-	Renderer_->GetTransform().SetLocalScale({209.f * 0.9f, 52.f * 0.9f});
-	Renderer_->GetTransform().SetLocalPosition({ 180.f, -300.f });
-	Renderer_->Off();
+	Renderer_->GetTransform().SetLocalScale({209.f * 0.85f, 52.f * 0.85f});;
+	Renderer_->GetPixelData().MulColor.a = 0;
 }
 
 void QuestClearUI::Update(float _DeltaTime)
@@ -29,17 +29,33 @@ void QuestClearUI::Update(float _DeltaTime)
 	{
 		GameEngineSound::SoundPlayOneShot("QuestClear.mp3");
 		IsClearSoundOn_ = false;
-		Renderer_->On();
 	}
-	//if (AlertTime_ > 2.f)
-	//{
-	//	Renderer_->GetPixelData().MulColor -= GameEngineTime::GetDeltaTime() * 1.8f;
+	if (false == IsQuestEnd_)
+	{
+		Renderer_->GetPixelData().MulColor.a += _DeltaTime * 1.3f;
 
-	//	if (Renderer_->GetPixelData().MulColor.a < 0)
-	//	{
-	//		AlertTime_ = 0.f;
-	//		Death();
-	//	}
+		if (1 <= Renderer_->GetPixelData().MulColor.a)
+		{
+			Time_ += _DeltaTime;
+			Renderer_->GetPixelData().MulColor.a = 1;
+
+			if (Time_ > 5.f)
+			{
+				Time_ = 0.f;
+				IsQuestEnd_ = true;
+				Death();
+			}
+			
+		}
+	}
+	//if (1 >= Renderer_->GetPixelData().MulColor.a && false == IsQuestEnd_)
+	//{
+	//	IsQuestEnd_ = true;
+	//	Renderer_->GetPixelData().MulColor.a = 1;
+	//	Death();
 	//}
+
+
+
 }
 

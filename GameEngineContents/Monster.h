@@ -23,6 +23,7 @@ enum class MONSTERNAME
 	Freezer,
 	Sparker,
 	Boss,
+	None,
 
 	MAX,
 };
