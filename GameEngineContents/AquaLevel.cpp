@@ -19,8 +19,6 @@ AquaLevel::~AquaLevel()
 
 void AquaLevel::Start()
 {
-	GlobalLevel::Start();
-
 	SetCollisionMap("ColMap_Aqua2.png");
 	SetBackGround("Back_Aqua2.png");
 	SetStage("Stage_Aqua.png");
@@ -29,7 +27,10 @@ void AquaLevel::Start()
 	SetPortal({ 1494.f, -1064.f, (int)ZOrder::PORTAL });
 
 	// UI
-	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//if (nullptr == GetContentsUI())
+	//{
+	//	CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//}
 	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 }
 
@@ -83,4 +84,5 @@ void AquaLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+	Mouse::MainMouse_->SetLevelOverOn();
 }

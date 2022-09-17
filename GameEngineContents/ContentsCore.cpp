@@ -838,7 +838,7 @@ void ContentsCore::Start()
 	CreateLevel<TestLevel>("Test");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Cactus");
+	ChangeLevel("Login");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

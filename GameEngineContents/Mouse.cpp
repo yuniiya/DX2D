@@ -13,6 +13,8 @@
 #include "Player.h"
 #include "ContentsUI.h"
 
+Mouse* Mouse::MainMouse_ = nullptr;
+
 Mouse::Mouse() 
 	: MouseCol_(nullptr)
 	, MouseRenderer_(nullptr)
@@ -78,6 +80,7 @@ void Mouse::Start()
 		GameEngineInput::GetInst()->CreateKey("RightMouse", VK_RBUTTON);
 	}
 
+
 }
 
 void Mouse::Update(float _DeltaTime)
@@ -89,9 +92,11 @@ void Mouse::Update(float _DeltaTime)
 
 	MainCameraMouseCol_->GetTransform().SetLocalPosition({ MainCameraCurPos_.x, MainCameraCurPos_.y + 10.f });
 
+
 	// 아이템을 잡은 상태가 아닐때만 일반 애니메이션
 	if (true == MouseSlot_->IsHold_)
 	{
+		GameEngineDebug::OutPutString("Ok");
 		return;
 	}
 
@@ -114,13 +119,13 @@ void Mouse::Update(float _DeltaTime)
 			MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
 			MouseSlot_->IsDoneHolding_ = false;
 
-			ContentsUI* ContentsUI_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI();
-			for (size_t i = 0; i < ContentsUI_->QuickSlotItemsList_.size(); i++)
+			//ContentsUI* ContentsUI_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI();
+			for (size_t i = 0; i < ContentsUI::MainUI_->QuickSlotItemsList_.size(); i++)
 			{
-				if (true == ContentsUI_->QuickSlotItemsList_[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+				if (true == ContentsUI::MainUI_->QuickSlotItemsList_[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 				{
-					ContentsUI_->QuickSlotItemsList_[i]->CollisionCheck();
-					ContentsUI_->QuickSlotItemsList_[i]->SetQuickSlotIndex((int)i);
+					ContentsUI::MainUI_->QuickSlotItemsList_[i]->CollisionCheck();
+					ContentsUI::MainUI_->QuickSlotItemsList_[i]->SetQuickSlotIndex((int)i);
 
 					break;
 				}

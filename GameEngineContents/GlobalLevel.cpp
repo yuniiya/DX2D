@@ -32,8 +32,8 @@ void GlobalLevel::Start()
 {
 	// UI
 	//Inventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
-	Mouse_ = CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
-	ContentsUI_ = CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
+	//Mouse_ = CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	//ContentsUI_ = CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
 }
 
 void GlobalLevel::Update(float _DeltaTime)

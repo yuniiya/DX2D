@@ -20,8 +20,6 @@ AriantLevel::~AriantLevel()
 
 void AriantLevel::Start()
 {
-	GlobalLevel::Start();
-
 	SetCollisionMap("ColMap_Ariant.png");
 	SetBackGround("Back_Ariant.png");
 	SetStage("Stage_Ariant.png");
@@ -29,10 +27,13 @@ void AriantLevel::Start()
 	if (nullptr == Player::MainPlayer_)
 	{
 		Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-		Inventory::MainInventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::FONT);
+		Inventory::MainInventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
+		ContentsUI::MainUI_ = CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
 	}
-	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	//Player_->GetTransform().SetLocalPosition({ 2600.f, -600.0f});
+	if (nullptr == Mouse::MainMouse_)
+	{
+		Mouse::MainMouse_ = CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	}
 
 	SetPortal({ 3008.f, -750.f, (int)ZOrder::PORTAL});
 	SetPortal({ 3410.f, -750.f, (int)ZOrder::PORTAL });
@@ -63,7 +64,6 @@ void AriantLevel::Update(float _DeltaTime)
 
 void AriantLevel::End()
 {
-	//Player_->GetTransform().SetLocalPosition(float4::ZERO);
 }
 
 void AriantLevel::LevelStartEvent()
@@ -193,5 +193,6 @@ void AriantLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+	Mouse::MainMouse_->SetLevelOverOn();
 }
 

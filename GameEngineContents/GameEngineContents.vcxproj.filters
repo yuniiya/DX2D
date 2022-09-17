@@ -46,6 +46,9 @@
     <Filter Include="Actor\Item">
       <UniqueIdentifier>{a9d9e398-14a1-4fb4-8594-4d2f4d17f30d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\NPC">
+      <UniqueIdentifier>{2fa43c33-f2bb-430d-a836-d6d265ff5da7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -175,9 +178,6 @@
     <ClInclude Include="InventoryItem.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
-    <ClInclude Include="NPC.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="MapBackGround.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
@@ -192,6 +192,21 @@
     </ClInclude>
     <ClInclude Include="QuickSlotItem.h">
       <Filter>Actor\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_Cactus.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_Entrance.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_Castle.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestClearUI.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -325,9 +340,6 @@
     <ClCompile Include="InventoryItem.cpp">
       <Filter>Actor\Item</Filter>
     </ClCompile>
-    <ClCompile Include="NPC.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="QuestUI.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -339,6 +351,21 @@
     </ClCompile>
     <ClCompile Include="QuickSlotItem.cpp">
       <Filter>Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC_Cactus.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC_Entrance.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC_Castle.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestClearUI.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

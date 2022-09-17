@@ -5,7 +5,7 @@
 #include "Mouse.h"
 #include "Fade.h"
 #include "Inventory.h"
-#include "NPC.h"
+#include "NPC_Entrance.h"
 
 EntranceLevel::EntranceLevel() 
 {
@@ -17,8 +17,6 @@ EntranceLevel::~EntranceLevel()
 
 void EntranceLevel::Start()
 {
-	GlobalLevel::Start();
-
 	SetCollisionMap("ColMap_Entrance.png");
 	SetBackGround("Back_Entrance.png");
 	SetStage("Stage_Entrance.png");
@@ -29,11 +27,15 @@ void EntranceLevel::Start()
 	SetPortal({ 2123.f, -1109.f, (int)ZOrder::PORTAL });
 	SetPortal({ 976.f, -643.f, (int)ZOrder::PORTAL });
 
-	NPC* NPC_ = CreateActor<NPC>((int)GAMEOBJGROUP::OBJ);
+	NPC_Entrance* NPC_ = CreateActor<NPC_Entrance>((int)GAMEOBJGROUP::OBJ);
 	NPC_->SetNPCType(NPCType::NPC_Entrance);
 	NPC_->GetTransform().SetLocalPosition({ 1070.f, -715.f });
 	NPC_->SetQuestRendererPosition();
 	// UI
+	/*if (nullptr == GetContentsUI())
+	{
+		CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	}*/
 	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
@@ -75,4 +77,5 @@ void EntranceLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+	Mouse::MainMouse_->SetLevelOverOn();
 }

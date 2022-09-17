@@ -36,6 +36,10 @@ public:
 			, Renderer_->GetTransform().GetLocalPosition().y + 67.f});
 	}
 
+	bool IsQuestOngoing_;
+	bool IsQuestClear_;
+	bool IsQuestEnd_;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -46,13 +50,12 @@ protected:
 private:
 	GameEngineTextureRenderer* Renderer_;
 	GameEngineTextureRenderer* QuestRenderer_;
-	GameEngineUIRenderer* MouseRenderer_;
-	GameEngineUIRenderer* MouseAnimationRenderer_;
+	GameEngineUIRenderer* QuestClearRenderer_;
 
 	GameEngineCollision* Collision_;
-	GameEngineCollision* MouseCollision_;
 
 	NPCType NPCType_;
+
 
 private:
 	bool IsClick_;

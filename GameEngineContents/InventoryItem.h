@@ -117,7 +117,6 @@ public:
 	bool IsDoneHolding_;
 	bool IsCollideSlot_;
 	bool IsSlot_;
-	bool IsSlotItemCountChange_;
 	
 	void UsePotion();
 
@@ -137,7 +136,6 @@ protected:
 	int SlotIndex_;
 
 	MouseSlot* MouseSlot_;
-	QuickSlotItem* QuickSlotItem_;
 
 //private:
 	GameEngineUIRenderer* Renderer_;

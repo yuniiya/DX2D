@@ -118,7 +118,7 @@ enum class InventorySlotType
 
 enum class NPCType
 {
-	NPC_Ariant,
+	NPC_Cactus,
 	NPC_Entrance,
 	NPC_Castle,
 

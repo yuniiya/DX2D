@@ -54,11 +54,6 @@ public:
 		return ContentsUI_;
 	}
 
-	inline Player* GetPlayer()
-	{
-		return Player_;
-	}
-
 	inline Inventory* GetInventory()
 	{
 		return Inventory_;
@@ -91,7 +86,6 @@ protected:
 	void SetPortal(float4 _Pos);
 
 private:
-	Player* Player_;
 	Mouse* Mouse_;
 	ContentsUI* ContentsUI_;
 

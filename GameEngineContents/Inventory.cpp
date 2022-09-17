@@ -220,18 +220,28 @@ void Inventory::Update(float _DeltaTime)
 	CategoryOnCheck();
 
 	CurMesoFont_->ChangeCamera(CAMERAORDER::UICAMERA);
-}   
+}
+
+void Inventory::LevelStartEvent()
+{
+	InventoryItemsList_Etc;
+}
+
+void Inventory::LevelEndEvent()
+{
+	InventoryItemsList_Etc;
+}
 
 
 void Inventory::CollisionCheck()
 { 
-	if (nullptr == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse())
+	if (nullptr == Mouse::MainMouse_)
 	{
 		return;
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 	{
-		if (true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
+		if (true == Mouse::MainMouse_->GetMouseSlot()->IsHold_)
 		{
 			return;
 		}

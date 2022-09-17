@@ -5,6 +5,8 @@
 #include <GameEngineCore/GameEngineFontRenderer.h>
 #include "QuickSlotItem.h"
 
+ContentsUI* ContentsUI::MainUI_ = nullptr;
+
 ContentsUI::ContentsUI() 
 	: MainBar_(nullptr)
 	, ExpBack_(nullptr)

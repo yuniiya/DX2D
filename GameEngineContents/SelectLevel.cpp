@@ -30,8 +30,12 @@ void SelectLevel::Start()
 	}
 
 	SelectUI* UIActor = CreateActor<SelectUI>(GAMEOBJGROUP::UI);
-	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	if (nullptr == Mouse::MainMouse_)
+	{
+		CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	}
 
+	//ShowCursor(false);
 }
 
 void SelectLevel::Update(float _DeltaTime)

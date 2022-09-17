@@ -40,11 +40,14 @@ void QuickSlotItem::Start()
 		{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
 		, Renderer_->GetTransform().GetLocalPosition().y - 76.f });
 
-	MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
-	MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
-	MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
-	MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
-	MouseSlot_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
+	//MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
+	//MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
+	//MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
+	//MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
+	//MouseSlot_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
+
+	
+
 
 	SetLevelOverOn();
 
@@ -62,8 +65,11 @@ void QuickSlotItem::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
 	{
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsDoneHolding_ = true;
+		//dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
+		//dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsDoneHolding_ = true;
+
+		Mouse::MainMouse_->GetMouseSlot()->IsHold_ = false;
+		Mouse::MainMouse_->GetMouseSlot()->IsDoneHolding_ = true;
 		IsHold_ = false;
 		MouseSlotRenderer_->Off();
 	}
@@ -114,30 +120,6 @@ void QuickSlotItem::SlotKeyCheck()
 		ItemCountFont_->Off();
 	}
 
-	//// 인벤토리
-	//std::vector<InventoryItem*> CurInventoryItem = Inventory::MainInventory_->GetInventoryListPotion();
-	//for (size_t i = 0; i < CurInventoryItem.size(); i++)
-	//{
-	//	if (ItemType_ == Cur0InventoryItem[i]->GetItemType())
-	//	{
-	//		CurInventoryItem[i]->SetCount(GetCount() - 1);
-
-	//		CurInventoryItem[i]->GetFontRenderer()->SetText(std::to_string(GetCount()));
-
-	//		if (GetCount() <= 0)
-	//		{
-	//			CurInventoryItem[i]->SetItemType(ItemType::MAX);
-	//			CurInventoryItem[i]->SetCount(0);
-	//			CurInventoryItem[i]->GetFontRenderer()->Off();
-	//		}
-
-	//		break;
-	//	}
-	//	else
-	//	{
-	//		continue;
-	//	}
-	//}
 
 }
 
@@ -159,6 +141,12 @@ bool QuickSlotItem::SlotKeyInputCheck()
 
 void QuickSlotItem::CollisionCheck()
 {
+	MouseCollision_ = Mouse::MainMouse_->GetMouseCol();
+	MouseRenderer_ = Mouse::MainMouse_->GetMouseRenderer();
+	MouseAnimationRenderer_ = Mouse::MainMouse_->GetMouseAnimationRenderer();
+	MouseSlotRenderer_ = Mouse::MainMouse_->GetMouseSlot()->GetRenderer();
+	MouseSlot_ = Mouse::MainMouse_->GetMouseSlot();
+
 	// 인벤토리 아이템을 퀵슬롯으로 옮겼을 때 
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") &&
 		MouseSlot_->GetInventoryItem() != nullptr)
@@ -202,6 +190,17 @@ void QuickSlotItem::CollisionCheck()
 
 void QuickSlotItem::QuickSlotCollisionCheck()
 {
+	//if (nullptr == MouseSlot_)
+	//{
+	//	return;
+	//}
+
+	//MouseCollision_ = Mouse::MainMouse_->GetMouseCol();
+	//MouseRenderer_ = Mouse::MainMouse_->GetMouseRenderer();
+	//MouseAnimationRenderer_ = Mouse::MainMouse_->GetMouseAnimationRenderer();
+	//MouseSlotRenderer_ = Mouse::MainMouse_->GetMouseSlot()->GetRenderer();
+	//MouseSlot_ = Mouse::MainMouse_->GetMouseSlot();
+
 	if(true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 	{
 		// 오른쪽 마우스 클릭 시 퀵슬롯에서 아이템 삭제 
@@ -212,6 +211,7 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 			SetCount(0);
 			ItemCountFont_->Off();
 		}
+
 		//if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") &&
 		//	MouseSlot_->GetQuickSlotItem() != nullptr)
 		//{
@@ -270,7 +270,7 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 
 		//	// 아이템을 이미 잡은 상태 -> 리턴
 		//	if (true == IsHold_
-		//		|| true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
+		//		|| true == MouseSlot_->IsHold_)
 		//	{
 		//		return;
 		//	}
@@ -296,7 +296,6 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 
 		//	}
 		//}
-
 	
 	}
 }

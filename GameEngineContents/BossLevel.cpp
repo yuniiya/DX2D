@@ -21,8 +21,6 @@ BossLevel::~BossLevel()
 
 void BossLevel::Start()
 {
-	GlobalLevel::Start();
-
 	{
 		SetBackGround("Back_Boss2.png");
 		SetCollisionMap("ColMap_Boss.png");
@@ -38,11 +36,11 @@ void BossLevel::Start()
 		}
 	}
 	
-	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
-	//Player_->GetTransform().SetLocalPosition({ 200.f, -200.0f});
-
 	// UI
-	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//if (nullptr == GetContentsUI())
+	//{
+	//	CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//}
 	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }

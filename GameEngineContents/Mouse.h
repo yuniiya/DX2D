@@ -10,6 +10,8 @@ class MouseSlot;
 class Mouse : public GameEngineActor
 {
 public:
+	static Mouse* MainMouse_;
+
 	// constrcuter destructer
 	Mouse();
 	~Mouse();

@@ -62,11 +62,11 @@ void InventoryItem::Start()
 		{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
 		, Renderer_->GetTransform().GetLocalPosition().y - 76.f });
 
-	MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
-	MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
-	MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
-	MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
-	MouseSlot_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
+	//MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
+	//MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
+	//MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
+	//MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
+	//MouseSlot_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
 
 	SetLevelOverOn();
 }
@@ -97,8 +97,12 @@ void InventoryItem::ItemMouseHold()
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
 	{
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsDoneHolding_ = true;
+		//dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
+		//dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsDoneHolding_ = true;
+
+		Mouse::MainMouse_->GetMouseSlot()->IsHold_ = false;
+		Mouse::MainMouse_->GetMouseSlot()->IsDoneHolding_ = true;
+
 		IsHold_ = false;
 		MouseSlotRenderer_->Off();
 	}
@@ -111,7 +115,11 @@ void InventoryItem::ItemMouseHold()
 
 void InventoryItem::CollisionCheck()
 {
-	ContentsUI* ContentsUI_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI();
+	MouseCollision_ = Mouse::MainMouse_->GetMouseCol();
+	MouseRenderer_ = Mouse::MainMouse_->GetMouseRenderer();
+	MouseAnimationRenderer_ = Mouse::MainMouse_->GetMouseAnimationRenderer();
+	MouseSlotRenderer_ = Mouse::MainMouse_->GetMouseSlot()->GetRenderer();
+	MouseSlot_ = Mouse::MainMouse_->GetMouseSlot();
 
 	// 3) 아이템을 잡은 상태에서 놨다
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && 
@@ -193,7 +201,7 @@ void InventoryItem::CollisionCheck()
 
 	// 아이템을 이미 잡은 상태 -> 리턴
 	if (true == IsHold_
-		|| true == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_)
+		|| true == Mouse::MainMouse_->GetMouseSlot()->IsHold_/*dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_*/)
 	{
 		return;
 	}
@@ -205,6 +213,8 @@ void InventoryItem::CollisionCheck()
 	if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 	{
 		MouseSlot_->IsHold_ = true;
+		MouseSlot_->SetInventoryItem(this);
+
 		IsHold_ = true;
 		MouseAnimationRenderer_->Off();  
 		MouseRenderer_->On();
@@ -215,7 +225,7 @@ void InventoryItem::CollisionCheck()
 		MouseSlotRenderer_->On();
 
 		// 2) 슬롯의 아이템 = 현재 마우스로 잡은 아이템 (정보를 들고 있는다)
-		MouseSlot_->SetInventoryItem(this);
+
 	}
 
 	// 소비 아이템 사용
@@ -387,7 +397,8 @@ void InventoryItem::UsePotion()
 
 	}
 
-	std::vector<QuickSlotItem*> CurItem = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI()->QuickSlotItemsList_;
+	//std::vector<QuickSlotItem*> CurItem = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI()->QuickSlotItemsList_;
+	std::vector<QuickSlotItem*> CurItem = ContentsUI::MainUI_->QuickSlotItemsList_;
 	for (size_t i = 0; i < CurItem.size(); i++)
 	{
 		if (ItemType_ == CurItem[i]->GetItemType())

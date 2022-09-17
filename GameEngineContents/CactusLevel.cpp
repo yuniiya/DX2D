@@ -9,7 +9,7 @@
 #include "BrownRabbit.h"
 #include "BabyCactus.h"
 #include "Inventory.h"
-#include "NPC.h"
+#include "NPC_Cactus.h"
 
 CactusLevel::CactusLevel() 
 	: Player_(nullptr)
@@ -22,8 +22,6 @@ CactusLevel::~CactusLevel()
 
 void CactusLevel::Start()
 {
-	GlobalLevel::Start();
-
 	SetCollisionMap("ColMap_Cactus2.png");
 	SetBackGround("Back_Cactus.png");
 	SetStage("Stage_Cactus.png");
@@ -31,14 +29,15 @@ void CactusLevel::Start()
 	SetPortal({ 111.f, -776.f, (int)ZOrder::PORTAL });
 	SetPortal({ 1864.f, -776.f, (int)ZOrder::PORTAL });
 
-	NPC* NPC_ = CreateActor<NPC>((int)GAMEOBJGROUP::OBJ); 
-	NPC_->SetNPCType(NPCType::NPC_Ariant);
+	NPC_Cactus* NPC_ = CreateActor<NPC_Cactus>((int)GAMEOBJGROUP::OBJ);
+	NPC_->SetNPCType(NPCType::NPC_Cactus);
 	NPC_->GetTransform().SetLocalPosition({ 170.f, -327.f });
-	//NPC_->GetCollision()->GetTransform().SetLocalPosition({ 170.f, -327.f });
 	NPC_->SetQuestRendererPosition();
 	// UI
-	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	/*if (nullptr == GetContentsUI())
+	{
+		CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	}*/	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 }
 
 void CactusLevel::Update(float _DeltaTime)
@@ -121,4 +120,6 @@ void CactusLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+	Mouse::MainMouse_->SetLevelOverOn();
+
 }

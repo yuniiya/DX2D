@@ -34,15 +34,23 @@ void MouseSlot::Start()
 
 void MouseSlot::Update(float _DeltaTime)
 {
-	if (nullptr == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse())
+	//if (nullptr == dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse())
+	//{
+	//	return;
+	//}
+
+	//HoldItemRenderer_->GetTransform().SetLocalPosition({ 
+	//	dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 90.f
+	//	, dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().y + 85.f });
+
+	if (nullptr == Mouse::MainMouse_)
 	{
 		return;
 	}
 
-	HoldItemRenderer_->GetTransform().SetLocalPosition({ 
-		dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 90.f
-		, dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer()->GetTransform().GetLocalPosition().y + 85.f });
-
+	HoldItemRenderer_->GetTransform().SetLocalPosition({
+		Mouse::MainMouse_->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 90.f
+		, Mouse::MainMouse_->GetMouseRenderer()->GetTransform().GetLocalPosition().y + 85.f });
 
 }
 

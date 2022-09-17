@@ -288,6 +288,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="NPC_Cactus.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NPC_Castle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NPC_Entrance.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
@@ -305,6 +317,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="LoginUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="QuestClearUI.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -482,6 +498,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="NPC_Cactus.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="NPC_Castle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="NPC_Entrance.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -502,6 +530,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="LoginUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="QuestClearUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -54,6 +54,9 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
+
 protected:
 	void CollisionCheck();
 	void InventoryItemCollisionCheck();
@@ -94,6 +97,5 @@ private:
 	int ItemSlotCount_;
 
 	int PlayerMeso_;
-	bool IsSameItem_;
 };
 

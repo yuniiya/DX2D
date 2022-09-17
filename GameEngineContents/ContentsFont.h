@@ -37,9 +37,17 @@ public:
 		ByteCount_ = 0;
 	}
 
+	inline void ResetTimer()
+	{
+		TypingTimer_ = ZeroTimer_;
+		IsTypingEnd_ = true;
+	}
+
 	void TextRenderingUpdate();
 	void TextRender(const std::string& _Text, int _Count, const std::string& _Font = "µ¸¿ò");
 	void SetText(const std::string& _Text);
+
+	bool IsTypingEnd_;
 
 protected:
 	void Start() override;
@@ -53,10 +61,11 @@ private:
 	int TypeCount_;
 	int LineChangeCount_;
 	float TypingTimer_;
+	float ZeroTimer_;
 	int ChangeLine_;
 	int ByteCount_;
 
-	bool IsTypingEnd_;
+
 
 	std::string Text_;
 	std::string SubText_;

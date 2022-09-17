@@ -240,6 +240,8 @@ void SelectUI::CollisionCheck()
 
 	if (Time_ >= 0.7f)
 	{
+		GameStart = false;
+		Time_ = 0.f;
 		GEngine::ChangeLevel("Ariant");
 	}
 
@@ -274,7 +276,7 @@ void SelectUI::CollisionCheck()
 	
 			InfoUI_->Off();
 			GameStartButton_->Off();
-			GameStartButtonCol_->Off();
+		//	GameStartButtonCol_->Off();
 			PlayerMouseOverEfect_->Off();
 			PlayerSelectEffect_->Off();
 		}

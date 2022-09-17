@@ -7,7 +7,7 @@
 #include "Mouse.h"
 #include "Fade.h"
 #include "Inventory.h"
-#include "NPC.h"
+#include "NPC_Castle.h"
 
 CastleLevel::CastleLevel() 
 	: Player_(nullptr)
@@ -20,8 +20,6 @@ CastleLevel::~CastleLevel()
 
 void CastleLevel::Start()
 {
-	GlobalLevel::Start();
-
 	SetCollisionMap("ColMap_Castle.png");
 	SetBackGround("Back_Castle2.png");
 	SetStage("Stage_Castle3.png");
@@ -31,12 +29,16 @@ void CastleLevel::Start()
 
 	SetPortal({ 273.f, -495.f, (int)ZOrder::PORTAL });
 
-	NPC* NPC_ = CreateActor<NPC>((int)GAMEOBJGROUP::OBJ);
+	NPC_Castle* NPC_ = CreateActor<NPC_Castle>((int)GAMEOBJGROUP::OBJ);
 	NPC_->SetNPCType(NPCType::NPC_Castle);
 	NPC_->GetTransform().SetLocalPosition({ 1550.f, -520.f });
 	NPC_->SetQuestRendererPosition();
 
 	// UI
+	/*if (nullptr == GetContentsUI())
+	{
+		CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	}*/
 	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
 	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 }
@@ -77,4 +79,5 @@ void CastleLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+	Mouse::MainMouse_->SetLevelOverOn();
 }

@@ -18,7 +18,21 @@ public:
 	QuestUI& operator=(QuestUI&& _Other) noexcept = delete;
 
 public:
+	inline void SetNPC(NPC* _NPC)
+	{
+		NPC_ = _NPC;
+	}
+
+	inline NPC* GetNPC()
+	{
+		return NPC_;
+	}
+
 	void SetNPCType(NPCType _NPCType);
+
+	bool IsQuestOngoing_;
+	bool IsQuestClear_;
+	bool IsQuestEnd_;
 
 protected:
 	void Start() override;
@@ -44,17 +58,26 @@ private:
 	GameEngineCollision* ButtonNoCol_;
 	GameEngineCollision* ExitCol;
 
+	NPC* NPC_;
 	NPCType NPCType_;
-
 	ContentsFont* Font_;
 
 	int DialogCount_;
 
 private:
+	class TextData {
+
+		std::string NpcTextureName;
+		std::string NpcName_;
+		std::string Text_;
+		float4 Color_;
+	};
+
+	std::map<NPCType, std::vector<std::string>> NpcTexts;
+
 	std::vector<std::string> AriantDialogList_;
 	std::vector<std::string> EntranceDialogList_;
 	std::vector<std::string> CastleDialogList_;
 
-	std::string Str_;
 };
 

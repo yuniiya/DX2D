@@ -41,9 +41,13 @@ void LoginLevel::Start()
 
 
 	LoginUI* UIActor = CreateActor<LoginUI>(GAMEOBJGROUP::UI);
-	CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
-	ShowCursor(true);
+	if (nullptr == Mouse::MainMouse_)
+	{
+		CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	}
+
+	//ShowCursor(true);
 }
 
 void LoginLevel::Update(float _DeltaTime)
@@ -73,5 +77,4 @@ void LoginLevel::LevelStartEvent()
 	{
 		Player::MainPlayer_->GetTransform().SetWorldMove({ 0.f, -500.f });
 	}
-
 }

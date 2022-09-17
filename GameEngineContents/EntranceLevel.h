@@ -23,7 +23,6 @@ protected:
 	void LevelEndEvent() override;
 
 private:
-	Player* Player_;
 
 };
 

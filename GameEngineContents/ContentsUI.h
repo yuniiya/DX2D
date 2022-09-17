@@ -8,6 +8,8 @@ class ContentsUI : public GameEngineActor
 {
 public:
 
+	static ContentsUI* MainUI_;
+
 	// constrcuter destructer
 	ContentsUI();
 	~ContentsUI();

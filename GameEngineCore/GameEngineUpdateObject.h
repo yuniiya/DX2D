@@ -72,7 +72,7 @@ public:
 	}
 
 	float GetAccTime()
-	{
+	{ 
 		return AccTime_;
 	}
 

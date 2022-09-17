@@ -19,8 +19,6 @@ DesertLevel::~DesertLevel()
 
 void DesertLevel::Start()
 {
-	GlobalLevel::Start();
-
 	SetCollisionMap("ColMap_Desert.png");
 	SetBackGround("Back_Desert.png");
 	SetStage("Stage_Desert.png");
@@ -29,8 +27,10 @@ void DesertLevel::Start()
 	SetPortal({ 1489.f, -542.f, (int)ZOrder::PORTAL});
 
 	// UI
-	//ContentsUI* MainUI = CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
+	//if (nullptr == GetContentsUI())
+	//{
+	//	CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
+	//}	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
 }
 
@@ -103,4 +103,5 @@ void DesertLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+	Mouse::MainMouse_->SetLevelOverOn();
 }
