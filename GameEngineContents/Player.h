@@ -121,6 +121,7 @@ public:
 		CurMeso_ = CurMeso_ - _Meso;
 	}
 
+	bool IsEntranceQuestClear_;
 private:
 	float CurLevel_;
 	float CurHP_;

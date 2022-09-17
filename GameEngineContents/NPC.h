@@ -48,6 +48,7 @@ protected:
 	void CollisonCheck();
 
 	GameEngineCollision* Collision_;
+	QuestUI* QuestUI_;
 
 private:
 	GameEngineTextureRenderer* Renderer_;
@@ -59,7 +60,5 @@ private:
 
 private:
 	bool IsClick_;
-
-	QuestUI* QuestUI_;
 };
 

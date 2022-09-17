@@ -4,6 +4,7 @@
 #include "ContentsFont.h"
 #include "NPC.h"
 #include "NPC_Cactus.h"
+#include "NPC_Castle.h"
 
 QuestUI::QuestUI() 
 	: Renderer_(nullptr)
@@ -133,9 +134,13 @@ void QuestUI::Update(float _DeltaTime)
 			break;
 			case NPCType::NPC_Entrance:
 			{
-				if (2 == DialogCount_)
+				if (1 == DialogCount_)
 				{
-					NPC_->IsQuestClear_ = true;
+					if (true == NPC_->IsQuestEnd_)
+					{
+						return;
+					}
+
  					NPC_->IsQuestEnd_ = true;
 				}
 			}
@@ -179,6 +184,10 @@ void QuestUI::CollisionCheck()
 				break;
 			case NPCType::NPC_Entrance:
 			{
+				if (true == NPC_->IsQuestEnd_)
+				{
+					return;
+				}
 				NPC_->IsQuestEnd_ = true;
 			}
 				break;
@@ -333,10 +342,13 @@ void QuestUI::ChangeToNextDialog()
 		{
 			ButtonOff();
 		}
-		else if (DialogCount_ == 3)		// 3장에서 한 번 더 넘어갔을 때 -> 3에서 멈춘 상태로 Off
+		else if (DialogCount_ == 3)		// 3장에서 한 번 더 넘어갔을 때 (진행 중) -> 3에서 멈춘 상태로 Off
 		{
 			Font_->Off();
-			Death();
+			Renderer_->Off();
+			UINPCRenderer_->Off();
+			NPCNameFont_->Off();
+
 			return;
 		}
 		else if (DialogCount_ == 5)

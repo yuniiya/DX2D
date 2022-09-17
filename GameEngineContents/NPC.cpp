@@ -103,11 +103,7 @@ void NPC::Update(float _DeltaTime)
 	//	IsQuestEnd_ = false;
 	//}
 
-	// 대화창이 꺼져있을 때만 NPC 클릭
-	//if (true == QuestUI_->IsUpdate())
-	//{
-	//	Collision_->Off();
-	//}
+
 }
 
 void NPC::CollisonCheck()
@@ -116,7 +112,7 @@ void NPC::CollisonCheck()
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MAINMOUSE, CollisionType::CT_OBB2D))
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
-		{
+		{ 
 			QuestUI_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
 			QuestUI_->SetNPC(this);
 			QuestUI_->SetNPCType(NPCType_);

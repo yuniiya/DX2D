@@ -93,6 +93,7 @@ Player::Player()
 	, LevelUpEffRenderer_(nullptr)
 	, PlayerCenterCollision_(nullptr)
 	, CurMeso_(2000)
+	, IsEntranceQuestClear_(false)
 {
 }
 
@@ -661,16 +662,17 @@ void Player::ObjectPixelCheck()
 		// 다음 레벨
 		if (true == Color.CompareInt4D(float4{ 1.0f, 0.0f, 1.0f, 1.0f }))
 		{
-			GameEngineSound::SoundPlayControl("Portal.mp3", 0);
-
-			//GameEngineSound::SoundPlayOneShot("Portal.mp3");
-
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Cactus");
 			}
 			else if ("ENTRANCE" == CurLevelName_)
 			{
+				// Entrance 퀘스트 미완료 시 레벨 이동 불가
+				if (false == IsEntranceQuestClear_)
+				{
+					return;
+				}
 				GEngine::ChangeLevel("Castle");
 			}
 			else if ("CACTUS" == CurLevelName_)
@@ -686,15 +688,11 @@ void Player::ObjectPixelCheck()
 				GEngine::ChangeLevel("Boss");
 			}
 
-			//LevelChangeTime_ = 0.0f;
+			GameEngineSound::SoundPlayOneShot("Portal.mp3");
 
 		}	// 이전 레벨
 		else if (true == Color.CompareInt4D(float4{ 0.0f, 0.0f, 1.0f, 1.0f }))
 		{
-			GameEngineSound::SoundPlayControl("Portal.mp3", 0);
-
-			//GameEngineSound::SoundPlayOneShot("Portal.mp3");
-
 			if ("ARIANT" == CurLevelName_)
 			{
 				GEngine::ChangeLevel("Entrance");
@@ -719,6 +717,8 @@ void Player::ObjectPixelCheck()
 			{
 				GEngine::ChangeLevel("Desert");
 			}
+
+			GameEngineSound::SoundPlayOneShot("Portal.mp3");
 		}
 	}
 

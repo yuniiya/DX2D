@@ -48,14 +48,5 @@ void QuestClearUI::Update(float _DeltaTime)
 			
 		}
 	}
-	//if (1 >= Renderer_->GetPixelData().MulColor.a && false == IsQuestEnd_)
-	//{
-	//	IsQuestEnd_ = true;
-	//	Renderer_->GetPixelData().MulColor.a = 1;
-	//	Death();
-	//}
-
-
-
 }
 
