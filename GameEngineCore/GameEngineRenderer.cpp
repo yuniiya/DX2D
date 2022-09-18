@@ -19,6 +19,7 @@ GameEngineRenderer::GameEngineRenderer()
 
 GameEngineRenderer::~GameEngineRenderer() 
 {
+	int a = 0;
 }
 
 
