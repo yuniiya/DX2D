@@ -20,7 +20,16 @@ void NPC_Cactus::Update(float _DeltaTime)
 {
 	NPC::Update(_DeltaTime);
 
-	if (true == IsQuestEnd_)
+	//if (true == IsQuestEnd_)
+	//{
+	//	Collision_->Off();
+	//}
+	if (true == Player::MainPlayer_->IsCactusQuestEnd_)
+	{
+		Collision_->Off();
+		return;
+	}
+	else if (true == IsQuestEnd_ && true == IsQuestClear_)
 	{
 		QuestClearUI* QuestClear_ = GetLevel()->CreateActor<QuestClearUI>();
 		QuestClear_->GetRenderer()->GetTransform().SetLocalPosition({ 194.f, -290.f });
@@ -32,14 +41,25 @@ void NPC_Cactus::Update(float _DeltaTime)
 		return;
 	}
 
-	if (nullptr == QuestUI_)
+	if (true == Player::MainPlayer_->IsCastleQuestClear_)
 	{
-		return;
-	}
-	// 대화창이 꺼져있을 경우 콜리전 On
-	if (false == QuestUI_->IsUpdate())
-	{
+		IsQuestOngoing_ = false;
+		IsQuestClear_ = true;
+		Player::MainPlayer_->IsCactusQuestClear_ = true;
 		Collision_->On();
 	}
+	else if (true == IsQuestOngoing_ && false == Player::MainPlayer_->IsCastleQuestClear_)
+	{
+		Player::MainPlayer_->IsCactusQuestOngoing_ = true;
+  		Collision_->Off();
+	}   
+
+
+
+	//// 대화창이 꺼져있을 경우 콜리전 On
+	//if (false == QuestUI_->IsUpdate())
+	//{
+	//	Collision_->On();
+	//}
 }
 

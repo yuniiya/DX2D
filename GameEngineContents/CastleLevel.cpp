@@ -72,7 +72,10 @@ void CastleLevel::End()
 void CastleLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, (int)ZOrder::PLAYER });
+	//Player::MainPlayer_->GetTransform().SetLocalPosition({ 300.0f, -400.0f, (int)ZOrder::PLAYER });
+	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1400.0f, -400.0f, (int)ZOrder::PLAYER });
+
+
 }
 
 void CastleLevel::LevelEndEvent()

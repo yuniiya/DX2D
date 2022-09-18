@@ -50,10 +50,10 @@ void NPC_Entrance::Update(float _DeltaTime)
 		return;
 	}
 	// 대화창이 꺼져있을 경우 콜리전 On
-	if (false == QuestUI_->IsUpdate())
-	{
-		Collision_->On();
-	}
+	//if (false == QuestUI_->IsUpdate())
+	//{
+	//	Collision_->On();
+	//}
 
 
 }

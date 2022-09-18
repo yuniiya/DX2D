@@ -28,7 +28,14 @@ public:
 		return NPC_;
 	}
 
+	inline int GetDialogCount()
+	{
+		return DialogCount_;
+	}
+
 	void SetNPCType(NPCType _NPCType);
+	void ChangeToNextDialog();
+
 
 	bool IsQuestOngoing_;
 	bool IsQuestClear_;
@@ -44,7 +51,7 @@ protected:
 	void ResetDialog();
 	void ButtonOn();
 	void ButtonOff();
-	void ChangeToNextDialog();
+
 
 private:
 	GameEngineFontRenderer* NPCNameFont_;

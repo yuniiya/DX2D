@@ -94,6 +94,10 @@ Player::Player()
 	, PlayerCenterCollision_(nullptr)
 	, CurMeso_(2000)
 	, IsEntranceQuestClear_(false)
+	, IsCactusQuestOngoing_(false)
+	, IsCactusQuestClear_(false)
+	, IsCastleQuestClear_(false)
+	, IsCactusQuestEnd_(false)
 {
 }
 

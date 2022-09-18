@@ -1,7 +1,7 @@
 #pragma once
 #include "NPC.h"
 
-// Ό³Έν :
+class NPC_Castle;
 class NPC_Cactus : public NPC
 {
 public:

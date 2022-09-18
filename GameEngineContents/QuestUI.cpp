@@ -21,7 +21,10 @@ QuestUI::QuestUI()
 	, IsQuestOngoing_(false)
 	, IsQuestClear_(false)
 	, IsQuestEnd_(false)
-
+	//, IsCastleQuestClear_(false)
+	//, IsCactusQuestClear_(false)
+	//, IsCactusQuestOngoing_(false)
+	//, IsCastleQuestOngoing_(false)
 {
 }
 
@@ -83,7 +86,7 @@ void QuestUI::Start()
 	TextSetting("하하하! 역시! 그럴 줄 알았소. 해야 할 일은 왕비의 장식장에서 왕비의 보물을 훔쳐오는 것이라오. 궁전 가장 깊은 곳, 왕의 옆 쪽에 있는 장식장까지 가는 것이 물론 쉽지 않은 일이지만 모래그림단을 위한 일이잖소? 당신이라면 해낼 거라고 믿소.후후후....", NPCType::NPC_Cactus);
 	TextSetting("보석을 새로 들여놓은지 얼마 되지 않아서 궁 안은 경비가 삼엄하오. 최대한 조심스럽게 장식장으로 가서 보물을 찾아오시오. 그럼 기대하겠소.", NPCType::NPC_Cactus);
 	TextSetting("어서오시오! 왕비의 반지는 가져오셨소? 오오, 과연~ 이게 바로 왕비가 새로 산 그 반지로군. 후후후... 팔면 돈이 좀 되겠어.", NPCType::NPC_Cactus);
-	TextSetting("당신 덕분에 붉은전갈...아니, 모래 그림단의 일이 아주 편히 진행되고 있다로. 정말 고맙소. 후후후... 앞으로도 계속 도와주기 바라오.", NPCType::NPC_Cactus);
+	TextSetting("당신 덕분에 붉은전갈...아니, 모래 그림단의 일이 아주 편히 진행되고 있다오. 정말 고맙소. 후후후... 앞으로도 계속 도와주기 바라오.", NPCType::NPC_Cactus);
 
 	// Entrance
 	TextSetting("뭐야, 넌? 왜 궁전 앞을 기웃거리지? 이 곳은 아무나 들어갈 수 있는 곳이 아니야! 아리안트의 술탄께서 계시는 곳이라고! 뭐? 궁전에 들어가고 싶다고? 너 같은 외부의 모험가를 어떻게 믿고 들여보내라는 거야? 절대 안돼! 하지만...", NPCType::NPC_Entrance);
@@ -113,22 +116,19 @@ void QuestUI::Update(float _DeltaTime)
 	// 다음 장으로 넘긴다
 	if (true == GameEngineInput::GetInst()->IsDown("SpaceBar"))
 	{
-		if (NPCType_ == NPCType::NPC_Castle)
-		{
-			NPC_->IsQuestEnd_ = true;			// 클릭 시 퀘스트 바로 End
-			// Cactus퀘스트 Clear
-		}
    		if (true == Font_->IsTypingEnd_)
 		{
 			switch (NPCType_)
 			{
 			case NPCType::NPC_Cactus:
 			{
-				NPC_->IsQuestOngoing_ = true;
-
-				if (5 == DialogCount_)
+				if (3 == DialogCount_)
 				{
-					NPC_->IsQuestClear_ = true;
+					NPC_->IsQuestEnd_ = true;
+				}
+				else
+				{
+					NPC_->IsQuestOngoing_ = true;
 				}
 			}
 			break;
@@ -145,6 +145,19 @@ void QuestUI::Update(float _DeltaTime)
 				}
 			}
 			break;
+			case NPCType::NPC_Castle:
+			{
+ 				if (0 == DialogCount_)
+				{
+					if (true == NPC_->IsQuestEnd_)
+					{
+						return;
+					}
+
+					NPC_->IsQuestEnd_ = true;
+				}
+			}
+			break;
 			default:
 				break;
 			}
@@ -158,6 +171,7 @@ void QuestUI::Update(float _DeltaTime)
 		}
 
 	}
+
 
 
 }
@@ -180,6 +194,7 @@ void QuestUI::CollisionCheck()
 			case NPCType::NPC_Cactus:
 			{
 				NPC_->IsQuestOngoing_ = true;
+			//	Player::MainPlayer_->IsCactusQuestOngoing_ = true;
 			}
 				break;
 			case NPCType::NPC_Entrance:
@@ -321,42 +336,60 @@ void QuestUI::ButtonOff()
 void QuestUI::ChangeToNextDialog()
 {
 	Font_->ResetType();
-	Font_->ResetByteCount();
+  	Font_->ResetByteCount();
 
 	switch (NPCType_)
 	{
 	case NPCType::NPC_Cactus:
 	{
 		// 퀘스트 미완료 시 진행 X
-		if (false == NPC_->IsQuestClear_ )
+		//if (true == Player::MainPlayer_->IsCactusQuestClear_)
+		//{
+		//	Font_->On();
+		//	Renderer_->On();
+ 	//		UINPCRenderer_->On();
+		//	NPCNameFont_->On();
+		//}
+
+		if (true == Player::MainPlayer_->IsCactusQuestClear_ && false == NPC_->IsQuestEnd_)
 		{
-			if (DialogCount_ == 4)
+			Font_->On();
+			Renderer_->On();
+			UINPCRenderer_->On();
+			NPCNameFont_->On();
+
+			NPC_->IsQuestEnd_ = true;
+		}
+		else if(false == Player::MainPlayer_->IsCactusQuestClear_)
+		{
+			DialogCount_ += 1;
+
+			if (DialogCount_ == 1)			// 2장
 			{
+				ButtonOff();
+			}
+			else if (DialogCount_ == 3)		// 3장에서 한 번 더 넘어갔을 때 (진행 중) -> 3에서 멈춘 상태로 Off
+			{
+				Font_->Off();
+				Renderer_->Off();
+				UINPCRenderer_->Off();
+				NPCNameFont_->Off();
+
 				return;
 			}
 		}
-	
-		DialogCount_ += 1;
-
-		if (DialogCount_ == 1)			// 2장
+		else if (true == NPC_->IsQuestEnd_)
 		{
-			ButtonOff();
+			DialogCount_ += 1;
+			Player::MainPlayer_->IsCactusQuestEnd_ = true;
+			if (DialogCount_ == 5)
+			{
+				Player::MainPlayer_->AddExp(40.f);
+				ResetDialog();
+ 				return;
+			}
 		}
-		else if (DialogCount_ == 3)		// 3장에서 한 번 더 넘어갔을 때 (진행 중) -> 3에서 멈춘 상태로 Off
-		{
-			Font_->Off();
-			Renderer_->Off();
-			UINPCRenderer_->Off();
-			NPCNameFont_->Off();
-
-			return;
-		}
-		else if (DialogCount_ == 5)
-		{
-			ResetDialog();
-			NPC_->IsQuestEnd_ = true;
-			return;
-		}
+		
 
 		Font_->SetText(AriantDialogList_[DialogCount_]);
 	}
@@ -384,8 +417,14 @@ void QuestUI::ChangeToNextDialog()
 	break;
 	case NPCType::NPC_Castle:
 	{
-		ResetDialog();
-		return;
+		DialogCount_ += 1;
+
+		if (DialogCount_ == 1)	// Castle퀘스트 완료
+		{
+			NPC_->IsQuestEnd_ = true;
+			ResetDialog();
+			return;
+		}
 	}
 	break;
 	default:

@@ -121,7 +121,13 @@ public:
 		CurMeso_ = CurMeso_ - _Meso;
 	}
 
+	bool IsCactusQuestOngoing_;
 	bool IsEntranceQuestClear_;
+	bool IsCactusQuestClear_;
+	bool IsCastleQuestClear_;
+	bool IsCactusQuestEnd_;
+
+
 private:
 	float CurLevel_;
 	float CurHP_;
@@ -152,6 +158,7 @@ private:
 	bool IsSinLoopStart;
 	bool IsSinLoopEnd;
 	bool IsLevelUp;
+
 
 	std::string CurLevelName_;
 

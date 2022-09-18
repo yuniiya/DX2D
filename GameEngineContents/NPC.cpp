@@ -17,6 +17,7 @@ NPC::NPC()
 	, IsQuestEnd_(false)
 	, QuestClearRenderer_(nullptr)
 
+
 {
 }
 
@@ -77,17 +78,18 @@ void NPC::Update(float _DeltaTime)
 		return;
 	}
 
-	if (true == IsQuestOngoing_ && false == IsQuestEnd_)
+	if (true == IsQuestOngoing_ && false == IsQuestEnd_ && false == IsQuestClear_)
 	{
 		QuestRenderer_->ChangeFrameAnimation("Quest1");
 	}
+	else if (true == IsQuestClear_ && false == IsQuestEnd_ && false == IsQuestOngoing_)
+	{
+		QuestRenderer_->ChangeFrameAnimation("Quest2");
+	}
+
 	else if (true == IsQuestEnd_)
 	{
 		QuestRenderer_->Off();
-	}
-	else if (true == IsQuestClear_ && false == IsQuestEnd_)
-	{
-		QuestRenderer_->ChangeFrameAnimation("Quest2");
 	}
 
 	//if (true == IsQuestClear_ || true == IsQuestEnd_)
@@ -108,15 +110,30 @@ void NPC::Update(float _DeltaTime)
 
 void NPC::CollisonCheck()
 {
+	if (true == Player::MainPlayer_->IsCactusQuestEnd_)
+	{
+		return;
+	}
 
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MAINMOUSE, CollisionType::CT_OBB2D))
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{ 
-			QuestUI_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
-			QuestUI_->SetNPC(this);
-			QuestUI_->SetNPCType(NPCType_);
-			Collision_->Off();
+		/*	if (true == Player::MainPlayer_->IsCactusQuestEnd_)
+			{
+
+			}*/
+			if (true == Player::MainPlayer_->IsCactusQuestClear_)
+			{
+				QuestUI_->ChangeToNextDialog();
+			}
+			else
+			{
+				QuestUI_ = GetLevel()->CreateActor<QuestUI>((int)GAMEOBJGROUP::UI);
+				QuestUI_->SetNPC(this);
+				QuestUI_->SetNPCType(NPCType_);
+			}
+
 		}
 	}
 }
