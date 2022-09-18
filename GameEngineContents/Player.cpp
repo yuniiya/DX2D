@@ -91,7 +91,7 @@ Player::Player()
 	, CurLevel_(120.f)
 	, IsLevelUp(false)
 	, LevelUpEffRenderer_(nullptr)
-	, PlayerCenterCollision_(nullptr)
+	, LevelUpCollision_(nullptr)
 	, CurMeso_(2000)
 	, IsEntranceQuestClear_(false)
 	, IsCactusQuestOngoing_(false)
@@ -142,7 +142,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("MoveUp", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("MoveDown", VK_DOWN);
-		GameEngineInput::GetInst()->CreateKey("Jump", 'X');		
+		GameEngineInput::GetInst()->CreateKey("Jump", 'X');
 		GameEngineInput::GetInst()->CreateKey("Pick", 'Z');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_LCONTROL);
 		GameEngineInput::GetInst()->CreateKey("Down", VK_NUMPAD0);
@@ -166,14 +166,16 @@ void Player::Start()
 
 	}
 
-	GetTransform().SetLocalPosition(float4{ 0, 0, (int)ZOrder::PLAYER});
+	GetTransform().SetLocalPosition(float4{ 0, 0, (int)ZOrder::PLAYER });
 	PlayerCollision_ = CreateComponent<GameEngineCollision>();
-	PlayerCollision_->GetTransform().SetLocalScale({65.f, 60.f, (int)ZOrder::PLAYER});
+	PlayerCollision_->GetTransform().SetLocalScale({ 65.f, 60.f, (int)ZOrder::PLAYER });
 	PlayerCollision_->ChangeOrder(GAMEOBJGROUP::PLAYER);
 
-	PlayerCenterCollision_ = CreateComponent<GameEngineCollision>();
-	PlayerCenterCollision_->GetTransform().SetLocalScale({ 10.f, 10.f, (int)ZOrder::PLAYER });
-	PlayerCenterCollision_->ChangeOrder(GAMEOBJGROUP::PLAYERCENTER);
+	LevelUpCollision_ = CreateComponent<GameEngineCollision>();
+	LevelUpCollision_->GetTransform().SetLocalScale(GameEngineWindow::GetScale());
+	LevelUpCollision_->GetTransform().SetLocalPosition({0.f, 100.f});
+	LevelUpCollision_->ChangeOrder(GAMEOBJGROUP::LEVELUP);
+	LevelUpCollision_->Off();
 
 	PlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	//PlayerRenderer_->GetTransform().SetLocalScale({80.f, 96.f});
@@ -439,6 +441,7 @@ void Player::Start()
 	LevelUpEffRenderer_->GetTransform().SetLocalScale({ 904.f, 904.f });
 	LevelUpEffRenderer_->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0.09f));
 	LevelUpEffRenderer_->AnimationBindEnd("LevelUp", std::bind(&Player::LevelUpEffectEnd, this, std::placeholders::_1));
+	LevelUpEffRenderer_->AnimationBindFrame("LevelUp", std::bind(&Player::LevelUpCollisionStart, this, std::placeholders::_1));
 	LevelUpEffRenderer_->ChangeFrameAnimation("LevelUp");
 	LevelUpEffRenderer_->Off();
 
@@ -462,7 +465,7 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst()->IsDown("Test"))
 	{
-		Player::MainPlayer_->AddExp(1.f);
+		Player::MainPlayer_->AddExp(30.f);
 	}
 }
 
@@ -1343,5 +1346,17 @@ void Player::DoubleJumpEnd(const FrameAnimation_DESC& _Info)
 void Player::LevelUpEffectEnd(const FrameAnimation_DESC& _Info)
 {
 	LevelUpEffRenderer_->Off();
+}
+
+void Player::LevelUpCollisionStart(const FrameAnimation_DESC& _Info)
+{
+	if (12 == _Info.CurFrame)
+	{
+		LevelUpCollision_->On();
+	}
+	else if (13 == _Info.CurFrame)
+	{
+		LevelUpCollision_->Off();
+	}
 }
 

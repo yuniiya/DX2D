@@ -190,7 +190,7 @@ protected:
 
 private:
 	GameEngineCollision* PlayerCollision_;
-	GameEngineCollision* PlayerCenterCollision_;
+	GameEngineCollision* LevelUpCollision_;
 
 	GameEngineCollision* InSkillCollision_;
 	GameEngineCollision* PaSkillCollision_;
@@ -269,6 +269,7 @@ protected:
 	void SinSkillSoundUpdate(const FrameAnimation_DESC& _Info);
 	void DoubleJumpEnd(const FrameAnimation_DESC& _Info);
 	void LevelUpEffectEnd(const FrameAnimation_DESC& _Info);
+	void LevelUpCollisionStart(const FrameAnimation_DESC& _Info);
 
 
 protected:

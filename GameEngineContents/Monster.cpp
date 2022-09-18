@@ -360,6 +360,15 @@ void Monster::CollisonCheck()
 		}
 	}
 
+
+	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::LEVELUP, CollisionType::CT_OBB2D,
+		std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
+	))
+	{
+		ChangeState(MONSTERSTATE::DIE);
+		return;
+	}
+
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D,
 		std::bind(&Monster::MonsterCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)
 	))
