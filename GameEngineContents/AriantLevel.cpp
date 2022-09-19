@@ -69,7 +69,16 @@ void AriantLevel::End()
 void AriantLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 3200.f, -600.0f, (int)ZOrder::PLAYER});
+
+	if (nullptr != Player::MainPlayer_)
+	{
+		Player::MainPlayer_->On();
+		Player::MainPlayer_->GetTransform().SetLocalPosition({ 3200.f, -600.0f, (int)ZOrder::PLAYER });
+	}
+	if (nullptr != ContentsUI::MainUI_)
+	{
+		ContentsUI::MainUI_->On();
+	}
 
 	//// ======= Å×½ºÆ® ==========
 

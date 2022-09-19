@@ -68,9 +68,15 @@ void CactusLevel::End()
 void CactusLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-//	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -600.0f, (int)ZOrder::PLAYER });
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 600.0f, -600.0f, (int)ZOrder::PLAYER });
-
+	if (nullptr != Player::MainPlayer_)
+	{
+		Player::MainPlayer_->On();
+		Player::MainPlayer_->GetTransform().SetLocalPosition({ 600.0f, -600.0f, (int)ZOrder::PLAYER });
+	}
+	if (nullptr != ContentsUI::MainUI_)
+	{
+		ContentsUI::MainUI_->On();
+	}
 	// Monster
 	{
 		WhiteRabbit* Rabbit1 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);

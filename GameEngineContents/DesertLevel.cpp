@@ -63,7 +63,15 @@ void DesertLevel::End()
 void DesertLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, (int)ZOrder::PLAYER });
+	if (nullptr != Player::MainPlayer_)
+	{
+		Player::MainPlayer_->On();
+		Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.0f, -100.0f, (int)ZOrder::PLAYER });
+	}
+	if (nullptr != ContentsUI::MainUI_)
+	{
+		ContentsUI::MainUI_->On();
+	}
 
 	// Monster
 	{

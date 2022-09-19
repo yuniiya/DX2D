@@ -56,6 +56,11 @@ void SelectLevel::LevelStartEvent()
 
 	if (nullptr != Player::MainPlayer_)
 	{
-		Player::MainPlayer_->GetTransform().SetWorldMove({ 0.f, -500.f });
+		Player::MainPlayer_->Off();
+	}
+
+	if (nullptr != ContentsUI::MainUI_)
+	{
+		ContentsUI::MainUI_->Off();
 	}
 }

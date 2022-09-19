@@ -63,7 +63,15 @@ void AquaLevel::End()
 void AquaLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f, (int)ZOrder::PLAYER });
+	if (nullptr != Player::MainPlayer_)
+	{
+		Player::MainPlayer_->On();
+		Player::MainPlayer_->GetTransform().SetLocalPosition({ 1200.0f, -1000.0f, (int)ZOrder::PLAYER });
+	}
+	if (nullptr != ContentsUI::MainUI_)
+	{
+		ContentsUI::MainUI_->On();
+	}
 
 
 	// Monster

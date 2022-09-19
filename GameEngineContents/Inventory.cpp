@@ -434,6 +434,13 @@ void Inventory::InventoryItemCollisionCheck()
 
 void Inventory::InventoryOnOffCheck()
 {
+	if ("LOGIN" == GetLevel()->GetNameCopy()
+		|| "SELECT" == GetLevel()->GetNameCopy()
+		|| "TITLE" == GetLevel()->GetNameCopy())
+	{
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsDown("Inventory"))
 	{
 		if (false == IsInvenOn)
