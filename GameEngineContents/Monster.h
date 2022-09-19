@@ -56,6 +56,7 @@ public:
 	{
 		return GetTransform().GetLocalPosition();
 	}
+
 	inline int GetHP()
 	{
 		return HP_;

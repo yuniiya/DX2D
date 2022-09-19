@@ -208,6 +208,9 @@
     <ClInclude Include="QuestClearUI.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
+    <ClInclude Include="DamageNumber.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -366,6 +369,9 @@
     </ClCompile>
     <ClCompile Include="QuestClearUI.cpp">
       <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageNumber.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

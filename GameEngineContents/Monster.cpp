@@ -7,6 +7,7 @@
 #include "ContentsUI.h"
 #include "Item.h"
 #include "Meso.h"
+#include "DamageNumber.h"
 
 Monster::Monster()
 	: Renderer_(nullptr)
@@ -587,6 +588,9 @@ void Monster::DamagedStart()
 	MoveDir_ = GetPosition();
 	PlayerPos_ = Player::MainPlayer_->GetPosition();
 	MonsterPos_ = GetPosition();
+
+	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
+	DamageNum_->GetTransform().SetLocalPosition({GetPosition().x, GetPosition().y + 100.f});
 
 	Renderer_->ChangeFrameAnimation("Damaged");
 

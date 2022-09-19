@@ -21,10 +21,7 @@ QuestUI::QuestUI()
 	, IsQuestOngoing_(false)
 	, IsQuestClear_(false)
 	, IsQuestEnd_(false)
-	//, IsCastleQuestClear_(false)
-	//, IsCactusQuestClear_(false)
-	//, IsCactusQuestOngoing_(false)
-	//, IsCastleQuestOngoing_(false)
+	, NPC_(nullptr)
 {
 }
 

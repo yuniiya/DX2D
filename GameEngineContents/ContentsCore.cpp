@@ -807,6 +807,26 @@ void ContentsCore::Start()
 			GameEngineTexture::Load(File[i].GetFullPath());
 		}
 	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("UI");
+		Dir.Move("DamageNumber");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (auto& TmpDir : Folder)
+		{
+			std::vector<GameEngineFile> File = TmpDir.GetAllFile();
+
+			for (size_t i = 0; i < File.size(); i++)
+			{
+				GameEngineTexture::Load(File[i].GetFullPath());
+			}
+		}
+	}
 
 	GameEngineTexture::Cut("Item2.png", 5, 4);
 

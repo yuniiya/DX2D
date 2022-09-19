@@ -32,6 +32,7 @@ enum class ZOrder
 	MOUSESLOT = 3,
 	FONT = 5,
 	UI = 10,
+	DAMAGE = 15,
 	SKILLFRONT = 20,
 	MONSTERSKILL = 30,
 	ITEM = 40,

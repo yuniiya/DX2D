@@ -98,6 +98,7 @@ Player::Player()
 	, IsCactusQuestClear_(false)
 	, IsCastleQuestClear_(false)
 	, IsCactusQuestEnd_(false)
+	, Skill_(nullptr)
 {
 }
 
@@ -1324,7 +1325,7 @@ void Player::SinSkillSoundUpdate(const FrameAnimation_DESC& _Info)
 	{
 		SinDCollision_->Off();
 	}
-	r
+
 	if (SinSkillFrameCount_ < 0)
 	{
 		SinSkillFrameCount_ = 0;
