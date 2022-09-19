@@ -54,9 +54,6 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
-	void SlotKeyCheck();
-	bool SlotKeyInputCheck();
-
 private:
 	float4 HPBarPos_;
 	float4 MPBarPos_;
@@ -79,17 +76,17 @@ private:
 	int SlotKey_2;
 	
 private:
-	GameEngineTextureRenderer* MainBar_;
-	GameEngineTextureRenderer* BarBgr_1;
-	GameEngineTextureRenderer* BarBgr_2;
-	GameEngineTextureRenderer* ExpBack_;
+	GameEngineUIRenderer* MainBar_;
+	GameEngineUIRenderer* BarBgr_1;
+	GameEngineUIRenderer* BarBgr_2;
+	GameEngineUIRenderer* ExpBack_;
 	GameEngineUIRenderer* QuickSlotBack_;
 	GameEngineUIRenderer* QuickSlot_;
-	GameEngineTextureRenderer* Level_;
+	GameEngineUIRenderer* Level_;
 
-	GameEngineTextureRenderer* HpBar_;
-	GameEngineTextureRenderer* MpBar_;
-	GameEngineTextureRenderer* ExpBar_;
+	GameEngineUIRenderer* HpBar_;
+	GameEngineUIRenderer* MpBar_;
+	GameEngineUIRenderer* ExpBar_;
 
 private:
 	GameEngineCollision* SlotCollision_;

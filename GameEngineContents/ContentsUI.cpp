@@ -119,44 +119,56 @@ void ContentsUI::Start()
 {
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::UI});
 
-	BarBgr_1 = CreateComponent<GameEngineTextureRenderer>();
+	BarBgr_1 = CreateComponent<GameEngineUIRenderer>();
 	BarBgr_1->SetTexture("BarBgr.png");
 	BarBgr_1->ScaleToTexture();
 	BarBgr_1->SetPivot(PIVOTMODE::LEFTTOP);
+	BarBgr_1->GetTransform().SetLocalPosition({ -78.f, -300.f });
 
-	BarBgr_2 = CreateComponent<GameEngineTextureRenderer>();
+	BarBgr_2 = CreateComponent<GameEngineUIRenderer>();
 	BarBgr_2->SetTexture("BarBgr.png");
 	BarBgr_2->ScaleToTexture();
 	BarBgr_2->SetPivot(PIVOTMODE::LEFTTOP);
+	BarBgr_2->GetTransform().SetLocalPosition({ -78.f, -318.f });
 
-	HpBar_ = CreateComponent<GameEngineTextureRenderer>();
+	HpBar_ = CreateComponent<GameEngineUIRenderer>();
 	HpBar_->SetTexture("HP.png");
 	HpBar_->ScaleToTexture(); 
 	HpBar_->SetPivot(PIVOTMODE::LEFTTOP);
 	HpBar_->GetTransform().SetLocalScale({ HpBar_->GetTransform().GetLocalScale().x, HpBar_->GetTransform().GetLocalScale().y });
-	HPBarScale_ = HpBar_->GetTransform().GetLocalScale();
+	HPBarScale_ = HpBar_->GetTransform().GetLocalScale(); 
+	HpBar_->GetTransform().SetLocalPosition({ -78.f, -300.f });
 
-	MpBar_ = CreateComponent<GameEngineTextureRenderer>();
+	MpBar_ = CreateComponent<GameEngineUIRenderer>();
 	MpBar_->SetTexture("MP.png");
 	MpBar_->ScaleToTexture();
 	MpBar_->SetPivot(PIVOTMODE::LEFTTOP);
 	MPBarScale_ = MpBar_->GetTransform().GetLocalScale();
+	MpBar_->GetTransform().SetLocalPosition({ -78.f, -318.f });
 
-	MainBar_ = CreateComponent<GameEngineTextureRenderer>();
+	MainBar_ = CreateComponent<GameEngineUIRenderer>();
 	MainBar_->SetTexture("mainBar2.png");
 	MainBar_->ScaleToTexture();
+	MainBar_->GetTransform().SetLocalPosition({ 0.f, -308.f });
 
-	ExpBack_ = CreateComponent<GameEngineTextureRenderer>();
+	ExpBack_ = CreateComponent<GameEngineUIRenderer>();
 	ExpBack_->SetTexture("ExpBarBack.png");
+	ExpBack_->SetPivot(PIVOTMODE::LEFTTOP);
 	ExpBack_->GetTransform().SetLocalScale({ 1280.f, 16.f });
+	ExpBack_->GetTransform().SetLocalPosition({ -640.f, -344.f });
 
-	ExpBar_ = CreateComponent<GameEngineTextureRenderer>();
+	ExpBar_ = CreateComponent<GameEngineUIRenderer>();
 	ExpBar_->SetTexture("ExpBar.png");
 	ExpBar_->GetTransform().SetLocalScale({ 1272.f, 12.5f });
 	ExpBar_->SetPivot(PIVOTMODE::LEFTTOP);
 	ExpBarPos_ = ExpBar_->GetTransform().GetLocalScale();
 	ExpBarScale_ = ExpBar_->GetTransform().GetLocalScale();
+	ExpBar_->GetTransform().SetLocalPosition({ -636.f, -346.f });
 
+	Level_ = CreateComponent<GameEngineUIRenderer>();
+	Level_->SetTexture("Lv120.png");
+	Level_->ScaleToTexture();
+	Level_->GetTransform().SetLocalPosition({-49.f, -286.f});
 
 	QuickSlotBack_ = CreateComponent<GameEngineUIRenderer>();
 	QuickSlotBack_->SetTexture("QuickSlotBack.png");
@@ -169,10 +181,6 @@ void ContentsUI::Start()
 	QuickSlot_->SetPivot(PIVOTMODE::LEFTTOP);
 	QuickSlot_->ScaleToTexture();
 	QuickSlot_->GetTransform().SetLocalPosition({ 290.f, -273.f });
-
-	Level_ = CreateComponent<GameEngineTextureRenderer>();
-	Level_->SetTexture("Lv120.png");
-	Level_->ScaleToTexture();
 
 
 	StartPosition_ = float4{ 198.f, -215.f };
@@ -201,49 +209,20 @@ void ContentsUI::Update(float _DeltaTime)
 {
 	CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 
-	BarBgr_1->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 300.f, (int)ZOrder::UI });
-	BarBgr_2->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 318.f, (int)ZOrder::UI });
-	HpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 300.f, (int)ZOrder::UI });
-	MpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 318.f, (int)ZOrder::UI });
-	//ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 1.f , CamPos_.y - 352.5f });
-	ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 634.f , CamPos_.y - 346.f, (int)ZOrder::UI });
+	//BarBgr_1->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 300.f, (int)ZOrder::UI });
+	//BarBgr_2->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 318.f, (int)ZOrder::UI });
+	//HpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 300.f, (int)ZOrder::UI });
+	//MpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 318.f, (int)ZOrder::UI });
+	////ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 1.f , CamPos_.y - 352.5f });
+	//ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 634.f , CamPos_.y - 346.f, (int)ZOrder::UI });
 
-	MainBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x, CamPos_.y - 308.f, (int)ZOrder::UI });
-	ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f, (int)ZOrder::UI });
-	Level_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 49.f, CamPos_.y - 286.f, (int)ZOrder::UI });
+	//MainBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x, CamPos_.y - 308.f, (int)ZOrder::UI });
+	//ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f, (int)ZOrder::UI });
+	//Level_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 49.f, CamPos_.y - 286.f, (int)ZOrder::UI });
 
 	MainBarScaleUpdate();
 	LevelImageUpdate();
 
 }
 
-void ContentsUI::SlotKeyCheck()
-{
-
-	if (nullptr == QuickSlotItem_)
-	{
-		return;
-	}
-
-
-	//if (true == SlotKeyInputCheck())
-	//{
-	//	QuickSlotItem_->UsePotion();
-	//}
-	//if (true == GameEngineInput::GetInst()->IsDown("1"))
-	//{
-	//	QuickSlotItem_->UsePotion();
-	//}
-	//else if (true == GameEngineInput::GetInst()->IsDown("2"))
-	//{
-	//	QuickSlotItem_->UsePotion();
-	//}
-}
-
-bool ContentsUI::SlotKeyInputCheck()
-{
-
-	return false;
-	
-}
 

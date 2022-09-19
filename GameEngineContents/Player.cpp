@@ -284,37 +284,37 @@ void Player::Start()
 		InHit_Renderer_->Off();
 	}
 
-	{
-		JiSkillCollision_ = CreateComponent<GameEngineCollision>();
-		JiSkillCollision_->GetTransform().SetLocalScale({ 900.f, 350.f });
-		JiSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
-		JiSkillCollision_->Off();
+	//{
+	//	JiSkillCollision_ = CreateComponent<GameEngineCollision>();
+	//	JiSkillCollision_->GetTransform().SetLocalScale({ 900.f, 350.f });
+	//	JiSkillCollision_->ChangeOrder(GAMEOBJGROUP::SKILL);
+	//	JiSkillCollision_->Off();
 
-		JiA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-		JiA_Renderer_->GetTransform().SetLocalScale({ 328.f, 297.f });
-		JiA_Renderer_->CreateFrameAnimationFolder("Ji_A", FrameAnimation_DESC("Ji_A", 0.06f));
-		JiA_Renderer_->ChangeFrameAnimation("Ji_A");
-		JiA_Renderer_->Off();
+	//	JiA_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+	//	JiA_Renderer_->GetTransform().SetLocalScale({ 328.f, 297.f });
+	//	JiA_Renderer_->CreateFrameAnimationFolder("Ji_A", FrameAnimation_DESC("Ji_A", 0.06f));
+	//	JiA_Renderer_->ChangeFrameAnimation("Ji_A");
+	//	JiA_Renderer_->Off();
 
-		JiB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-		JiB_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
-		JiB_Renderer_->CreateFrameAnimationFolder("Ji_B", FrameAnimation_DESC("Ji_B", 0.04f));
-		JiB_Renderer_->ChangeFrameAnimation("Ji_B");
-		JiB_Renderer_->Off();
+	//	JiB_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+	//	JiB_Renderer_->GetTransform().SetLocalScale({ 972.f, 398.f });
+	//	JiB_Renderer_->CreateFrameAnimationFolder("Ji_B", FrameAnimation_DESC("Ji_B", 0.04f));
+	//	JiB_Renderer_->ChangeFrameAnimation("Ji_B");
+	//	JiB_Renderer_->Off();
 
-		JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-		JiC_Renderer_->GetTransform().SetLocalScale({ 1197.f, 508.f });
-		JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.05f));
-		JiC_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Player::JiCFrameEnd, this, std::placeholders::_1));
-		JiC_Renderer_->ChangeFrameAnimation("Ji_C");
-		JiC_Renderer_->Off();
+	//	JiC_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+	//	JiC_Renderer_->GetTransform().SetLocalScale({ 1197.f, 508.f });
+	//	JiC_Renderer_->CreateFrameAnimationFolder("Ji_C", FrameAnimation_DESC("Ji_C", 0.05f));
+	//	JiC_Renderer_->AnimationBindEnd("Ji_C", std::bind(&Player::JiCFrameEnd, this, std::placeholders::_1));
+	//	JiC_Renderer_->ChangeFrameAnimation("Ji_C");
+	//	JiC_Renderer_->Off();
 
-		JiHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-		JiHit_Renderer_->GetTransform().SetLocalScale({ 368.f, 275.f });
-		JiHit_Renderer_->CreateFrameAnimationFolder("Ji_Hit", FrameAnimation_DESC("Ji_Hit", 0.06f));
-		JiHit_Renderer_->ChangeFrameAnimation("Ji_Hit");
-		JiHit_Renderer_->Off();
-	}
+	//	JiHit_Renderer_ = CreateComponent<GameEngineTextureRenderer>();
+	//	JiHit_Renderer_->GetTransform().SetLocalScale({ 368.f, 275.f });
+	//	JiHit_Renderer_->CreateFrameAnimationFolder("Ji_Hit", FrameAnimation_DESC("Ji_Hit", 0.06f));
+	//	JiHit_Renderer_->ChangeFrameAnimation("Ji_Hit");
+	//	JiHit_Renderer_->Off();
+	//}
 
 	{
 		PaSkillCollision_ = CreateComponent<GameEngineCollision>();
@@ -521,14 +521,6 @@ bool Player::StagePixelCheck()
 {
 	float4 Pos = 0.0f;
 	GetCurMapTexture();
-
-	//MiddleColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-(GetTransform().GetWorldPosition().iy())));
-	//BottomDownColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(((-GetTransform().GetWorldPosition().iy()) + 47.f)));
-	//BottomColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 43.f));	// 발 밑 픽셀의 값을 얻어온다
-	//BottomUpColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 41.f);	// 발보다 조금위
-	//TopColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix()), static_cast<float>((-GetTransform().GetWorldPosition().iy()) - 25.f));
-	//float4 LeftColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() - 30.f), static_cast<float>(-GetTransform().GetWorldPosition().iy()) + 10.f);
-	//float4 RightColor = MapTexture_->GetPixel(static_cast<float>(GetTransform().GetWorldPosition().ix() + 30.f), static_cast<float>((-GetTransform().GetWorldPosition().iy()) + 10.f));
 
 	MiddleColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -(GetTransform().GetWorldPosition().iy()));
 	BottomDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy() + 36);	// 36, 32, 30, 17, 23, 23, 15, 15
@@ -1228,9 +1220,6 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 		float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 		
 		SinD_Renderer_->GetTransform().SetWorldPosition({ CamPos.x, CamPos.y, 1.f});
-		float z = SinD_Renderer_->GetTransform().GetWorldPosition().z;
-		float Lz = SinD_Renderer_->GetTransform().GetLocalPosition().z;
-
 	}
 		break;
 	case PLAYERSKILL::MAX:
@@ -1275,7 +1264,6 @@ void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
 		SinCCollision_->Off();
 
 		IsSinLoopStart = true;
-	//	SinDCollision_->On();		// ** 수정 필요
 		CurSkill_ = PLAYERSKILL::SKILL_SIND;
 		SinSkillFrameCount_ = 1;
 	}
@@ -1285,7 +1273,6 @@ void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
 		IsSinLoopEnd = true;
 
 		SinD_Renderer_->Off();
-		SinDCollision_->On();		// ** 수정 필요
 	}
 		break;
 	case PLAYERSKILL::MAX:
@@ -1329,6 +1316,15 @@ void Player::SinSkillSoundUpdate(const FrameAnimation_DESC& _Info)
 		}
 	}
 
+	if (42 == _Info.CurFrame)
+	{
+		SinDCollision_->On();
+	}
+	else if (43 == _Info.CurFrame)
+	{
+		SinDCollision_->Off();
+	}
+	r
 	if (SinSkillFrameCount_ < 0)
 	{
 		SinSkillFrameCount_ = 0;
