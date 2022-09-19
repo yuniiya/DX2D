@@ -12,6 +12,7 @@
 #include "QuickSlotItem.h"
 #include "Player.h"
 #include "ContentsUI.h"
+#include "ContentsFont.h"
 
 Mouse* Mouse::MainMouse_ = nullptr;
 
@@ -62,14 +63,17 @@ void Mouse::Start()
 	MouseRenderer_ = CreateComponent<GameEngineUIRenderer>();
 	MouseRenderer_->SetTexture("Cursor_Idle.png");
 	MouseRenderer_->GetTransform().SetLocalScale({ 24.f * 1.2f, 28.f * 1.2f });
-	MouseRenderer_->SetRenderingOrder(1000);
+	MouseRenderer_->SetRenderingOrder((int)GAMEOBJGROUP::MOUSE);
+	MouseRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
 
 	MouseAnimationRenderer_ = CreateComponent<GameEngineUIRenderer>();
+	MouseAnimationRenderer_->SetRenderingOrder((int)GAMEOBJGROUP::MOUSE);
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_MouseOver", FrameAnimation_DESC("Cursor_MouseOver", 0.55f));
 	MouseAnimationRenderer_->CreateFrameAnimationFolder("Cursor_Hold", FrameAnimation_DESC("Cursor_Hold", 0.3f));
 	MouseAnimationRenderer_->GetTransform().SetLocalScale({ 30.f * 1.1f, 30.f * 1.1f });
 	MouseAnimationRenderer_->ChangeFrameAnimation("Cursor_MouseOver");
-	MouseAnimationRenderer_->SetRenderingOrder(1000);
+	MouseAnimationRenderer_->SetRenderingOrder((int)GAMEOBJGROUP::MOUSE);
+	MouseAnimationRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
 	MouseAnimationRenderer_->Off();
 
 	MouseSlot_ = GetLevel()->CreateActor<MouseSlot>();
@@ -153,12 +157,12 @@ void Mouse::Update(float _DeltaTime)
 		ItemActor->TimeAttackStart();
 
 		MouseSlot_->GetInventoryItem()->SetCount(MouseSlot_->GetInventoryItem()->GetCount() - 1);
-		MouseSlot_->GetInventoryItem()->GetFontRenderer()->SetText(std::to_string(MouseSlot_->GetInventoryItem()->GetCount()));
+		MouseSlot_->GetInventoryItem()->GetContensFont()->GetNoramlFontRenderer()->SetText(std::to_string(MouseSlot_->GetInventoryItem()->GetCount()));
 		
 		if (MouseSlot_->GetInventoryItem()->GetCount() <= 0)
 		{
 			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
-			MouseSlot_->GetInventoryItem()->GetFontRenderer()->Off();
+			MouseSlot_->GetInventoryItem()->GetContensFont()->GetNoramlFontRenderer()->Off();
 		}
 	}
 	

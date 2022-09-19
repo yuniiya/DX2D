@@ -40,6 +40,9 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 	//}
 
 	UpDownMove();
+
+	//GetTransform().SetAddWorldRotation({0.f, 0.f, GameEngineTime::GetDeltaTime() * 700.f });
+
 	PickUpItem(_Renderer);
 
 	if (nullptr == _Renderer)

@@ -33,7 +33,7 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
-	void LevelEndEvent() override;
+	void LevelStartEvent() override;
 
 	void SlotKeyCheck();
 	bool SlotKeyInputCheck();
@@ -42,5 +42,6 @@ private:
 	int QuickSlotIndex_;
 	int SlotKey_;
 	InventoryItem* InventoryItem_;
+	//ContentsFont* SlotItemCountFont_;
 };
 

@@ -5,6 +5,7 @@
 #include "Item.h"
 #include "QuestClearUI.h"
 #include "QuestUI.h"
+#include "ContentsFont.h"
 
 NPC_Entrance::NPC_Entrance() 
 {
@@ -33,7 +34,8 @@ void NPC_Entrance::Update(float _DeltaTime)
 		Player::MainPlayer_->IsEntranceQuestClear_ = true;
 		Player::MainPlayer_->UsePlayerMeso(2000);
 		int PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
-		Inventory::MainInventory_->GetMesoFontRenderer()->SetText(std::to_string(PlayerMeso_));
+		Inventory::MainInventory_->GetContentsFontMeso()->GetNoramlFontRenderer()->SetText(std::to_string(PlayerMeso_));
+		Inventory::MainInventory_->GetContentsFontMeso()->SetComma();
 
 		QuestClearUI* QuestClear_ = GetLevel()->CreateActor<QuestClearUI>();
 		QuestClear_->GetRenderer()->GetTransform().SetLocalPosition({ 194.f, -290.f });

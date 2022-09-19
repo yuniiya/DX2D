@@ -5,6 +5,7 @@
 #include "GameEngineCore/GameEngineFontRenderer.h"
 #include "Mouse.h"
 #include "MouseSlot.h"
+#include "ContentsFont.h"
 
 Inventory* Inventory::MainInventory_ = nullptr;
 
@@ -47,7 +48,8 @@ void Inventory::Start()
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
 
 	// Rednerer //
-	Inventory_ = CreateComponent<GameEngineUIRenderer>();
+	Inventory_ = CreateComponent<GameEngineUIRenderer>(); 
+//	Inventory_->SetRenderingOrder((int)GAMEOBJGROUP::UI);
 	Inventory_->SetTexture("Inventory.png");
 	Inventory_->SetPivot(PIVOTMODE::LEFTTOP);
 	Inventory_->ScaleToTexture();
@@ -90,7 +92,7 @@ void Inventory::Start()
 	Category_5->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
 	Category_5->Off();
 
-	CurMesoFont_ = CreateComponent<GameEngineFontRenderer>();
+	/*CurMesoFont_ = CreateComponent<GameEngineFontRenderer>();
 	CurMesoFont_->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
 	PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
 	CurMesoFont_->SetText(std::to_string(PlayerMeso_));
@@ -100,7 +102,20 @@ void Inventory::Start()
 		  -(Inventory_->GetTransform().GetLocalPosition().x + 30.f)
 		, Inventory_->GetTransform().GetLocalPosition().y + 25.f});
 	CurMesoFont_->ChangeCamera(CAMERAORDER::UICAMERA);
-	CurMesoFont_->Off();
+	CurMesoFont_->Off();*/
+
+	CurMesoFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
+	CurMesoFont_->GetNoramlFontRenderer()->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
+	PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+	CurMesoFont_->GetNoramlFontRenderer()->SetText(std::to_string(PlayerMeso_));
+	CurMesoFont_->SetComma();
+	CurMesoFont_->GetNoramlFontRenderer()->SetScreenPostion({
+		  -(Inventory_->GetTransform().GetLocalPosition().x + 60.f)
+		, Inventory_->GetTransform().GetLocalPosition().y + 25.f });
+	CurMesoFont_->SetTextSize(13.5f);
+	CurMesoFont_->On();
+	CurMesoFont_->GetNoramlFontRenderer()->Off();
+
 
 	// Collision //
 	Collision_ = CreateComponent<GameEngineCollision>();
@@ -219,12 +234,13 @@ void Inventory::Update(float _DeltaTime)
 	CollisionCheck();
 	CategoryOnCheck();
 
-	CurMesoFont_->ChangeCamera(CAMERAORDER::UICAMERA);
+	//CurMesoFont_->ChangeCamera(CAMERAORDER::UICAMERA);
 }
 
 void Inventory::LevelStartEvent()
 {
-	InventoryItemsList_Etc;
+
+	CurMesoFont_->GetNoramlFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
 }
 
 void Inventory::LevelEndEvent()
@@ -439,7 +455,8 @@ void Inventory::InventoryOnOffCheck()
 			CategoryCollision_5->On();
 			HeaderCollision_->On();
 
-			CurMesoFont_->On();
+			CurMesoFont_->GetNoramlFontRenderer()->On();
+		//	CurMesoFont_->SetComma();
 
 			// 소비창이 켜졌을 때 -> 소비창만 On하고 다른건 다 Off
 			if (true == IsCategoryOn_2)
@@ -453,7 +470,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Potion[i]->GetRenderer()->On();
-					InventoryItemsList_Potion[i]->GetFontRenderer()->On();
+					InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 					InventoryItemsList_Potion[i]->GetCollision()->On();
 				}
 
@@ -466,7 +483,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Etc[i]->GetRenderer()->Off();
-					InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Etc[i]->GetCollision()->Off();
 				}
 
@@ -479,7 +496,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_None[i]->GetRenderer()->Off();
-					InventoryItemsList_None[i]->GetFontRenderer()->Off();
+					InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_None[i]->GetCollision()->Off();
 				}
 			}
@@ -494,7 +511,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Etc[i]->GetRenderer()->On();
-					InventoryItemsList_Etc[i]->GetFontRenderer()->On();
+					InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 					InventoryItemsList_Etc[i]->GetCollision()->On();
 				}
 
@@ -507,7 +524,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Potion[i]->GetRenderer()->Off();
-					InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Potion[i]->GetCollision()->Off();
 				}
 
@@ -520,7 +537,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_None[i]->GetRenderer()->Off();
-					InventoryItemsList_None[i]->GetFontRenderer()->Off();
+					InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_None[i]->GetCollision()->Off();
 				}
 
@@ -536,7 +553,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_None[i]->GetRenderer()->On();
-					InventoryItemsList_None[i]->GetFontRenderer()->On();
+					InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 					InventoryItemsList_None[i]->GetCollision()->On();
 				}
 
@@ -549,7 +566,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Etc[i]->GetRenderer()->Off();
-					InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Etc[i]->GetCollision()->Off();
 				}
 
@@ -562,7 +579,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Potion[i]->GetRenderer()->Off();
-					InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Potion[i]->GetCollision()->Off();
 				}
 			}
@@ -589,7 +606,7 @@ void Inventory::InventoryOnOffCheck()
 			CategoryCollision_5->Off();
 			HeaderCollision_->Off();
 
-			CurMesoFont_->Off();
+			CurMesoFont_->GetNoramlFontRenderer()->Off();
 
 			if (true == IsCategoryOn_2)
 			{
@@ -601,7 +618,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Potion[i]->GetRenderer()->Off();
-					InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Potion[i]->GetCollision()->Off();
 				}
 			}
@@ -615,7 +632,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_Etc[i]->GetRenderer()->Off();
-					InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Etc[i]->GetCollision()->Off();
 				}
 			}
@@ -629,7 +646,7 @@ void Inventory::InventoryOnOffCheck()
 					}
 
 					InventoryItemsList_None[i]->GetRenderer()->Off();
-					InventoryItemsList_None[i]->GetFontRenderer()->Off();
+					InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_None[i]->GetCollision()->Off();
 				}
 			}
@@ -663,7 +680,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_None[i]->GetRenderer()->On();
-			InventoryItemsList_None[i]->GetFontRenderer()->On();
+			InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 			InventoryItemsList_None[i]->GetCollision()->On();
 		}
 
@@ -676,7 +693,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Potion[i]->GetRenderer()->Off();
-			InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Potion[i]->GetCollision()->Off();
 		}
 		for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
@@ -688,7 +705,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Etc[i]->GetRenderer()->Off();
-			InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Etc[i]->GetCollision()->Off();
 		}
 
@@ -710,7 +727,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Potion[i]->GetRenderer()->On();
-			InventoryItemsList_Potion[i]->GetFontRenderer()->On();
+			InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 			InventoryItemsList_Potion[i]->GetCollision()->On();
 		}
 		for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
@@ -722,7 +739,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_None[i]->GetRenderer()->Off();
-			InventoryItemsList_None[i]->GetFontRenderer()->Off();
+			InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_None[i]->GetCollision()->Off();
 		}
 
@@ -735,7 +752,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Etc[i]->GetRenderer()->Off();
-			InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Etc[i]->GetCollision()->Off();
 		}
 	}
@@ -756,7 +773,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Etc[i]->GetRenderer()->On();
-			InventoryItemsList_Etc[i]->GetFontRenderer()->On();
+			InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 			InventoryItemsList_Etc[i]->GetCollision()->On();
 		}
 		for (size_t i = 0; i < InventoryItemsList_None.size(); i++)
@@ -768,7 +785,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_None[i]->GetRenderer()->Off();
-			InventoryItemsList_None[i]->GetFontRenderer()->Off();
+			InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_None[i]->GetCollision()->Off();
 		}
 
@@ -781,7 +798,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Potion[i]->GetRenderer()->Off();
-			InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Potion[i]->GetCollision()->Off();
 		}
 	}
@@ -802,7 +819,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_None[i]->GetRenderer()->On();
-			InventoryItemsList_None[i]->GetFontRenderer()->On();
+			InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 			InventoryItemsList_None[i]->GetCollision()->On();
 		}
 
@@ -815,7 +832,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Potion[i]->GetRenderer()->Off();
-			InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Potion[i]->GetCollision()->Off();
 		}
 		for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
@@ -827,7 +844,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Etc[i]->GetRenderer()->Off();
-			InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Etc[i]->GetCollision()->Off();
 		}
 	}
@@ -848,7 +865,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_None[i]->GetRenderer()->On();
-			InventoryItemsList_None[i]->GetFontRenderer()->On();
+			InventoryItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 			InventoryItemsList_None[i]->GetCollision()->On();
 		}
 
@@ -861,7 +878,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Potion[i]->GetRenderer()->Off();
-			InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Potion[i]->GetCollision()->Off();
 		}
 		for (size_t i = 0; i < InventoryItemsList_Etc.size(); i++)
@@ -873,7 +890,7 @@ void Inventory::CategoryOnCheck()
 			}
 
 			InventoryItemsList_Etc[i]->GetRenderer()->Off();
-			InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+			InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			InventoryItemsList_Etc[i]->GetCollision()->Off();
 		}
 	}
@@ -890,7 +907,7 @@ void Inventory::PushItem(Item* _Item)
 			if (_Item->GetItemType() == InventoryItemsList_Potion[i]->GetItemType())
 			{
 				InventoryItemsList_Potion[i]->SetCount(InventoryItemsList_Potion[i]->GetCount() + 1);
-				InventoryItemsList_Potion[i]->GetFontRenderer()->SetScreenPostion({
+				InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 440.f });
 				//InventoryItemsList_Potion[i]->ItemCountFontUpdate();
@@ -898,7 +915,7 @@ void Inventory::PushItem(Item* _Item)
 				if (false == IsInvenOn)
 				{
 					InventoryItemsList_Potion[i]->GetRenderer()->Off();
-					InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Potion[i]->GetCollision()->Off();
 
 					break;
@@ -914,7 +931,7 @@ void Inventory::PushItem(Item* _Item)
 
 			InventoryItemsList_Potion[i]->SetItemType(_Item->GetItemType());	// 칸에 아이템을 채워넣고 -> for문 멈춘다
 			InventoryItemsList_Potion[i]->SetCount(InventoryItemsList_Potion[i]->GetCount() + 1);	// 개수는 1개
-			InventoryItemsList_Potion[i]->GetFontRenderer()->SetScreenPostion({
+			InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 440.f });
 			//InventoryItemsList_Potion[i]->ItemCountFontUpdate();
@@ -922,7 +939,7 @@ void Inventory::PushItem(Item* _Item)
 			if (false == IsInvenOn)
 			{
 				InventoryItemsList_Potion[i]->GetRenderer()->Off();
-				InventoryItemsList_Potion[i]->GetFontRenderer()->Off();
+				InventoryItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 				InventoryItemsList_Potion[i]->GetCollision()->Off();
 			}
 			break;
@@ -936,7 +953,7 @@ void Inventory::PushItem(Item* _Item)
 			if (_Item->GetItemType() == InventoryItemsList_Etc[i]->GetItemType())
 			{
 				InventoryItemsList_Etc[i]->SetCount(InventoryItemsList_Etc[i]->GetCount() + 1);
-				InventoryItemsList_Etc[i]->GetFontRenderer()->SetScreenPostion({
+				InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 440.f });
 			//	InventoryItemsList_Etc[i]->ItemCountFontUpdate();
@@ -944,7 +961,7 @@ void Inventory::PushItem(Item* _Item)
 				if (false == IsInvenOn)
 				{
 					InventoryItemsList_Etc[i]->GetRenderer()->Off();
-					InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+					InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 					InventoryItemsList_Etc[i]->GetCollision()->Off();
 
 					break;
@@ -959,7 +976,7 @@ void Inventory::PushItem(Item* _Item)
 
 			InventoryItemsList_Etc[i]->SetItemType(_Item->GetItemType());	// 칸에 아이템을 채워넣고 -> for문 멈춘다
 			InventoryItemsList_Etc[i]->SetCount(InventoryItemsList_Etc[i]->GetCount() + 1);	// 개수는 1개
-			InventoryItemsList_Etc[i]->GetFontRenderer()->SetScreenPostion({
+			InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->SetScreenPostion({
 				  InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 700.f
 				, -InventoryItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 440.f });
 			//InventoryItemsList_Etc[i]->ItemCountFontUpdate();
@@ -967,7 +984,7 @@ void Inventory::PushItem(Item* _Item)
 			if (false == IsInvenOn)
 			{
 				InventoryItemsList_Etc[i]->GetRenderer()->Off();
-				InventoryItemsList_Etc[i]->GetFontRenderer()->Off();
+				InventoryItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 				InventoryItemsList_Etc[i]->GetCollision()->Off();
 			}
 			break;

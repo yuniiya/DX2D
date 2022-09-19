@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
+#include "ContentsFont.h"
 
 //enum class PotionItemType
 //{
@@ -19,6 +20,7 @@ struct InventoryItemState
 class GameEngineFontRenderer;
 class GameEngineTextureRenderer;
 class MouseSlot;
+class ContentsFont;
 class InventoryItem : public GameEngineActor
 {
 public:
@@ -40,6 +42,7 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
+	void LevelStartEvent() override;
 
 	void ItemMouseHold();
 
@@ -59,7 +62,12 @@ public:
 		return Renderer_;
 	}
 
-	inline GameEngineFontRenderer* GetFontRenderer()
+	//inline GameEngineFontRenderer* GetFontRenderer()
+	//{
+	//	return ItemCountFont_;
+	//}
+
+	inline ContentsFont* GetContensFont()
 	{
 		return ItemCountFont_;
 	}
@@ -99,11 +107,18 @@ public:
 		return InventorySlotType_;
 	}
 
+	//inline void SetCount(int _Count)
+	//{
+	//	ItemState_.Count_ = _Count;
+
+	//	ItemCountFont_->SetText(std::to_string(_Count));
+	//}
+
 	inline void SetCount(int _Count)
 	{
 		ItemState_.Count_ = _Count;
 
-		ItemCountFont_->SetText(std::to_string(_Count));
+		ItemCountFont_->GetNoramlFontRenderer()->SetText(std::to_string(_Count));
 	}
 
 	inline void SetSlotIndex(int _SlotIndex)
@@ -142,7 +157,7 @@ protected:
 	GameEngineUIRenderer* MouseRenderer_;
 	GameEngineUIRenderer* MouseAnimationRenderer_;
 	GameEngineUIRenderer* MouseSlotRenderer_;
-	GameEngineFontRenderer* ItemCountFont_;
+	ContentsFont* ItemCountFont_;
 
 	GameEngineCollision* Collision_;
 	GameEngineCollision* MouseCollision_;

@@ -29,7 +29,7 @@ void EntranceLevel::Start()
 
 	NPC_Entrance* NPC_ = CreateActor<NPC_Entrance>((int)GAMEOBJGROUP::OBJ);
 	NPC_->SetNPCType(NPCType::NPC_Entrance);
-	NPC_->GetTransform().SetLocalPosition({ 1070.f, -715.f });
+	NPC_->GetTransform().SetLocalPosition({ 1070.f, -715.f, (int)ZOrder::NPC });
 	NPC_->SetQuestRendererPosition();
 	// UI
 	/*if (nullptr == GetContentsUI())

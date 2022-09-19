@@ -3,8 +3,9 @@
 
 class GameEngineTextureRenderer;
 class GameEngineFontRenderer;
-class Item;
+class ContentsFont;
 class InventoryItem;
+class Item;
 class Inventory : public GameEngineActor
 {
 public:
@@ -27,7 +28,7 @@ public:
 		return Position_;
 	}
 
-	inline GameEngineFontRenderer* GetMesoFontRenderer()
+	inline ContentsFont* GetContentsFontMeso()
 	{
 		return CurMesoFont_;
 	}
@@ -76,7 +77,8 @@ private:
 	GameEngineUIRenderer* Category_4;
 	GameEngineUIRenderer* Category_5;
 
-	GameEngineFontRenderer* CurMesoFont_;
+	//GameEngineFontRenderer* CurMesoFont_;
+	ContentsFont* CurMesoFont_;
 
 private:
 	GameEngineCollision* Collision_;

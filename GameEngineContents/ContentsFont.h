@@ -1,5 +1,15 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineFontRenderer.h>
+
+enum class FontType
+{
+	Normal,
+	Meso,
+	Typing, 
+
+	MAX,
+};
 
 class GameEngineFontRenderer;
 class ContentsFont : public GameEngineActor
@@ -19,6 +29,11 @@ public:
 	inline GameEngineFontRenderer* GetFontRenderer()
 	{
 		return FontRenderer_;
+	}
+
+	inline GameEngineFontRenderer* GetNoramlFontRenderer()
+	{
+		return NormalFontRenderer_;
 	}
 
 	inline void SetNPCType(NPCType _NPCType)
@@ -43,9 +58,25 @@ public:
 		IsTypingEnd_ = true;
 	}
 
+	inline void SetTextSize(float _TextSize)
+	{
+		NormalFontRenderer_->SetSize(_TextSize);
+	}
+
+	inline void SetFontType(FontType _FontType)
+	{
+		FontType_ = _FontType;
+	}
+
+	inline std::string GetText()
+	{
+		return Text_;
+	}
+
 	void TextRenderingUpdate();
 	void TextRender(const std::string& _Text, int _Count, const std::string& _Font = "µ¸¿ò");
 	void SetText(const std::string& _Text);
+	void SetComma();
 
 	bool IsTypingEnd_;
 
@@ -56,20 +87,19 @@ protected:
 
 private:
 	GameEngineFontRenderer* FontRenderer_;
+	GameEngineFontRenderer* NormalFontRenderer_;
 
 private:
 	int TypeCount_;
-	int LineChangeCount_;
-	float TypingTimer_;
-	float ZeroTimer_;
-	int ChangeLine_;
 	int ByteCount_;
 
-
+	float TypingTimer_;
+	float ZeroTimer_;
 
 	std::string Text_;
 	std::string SubText_;
 
 	NPCType NPCType_;
+	FontType FontType_;
 };
 

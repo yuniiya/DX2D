@@ -8,9 +8,10 @@ ContentsFont::ContentsFont()
 	, TypingTimer_(0.f)
 	, IsTypingEnd_(false)
 	, NPCType_(NPCType::MAX)
-	, LineChangeCount_(0)
 	, ByteCount_(0)
 	, ZeroTimer_(0.0f)
+	, NormalFontRenderer_(nullptr)
+	, FontType_(FontType::MAX)
 {
 }
 
@@ -20,7 +21,7 @@ ContentsFont::~ContentsFont()
 
 void ContentsFont::TextRenderingUpdate()
 {
-	if (TypingTimer_ > 0.05f)
+	if (TypingTimer_ > 0.03f && true != IsTypingEnd_)
 	{
 		ByteCount_ += 1;
 
@@ -113,6 +114,30 @@ void ContentsFont::SetText(const std::string& _Text)
 	Text_ = _Text;
 }
 
+void ContentsFont::SetComma()
+{
+	Text_ = NormalFontRenderer_->GetText();
+	size_t Size = Text_.size();
+
+	if (4 > Size)
+	{
+		return;
+	}
+
+	int Index = (int)Size - 3;
+	SubText_ = Text_.substr(Index);
+	Text_.insert(Index, ",");
+	NormalFontRenderer_->SetText(Text_);
+
+	if (Size >= 8)
+	{
+		int Index2 = (int)Size - 6;
+
+		SubText_ = Text_.substr(Index2);
+		Text_.insert(Index2, ",");
+		NormalFontRenderer_->SetText(Text_);
+	}
+}
 
 void ContentsFont::Start()
 { 
@@ -122,170 +147,199 @@ void ContentsFont::Start()
 	FontRenderer_->SetSize(13);
 	FontRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
 
+	NormalFontRenderer_ = CreateComponent<GameEngineFontRenderer>();
+	NormalFontRenderer_->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
+	NormalFontRenderer_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
+	NormalFontRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
+
+	SetLevelOverOn();
 	Off();
 }
 
 void ContentsFont::Update(float _DeltaTime)
 {
-	if (TypingTimer_ > ZeroTimer_ && true == IsTypingEnd_)
+	switch (FontType_)
 	{
-		ByteCount_ += 1; 
+	case FontType::Normal:
+	{
 
-		for (int Count = TypeCount_; Count < Text_.size(); )
+	}
+		break;
+	case FontType::Meso:
+	{
+		//SetComma();
+	}
+	break;
+	case FontType::Typing:
+	{
+		if (TypingTimer_ > ZeroTimer_ && true == IsTypingEnd_)
 		{
-			int TempCount = TypeCount_;
-			if (ByteCount_ != 0 && ByteCount_ % 34 == 0)
+			ByteCount_ += 1;
+
+			for (int Count = TypeCount_; Count < Text_.size(); )
 			{
-				std::string TempText1_ = Text_.substr(TempCount, 1);		// 1바이트 뒤
-				std::string TempText2_ = Text_.substr(TempCount + 1, 1);	// 2바이트 뒤
-				std::string TempText3_ = Text_.substr(TempCount + 3, 1);	// 4바이트 뒤
-				//std::string TempText4_ = Text_.substr(TempCount + 5, 1);
-
-
-				if ("," == TempText1_ && " " == TempText2_)
+				int TempCount = TypeCount_;
+				if (ByteCount_ != 0 && ByteCount_ % 34 == 0)
 				{
-					// 반점 뒤에 공백이 있다 -> 반점이 아닌 공백 뒤 + 한글에서 줄바꿈 
-					Text_.insert(TypeCount_ + 4, "\n");
+					std::string TempText1_ = Text_.substr(TempCount, 1);		// 1바이트 뒤
+					std::string TempText2_ = Text_.substr(TempCount + 1, 1);	// 2바이트 뒤
+					std::string TempText3_ = Text_.substr(TempCount + 3, 1);	// 4바이트 뒤
+					//std::string TempText4_ = Text_.substr(TempCount + 5, 1);
 
-					Count += 5;
-					TypeCount_ += 5;
-				}
-				else if (" " == TempText1_)// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
-				{
-					Text_.insert(TypeCount_ + 1, "\n");
 
-					Count += 2;
-					TypeCount_ += 2;
-				}
-				else
-				{
-					// 읽어 올수 없다 -> 한글 
-					// 한글 뒤에 공백이 있다 -> 한글 + 공백보다 한 칸 뒤에서 줄바꿈
-					if (" " == TempText3_)
+					if ("," == TempText1_ && " " == TempText2_)
 					{
+						// 반점 뒤에 공백이 있다 -> 반점이 아닌 공백 뒤 + 한글에서 줄바꿈 
 						Text_.insert(TypeCount_ + 4, "\n");
 
 						Count += 5;
 						TypeCount_ += 5;
 					}
-					else
+					else if (" " == TempText1_)// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
 					{
-						Text_.insert(TypeCount_ + 2, "\n");
+						Text_.insert(TypeCount_ + 1, "\n");
 
 						Count += 2;
 						TypeCount_ += 2;
 					}
+					else
+					{
+						// 읽어 올수 없다 -> 한글 
+						// 한글 뒤에 공백이 있다 -> 한글 + 공백보다 한 칸 뒤에서 줄바꿈
+						if (" " == TempText3_)
+						{
+							Text_.insert(TypeCount_ + 4, "\n");
 
+							Count += 5;
+							TypeCount_ += 5;
+						}
+						else
+						{
+							Text_.insert(TypeCount_ + 2, "\n");
+
+							Count += 2;
+							TypeCount_ += 2;
+						}
+
+					}
+
+					ByteCount_ = 0;
+					// 줄바꿈한 곳 까지 출력할거니까 크기 + 1
+					break;
 				}
 
-				ByteCount_ = 0;
-				// 줄바꿈한 곳 까지 출력할거니까 크기 + 1
-				break;
-			}
+				// 전체 텍스트에서 1바이트씩 잘라온다 ex) 0바이트 시작일 경우, 0 ~ 1바이트 잘라오기
+				SubText_ = Text_.substr(Count, 1);
 
-			// 전체 텍스트에서 1바이트씩 잘라온다 ex) 0바이트 시작일 경우, 0 ~ 1바이트 잘라오기
-			SubText_ = Text_.substr(Count, 1);
-
-			// 띄어쓰기 -> 1바이트
-			if (" " == SubText_ || "," == SubText_ || "." == SubText_ || "?" == SubText_ || "!" == SubText_)
-			{
-				Count += 1;
-			}
-			else
-			{
-				// 한글
-				Count += 2;
-			}
-
-			TypeCount_ = Count;
-			break;
-
-		}
-
-		TextRender(Text_, TypeCount_);
-		TypingTimer_ = 0.0f;
-		//IsTypingEnd_ = false;
-	}
-
-	if (TypingTimer_ > 0.03f && true != IsTypingEnd_)
-	{
-		ByteCount_ += 1;
-
-		for (int Count = TypeCount_; Count < Text_.size(); )
-		{
-			int TempCount = TypeCount_;
-			if (ByteCount_ != 0 && ByteCount_ % 34 == 0)
-			{
-				std::string TempText1_ = Text_.substr(TempCount, 1);		// 1바이트 뒤
-				std::string TempText2_ = Text_.substr(TempCount + 1, 1);	// 2바이트 뒤
-				std::string TempText3_ = Text_.substr(TempCount + 3, 1);	// 4바이트 뒤
-				//std::string TempText4_ = Text_.substr(TempCount + 5, 1);
-
-				
-  				if ("," == TempText1_ && " " == TempText2_)
+				// 띄어쓰기 -> 1바이트
+				if (" " == SubText_ || "," == SubText_ || "." == SubText_ || "?" == SubText_ || "!" == SubText_)
 				{
-					// 반점 뒤에 공백이 있다 -> 반점이 아닌 공백 뒤 + 한글에서 줄바꿈 
-					Text_.insert(TypeCount_ + 4, "\n");
-
-					Count += 5;
-					TypeCount_ += 5;
-				}
-				else if (" " == TempText1_)// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
-				{
- 					Text_.insert(TypeCount_ + 1, "\n");
-
-					Count += 2;
-					TypeCount_ += 2;
+					Count += 1;
 				}
 				else
 				{
-					// 읽어 올수 없다 -> 한글 
-					// 한글 뒤에 공백이 있다 -> 한글 + 공백보다 한 칸 뒤에서 줄바꿈
-					if (" " == TempText3_)
-					{
-						Text_.insert(TypeCount_ + 4, "\n");
-
-						Count += 5;
-						TypeCount_ += 5;
-					}
-					else
-					{
-						Text_.insert(TypeCount_ + 2, "\n");
-
-						Count += 2;
-						TypeCount_ += 2;
-					}
-			
+					// 한글
+					Count += 2;
 				}
 
-				ByteCount_ = 0;
-				// 줄바꿈한 곳 까지 출력할거니까 크기 + 1
+				TypeCount_ = Count;
 				break;
+
 			}
 
-			// 전체 텍스트에서 1바이트씩 잘라온다 ex) 0바이트 시작일 경우, 0 ~ 1바이트 잘라오기
-			SubText_ = Text_.substr(Count, 1);
-
-			// 띄어쓰기 -> 1바이트
-			if (" " == SubText_ || "," == SubText_ || "." == SubText_ || "?" == SubText_ || "!" == SubText_)
-			{
-				Count += 1;
-			}
-			else
-			{
-				// 한글
-				Count += 2;
-			}
-
-			TypeCount_ = Count;
-			break;
-
+			TextRender(Text_, TypeCount_);
+			TypingTimer_ = 0.0f;
+			//IsTypingEnd_ = false;
 		}
 
-		TextRender(Text_, TypeCount_);
-		TypingTimer_ = 0.0f;
+		TextRenderingUpdate();
+
+		TypingTimer_ += _DeltaTime;
+	}
+		break;
+	default:
+		break;
 	}
 
-	TypingTimer_ += _DeltaTime;
+	//if (TypingTimer_ > 0.03f && true != IsTypingEnd_)
+	//{
+	//	ByteCount_ += 1;
+
+	//	for (int Count = TypeCount_; Count < Text_.size(); )
+	//	{
+	//		int TempCount = TypeCount_;
+	//		if (ByteCount_ != 0 && ByteCount_ % 34 == 0)
+	//		{
+	//			std::string TempText1_ = Text_.substr(TempCount, 1);		// 1바이트 뒤
+	//			std::string TempText2_ = Text_.substr(TempCount + 1, 1);	// 2바이트 뒤
+	//			std::string TempText3_ = Text_.substr(TempCount + 3, 1);	// 4바이트 뒤
+	//			//std::string TempText4_ = Text_.substr(TempCount + 5, 1);
+
+	//			
+ // 				if ("," == TempText1_ && " " == TempText2_)
+	//			{
+	//				// 반점 뒤에 공백이 있다 -> 반점이 아닌 공백 뒤 + 한글에서 줄바꿈 
+	//				Text_.insert(TypeCount_ + 4, "\n");
+
+	//				Count += 5;
+	//				TypeCount_ += 5;
+	//			}
+	//			else if (" " == TempText1_)// 한 칸 뒤가 공백이다 -> 공백 뒤에서 줄바꿈
+	//			{
+ //					Text_.insert(TypeCount_ + 1, "\n");
+
+	//				Count += 2;
+	//				TypeCount_ += 2;
+	//			}
+	//			else
+	//			{
+	//				// 읽어 올수 없다 -> 한글 
+	//				// 한글 뒤에 공백이 있다 -> 한글 + 공백보다 한 칸 뒤에서 줄바꿈
+	//				if (" " == TempText3_)
+	//				{
+	//					Text_.insert(TypeCount_ + 4, "\n");
+
+	//					Count += 5;
+	//					TypeCount_ += 5;
+	//				}
+	//				else
+	//				{
+	//					Text_.insert(TypeCount_ + 2, "\n");
+
+	//					Count += 2;
+	//					TypeCount_ += 2;
+	//				}
+	//		
+	//			}
+
+	//			ByteCount_ = 0;
+	//			// 줄바꿈한 곳 까지 출력할거니까 크기 + 1
+	//			break;
+	//		}
+
+	//		// 전체 텍스트에서 1바이트씩 잘라온다 ex) 0바이트 시작일 경우, 0 ~ 1바이트 잘라오기
+	//		SubText_ = Text_.substr(Count, 1);
+
+	//		// 띄어쓰기 -> 1바이트
+	//		if (" " == SubText_ || "," == SubText_ || "." == SubText_ || "?" == SubText_ || "!" == SubText_)
+	//		{
+	//			Count += 1;
+	//		}
+	//		else
+	//		{
+	//			// 한글
+	//			Count += 2;
+	//		}
+
+	//		TypeCount_ = Count;
+	//		break;
+
+	//	}
+
+	//	TextRender(Text_, TypeCount_);
+	//	TypingTimer_ = 0.0f;
+	//}
+
+
 }
 

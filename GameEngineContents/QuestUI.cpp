@@ -245,8 +245,9 @@ void QuestUI::SetNPCType(NPCType _NPCType)
 	Font_ = GetLevel()->CreateActor<ContentsFont>();
 	Font_->GetFontRenderer()->SetScreenPostion({ Renderer_->GetTransform().GetLocalPosition().x + 540.f, 
 		Renderer_->GetTransform().GetLocalPosition().y + 300.f});
+	Font_->SetFontType(FontType::Typing);
 	Font_->On();
-
+	
 	switch (NPCType_)
 	{
 	case NPCType::NPC_Cactus:

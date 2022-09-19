@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include "GameEngineCore/GameEngineFontRenderer.h"
 #include "Inventory.h"
+#include "ContentsFont.h"
 
 Meso::Meso() 
 	: Random_(0)
@@ -22,9 +23,7 @@ void Meso::Start()
 
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::ITEM });
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-//	Renderer_->GetTransform().SetLocalScale({25.f, 24.f});		// MesoA
 	Renderer_->GetTransform().SetLocalScale({ 33.f, 33.f });	// MesoB
-	//Renderer_->GetTransform().SetLocalScale({ 32.f, 31.f });	// MesoC
 
 	Renderer_->CreateFrameAnimationFolder("MesoA", FrameAnimation_DESC("MesoA", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("MesoB", FrameAnimation_DESC("MesoB", 0.16f));
@@ -73,7 +72,8 @@ void Meso::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		Player::MainPlayer_->AddPlayerMeso(GetMesoAmount());
 
 		PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
-		Inventory::MainInventory_->GetMesoFontRenderer()->SetText(std::to_string(PlayerMeso_));
+		Inventory::MainInventory_->GetContentsFontMeso()->GetNoramlFontRenderer()->SetText(std::to_string(PlayerMeso_));
+		Inventory::MainInventory_->GetContentsFontMeso()->SetComma();
 
 		Death();	// ÀúÀå
 		_Renderer->GetPixelData().MulColor.a = 0;

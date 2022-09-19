@@ -31,7 +31,7 @@ void CastleLevel::Start()
 
 	NPC_Castle* NPC_ = CreateActor<NPC_Castle>((int)GAMEOBJGROUP::OBJ);
 	NPC_->SetNPCType(NPCType::NPC_Castle);
-	NPC_->GetTransform().SetLocalPosition({ 1550.f, -520.f });
+	NPC_->GetTransform().SetLocalPosition({ 1550.f, -520.f, (int)ZOrder::NPC });
 	NPC_->SetQuestRendererPosition();
 
 	// UI
