@@ -67,6 +67,11 @@ public:
 		return Atk_;
 	}
 
+	inline int GetDamage()
+	{
+		return Damage_;
+	}
+
 	inline MONSTERNAME GetMonsterName()
 	{
 		return MonsterName_;
@@ -148,6 +153,7 @@ protected:
 
 private:
 	int HP_;
+	int Damage_;
 	float Atk_;
 	float Speed_;
 	float Time_;

@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 class GameEngineTextureRenderer;
+class Monster;
 class DamageNumber : public GameEngineActor
 {
 public:
@@ -16,9 +17,16 @@ public:
 	DamageNumber& operator=(DamageNumber&& _Other) noexcept = delete;
 
 public:
-	inline void SetDamage(int _Damage)
+	void SetDamage(int _Damage);
+
+	inline void SetMonster(Monster* _Monster)
 	{
-		Damage_ = _Damage;
+		Monster_ = _Monster;
+	}
+
+	inline void SetRenderer(GameEngineTextureRenderer* _Renderer)
+	{
+		Renderer_ = _Renderer;
 	}
 
 protected:
@@ -26,11 +34,18 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void DamageNumberRender();
+	void DamageNumberUpdate(GameEngineTextureRenderer* _Renderer);
+
 private:
 	GameEngineTextureRenderer* Renderer_;
+
+	Monster* Monster_;
 
 	int Damage_;
 	float Time_;
 	float4 MoveDir_;
+
+	bool IsDamaged_;
 };
 

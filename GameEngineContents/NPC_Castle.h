@@ -21,8 +21,6 @@ public:
 		return CastleCollision_;
 	}
 
-	bool IsOngoing_;
-	bool IsClear_;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

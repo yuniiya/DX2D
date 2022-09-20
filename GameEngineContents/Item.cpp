@@ -14,9 +14,6 @@ Item::Item()
 	, IsPick(false)
 	, PickTime_(0.f)
 	, SlotType_(InventorySlotType::MAX)
-	//, Count_(0)
-	//, Price_(100)
-	//, ItemType_(ItemType::MAX)
 {
 	ItemState_.ItemType_ = ItemType::MAX;
 	ItemState_.Count_ = 0;
@@ -43,6 +40,7 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 
 	//GetTransform().SetAddWorldRotation({0.f, 0.f, GameEngineTime::GetDeltaTime() * 700.f });
 
+
 	PickUpItem(_Renderer);
 
 	if (nullptr == _Renderer)
@@ -61,6 +59,8 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 		
 		if (_Renderer->GetPixelData().MulColor.a < 0)
 		{
+			Time_ = 0.f;
+			_Renderer->GetPixelData().MulColor.a = 0;
 			Death();
 		}
 	}
@@ -131,17 +131,21 @@ void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
 
 void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 {
+	if (_Renderer->GetPixelData().MulColor.a < 0)
+	{
+		_Renderer->GetPixelData().MulColor.a = 0;
+	}
+
 	// 다 주워졌다
 	if (PickTime_ > 0.4f)
 	{
 		// ========== 습득 아이템 Inventory쪽 벡터에 넣어두기 ========== //
 		Inventory::MainInventory_->PushItem(this);
 
-		Death();	// 저장
-		_Renderer->GetPixelData().MulColor.a = 0;
-
 		PickTime_ = 0.f;
 		IsPick = false;
+	
+		Death();
 	}
 	if (true == IsPick)
 	{
