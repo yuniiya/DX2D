@@ -45,7 +45,8 @@ private:
 	int Damage_;
 	float Time_;
 	float4 MoveDir_;
-
 	bool IsDamaged_;
+
+	std::string TextureName_;
 };
 

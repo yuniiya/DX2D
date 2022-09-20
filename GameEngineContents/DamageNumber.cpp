@@ -37,19 +37,11 @@ void DamageNumber::Update(float _DeltaTime)
 	//{
 	//	Renderer_->GetPixelData().MulColor.a -= _DeltaTime * 1.8f;
 	//}
-	//else if (Time_ > 1.5f)
-	//{
-	//	Time_ = 0.f;
-	//	Death();
-	//}
 
 	//if (Renderer_->GetPixelData().MulColor.a < 0)
 	//{
 	//	Renderer_->GetPixelData().MulColor.a = 0;
 	//}
-
-	//MoveDir_ = { 0.f, 15.f };
-	//Renderer_->GetTransform().SetLocalMove(MoveDir_ * _DeltaTime);
 
 	if (Time_ > 1.5f)
 	{
@@ -68,16 +60,21 @@ void DamageNumber::Update(float _DeltaTime)
 
 void DamageNumber::DamageNumberRender()
 {
-//	std::string DamageStr = std::to_string(Damage_);
 	IsDamaged_ = true;
+	// 몬스터 랜덤 데미지를 string으로 변환
+	std::string DamageStr = std::to_string(Damage_);			
 	float4 MonsterPos = Monster_->GetTransform().GetLocalPosition();
 
-	for (int i = 0; i < 4; i++)
+	// 데미지 길이만큼 반복문 
+	for (int i = 0; i < DamageStr.size(); i++)
 	{
+		std::string SubStr = DamageStr.substr(i, 1);
+		TextureName_ = SubStr;
+
 		GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->SetTexture("RedDamage1_00.png");
+		Renderer->SetTexture("RedDamage1_0" + SubStr + ".png");
 		Renderer->ScaleToTexture();
-		Renderer->GetTransform().SetLocalPosition({ MonsterPos.x + i * 30,  MonsterPos.y + 100.f});
+		Renderer->GetTransform().SetLocalPosition({ MonsterPos.x + i * 22,  MonsterPos.y + 100.f});
 	}
 }
 

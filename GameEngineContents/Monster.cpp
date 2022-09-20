@@ -62,14 +62,11 @@ void Monster::TakeDamage(int _Damage)
 	//	ChangeState(MONSTERSTATE::MOVE);
 	//	return;
 	//}
-		
-	Damage_ = _Damage;
-
 	if (false == IsHit)				// IsHIt가 아니었으면 Hp깎아준다
 	{
 		IsHit = true;				// 충돌 On. 시간을 잰다
 
-		HP_ = HP_ - Damage_;
+		HP_ = HP_ - _Damage;
 	}
 	else // IsHit가 true이다
 	{
@@ -271,10 +268,6 @@ void Monster::MonsterStateUpdate()
 void Monster::Hit()
 {
 	TakeDamage(50);
-
-	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
-	DamageNum_->SetMonster(this);
-	DamageNum_->SetDamage(Damage_);
 }
 
 void Monster::DirChange()
@@ -594,6 +587,11 @@ void Monster::DamagedStart()
 	MoveDir_ = GetPosition();
 	PlayerPos_ = Player::MainPlayer_->GetPosition();
 	MonsterPos_ = GetPosition();
+
+	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
+	DamageNum_->SetMonster(this);
+	Damage_ = GameEngineRandom::MainRandom.RandomInt(1000, 9999);
+	DamageNum_->SetDamage(Damage_);
 
 	Renderer_->ChangeFrameAnimation("Damaged");
 }
