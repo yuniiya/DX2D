@@ -24,11 +24,6 @@ public:
 		Monster_ = _Monster;
 	}
 
-	inline void SetRenderer(GameEngineTextureRenderer* _Renderer)
-	{
-		Renderer_ = _Renderer;
-	}
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -38,8 +33,6 @@ protected:
 	void DamageNumberUpdate(GameEngineTextureRenderer* _Renderer);
 
 private:
-	GameEngineTextureRenderer* Renderer_;
-
 	Monster* Monster_;
 
 	int Damage_;
@@ -48,5 +41,6 @@ private:
 	bool IsDamaged_;
 
 	std::string TextureName_;
+	std::vector<GameEngineTextureRenderer*> DamageNumbers_;
 };
 
