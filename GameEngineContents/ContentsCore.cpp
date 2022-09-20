@@ -385,6 +385,26 @@ void ContentsCore::Start()
 			GameEngineSound::LoadRessource(File[i].GetFullPath());
 		}
 	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Sound");
+		Dir.Move("MonsterEffect");
+		Dir.Move("Boss");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (auto& TmpDir : Folder)
+		{
+			std::vector<GameEngineFile> File = TmpDir.GetAllFile();
+
+			for (size_t i = 0; i < File.size(); i++)
+			{
+				GameEngineSound::LoadRessource(File[i].GetFullPath());
+			}
+		}
+	}
 
 	// ¸ó½ºÅÍ
 	{

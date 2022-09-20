@@ -17,8 +17,8 @@ Monster::Monster()
 	, HP_(0)
 	, Atk_(0.0f)
 	, Speed_(0.0f)
-	, BottomPos_(0.0f)
-	, LeftRightPos_(0.0f)
+	, BottomPos_(0)
+	, LeftRightPos_(0)
 	, DownPower_(0.0f)
 	, Time_(0.0f)
 	, MonsterDir_(ACTORDIR::MAX)
@@ -465,6 +465,10 @@ void Monster::IdleStart()
 	}
 		break;
 	case MONSTERNAME::Boss:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 201.f, 237.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+	}
 		break;
 	default:
 		break;
@@ -517,6 +521,10 @@ void Monster::MoveStart()
 	}
 		break;
 	case MONSTERNAME::Boss:
+	{
+		Renderer_->GetTransform().SetLocalScale({ 194.f, 241.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+	}
 		break;
 	default:
 		break;
@@ -579,7 +587,11 @@ void Monster::DamagedStart()
 	}
 		break;
 	case MONSTERNAME::Boss:
-		break;
+	{
+		Renderer_->GetTransform().SetLocalScale({ 248.f, 255.f });
+		GameEngineSound::SoundPlayOneShot("BossDamage.mp3");
+	}
+	break;
 	default:
 		break;
 	}
@@ -620,7 +632,9 @@ void Monster::AttackStart()
 	break;
 	case MONSTERNAME::Boss:
 	{
-
+		Renderer_->GetTransform().SetLocalScale({ 357.f, 360.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y - 50.f });
+		GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
 	}
 	break;
 	}
@@ -682,7 +696,12 @@ void Monster::DieStart()
 	}
 		break;
 	case MONSTERNAME::Boss:
-		break;
+	{
+		Renderer_->GetTransform().SetLocalScale({ 326.f, 364.f });	
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+		GameEngineSound::SoundPlayOneShot("BossDie.mp3");
+	}
+	break;
 	default:
 		break;
 	}

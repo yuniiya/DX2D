@@ -8,6 +8,14 @@ struct ItemState
 	int Price_;
 };
 
+enum class ItemMoveState
+{
+	Drop,
+	Float,
+
+	MAX,
+};
+
 class GameEngineTextureRenderer;
 class Item : public GameEngineActor
 {
@@ -26,10 +34,6 @@ public:
 
 public:
 	virtual void TimeAttackStart();
-	virtual void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer);
-	virtual void UpDownMove();
-	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer);
-	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer);
 
 	inline virtual float4 GetItemPosition()
 	{
@@ -84,14 +88,37 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	GameEngineTexture* GetCurMapTexture();
+	virtual bool StagePixelCheck();
+
+	virtual void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer);
+	virtual void UpDownMove();
+	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer);
+	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer);
+	virtual void ItemDrop();
+
+	virtual void ChangeState(ItemMoveState _State);
+	virtual void ItemStateUpdate();
+
+	virtual void DropStart();
+	virtual void FloatStart();
+	virtual void DropUpdate();
+	virtual void FloatUpdate();
+
 protected:
 	bool IsCreate;
 	bool IsPick;
+	bool IsGround;
 
+	float DropTime_;
 	float Time_;
 	float MoveTime_;
 	float PickTime_;
 	float4 MoveDir_;
+	float4 CreatePosition_;
+
+	std::string CurLevelName_;
+	ItemMoveState CurState_;
 
 public:
 	MONSTERNAME MonsterName_;
@@ -100,6 +127,8 @@ public:
 
 private:
 	GameEngineTextureRenderer* Renderer_;
+	GameEngineTexture* MapTexture_;
+
 
 //	GameEngineCollision* Collision_;
 

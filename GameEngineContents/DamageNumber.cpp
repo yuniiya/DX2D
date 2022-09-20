@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "DamageNumber.h"
 #include "Monster.h"
+#include <GameEngineBase/GameEngineRandom.h>
 
 DamageNumber::DamageNumber() 
 	: Time_(0.f)
@@ -72,7 +73,7 @@ void DamageNumber::DamageNumberRender()
 		GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->SetTexture("RedDamage1_0" + SubStr + ".png");
 		Renderer->ScaleToTexture();
-		Renderer->GetTransform().SetLocalPosition({ MonsterPos.x + i * 27,  MonsterPos.y + 100.f});
+		Renderer->GetTransform().SetLocalPosition({ MonsterPos.x + i * 27 ,  MonsterPos.y + 100.f + GameEngineRandom::MainRandom.RandomFloat(-5.f, 5.f)});
 		DamageNumbers_.push_back(Renderer);
 	}
 }
@@ -98,3 +99,4 @@ void DamageNumber::DamageNumberUpdate(GameEngineTextureRenderer* _Renderer)
 	//_Renderer->GetTransform().SetLocalMove(MoveDir_ * GameEngineTime::GetDeltaTime());
 }
 
+   

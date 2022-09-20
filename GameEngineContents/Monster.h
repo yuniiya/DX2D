@@ -166,8 +166,8 @@ private:
 	float CanAttTime_;
 	float AttEndTime_;
 
-	float BottomPos_;
-	float LeftRightPos_;
+	int BottomPos_;
+	int LeftRightPos_;
 	float4 DownPower_;
 
 	float4 MoveDir_;

@@ -14,6 +14,9 @@ Item::Item()
 	, IsPick(false)
 	, PickTime_(0.f)
 	, SlotType_(InventorySlotType::MAX)
+	, MapTexture_(nullptr)
+	, IsGround(false)
+	, CurState_(ItemMoveState::MAX)
 {
 	ItemState_.ItemType_ = ItemType::MAX;
 	ItemState_.Count_ = 0;
@@ -26,21 +29,12 @@ Item::~Item()
 
 void Item::TimeAttackStart()
 {
+	CreatePosition_ = GetTransform().GetWorldPosition();
 	IsCreate = true;
 }
 
 void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 {
-	//if (ItemType::MONSTERDROP != ItemType_)
-	//{
-	//	return;
-	//}
-
-	UpDownMove();
-
-	//GetTransform().SetAddWorldRotation({0.f, 0.f, GameEngineTime::GetDeltaTime() * 700.f });
-
-
 	PickUpItem(_Renderer);
 
 	if (nullptr == _Renderer)
@@ -63,12 +57,6 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 			_Renderer->GetPixelData().MulColor.a = 0;
 			Death();
 		}
-	}
-
-	if (true == IsCreate)
-	{
-		Time_ += GameEngineTime::GetDeltaTime();
-		MoveTime_ += GameEngineTime::GetDeltaTime();
 	}
 }
 
@@ -105,7 +93,6 @@ void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
 		return;
 	}
 
-	
 	if (false == IsPick)
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("Pick"))
@@ -154,19 +141,159 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	}
 }
 
+void Item::ItemDrop()
+{
+	MoveDir_.y = 220.f;
+	// 위로 이동했다가 0.8초 후 아래로 다운
+	if (DropTime_ > 0.5f)
+	{
+		IsCreate = false;
+		MoveDir_.y = -100.f; 
+	}
+	GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
+}
+
+void Item::ChangeState(ItemMoveState _State)
+{
+	if (CurState_ != _State)
+	{
+		switch (_State)
+		{
+		case ItemMoveState::Drop:
+			DropStart();
+			break;
+		case ItemMoveState::Float:
+			FloatStart();
+			break;
+		}
+	}
+
+	CurState_ = _State;
+}
+
+void Item::ItemStateUpdate()
+{
+	switch (CurState_)
+	{
+	case ItemMoveState::Drop:
+		DropUpdate();
+		break;
+	case ItemMoveState::Float:
+		FloatUpdate();
+		break;
+	}
+}
+
+void Item::DropStart()
+{
+	MoveDir_.y = 210.f;
+}
+
+void Item::FloatStart()
+{
+	IsCreate = false;	// 처음 만들어진게 아니다
+	DropTime_ = 0.f;
+	MoveDir_.y = 6.f;
+}
+
+void Item::DropUpdate()
+{
+	// 드롭 시간 체크
+	DropTime_ += GameEngineTime::GetDeltaTime();
+	// 픽셀 체크 결과 땅에 닿았으면 상태 체인지
+	if (true == IsGround)
+	{
+		MoveDir_ = 0.f;
+		ChangeState(ItemMoveState::Float);
+		return;
+	}
+
+	GetTransform().SetAddWorldRotation({ 0.f, 0.f, GameEngineTime::GetDeltaTime() * 1500.f });
+	GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
+	// 처음 만들어졌을 때, 위로 이동했다가 0.8초 후 아래로 다운
+	if (DropTime_ > 0.4f)
+	{
+		MoveDir_.y -= 15.f;
+		StagePixelCheck();
+	}
+	
+}
+
+void Item::FloatUpdate()
+{
+	UpDownMove();
+ 	PickUpItemCheck(Renderer_);
+	TimeAttackUpdate(Renderer_);
+}
+
 void Item::Start()
 {
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::ITEM});
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-
+	ChangeState(ItemMoveState::Drop);
 }
 
 void Item::Update(float _DeltaTime)
 {
+	ItemStateUpdate();
 
-	PickUpItemCheck(Renderer_);
-	TimeAttackUpdate(Renderer_);
-	
+	if (true == IsGround)
+	{
+		// 땅에 닿은 상태부터 소멸 시간 & 움직이는 시간을 잰다
+		Time_ += GameEngineTime::GetDeltaTime();
+		MoveTime_ += GameEngineTime::GetDeltaTime();
+	}
+}
+
+GameEngineTexture* Item::GetCurMapTexture()
+{
+	if (CurLevelName_ != "TITLE"
+		&& CurLevelName_ != "LOGIN"
+		&& CurLevelName_ != "SELECT")
+	{
+		MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+	}
+
+	if (nullptr == MapTexture_)
+	{
+		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
+	}
+
+	return MapTexture_;
+}
+
+bool Item::StagePixelCheck()
+{
+	float4 Pos = 0.0f;
+	GetCurMapTexture();
+
+	float4 LeftColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - 18, GetTransform().GetWorldPosition().iy() );
+	float4 RightColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() + 18, GetTransform().GetWorldPosition().iy());
+	float4 DownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy() - 18);
+	float4 UpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy() + 18);
+	float4 LeftUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - 18, -GetTransform().GetWorldPosition().iy() + 18);
+	float4 LeftDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - 18, -GetTransform().GetWorldPosition().iy() - 18);
+	float4 RightUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() + 18, -GetTransform().GetWorldPosition().iy() + 18);
+	float4 RightDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() + 18, -GetTransform().GetWorldPosition().iy() - 18);
+
+	// 땅에 닿았다
+	if (true == LeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		|| true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		|| true == DownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		|| true == UpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		//|| true == LeftUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		//|| true == LeftDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		//|| true == RightUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		//|| true == RightDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		)
+	{
+		IsGround = true;
+		// 회전 Stop + 포지션 처음 생성 자리로 고정
+		GetTransform().SetWorldRotation({0.f, 0.f, 0.f});
+		GetTransform().SetWorldPosition(CreatePosition_);
+	}
+
+	return true;
 }
 
 void Item::RendererTypeSetting()

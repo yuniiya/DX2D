@@ -37,22 +37,22 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor, int _LeftRightPos
 		, -(_Actor->GetTransform().GetWorldPosition().iy()));
 
 	float4 BottomLeftDownColor = MapTexture_->GetPixelToFloat4(_Actor->GetTransform().GetWorldPosition().ix() - _LeftRightPos
-		, -(((_Actor->GetTransform().GetWorldPosition().iy()) + (_BottomPos - 20.f))));
+		, -((_Actor->GetTransform().GetWorldPosition().iy() + (_BottomPos - 20.f))));
 
-	float4 BottomRightDownColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix()) + _LeftRightPos
-		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + (_BottomPos - 20.f))));
+	float4 BottomRightDownColor = MapTexture_->GetPixelToFloat4(_Actor->GetTransform().GetWorldPosition().ix() + _LeftRightPos
+		, -((_Actor->GetTransform().GetWorldPosition().iy()) + (_BottomPos - 20.f)));
 
-	float4 BottomLeftUpColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix() - (int)_LeftRightPos)
-		, (-GetTransform().GetWorldPosition().iy()) + (int)(_BottomPos + 10.f));	// 발보다 조금위
+	float4 BottomLeftUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - _LeftRightPos
+		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10.f));	// 발보다 조금위
 
-	float4 BottomRightUpColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix() + (int)_LeftRightPos)
-		, (-GetTransform().GetWorldPosition().iy()) + (int)(_BottomPos + 10.f));	// 발보다 조금위
+	float4 BottomRightUpColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix() + _LeftRightPos)
+		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10.f));	// 발보다 조금위
 
 	float4 BottomUpColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
-		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos) + 2));
+		, -((_Actor->GetTransform().GetWorldPosition().iy()) + _BottomPos + 2));
 
 	float4 BottomDownColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
-		, -(((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().iy()) + _BottomPos) - 70));
+		, -((_Actor->GetTransform().GetWorldPosition().iy() + _BottomPos) - 70));
 
 
 	// 발 밑 조금 위가 땅에 박혔을 때

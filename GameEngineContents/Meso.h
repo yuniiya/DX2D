@@ -33,6 +33,12 @@ protected:
 	void End() override {};
 
 	void PickUpItemCheck(GameEngineTextureRenderer* _Renderer) override;
+	void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer) override;
+
+	virtual void DropStart() override;
+	virtual void FloatStart() override;
+	virtual void DropUpdate() override;
+	virtual void FloatUpdate() override;
 
 private:
 	GameEngineTextureRenderer* Renderer_;
@@ -42,6 +48,5 @@ private:
 	int MesoAmount_;
 
 	int PlayerMeso_;
-
 };
 

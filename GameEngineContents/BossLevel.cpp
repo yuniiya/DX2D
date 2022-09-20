@@ -8,6 +8,7 @@
 #include "Mouse.h"
 #include "Fade.h"
 #include "Inventory.h"
+#include "Boss.h"
 
 BossLevel::BossLevel()
 	: StageActor_(nullptr)
@@ -35,14 +36,10 @@ void BossLevel::Start()
 			StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 		}
 	}
-	
-	// UI
-	//if (nullptr == GetContentsUI())
-	//{
-	//	CreateActor<ContentsUI>(GAMEOBJGROUP::UI);
-	//}
-	//CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 
+	Boss* Boss_ = CreateActor<Boss>(GAMEOBJGROUP::MONSTER);
+	Boss_->GetTransform().SetLocalPosition({ 900.f, -300.f, (int)ZOrder::MONSTER });
+	Boss_->SetMonsterDir(ACTORDIR::LEFT);
 }
 
 void BossLevel::Update(float _DeltaTime)
