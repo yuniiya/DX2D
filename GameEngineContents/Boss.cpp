@@ -12,6 +12,8 @@ Boss::Boss()
 	, PlayerPos_(0.f)
 	, AttackACollision_(nullptr)
 	, AttackBCollision_(nullptr)
+	, CreateHatTime_(0.f)
+	, RandomTime_(0)
 {
 }
 
@@ -138,15 +140,31 @@ void Boss::Update(float _DeltaTime)
 		return;
 	}
 
+	//RandomTime_ = GameEngineRandom::MainRandom.RandomInt(5, 13);
+	//if (CreateHatTime_ > 2.f)
+	//{
+	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
+	//	Hat->GetTransform().SetLocalPosition({ GetPlayerPosition() });
+	//	//for (int i = 0; i < 5; ++i)
+	//	//{
+	//	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
+	//	//	Hat->GetTransform().SetLocalPosition({GetPlayerPosition()});
+	//	//}
+
+	//	CreateHatTime_ = 0.f;
+	//}
+
 	if (true == IsAttack)
 	{
-		CanAttTime_ += GameEngineTime::GetDeltaTime();
+		CanAttTime_ += _DeltaTime;
 	}
 
 	if (true == IsAttackEnd)
 	{
-		AttEndTime_ += GameEngineTime::GetDeltaTime();
+		AttEndTime_ += _DeltaTime;
 	}
+
+	CreateHatTime_ += _DeltaTime;
 }
 
 void Boss::ChangeState(BossState _State)
@@ -347,19 +365,16 @@ void Boss::IdleStart()
 	{
 	case BossType::NORMAL: 
 	{
-		//Renderer_->GetTransform().SetLocalScale({ 201.f, 237.f });
 		Renderer_->ChangeFrameAnimation("Idle");
 	}
 		break;
 	case BossType::BLUE:
 	{
 		Renderer_->ChangeFrameAnimation("Blue_Idle");
-	//	Renderer_->ScaleToTexture();
 	}
 		break;
 	case BossType::RED:
 	{
-	//	Renderer_->GetTransform().SetLocalScale({ 201.f, 237.f });
 		Renderer_->ChangeFrameAnimation("Red_Idle");
 	}
 		break;
@@ -375,7 +390,6 @@ void Boss::MoveStart()
 {
 	PrevPos_ = GetPosition();
 	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
-	//Renderer_->GetTransform().SetLocalScale({ 194.f, 241.f });
 
 	switch (CurType_)
 	{

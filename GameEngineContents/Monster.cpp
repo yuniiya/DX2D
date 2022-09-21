@@ -332,17 +332,13 @@ void Monster::Attack()
 void Monster::CurDirCheck(float4 _PlayerPos, float4 _MonsterPos, float _MinPos)
 {
 	// 플레이어가 왼쪽에 있다 -> 방향 왼쪽
+	if (abs(_PlayerPos.x - _MonsterPos.x) < _MinPos)
+	{
+		return;
+	}
 	if (_PlayerPos.x < _MonsterPos.x)
 	{
 		CurDir_ = ACTORDIR::LEFT;
-		//if (_MinPos - 1.f < abs(_PlayerPos.x - _MonsterPos.x) || abs(_PlayerPos.x - _MonsterPos.x) < _MinPos + 5.f)
-		//{
-		//	CurDir_ = ACTORDIR::RIGHT;			// 겹치면 방향 오른쪽으로 고정
-		//}
-		//else
-		//{
-		//	
-		//}
 	}	//오른쪽에 있다 -> 오른쪽
 	else if (_PlayerPos.x > _MonsterPos.x)
 	{
@@ -485,12 +481,6 @@ void Monster::IdleStart()
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
-/*	case MONSTERNAME::Boss:
-	{
-		Renderer_->GetTransform().SetLocalScale({ 201.f, 237.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
-	}
-		break*/;
 	default:
 		break;
 	}
@@ -541,12 +531,6 @@ void Monster::MoveStart()
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y});
 	}
 		break;
-	//case MONSTERNAME::Boss:
-	//{
-	//	Renderer_->GetTransform().SetLocalScale({ 194.f, 241.f });
-	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
-	//}
-	//	break;
 	default:
 		break;
 	}
@@ -607,12 +591,6 @@ void Monster::DamagedStart()
 		GameEngineSound::SoundPlayOneShot("SpDamage.mp3");
 	}
 		break;
-	//case MONSTERNAME::Boss:
-	//{
-	//	Renderer_->GetTransform().SetLocalScale({ 248.f, 255.f });
-	//	GameEngineSound::SoundPlayOneShot("BossDamage.mp3");
-	//}
-	//break;
 	default:
 		break;
 	}
@@ -652,13 +630,6 @@ void Monster::AttackStart()
 		SparkerAttCol_->On();
 	}
 	break;
-	//case MONSTERNAME::Boss:
-	//{
-	//	Renderer_->GetTransform().SetLocalScale({ 357.f, 360.f });
-	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y - 50.f });
-	//	GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
-	//}
-	//break;
 	}
 
 	Renderer_->AnimationBindStart("Attack", std::bind(&Monster::BindAttackStartCheck, this, std::placeholders::_1));
@@ -715,13 +686,6 @@ void Monster::DieStart()
 
 	}
 		break;
-	//case MONSTERNAME::Boss:
-	//{
-	//	Renderer_->GetTransform().SetLocalScale({ 326.f, 364.f });	
-	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
-	//	GameEngineSound::SoundPlayOneShot("BossDie.mp3");
-	//}
-	//break;
 	default:
 		break;
 	}
@@ -768,14 +732,15 @@ void Monster::ChaseUpdate()
 	PlayerPos_ = Player::MainPlayer_->GetPosition();
 	MonsterPos_ = GetPosition();
 
-	if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
-	{
-		CurDir_ = ACTORDIR::LEFT;
-	}
-	else if (PlayerPos_.x > MonsterPos_.x)
-	{
-		CurDir_ = ACTORDIR::RIGHT;
-	}
+	CurDirCheck(PlayerPos_.x, MonsterPos_.x, 10.f);
+	//if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
+	//{
+	//	CurDir_ = ACTORDIR::LEFT;
+	//}
+	//else if (PlayerPos_.x > MonsterPos_.x)
+	//{
+	//	CurDir_ = ACTORDIR::RIGHT;
+	//}
 
 	if (7.f < ChaseTime_)
 	{
@@ -801,20 +766,6 @@ void Monster::DamagedUpdate()
 	GetTransform().SetLocalMove({ MoveDir_ * GameEngineTime::GetDeltaTime() });
 
 	Hit();
-
-	//if (PlayerPos_.x < MonsterPos_.x)
-	//{
-	//	MoveDir_ = { 10.f, GetPosition().y };
-	//}
-	//else if (PlayerPos_.x > MonsterPos_.x)
-	//{
-	//	// 몬스터 오른쪽에 있다
-	//	MoveDir_ = { -10.f, GetPosition().y};
-	//}
-
-	//GetTransform().SetLocalMove({ MoveDir_ * GameEngineTime::GetDeltaTime()});
-
-	//Hit();
 }
 
 void Monster::AttackUpdate()
@@ -828,14 +779,15 @@ void Monster::AttackUpdate()
 		return;
 	}
 
-	if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
-	{
-		CurDir_ = ACTORDIR::LEFT;
-	}
-	else if (PlayerPos_.x > MonsterPos_.x)
-	{
-		CurDir_ = ACTORDIR::RIGHT;
-	}
+	CurDirCheck(PlayerPos_.x, MonsterPos_.x, 10.f);
+	//if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
+	//{
+	//	CurDir_ = ACTORDIR::LEFT;
+	//}
+	//else if (PlayerPos_.x > MonsterPos_.x)
+	//{
+	//	CurDir_ = ACTORDIR::RIGHT;
+	//}
 
 	IsAttack = true;
 }

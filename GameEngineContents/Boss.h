@@ -129,5 +129,8 @@ private:
 	BossState CurState_;
 	float4 PlayerPos_;
 	float4 Position_;
+
+	float CreateHatTime_;
+	int RandomTime_;
 };
 
