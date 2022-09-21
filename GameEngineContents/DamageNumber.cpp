@@ -80,23 +80,6 @@ void DamageNumber::DamageNumberRender()
 
 void DamageNumber::DamageNumberUpdate(GameEngineTextureRenderer* _Renderer)
 {
-	//if (Time_ > 0.4f)
-	//{
-	//	_Renderer->GetPixelData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
-	//}
-	//else if (Time_ > 1.5f)
-	//{
-	//	Time_ = 0.f;
-	//	Death();
-	//}
-
-	//if (_Renderer->GetPixelData().MulColor.a < 0)
-	//{
-	//	_Renderer->GetPixelData().MulColor.a = 0;
-	//}
-
-	//MoveDir_ = { 0.f, 15.f };
-	//_Renderer->GetTransform().SetLocalMove(MoveDir_ * GameEngineTime::GetDeltaTime());
 }
 
    

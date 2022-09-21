@@ -93,16 +93,16 @@ void Boss::Start()
 	Renderer_->AnimationBindEnd("Red_AttackA", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
 	Renderer_->AnimationBindEnd("Red_AttackB", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
 
-	Renderer_->AnimationBindEnd("Damaged", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
-	Renderer_->AnimationBindEnd("Blue_Damaged", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
-	Renderer_->AnimationBindEnd("Red_Damaged", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Damaged", std::bind(&Boss::BindBossDamagedEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Blue_Damaged", std::bind(&Boss::BindBossDamagedEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Red_Damaged", std::bind(&Boss::BindBossDamagedEnd, this, std::placeholders::_1));
 
 	Renderer_->ChangeFrameAnimation("Move");
 	ChangeState(BossState::Move);
 
 	SetHP(1000.f);
 	SetMaxHP(HP_);
-	SetSpeed(100.f);
+	SetSpeed(90.f);
 	SetPixelCheckPos(44, -113);
 	SetMonsterName(MONSTERNAME::Boss);
 	SetMonsterType(MONSTERTYPE::ATTACK);
@@ -316,16 +316,18 @@ void Boss::CollisonCheck()
 		Collision_->Off();
 		DamageTime_ += GameEngineTime::GetDeltaTime();	// 시간을 잰다
 
+		if (0.8f < DamageTime_)
+		{
+			ChangeState(BossState::Move);				// 상태 체인지
+		}
 		if (1.8f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
 		{
 			IsHit = false;
 			DamageTime_ = 0.0f;							// 시간 리셋
 			
 			Collision_->On();
+			return;
 		}
-
-		ChangeState(BossState::Move);				// 상태 체인지
-		return;
 	}
 
 	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::SKILL, CollisionType::CT_OBB2D))
@@ -404,36 +406,37 @@ void Boss::DamagedStart()
 
 	MoveDir_ = GetPosition();
 	PlayerPos_ = GetPlayerPosition();
-	PrevPos_ = GetPosition();
+	MonsterPos_ = GetPosition();
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
 	DamageNum_->SetMonster(this);
 	Damage_ = GameEngineRandom::MainRandom.RandomInt(1000, 9999);
+	DamageNum_->GetTransform().SetLocalMove({0.f, 45.f});
 	DamageNum_->SetDamage(Damage_);
 
-	//switch (CurType_)
-	//{
-	//case BossType::NORMAL:
-	//{
-	//	Renderer_->ChangeFrameAnimation("Damaged");
-	//}
-	//break;
-	//case BossType::BLUE:
-	//{
-	//	Renderer_->ChangeFrameAnimation("Blue_Damaged");
-	//}
-	//break;
-	//case BossType::RED:
-	//{
-	//	Renderer_->ChangeFrameAnimation("Red_Damaged");
-	//}
-	//break;
+	switch (CurType_)
+	{
+	case BossType::NORMAL:
+	{
+		Renderer_->ChangeFrameAnimation("Damaged");
+	}
+	break;
+	case BossType::BLUE:
+	{
+		Renderer_->ChangeFrameAnimation("Blue_Damaged");
+	}
+	break;
+	case BossType::RED:
+	{
+		Renderer_->ChangeFrameAnimation("Red_Damaged");
+	}
+	break;
 
-	//default:
-	//	break;
-	//}
-	//Renderer_->ScaleToTexture();
-
+	default:
+		break;
+	}
+	Renderer_->ScaleToTexture();
+	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 10.f });
 
 //	Renderer_->GetTransform().SetLocalScale({ 248.f, 255.f });
 }
@@ -636,22 +639,32 @@ void Boss::MoveUpdate()
 
 void Boss::DamagedUpdate()
 {
+	// 플레이어가 몬스터 왼쪽에 있다
+	if (PlayerPos_.x < MonsterPos_.x)
+	{
+		MoveDir_ = { 18.f, 0.f };
+	}
+	else if (PlayerPos_.x > MonsterPos_.x)
+	{
+		// 몬스터 오른쪽에 있다
+		MoveDir_ = { -18.f, 0.f };
+	}
+
+	GetTransform().SetLocalMove({ MoveDir_ * GameEngineTime::GetDeltaTime() });
+
 	Hit();
 }
 
 void Boss::DieUpdate()
 {
-	
 }
 
 void Boss::AttackAUpdate()
 {
-
 }
 
 void Boss::AttackBUpdate()
 {
-
 }
 
 void Boss::AttackCUpdate()
