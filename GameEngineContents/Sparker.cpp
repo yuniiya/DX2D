@@ -39,9 +39,9 @@ void Sparker::Start()
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 
-	SetHP(100);
+	SetHP(100.f);
 	SetSpeed(45.f);
-	SetPixelCheckPos(15.f, -37.f);
+	SetPixelCheckPos(15, -37);
 	SetMonsterName(MONSTERNAME::Sparker);
 	SetMonsterType(MONSTERTYPE::ATTACK);
 	SetMonsterDir(ACTORDIR::NONE);

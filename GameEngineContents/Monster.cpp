@@ -14,7 +14,8 @@ Monster::Monster()
 	, Collision_(nullptr)
 	, CurState_(MONSTERSTATE::IDLE)
 	, PrevState_(CurState_)
-	, HP_(0)
+	, HP_(0.f)
+	, MaxHP_(HP_)
 	, Atk_(0.0f)
 	, Speed_(0.0f)
 	, BottomPos_(0)
@@ -44,6 +45,7 @@ Monster::Monster()
 	, SparkerAttCol_(nullptr)
 	, FreezerAttCol_(nullptr)
 	, Damage_(0)
+	, IsRight(false)
 {
 }
 
@@ -165,7 +167,6 @@ void Monster::EffectPositionUpdate()
 
 void Monster::Start()
 {
-
 	IdleTime_ = GameEngineRandom::MainRandom.RandomInt(3, 6);
 	MoveTime_ = GameEngineRandom::MainRandom.RandomInt(35, 50);
 
@@ -206,7 +207,6 @@ void Monster::Update(float _DeltaTime)
 	{
 		AttEndTime_ += GameEngineTime::GetDeltaTime();
 	}
-
 
 }
 
@@ -326,6 +326,27 @@ void Monster::Attack()
 			ChangeState(MONSTERSTATE::ATTACK);
 			return;
 		}
+	}
+}
+
+void Monster::CurDirCheck(float4 _PlayerPos, float4 _MonsterPos, float _MinPos)
+{
+	// 플레이어가 왼쪽에 있다 -> 방향 왼쪽
+	if (_PlayerPos.x < _MonsterPos.x)
+	{
+		CurDir_ = ACTORDIR::LEFT;
+		//if (_MinPos - 1.f < abs(_PlayerPos.x - _MonsterPos.x) || abs(_PlayerPos.x - _MonsterPos.x) < _MinPos + 5.f)
+		//{
+		//	CurDir_ = ACTORDIR::RIGHT;			// 겹치면 방향 오른쪽으로 고정
+		//}
+		//else
+		//{
+		//	
+		//}
+	}	//오른쪽에 있다 -> 오른쪽
+	else if (_PlayerPos.x > _MonsterPos.x)
+	{
+		CurDir_ = ACTORDIR::RIGHT;
 	}
 }
 
@@ -464,12 +485,12 @@ void Monster::IdleStart()
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
-	case MONSTERNAME::Boss:
+/*	case MONSTERNAME::Boss:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 201.f, 237.f });
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
-		break;
+		break*/;
 	default:
 		break;
 	}
@@ -520,12 +541,12 @@ void Monster::MoveStart()
 		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y});
 	}
 		break;
-	case MONSTERNAME::Boss:
-	{
-		Renderer_->GetTransform().SetLocalScale({ 194.f, 241.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
-	}
-		break;
+	//case MONSTERNAME::Boss:
+	//{
+	//	Renderer_->GetTransform().SetLocalScale({ 194.f, 241.f });
+	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+	//}
+	//	break;
 	default:
 		break;
 	}
@@ -586,12 +607,12 @@ void Monster::DamagedStart()
 		GameEngineSound::SoundPlayOneShot("SpDamage.mp3");
 	}
 		break;
-	case MONSTERNAME::Boss:
-	{
-		Renderer_->GetTransform().SetLocalScale({ 248.f, 255.f });
-		GameEngineSound::SoundPlayOneShot("BossDamage.mp3");
-	}
-	break;
+	//case MONSTERNAME::Boss:
+	//{
+	//	Renderer_->GetTransform().SetLocalScale({ 248.f, 255.f });
+	//	GameEngineSound::SoundPlayOneShot("BossDamage.mp3");
+	//}
+	//break;
 	default:
 		break;
 	}
@@ -602,7 +623,7 @@ void Monster::DamagedStart()
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
 	DamageNum_->SetMonster(this);
-	Damage_ = GameEngineRandom::MainRandom.RandomInt(1000, 9999);
+	Damage_ = GameEngineRandom::MainRandom.RandomInt(500, 9999);
 	DamageNum_->SetDamage(Damage_);
 
 	Renderer_->ChangeFrameAnimation("Damaged");
@@ -630,19 +651,17 @@ void Monster::AttackStart()
 		SparkerAttCol_->On();
 	}
 	break;
-	case MONSTERNAME::Boss:
-	{
-		Renderer_->GetTransform().SetLocalScale({ 357.f, 360.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y - 50.f });
-		GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
-	}
-	break;
+	//case MONSTERNAME::Boss:
+	//{
+	//	Renderer_->GetTransform().SetLocalScale({ 357.f, 360.f });
+	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y - 50.f });
+	//	GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
+	//}
+	//break;
 	}
 
 	Renderer_->AnimationBindStart("Attack", std::bind(&Monster::BindAttackStartCheck, this, std::placeholders::_1));
 	Renderer_->AnimationBindEnd("Attack", std::bind(&Monster::BindAttackEndCheck, this, std::placeholders::_1));
-
-
 
 	Renderer_->ChangeFrameAnimation("Attack");
 }
@@ -695,13 +714,13 @@ void Monster::DieStart()
 
 	}
 		break;
-	case MONSTERNAME::Boss:
-	{
-		Renderer_->GetTransform().SetLocalScale({ 326.f, 364.f });	
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
-		GameEngineSound::SoundPlayOneShot("BossDie.mp3");
-	}
-	break;
+	//case MONSTERNAME::Boss:
+	//{
+	//	Renderer_->GetTransform().SetLocalScale({ 326.f, 364.f });	
+	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+	//	GameEngineSound::SoundPlayOneShot("BossDie.mp3");
+	//}
+	//break;
 	default:
 		break;
 	}

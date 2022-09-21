@@ -57,9 +57,14 @@ public:
 		return GetTransform().GetLocalPosition();
 	}
 
-	inline int GetHP()
+	inline float GetHP()
 	{
 		return HP_;
+	}
+
+	inline float GetMaxHP()
+	{
+		return MaxHP_;
 	}
 
 	inline float GetAtk()
@@ -82,9 +87,14 @@ public:
 		return CurState_;
 	}
 
-	void SetHP(int _HP)
+	void SetHP(float _HP)
 	{
 		HP_ = _HP;
+	}
+
+	void SetMaxHP(float _MaxHP)
+	{
+		MaxHP_ = _MaxHP;
 	}
 
 	inline void SetSpeed(float _Speed)
@@ -97,7 +107,7 @@ public:
 		Atk_ = _Atk;
 	}
 
-	inline void SetPixelCheckPos(float _LeftRightPos, float _BottomPos)
+	inline void SetPixelCheckPos(int _LeftRightPos, int _BottomPos)
 	{
 		LeftRightPos_ = _LeftRightPos;
 		BottomPos_ = _BottomPos;
@@ -140,6 +150,7 @@ protected:
 	virtual void Hit();
 	virtual void DirChange();
 	virtual void Attack();
+	virtual void CurDirCheck(float4 _PlayerPos, float4 _MonsterPos, float _MinPos);
 
 	virtual bool MonsterCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	virtual void CollisonCheck();
@@ -151,8 +162,9 @@ protected:
 
 
 
-private:
-	int HP_;
+protected:
+	float HP_;
+	float MaxHP_;
 	int Damage_;
 	float Atk_;
 	float Speed_;
@@ -186,6 +198,7 @@ private:
 	bool IsHit;
 	bool IsAttack;
 	bool IsAttackEnd;
+	bool IsRight;
 
 protected:
 	GameEngineTextureRenderer* Renderer_;

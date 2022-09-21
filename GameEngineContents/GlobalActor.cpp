@@ -37,21 +37,21 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor, int _LeftRightPos
 		, -(_Actor->GetTransform().GetWorldPosition().iy()));
 
 	float4 BottomLeftDownColor = MapTexture_->GetPixelToFloat4(_Actor->GetTransform().GetWorldPosition().ix() - _LeftRightPos
-		, -((_Actor->GetTransform().GetWorldPosition().iy() + (_BottomPos - 20.f))));
+		, -((_Actor->GetTransform().GetWorldPosition().iy() + (_BottomPos - 20))));
 
 	float4 BottomRightDownColor = MapTexture_->GetPixelToFloat4(_Actor->GetTransform().GetWorldPosition().ix() + _LeftRightPos
-		, -((_Actor->GetTransform().GetWorldPosition().iy()) + (_BottomPos - 20.f)));
+		, -((_Actor->GetTransform().GetWorldPosition().iy()) + (_BottomPos - 20)));
 
 	float4 BottomLeftUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - _LeftRightPos
-		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10.f));	// 발보다 조금위
+		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10));	// 발보다 조금위
 
 	float4 BottomRightUpColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix() + _LeftRightPos)
-		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10.f));	// 발보다 조금위
+		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10));	// 발보다 조금위
 
-	float4 BottomUpColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
+	float4 BottomUpColor = MapTexture_->GetPixelToFloat4((_Actor->GetTransform().GetWorldPosition().ix())
 		, -((_Actor->GetTransform().GetWorldPosition().iy()) + _BottomPos + 2));
 
-	float4 BottomDownColor = MapTexture_->GetPixelToFloat4((dynamic_cast<GlobalActor*>(_Actor)->GetTransform().GetWorldPosition().ix())
+	float4 BottomDownColor = MapTexture_->GetPixelToFloat4((_Actor->GetTransform().GetWorldPosition().ix())
 		, -((_Actor->GetTransform().GetWorldPosition().iy() + _BottomPos) - 70));
 
 

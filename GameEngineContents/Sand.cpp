@@ -26,9 +26,9 @@ void Sand::Start()
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 
-	SetHP(100);
+	SetHP(100.f);
 	SetSpeed(30.f);
-	SetPixelCheckPos(18.f, -24.f);
+	SetPixelCheckPos(18, -24);
 	SetMonsterName(MONSTERNAME::Sand);
 	SetMonsterType(MONSTERTYPE::DEFAULT);
 }

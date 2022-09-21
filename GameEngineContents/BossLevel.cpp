@@ -9,6 +9,7 @@
 #include "Fade.h"
 #include "Inventory.h"
 #include "Boss.h"
+#include "BossUI.h"
 
 BossLevel::BossLevel()
 	: StageActor_(nullptr)

@@ -446,8 +446,8 @@ void Player::Start()
 	LevelUpEffRenderer_->ChangeFrameAnimation("LevelUp");
 	LevelUpEffRenderer_->Off();
 
-	TakeDamage(50.f);
-	UseMP(50.f);
+	//TakeDamage(50.f);
+	//UseMP(50.f);
 
 }
 

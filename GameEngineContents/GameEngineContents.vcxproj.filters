@@ -211,6 +211,9 @@
     <ClInclude Include="DamageNumber.h">
       <Filter>Actor</Filter>
     </ClInclude>
+    <ClInclude Include="BossUI.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -372,6 +375,9 @@
     </ClCompile>
     <ClCompile Include="DamageNumber.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BossUI.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

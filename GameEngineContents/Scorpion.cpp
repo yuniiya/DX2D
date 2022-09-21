@@ -26,9 +26,9 @@ void Scorpion::Start()
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 
-	SetHP(100);
+	SetHP(100.f);
 	SetSpeed(30.f);
-	SetPixelCheckPos(15.f, -25.f);
+	SetPixelCheckPos(15, -25);
 	SetMonsterName(MONSTERNAME::Scorpion);
 	SetMonsterType(MONSTERTYPE::DEFAULT);
 	SetMonsterDir(ACTORDIR::NONE);

@@ -27,9 +27,9 @@ void BabyCactus::Start()
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 
-	SetHP(100);
+	SetHP(100.f);
 	SetSpeed(30.f);
-	SetPixelCheckPos(9.f, -33.f);
+	SetPixelCheckPos(9, -33);
 	SetMonsterName(MONSTERNAME::BabyCactus);
 	SetMonsterType(MONSTERTYPE::DEFAULT);
 	SetMonsterDir(ACTORDIR::NONE);
