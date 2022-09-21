@@ -623,6 +623,7 @@ void Monster::DamagedStart()
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
 	DamageNum_->SetMonster(this);
+	DamageNum_->SetDamageType(DamageType::Monster);
 	Damage_ = GameEngineRandom::MainRandom.RandomInt(500, 9999);
 	DamageNum_->SetDamage(Damage_);
 

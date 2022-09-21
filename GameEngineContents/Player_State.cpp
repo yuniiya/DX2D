@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include "Skill.h"
+#include "DamageNumber.h"
+#include <GameEngineBase/GameEngineRandom.h>
 
 void Player::IdleStart(const StateInfo& _Info)
 {
@@ -120,6 +122,13 @@ void Player::DamagedStart(const StateInfo& _Info)
 {
 	MoveDir_ = float4{ 0.f, 170.f, 0.f };
 	JumpPower_ = 0.0f;
+
+	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
+	DamageNum_->SetDamageType(DamageType::Player);
+	int Damage_ = GameEngineRandom::MainRandom.RandomInt(5, 99);
+	DamageNum_->GetTransform().SetLocalMove({ 0.f, -20.f });
+	DamageNum_->SetDamage(Damage_);
+
 
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");

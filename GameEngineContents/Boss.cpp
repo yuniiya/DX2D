@@ -3,6 +3,7 @@
 #include "DamageNumber.h"
 #include <GameEngineBase/GameEngineRandom.h>
 #include "BossUI.h"
+#include "BossHat.h"
 
 Boss::Boss() 
 	: CurState_(BossState::MAX)
@@ -410,6 +411,7 @@ void Boss::DamagedStart()
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
 	DamageNum_->SetMonster(this);
+	DamageNum_->SetDamageType(DamageType::Monster);
 	Damage_ = GameEngineRandom::MainRandom.RandomInt(1000, 9999);
 	DamageNum_->GetTransform().SetLocalMove({0.f, 45.f});
 	DamageNum_->SetDamage(Damage_);

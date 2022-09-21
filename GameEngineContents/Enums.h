@@ -37,6 +37,7 @@ enum class ZOrder
 	MONSTERSKILL = 30,
 	ITEM = 40,
 	PORTAL = 50,
+	BOSSSKILL = 55,
 	PLAYER = 60,
 	NPC = 65, 
 	SKILLBACK = 70,
