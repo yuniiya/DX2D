@@ -18,7 +18,7 @@ void BossHat::Start()
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 170.f, 180.f });
-	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTERSKILL);
+	Collision_->ChangeOrder(BossAttackType::Hat);
 	Collision_->Off();
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
@@ -47,6 +47,22 @@ void BossHat::Start()
 void BossHat::Update(float _DeltaTime)
 {
 	StateUpdate();
+	CollisionCheck();
+}
+
+GameEngineTexture* BossHat::GetCurMapTexture()
+{
+	if (CurLevelName_ == "BOSS")
+	{
+		MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+	}
+
+	if (nullptr == MapTexture_)
+	{
+		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
+	}
+
+	return MapTexture_;
 }
 
 void BossHat::ChangeState(BossHatState _State)
@@ -92,6 +108,27 @@ void BossHat::StateUpdate()
 	}
 }
 
+void BossHat::CollisionCheck()
+{
+}
+
+bool BossHat::StagePixelCheck()
+{
+	//float4 Pos = 0.0f;
+	//GetCurMapTexture();
+
+	//float4 DownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy() - 18);
+
+	//// 땅에 닿았다
+	//if (true == DownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	//{
+	//	IsGround_ = true;
+	//	GetTransform().SetLocalPosition(GetTransform().GetLocalPosition());
+	//}
+
+	return true;
+}
+
 void BossHat::FallStart()
 {
 	Renderer_->ChangeFrameAnimation("Fall");
@@ -100,6 +137,7 @@ void BossHat::FallStart()
 
 void BossHat::GroundStart()
 {
+	IsGround_ = false;
 	Renderer_->ChangeFrameAnimation("Ground");
 	Renderer_->ScaleToTexture();
 }
@@ -118,7 +156,12 @@ void BossHat::EndStart()
 
 void BossHat::FallUpdate()
 {
-
+	//if (true == IsGround_)
+	//{
+	//	ChangeState(BossHatState::Ground);
+	//	return;
+	//}
+	//StagePixelCheck();
 }
 
 void BossHat::GroundUpdate()
@@ -136,14 +179,18 @@ void BossHat::EndUpdate()
 
 void BossHat::BindFallEnd(const FrameAnimation_DESC& _Info)
 {
+	IsGround_ = true;
+	GetTransform().SetLocalPosition(GetTransform().GetLocalPosition());
+
+	Collision_->On();
+	HitRenderer_->On();
+
 	ChangeState(BossHatState::Ground);
 	return;
 }
 
 void BossHat::BindGroundEnd(const FrameAnimation_DESC& _Info)
 {
-	Collision_->On();
-	HitRenderer_->On();
 	ChangeState(BossHatState::Idle);
 	return;
 }
@@ -156,6 +203,7 @@ void BossHat::BindIdleEnd(const FrameAnimation_DESC& _Info)
 
 void BossHat::BindEndEnd(const FrameAnimation_DESC& _Info)
 {
+	IsGround_ = false;
 	Death();
 }
 

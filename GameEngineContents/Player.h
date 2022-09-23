@@ -159,6 +159,11 @@ private:
 	bool IsSinLoopEnd;
 	bool IsLevelUp;
 
+	bool IsInvincible_;
+	bool IsMoveKeyChange_;
+	bool IsStun_; 
+	bool IsSkillLock_;
+
 
 	std::string CurLevelName_;
 
@@ -179,6 +184,9 @@ private:
 	float SinLoopTime_;
 	float SinEndTime_;
 	float DoubleJumpTime_;
+	float MoveKeyChaneTime_;
+	float StunTime_;
+	float SkillLockTime_;
 
 protected:
 	float4 BottomColor;
@@ -187,6 +195,10 @@ protected:
 	float4 TopColor;
 	float4 MiddleColor;
 	float4 BottomUpColor;
+	float4 LeftColor;
+	float4 RightColor;
+	float4 LeftLeftColor;
+	float4 RightRightColor;
 
 private:
 	GameEngineCollision* PlayerCollision_;
@@ -194,7 +206,6 @@ private:
 
 	GameEngineCollision* InSkillCollision_;
 	GameEngineCollision* PaSkillCollision_;
-	GameEngineCollision* JiSkillCollision_;
 	GameEngineCollision* SinACollision_;
 	GameEngineCollision* SinBCollision_;
 	GameEngineCollision* SinCCollision_;
@@ -223,11 +234,6 @@ private:
 	GameEngineTextureRenderer* InB_Renderer_;
 	GameEngineTextureRenderer* InHit_Renderer_;
 
-	GameEngineTextureRenderer* JiA_Renderer_;
-	GameEngineTextureRenderer* JiB_Renderer_;
-	GameEngineTextureRenderer* JiC_Renderer_;
-	GameEngineTextureRenderer* JiHit_Renderer_;
-
 	GameEngineTextureRenderer* PaA_Renderer_;
 	GameEngineTextureRenderer* PaHit_Renderer_;
 
@@ -243,6 +249,11 @@ private:
 
 	GameEngineTextureRenderer* ChoA_Renderer_;
 	GameEngineTextureRenderer* ChoB_Renderer_;
+
+	GameEngineTextureRenderer* StunRenderer_;
+	GameEngineTextureRenderer* HatChaseRenderer_;
+	GameEngineTextureRenderer* SkillLockRenderer_;
+
 
 protected:
 	bool StagePixelCheck();
@@ -264,7 +275,6 @@ protected:
 protected:
 	void SkillEnd(const FrameAnimation_DESC& _Info);
 	void SkillPositionUpdate(PLAYERSKILL _CurSkill);
-	void JiCFrameEnd(const FrameAnimation_DESC& _Info);
 	void SinSkillUpdate(const FrameAnimation_DESC& _Info);
 	void SinSkillSoundUpdate(const FrameAnimation_DESC& _Info);
 	void DoubleJumpEnd(const FrameAnimation_DESC& _Info);
@@ -283,8 +293,10 @@ protected:
 	void RopeStart(const StateInfo& _Info);
 	void DefaultAttackStart(const StateInfo& _Info);
 	void SkillAttackStart(const StateInfo& _Info);
+	void JumpSkillAttackStart(const StateInfo& _Info);
 	void DoubleJumpStart(const StateInfo& _Info);
 	void DamagedStart(const StateInfo& _Info);
+	void KnockBackStart(const StateInfo& _Info);
 	void DieStart(const StateInfo& _Info);
 
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
@@ -297,8 +309,10 @@ protected:
 	void RopeUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info);
 	void SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info);
+	void JumpSkillAttackUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DamagedUpdate(float _DeltaTime, const StateInfo& _Info);
+	void KnockBackUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DieUpdate(float _DeltaTime, const StateInfo& _Info);
 };
 

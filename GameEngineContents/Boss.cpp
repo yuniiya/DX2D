@@ -12,8 +12,12 @@ Boss::Boss()
 	, PlayerPos_(0.f)
 	, AttackACollision_(nullptr)
 	, AttackBCollision_(nullptr)
+	, BlueAttackACollision_(nullptr)
+	, RedAttackACollision_(nullptr)
+	, RedAttackBCollision_(nullptr)
 	, CreateHatTime_(0.f)
 	, RandomTime_(0)
+	, CurBossSkill_(BossAttackType::MAX)
 {
 }
 
@@ -32,14 +36,30 @@ void Boss::Start()
 	Collision_->ChangeOrder(GAMEOBJGROUP::MONSTER);
 
 	AttackACollision_ = CreateComponent<GameEngineCollision>();
-	AttackACollision_->GetTransform().SetLocalScale({ 50.f, 50.f });
-	AttackACollision_->ChangeOrder(GAMEOBJGROUP::MONSTERSKILL);
+	AttackACollision_->GetTransform().SetLocalScale({ 150.f, 150.f });
+	AttackACollision_->ChangeOrder(BossAttackType::Att_A);
 	AttackACollision_->Off();
 
 	AttackBCollision_ = CreateComponent<GameEngineCollision>();
-	AttackBCollision_->GetTransform().SetLocalScale({ 50.f, 50.f });
-	AttackBCollision_->ChangeOrder(GAMEOBJGROUP::MONSTERSKILL);
+	AttackBCollision_->GetTransform().SetLocalScale({ 150.f, 150.f });
+	AttackBCollision_->ChangeOrder(BossAttackType::Att_B);
 	AttackBCollision_->Off();
+
+	BlueAttackACollision_ = CreateComponent<GameEngineCollision>();
+	BlueAttackACollision_->GetTransform().SetLocalScale({ 150.f, 150.f });
+	BlueAttackACollision_->ChangeOrder(BossAttackType::BlueAtt_A);
+	BlueAttackACollision_->Off();
+
+	RedAttackACollision_ = CreateComponent<GameEngineCollision>();
+	RedAttackACollision_->GetTransform().SetLocalScale({ 150.f, 150.f });
+	RedAttackACollision_->ChangeOrder(BossAttackType::RedAtt_A);
+	RedAttackACollision_->Off();
+
+	RedAttackBCollision_ = CreateComponent<GameEngineCollision>();
+	RedAttackBCollision_->GetTransform().SetLocalScale({ 150.f, 150.f });
+	RedAttackBCollision_->ChangeOrder(BossAttackType::RedAtt_B);
+	RedAttackBCollision_->Off();
+
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->GetTransform().SetLocalScale({ 201.f, 237.f });	// Idle
@@ -84,6 +104,17 @@ void Boss::Start()
 	Renderer_->AnimationBindStart("Blue_Attack", std::bind(&Boss::BindBossAttackStart, this, std::placeholders::_1));
 	Renderer_->AnimationBindStart("Red_AttackA", std::bind(&Boss::BindBossAttackStart, this, std::placeholders::_1));
 	Renderer_->AnimationBindStart("Red_AttackB", std::bind(&Boss::BindBossAttackStart, this, std::placeholders::_1));
+
+	Renderer_->AnimationBindFrame("AttackA", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("AttackB", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Blue_Attack", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Red_AttackA", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Red_AttackB", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("AttackA", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("AttackB", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Blue_Attack", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Red_AttackA", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Red_AttackB", std::bind(&Boss::BindBossAttackFrame, this, std::placeholders::_1));
 	
 	Renderer_->AnimationBindEnd("AttackA", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
 	Renderer_->AnimationBindEnd("AttackB", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
@@ -300,9 +331,9 @@ void Boss::Attack()
 		return;
 	}
 
-	if (100.f >= abs(GetPosition().x - GetPlayerPosition().x))
+	if (200.f >= abs(GetPosition().x - GetPlayerPosition().x))
 	{
-		int Random = GameEngineRandom::MainRandom.RandomInt(0, 1);
+		int Random = GameEngineRandom::MainRandom.RandomInt(1, 1);
 		if (BossType::NORMAL == CurType_)
 		{
 			switch (Random)
@@ -359,7 +390,7 @@ void Boss::CollisonCheck()
 void Boss::IdleStart()
 {
 	PrevPos_ = GetPosition();
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER});
 
 	switch (CurType_)
 	{
@@ -389,7 +420,7 @@ void Boss::IdleStart()
 void Boss::MoveStart()
 {
 	PrevPos_ = GetPosition();
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
 
 	switch (CurType_)
 	{
@@ -452,7 +483,7 @@ void Boss::DamagedStart()
 		break;
 	}
 	Renderer_->ScaleToTexture();
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 10.f });
+	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 10.f, (int)ZOrder::MONSTER });
 
 //	Renderer_->GetTransform().SetLocalScale({ 248.f, 255.f });
 }
@@ -460,7 +491,7 @@ void Boss::DamagedStart()
 void Boss::DieStart()
 {
 	GameEngineSound::SoundPlayOneShot("BossDie.mp3");
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 30.f});
+	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 30.f, (int)ZOrder::MONSTER });
 
 	AddAccTime(Time_);
 
@@ -490,56 +521,9 @@ void Boss::DieStart()
 	Collision_->Off();
 }
 
-void Boss::AttackAStart()
-{
-	IsAttack = true;
-	GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
-	Renderer_->GetTransform().SetLocalScale({ 357.f, 360.f });
-
-	CurDirCheck(GetPlayerPosition().x, GetPosition(), 90.f);
-
-	if (CurDir_ == ACTORDIR::LEFT)
-	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 60.f,  GetPosition().y - 33.f });
-	}
-	else if (CurDir_ == ACTORDIR::RIGHT)
-	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 60.f,  GetPosition().y - 33.f });
-	}
-	Renderer_->ChangeFrameAnimation("AttackA");
-}
-
-void Boss::AttackBStart()
-{
-	IsAttack = true;
-	GameEngineSound::SoundPlayOneShot("BossAttack2.mp3");
-	Renderer_->GetTransform().SetLocalScale({ 427.f, 276.f });
-	
-	CurDirCheck(GetPlayerPosition().x, GetPosition(), 90.f);
-
-	if (CurDir_ == ACTORDIR::LEFT)
-	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 90.f,  GetPosition().y - 13.f });
-	}
-	else if (CurDir_ == ACTORDIR::RIGHT)
-	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 90.f,  GetPosition().y - 13.f });
-	}
-
-	Renderer_->ChangeFrameAnimation("AttackB");
-}
-
-void Boss::AttackCStart()
-{
-	IsAttack = true;
-	Renderer_->GetTransform().SetLocalScale({ 427.f, 276.f });
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y });
-}
-
 void Boss::TransformStart()
 {
 	GameEngineSound::SoundPlayOneShot("BossTransForm.mp3");
-	//Renderer_->GetTransform().SetLocalScale({ 413.f, 282.f });
 	switch (CurType_)
 	{
 	case BossType::NORMAL:
@@ -593,11 +577,68 @@ void Boss::RegenStart()
 }
 
 
+void Boss::AttackAStart()
+{
+	IsAttack = true;
+	GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
+	Renderer_->GetTransform().SetLocalScale({ 357.f, 360.f });
+
+	CurDirCheck(GetPlayerPosition().x, GetPosition(), 90.f);
+	SetBossSkill(BossAttackType::Att_A);
+
+	if (CurDir_ == ACTORDIR::LEFT)
+	{
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 60.f,  GetPosition().y - 33.f, (int)ZOrder::MONSTER });
+		AttackACollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f,  GetPosition().y - 30.f });
+	}
+	else if (CurDir_ == ACTORDIR::RIGHT)
+	{
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 60.f,  GetPosition().y - 33.f, (int)ZOrder::MONSTER });
+		AttackACollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f,  GetPosition().y - 30.f });
+
+	}
+	Renderer_->ChangeFrameAnimation("AttackA");
+
+}
+
+void Boss::AttackBStart()
+{
+	IsAttack = true;
+	//GameEngineSound::SoundPlayOneShot("BossAttack2.mp3");
+	Renderer_->GetTransform().SetLocalScale({ 427.f, 276.f });
+
+	CurDirCheck(GetPlayerPosition().x, GetPosition(), 90.f);
+	SetBossSkill(BossAttackType::Att_B);
+
+	if (CurDir_ == ACTORDIR::LEFT)
+	{
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 90.f,  GetPosition().y - 13.f, (int)ZOrder::MONSTER });
+		AttackBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f,  GetPosition().y - 30.f });
+
+	}
+	else if (CurDir_ == ACTORDIR::RIGHT)
+	{
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 90.f,  GetPosition().y - 13.f, (int)ZOrder::MONSTER });
+		AttackBCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f,  GetPosition().y - 30.f });
+	}
+
+	Renderer_->ChangeFrameAnimation("AttackB");
+}
+
+void Boss::AttackCStart()
+{
+	IsAttack = true;
+	Renderer_->GetTransform().SetLocalScale({ 427.f, 276.f });
+	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y, (int)ZOrder::MONSTER });
+}
+
 void Boss::BlueAttackStart()
 {
 	IsAttack = true;
 	Renderer_->ChangeFrameAnimation("Blue_Attack");
 	Renderer_->ScaleToTexture();
+	SetBossSkill(BossAttackType::BlueAtt_A);
+	BlueAttackACollision_->On();
 }
 
 void Boss::RedAttackAStart()
@@ -605,6 +646,7 @@ void Boss::RedAttackAStart()
 	IsAttack = true;
 	Renderer_->ChangeFrameAnimation("Red_AttackA");
 	Renderer_->ScaleToTexture();
+	SetBossSkill(BossAttackType::RedAtt_A);
 }
 
 void Boss::RedAttackBStart()
@@ -612,6 +654,7 @@ void Boss::RedAttackBStart()
 	IsAttack = true;
 	Renderer_->ChangeFrameAnimation("Red_AttackB");
 	Renderer_->ScaleToTexture();
+	SetBossSkill(BossAttackType::RedAtt_B);
 }
 
 void Boss::RedTeleportStart()
@@ -675,6 +718,14 @@ void Boss::DieUpdate()
 {
 }
 
+void Boss::TransformUpdate()
+{
+}
+
+void Boss::RegenUpdate()
+{
+}
+
 void Boss::AttackAUpdate()
 {
 }
@@ -687,13 +738,6 @@ void Boss::AttackCUpdate()
 {
 }
 
-void Boss::TransformUpdate()
-{
-}
-
-void Boss::RegenUpdate()
-{
-}
 
 void Boss::BlueAttackUpdate()
 {
@@ -722,13 +766,95 @@ void Boss::BindBossDieEnd(const FrameAnimation_DESC& _Info)
 
 void Boss::BindBossAttackStart(const FrameAnimation_DESC& _Info)
 {
+	
+}
 
+void Boss::BindBossAttackFrame(const FrameAnimation_DESC& _Info)
+{
+	switch (CurBossSkill_)
+	{
+	case BossAttackType::Att_A:
+	{
+		if (5 == _Info.CurFrame)
+		{
+			AttackACollision_->On();
+		}
+	}
+	break;
+	case BossAttackType::Att_B:
+	{
+		if (7 == _Info.CurFrame)
+		{
+			AttackBCollision_->On();
+		}
+	}
+	break;
+	case BossAttackType::BlueAtt_A:
+	{
+		BlueAttackACollision_->On();
+	}
+	break;
+	case BossAttackType::RedAtt_A:
+	{
+		if (3 == _Info.CurFrame)
+		{
+			RedAttackACollision_->On();
+		}
+	}
+	break;
+	case BossAttackType::RedAtt_B:
+	{
+		if (1 == _Info.CurFrame)
+		{
+			RedAttackBCollision_->On();
+		}
+	}
+	break;
+	case BossAttackType::Hat:
+		break;
+	default:
+		break;
+	}
 }
 
 void Boss::BindBossAttackEnd(const FrameAnimation_DESC& _Info)
 {
 	IsAttackEnd = true;
 
+	switch (CurBossSkill_)
+	{
+	case BossAttackType::Att_A: 
+	{
+		AttackACollision_->Off();
+	}
+		break;
+	case BossAttackType::Att_B:
+	{
+		AttackBCollision_->Off();
+	}
+		break;
+	case BossAttackType::BlueAtt_A:
+	{
+		BlueAttackACollision_->Off();
+	}
+		break;
+	case BossAttackType::RedAtt_A:
+	{
+		RedAttackACollision_->Off();
+	}
+		break;
+	case BossAttackType::RedAtt_B:
+	{
+		RedAttackBCollision_->Off();
+	}
+		break;
+	case BossAttackType::Hat:
+		break;
+	default:
+		break;
+	}
+
+	SetBossSkill(BossAttackType::MAX);
 	ChangeState(BossState::Move);
 	return;
 }

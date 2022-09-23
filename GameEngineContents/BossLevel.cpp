@@ -37,10 +37,6 @@ void BossLevel::Start()
 			StageRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
 		}
 	}
-
-	Boss* Boss_ = CreateActor<Boss>(GAMEOBJGROUP::MONSTER);
-	Boss_->GetTransform().SetLocalPosition({ 900.f, -300.f, (int)ZOrder::MONSTER });
-	Boss_->SetMonsterDir(ACTORDIR::LEFT);
 }
 
 void BossLevel::Update(float _DeltaTime)
@@ -80,5 +76,11 @@ void BossLevel::LevelStartEvent()
 	if (nullptr != ContentsUI::MainUI_)
 	{
 		ContentsUI::MainUI_->On();
+	}
+	if (nullptr == Boss_)
+	{
+		Boss_ = CreateActor<Boss>(GAMEOBJGROUP::MONSTER);
+		Boss_->GetTransform().SetLocalPosition({ 900.f, -300.f, (int)ZOrder::MONSTER });
+		Boss_->SetMonsterDir(ACTORDIR::LEFT);
 	}
 }

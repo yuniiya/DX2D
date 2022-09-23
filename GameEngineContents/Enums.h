@@ -128,3 +128,15 @@ enum class NPCType
 
 	MAX,
 };
+
+enum class BossAttackType 
+{
+	Att_A = 30,
+	Att_B,
+	BlueAtt_A,
+	RedAtt_A,
+	RedAtt_B,
+	Hat,
+
+	MAX,
+};

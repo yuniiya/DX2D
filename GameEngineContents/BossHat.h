@@ -30,11 +30,16 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	GameEngineTexture* GetCurMapTexture();
 	void ChangeState(BossHatState _State);
 	void StateUpdate();
+	void CollisionCheck();
+	bool StagePixelCheck();
+
 private:
 	GameEngineTextureRenderer* Renderer_;
 	GameEngineTextureRenderer* HitRenderer_;
+	GameEngineTexture* MapTexture_;
 
 	GameEngineCollision* Collision_;
 	BossHatState CurState_;
@@ -54,5 +59,9 @@ private:
 	void BindIdleEnd(const FrameAnimation_DESC& _Info);
 	void BindEndEnd(const FrameAnimation_DESC& _Info);
 	void BindHitEnd(const FrameAnimation_DESC& _Info);
+
+private:
+	bool IsGround_;
+	std::string CurLevelName_;
 };
 

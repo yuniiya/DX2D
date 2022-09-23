@@ -3,6 +3,7 @@
 #include "Skill.h"
 #include "DamageNumber.h"
 #include <GameEngineBase/GameEngineRandom.h>
+#include "Boss.h"
 
 void Player::IdleStart(const StateInfo& _Info)
 {
@@ -19,6 +20,12 @@ void Player::IdleStart(const StateInfo& _Info)
 
 void Player::MoveStart(const StateInfo& _Info)
 {
+	if (true == IsStun_)
+	{
+		return;
+	}
+	MoveDir_ = 0.0f;
+	JumpPower_ = 0.0f;
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 70.f});
 	PlayerRenderer_->ChangeFrameAnimation("Move");
 }
@@ -31,10 +38,7 @@ void Player::JumpStart(const StateInfo& _Info)
 		return;
 	}
 
-	if (false == IsUsePaSkill)
-	{
-		GameEngineSound::SoundPlayOneShot("Jump.mp3");
-	}
+	GameEngineSound::SoundPlayOneShot("Jump.mp3");
 
 	PrevPosition_ = GetPosition();
 	PrevDir_ = CurDir_;
@@ -43,7 +47,7 @@ void Player::JumpStart(const StateInfo& _Info)
 	JumpPower_ = float4{ 0.f, 230.f, 0.f };
 
 	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
-	PlayerRenderer_->ChangeFrameAnimation("Jump");
+	PlayerRenderer_->ChangeFrameAnimation("JumpAttack");
 }
 
 void Player::FallStart(const StateInfo& _Info)
@@ -94,6 +98,24 @@ void Player::SkillAttackStart(const StateInfo& _Info)
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
 
+void Player::JumpSkillAttackStart(const StateInfo& _Info)
+{
+	// 땅이 아니라면 점프할 수 없다
+	if (false == BottomDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	{
+		return;
+	}
+
+	PrevPosition_ = GetPosition();
+	PrevDir_ = CurDir_;
+
+	AddAccTime(Time_);
+	JumpPower_ = float4{ 0.f, 230.f, 0.f };
+
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
+	PlayerRenderer_->ChangeFrameAnimation("Jump");
+}
+
 void Player::DoubleJumpStart(const StateInfo& _Info)
 {
 	JumpPower_ = float4{ 0.f, 500.f, 0.f };
@@ -120,8 +142,25 @@ void Player::DoubleJumpStart(const StateInfo& _Info)
 
 void Player::DamagedStart(const StateInfo& _Info)
 {
-	MoveDir_ = float4{ 0.f, 170.f, 0.f };
+	//MoveDir_ = float4{ 170.f, 0.f, 0.f };
+	JumpPower_ = 0.0f; 
+	MoveDir_.y = 130.f;
+
+	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
+	DamageNum_->SetDamageType(DamageType::Player);
+	int Damage_ = GameEngineRandom::MainRandom.RandomInt(5, 99);
+	DamageNum_->GetTransform().SetLocalMove({ 0.f, -20.f });
+	DamageNum_->SetDamage(Damage_);
+
+
+	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
+	PlayerRenderer_->ChangeFrameAnimation("Damaged");
+}
+
+void Player::KnockBackStart(const StateInfo& _Info)
+{
 	JumpPower_ = 0.0f;
+	MoveDir_.y = 130.f;
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
 	DamageNum_->SetDamageType(DamageType::Player);
@@ -183,14 +222,8 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		UseSkill();
 	}
 
-	/*if (true == GameEngineInput::GetInst()->IsPress("DoubleJump"))
-	{
-		StateManager.ChangeState("DoubleJump");
-	}*/
-
 	// 땅이 아니다
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
-		|| true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })	// 투명
 		|| true == BottomDownColor.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f })	// 마젠타
 		|| true == BottomDownColor.CompareInt4D(float4{ 0.f, 0.f, 1.f, 1.f }))	// 레드
 	{
@@ -227,7 +260,45 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 	}
+	// 카메라 바깥쪽 이동 막기 - 왼쪽
+	if (CurDir_ == ACTORDIR::LEFT)
+	{
+		if (true == LeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			if (true == GameEngineInput::GetInst()->IsUp("MoveLeft"))
+			{
+				CurDir_ = ACTORDIR::NONE;
+			}
+			else
+			{
+				CanMove = false;
+			}
+		}
+		else
+		{
+			CanMove = true;
+		}
+	}
 
+	// 카메라 바깥쪽 이동 막기 - 오른쪽
+	if (CurDir_ == ACTORDIR::RIGHT)
+	{
+		if (true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			if (true == GameEngineInput::GetInst()->IsUp("MoveRight"))
+			{
+				CurDir_ = ACTORDIR::NONE;
+			}
+			else
+			{
+				CanMove = false;
+			}
+		}
+		else
+		{
+			CanMove = true;
+		}
+	}
 	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
 	{
 		StateManager.ChangeState("Jump");
@@ -252,7 +323,6 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	// 땅이 아니다
 	if (true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
-		|| true == BottomDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })	// 투명
 		|| true == BottomDownColor.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f })	// 마젠타
 		|| true == BottomDownColor.CompareInt4D(float4{ 0.f, 0.f, 1.f, 1.f }))	// 레드
 	{
@@ -270,15 +340,14 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (0.3f < _Info.StateTime)
+	if (0.3f < _Info.StateTime  && false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
 		JumpPower_ -= float4{0.f, 3.f, 0.f} * GameEngineTime::GetDeltaTime() * 630.f;
-	}
 
-	if (0.7f < _Info.StateTime)
+	}
+	else if (0.4f < _Info.StateTime)
 	{
-		float4 Color = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix()), (-GetTransform().GetWorldPosition().iy()) + 32);	// 34
-		if (true == Color.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 /*			|| true == Color.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
 			|| true == Color.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })*/)
 		{
@@ -287,7 +356,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * _DeltaTime);
+	GetTransform().SetWorldMove(JumpPower_ * _DeltaTime);
 
 	if (true == TopColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
 		|| true == MiddleColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f }))
@@ -318,14 +387,10 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	
-
 	if (true == IsSkillKey())
 	{
 		UseSkill();
 	}
-
-
 
 	if (PLAYERSKILL::SKILL_PA == CurSkill_)
 	{
@@ -424,7 +489,7 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })			// 땅
 		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })			// 흰색
-		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))		// 투명
+/*		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })*/)		// 투명
 	{
 		StateManager.ChangeState("Idle");
 		return;
@@ -474,7 +539,7 @@ void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })			// 땅
 		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })			// 흰색
-		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))		// 투명
+/*		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })*/)		// 투명
 	{
 		StateManager.ChangeState("Idle");
 		return;
@@ -543,6 +608,36 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 	//return;
 }
 
+void Player::JumpSkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (0.3f < _Info.StateTime && false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	{
+		JumpPower_ -= float4{ 0.f, 3.f, 0.f } *GameEngineTime::GetDeltaTime() * 630.f;
+
+	}
+	else if (0.4f < _Info.StateTime)
+	{
+		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			StateManager.ChangeState("Idle");
+			return;
+		}
+	}
+
+	GetTransform().SetWorldMove(JumpPower_ * _DeltaTime);
+
+
+	SkillPositionUpdate(CurSkill_);
+
+	PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	//if (PLAYERSKILL::SKILL_PA == CurSkill_)
+	//{
+	//	SkillPositionUpdate(CurSkill_);
+
+	//	PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	//}
+}
+
 void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	
@@ -566,11 +661,23 @@ void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (0.2f < _Info.StateTime)
+	if (0.3f < _Info.StateTime)
 	{
-		StateManager.ChangeState("Idle");
-		return;
+		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 70.f;
+
+		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			MoveDir_ = 0.f;
+			StateManager.ChangeState("Idle");
+			return;
+		}
 	}
+
+	//if (0.2f < _Info.StateTime)
+	//{
+	//	StateManager.ChangeState("Idle");
+	//	return;
+	//}
 
 	if (CurDir_ == ACTORDIR::LEFT)
 	{
@@ -579,6 +686,62 @@ void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 	else if (CurDir_ == ACTORDIR::RIGHT)
 	{
 		MoveDir_.x = -110.f;
+	}
+
+	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
+}
+
+void Player::KnockBackUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (0.3f < _Info.StateTime)
+	{
+		MoveDir_ -= float4{ 0.f, 1.f, 0.f } *70.f;
+
+		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			MoveDir_ = 0.f;
+			StateManager.ChangeState("Idle");
+			return;
+		}
+		//if (true == LeftLeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		//{
+		//	// 왼쪽이 검정이 아닐때까지 오른쪽으로 
+		//	while (false == LeftLeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		//	{
+		//		MoveDir_ = 0.f;
+		//		GetTransform().SetWorldMove(float4::RIGHT);
+		//		break;
+		//	}
+
+		//}
+		//else if (true == RightRightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		//{
+		//	// 오른쪽이 검정이 아닐때까지
+		//	while (false == RightRightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		//	{
+		//		MoveDir_ = 0.f;
+		//		GetTransform().SetWorldMove(float4::LEFT);
+		//		break;
+		//	}
+		//}
+	}
+
+	//if (true == LeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }) || true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+	//{
+
+	//}
+	Boss* Boss_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetBoss();
+	if (abs(GetPosition().x - Boss_->GetPosition().x) < 90.f)
+	{
+		return;
+	}
+	if (GetPosition().x < Boss_->GetPosition().x)
+	{
+		MoveDir_.x = -1000.f;
+	}	
+	else if (GetPosition().x > Boss_->GetPosition().x)
+	{
+		MoveDir_.x = 1000.f;
 	}
 
 	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);

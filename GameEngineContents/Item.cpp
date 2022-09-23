@@ -271,20 +271,12 @@ bool Item::StagePixelCheck()
 	float4 RightColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() + 18, GetTransform().GetWorldPosition().iy());
 	float4 DownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy() - 18);
 	float4 UpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy() + 18);
-	float4 LeftUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - 18, -GetTransform().GetWorldPosition().iy() + 18);
-	float4 LeftDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - 18, -GetTransform().GetWorldPosition().iy() - 18);
-	float4 RightUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() + 18, -GetTransform().GetWorldPosition().iy() + 18);
-	float4 RightDownColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() + 18, -GetTransform().GetWorldPosition().iy() - 18);
 
 	// ¶¥¿¡ ´ê¾Ò´Ù
 	if (true == LeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 		|| true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 		|| true == DownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 		|| true == UpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
-		//|| true == LeftUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
-		//|| true == LeftDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
-		//|| true == RightUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
-		//|| true == RightDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 		)
 	{
 		IsGround = true;

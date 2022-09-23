@@ -2,6 +2,7 @@
 #include "GlobalLevel.h"
 
 class GameEngineTextureRenderer;
+class Boss;
 class BossLevel : public GlobalLevel
 {
 public:

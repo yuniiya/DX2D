@@ -11,6 +11,7 @@ class ContentsUI;
 class Inventory;
 class Mouse;
 class NPC;
+class Boss;
 class GlobalLevel : public GameEngineLevel
 {
 public:
@@ -64,6 +65,11 @@ public:
 		return ColMapRenderer_;
 	}
 
+	inline Boss* GetBoss()
+	{
+		return Boss_;
+	}
+
 	inline void CollisionMapOnOff()
 	{
 		StageRenderer_->OnOffSwitch();
@@ -85,10 +91,13 @@ protected:
 	void SetCollisionMap(const std::string& _Name);
 	void SetPortal(float4 _Pos);
 
+	Boss* Boss_;
+
 private:
 	Mouse* Mouse_;
 	ContentsUI* ContentsUI_;
 
 	Inventory* Inventory_;
+
 };
 

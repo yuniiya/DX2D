@@ -36,6 +36,7 @@ enum class BossState
 	MAX,
 };
 
+
 class Boss : public Monster
 {
 public:
@@ -54,7 +55,10 @@ public:
 	{
 		CurType_ = _CurType;
 	}
-
+	inline float4 GetPosition()
+	{
+		return GetTransform().GetLocalPosition();
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -64,9 +68,10 @@ protected:
 	{
 		return Player::MainPlayer_->GetPosition();
 	}
-	inline float4 GetPosition()
+
+	inline void SetBossSkill(BossAttackType _CurBossSkill)
 	{
-		return GetTransform().GetLocalPosition();
+		CurBossSkill_ = _CurBossSkill;
 	}
 
 
@@ -83,11 +88,11 @@ protected:
 	void MoveStart() override;
 	void DamagedStart() override;
 	void DieStart() override;
+	void TransformStart();	// 노멀 -> 다른 보스
+	void RegenStart();		// 다른 보스 -> 노멀
 	void AttackAStart();	// 내려치기
 	void AttackBStart();	// 찌르기 
 	void AttackCStart();	// 모자 떨구기
-	void TransformStart();	// 노멀 -> 다른 보스
-	void RegenStart();		// 다른 보스 -> 노멀
 	
 	void BlueAttackStart();	
 
@@ -102,11 +107,11 @@ protected:
 	void MoveUpdate() override;
 	void DamagedUpdate() override;
 	void DieUpdate() override;
+	void TransformUpdate();
+	void RegenUpdate();
 	void AttackAUpdate();
 	void AttackBUpdate();
 	void AttackCUpdate();
-	void TransformUpdate();
-	void RegenUpdate();
 
 	void BlueAttackUpdate();
 
@@ -117,16 +122,21 @@ protected:
 
 	void BindBossDieEnd(const FrameAnimation_DESC& _Info);
 	void BindBossAttackStart(const FrameAnimation_DESC& _Info);
+	void BindBossAttackFrame(const FrameAnimation_DESC& _Info);
 	void BindBossAttackEnd(const FrameAnimation_DESC& _Info);
 	void BindBossDamagedEnd(const FrameAnimation_DESC& _Info);
 
 private:
-	GameEngineCollision* AttackACollision_;
-	GameEngineCollision* AttackBCollision_;
+	GameEngineCollision* AttackACollision_;		// 노멀 A : 2초간 상하좌우 조작 바뀜
+	GameEngineCollision* AttackBCollision_;		// 노멀 B : 넉백, 3초 스턴
+	GameEngineCollision* BlueAttackACollision_;	// 블루 A : 스킬 봉인 
+	GameEngineCollision* RedAttackACollision_;	// 레드 A : 한 번 내려치기, 슬로우
+	GameEngineCollision* RedAttackBCollision_;	// 레드 B : 세 번 공격
 
 private:
 	BossType CurType_;
 	BossState CurState_;
+	BossAttackType CurBossSkill_;
 	float4 PlayerPos_;
 	float4 Position_;
 
