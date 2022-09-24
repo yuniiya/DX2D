@@ -18,6 +18,14 @@ Boss::Boss()
 	, CreateHatTime_(0.f)
 	, RandomTime_(0)
 	, CurBossSkill_(BossAttackType::MAX)
+	, TypeChangeTime_(0.f)
+	, BossTypeChange_(false)
+	, Random_(0)
+	, TransformTime_(0.f)
+	, TeleportTime_(0.f)
+	, IsTeleport_(false)
+	, Speed_(100.f)
+	, BlueSpeed_(140.f)
 {
 }
 
@@ -62,33 +70,33 @@ void Boss::Start()
 
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->GetTransform().SetLocalScale({ 201.f, 237.f });	// Idle
+	Renderer_->GetTransform().SetLocalScale({ 800.f, 800.f });	// Idle
 	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Boss_Idle", 0.12f));
-	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Boss_Move", 0.18f));
+	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Boss_Move", 0.14f));
 	Renderer_->CreateFrameAnimationFolder("AttackA", FrameAnimation_DESC("Boss_Att1", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("AttackB", FrameAnimation_DESC("Boss_Att2", 0.1f));
-	Renderer_->CreateFrameAnimationFolder("Transform", FrameAnimation_DESC("Boss_Transform", 0.15f));
-	Renderer_->CreateFrameAnimationFolder("Regen", FrameAnimation_DESC("Boss_Regen", 0.15f));
+	Renderer_->CreateFrameAnimationFolder("Transform", FrameAnimation_DESC("Boss_Transform", 0.11f));
+	Renderer_->CreateFrameAnimationFolder("Regen", FrameAnimation_DESC("Boss_Regen", 0.11f));
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Boss_Damaged", 0.2f));
 	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Boss_Die", 0.12f));
 
 	// Blue
 	Renderer_->CreateFrameAnimationFolder("Blue_Idle", FrameAnimation_DESC("BlueBoss_Idle", 0.12f));
 	Renderer_->CreateFrameAnimationFolder("Blue_Attack", FrameAnimation_DESC("BlueBoss_Att", 0.1f));
-	Renderer_->CreateFrameAnimationFolder("Blue_Transform", FrameAnimation_DESC("BlueBoss_Transform", 0.15f));
-	Renderer_->CreateFrameAnimationFolder("Blue_Regen", FrameAnimation_DESC("BlueBoss_Regen", 0.15f));
+	Renderer_->CreateFrameAnimationFolder("Blue_Transform", FrameAnimation_DESC("BlueBoss_Transform", 0.11f));
+	Renderer_->CreateFrameAnimationFolder("Blue_Regen", FrameAnimation_DESC("BlueBoss_Regen", 0.11f));
 	Renderer_->CreateFrameAnimationFolder("Blue_Damaged", FrameAnimation_DESC("BlueBoss_Damaged", 0.2f));
 	Renderer_->CreateFrameAnimationFolder("Blue_Die", FrameAnimation_DESC("BlueBoss_Die", 0.12f));
 
 	// Red
 	Renderer_->CreateFrameAnimationFolder("Red_Idle", FrameAnimation_DESC("RedBoss_Idle", 0.12f));
-	Renderer_->CreateFrameAnimationFolder("Red_Move", FrameAnimation_DESC("RedBoss_Move", 0.18f));
+	Renderer_->CreateFrameAnimationFolder("Red_Move", FrameAnimation_DESC("RedBoss_Move", 0.14f));
 	Renderer_->CreateFrameAnimationFolder("Red_AttackA", FrameAnimation_DESC("RedBoss_Att1", 0.1f));
-	Renderer_->CreateFrameAnimationFolder("Red_AttackB", FrameAnimation_DESC("RedBoss_Att2", 0.1f));
-	Renderer_->CreateFrameAnimationFolder("Red_Transform", FrameAnimation_DESC("RedBoss_Transform", 0.15f));
-	Renderer_->CreateFrameAnimationFolder("Red_Regen", FrameAnimation_DESC("RedBoss_Regen", 0.15f));
-	Renderer_->CreateFrameAnimationFolder("Red_Tel", FrameAnimation_DESC("RedBoss_Tel", 0.15f));
-	Renderer_->CreateFrameAnimationFolder("Red_TelRegen", FrameAnimation_DESC("RedBoss_TelRegen", 0.15f));
+	Renderer_->CreateFrameAnimationFolder("Red_AttackB", FrameAnimation_DESC("RedBoss_Att2", 0.08f));
+	Renderer_->CreateFrameAnimationFolder("Red_Transform", FrameAnimation_DESC("RedBoss_Transform", 0.11f));
+	Renderer_->CreateFrameAnimationFolder("Red_Regen", FrameAnimation_DESC("RedBoss_Regen", 0.11f));
+	Renderer_->CreateFrameAnimationFolder("Red_Tel", FrameAnimation_DESC("RedBoss_Tel", 0.1f));
+	Renderer_->CreateFrameAnimationFolder("Red_TelRegen", FrameAnimation_DESC("RedBoss_TelRegen", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Red_Damaged", FrameAnimation_DESC("RedBoss_Damaged", 0.2f));
 	Renderer_->CreateFrameAnimationFolder("Red_Die", FrameAnimation_DESC("RedBoss_Die", 0.12f));
 
@@ -121,22 +129,32 @@ void Boss::Start()
 	Renderer_->AnimationBindEnd("Blue_Attack", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
 	Renderer_->AnimationBindEnd("Red_AttackA", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
 	Renderer_->AnimationBindEnd("Red_AttackB", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
-	Renderer_->AnimationBindEnd("AttackA", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
-	Renderer_->AnimationBindEnd("AttackB", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
-	Renderer_->AnimationBindEnd("Blue_Attack", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
-	Renderer_->AnimationBindEnd("Red_AttackA", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
-	Renderer_->AnimationBindEnd("Red_AttackB", std::bind(&Boss::BindBossAttackEnd, this, std::placeholders::_1));
 
 	Renderer_->AnimationBindEnd("Damaged", std::bind(&Boss::BindBossDamagedEnd, this, std::placeholders::_1));
 	Renderer_->AnimationBindEnd("Blue_Damaged", std::bind(&Boss::BindBossDamagedEnd, this, std::placeholders::_1));
 	Renderer_->AnimationBindEnd("Red_Damaged", std::bind(&Boss::BindBossDamagedEnd, this, std::placeholders::_1));
+
+	Renderer_->AnimationBindFrame("Transform", std::bind(&Boss::BindBossTransformFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Blue_Transform", std::bind(&Boss::BindBossTransformFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindFrame("Red_Transform", std::bind(&Boss::BindBossTransformFrame, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Transform", std::bind(&Boss::BindBossTransformEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Blue_Transform", std::bind(&Boss::BindBossTransformEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Red_Transform", std::bind(&Boss::BindBossTransformEnd, this, std::placeholders::_1));
+
+	Renderer_->AnimationBindEnd("Regen", std::bind(&Boss::BindBossRegenEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Blue_Regen", std::bind(&Boss::BindBossRegenEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Red_Regen", std::bind(&Boss::BindBossRegenEnd, this, std::placeholders::_1));
+
+	Renderer_->AnimationBindEnd("Red_Tel", std::bind(&Boss::BindRedBossTelEnd, this, std::placeholders::_1));
+	Renderer_->AnimationBindEnd("Red_TelRegen", std::bind(&Boss::BindRedBossTelRegenEnd, this, std::placeholders::_1));
+//	Renderer_->AnimationBindEnd("Red_AttackB", std::bind(&Boss::BindRedBossAttackBEnd, this, std::placeholders::_1));
 
 	Renderer_->ChangeFrameAnimation("Move");
 	ChangeState(BossState::Move);
 
 	SetHP(1000.f);
 	SetMaxHP(HP_);
-	SetSpeed(90.f);
+	SetSpeed(Speed_);
 	SetPixelCheckPos(44, -113);
 	SetMonsterName(MONSTERNAME::Boss);
 	SetMonsterType(MONSTERTYPE::ATTACK);
@@ -171,6 +189,59 @@ void Boss::Update(float _DeltaTime)
 		return;
 	}
 
+	if (TeleportTime_ > 3.f)
+	{
+		TeleportTime_ = 0.f;
+		IsTeleport_ = false;
+		ChangeState(BossState::RED_TelRegen);
+		return;
+	}
+
+	if (true == IsTeleport_)
+	{
+		TeleportTime_ += _DeltaTime;
+	}
+
+	if (true == IsAttack)
+	{
+		CanAttTime_ += _DeltaTime;
+	}
+
+	if (true == IsAttackEnd)
+	{
+		AttEndTime_ += _DeltaTime;
+	}
+
+	CreateHatTime_ += _DeltaTime;
+
+	// 20초마다 상태 체인지
+	//if (CurState_ == BossState::Attack_A
+	//	|| CurState_ == BossState::Attack_B
+	//	|| CurState_ == BossState::RED_Tel
+	//	|| CurState_ == BossState::RED_TelRegen)
+	//{
+	//	return;
+	//}
+	if (CurType_ == BossType::BLUE || CurType_ == BossType::RED)
+	{
+		if (TypeChangeTime_ > 10.f)
+		{
+			TypeChangeTime_ = 0.f;
+			ChangeState(BossState::Transform);
+			return;
+		}
+	}
+	else if (CurType_ == BossType::NORMAL)
+	{
+		if (TypeChangeTime_ > 5.f)
+		{
+			TypeChangeTime_ = 0.f;
+			ChangeState(BossState::Transform);
+			return;
+		}
+	}
+
+
 	//RandomTime_ = GameEngineRandom::MainRandom.RandomInt(5, 13);
 	//if (CreateHatTime_ > 2.f)
 	//{
@@ -185,17 +256,6 @@ void Boss::Update(float _DeltaTime)
 	//	CreateHatTime_ = 0.f;
 	//}
 
-	if (true == IsAttack)
-	{
-		CanAttTime_ += _DeltaTime;
-	}
-
-	if (true == IsAttackEnd)
-	{
-		AttEndTime_ += _DeltaTime;
-	}
-
-	CreateHatTime_ += _DeltaTime;
 }
 
 void Boss::ChangeState(BossState _State)
@@ -308,6 +368,11 @@ void Boss::Hit()
 
 void Boss::DirChange()
 {
+	// Blue는 Move X
+	if (CurType_ == BossType::BLUE)
+	{
+		return;
+	}
 	DirCheck(Renderer_, CurDir_);
 
 	if (CurState_ == BossState::Move)
@@ -331,11 +396,13 @@ void Boss::Attack()
 		return;
 	}
 
-	if (200.f >= abs(GetPosition().x - GetPlayerPosition().x))
+	switch (CurType_)
 	{
-		int Random = GameEngineRandom::MainRandom.RandomInt(1, 1);
-		if (BossType::NORMAL == CurType_)
+	case BossType::NORMAL:
+	{
+		if (200.f >= abs(GetPosition().x - GetPlayerPosition().x))
 		{
+			int Random = GameEngineRandom::MainRandom.RandomInt(0, 1);
 			switch (Random)
 			{
 			case 0:
@@ -349,8 +416,32 @@ void Boss::Attack()
 			default:
 				break;
 			}
+		}	
+	}
+	break;
+	case BossType::BLUE:
+	{
+		return;
+	}
+	break;
+	case BossType::RED:
+	{
+		if (200.f > abs(GetPosition().x - GetPlayerPosition().x))
+		{
+			ChangeState(BossState::RED_AttackA);
+			return;
+		}
+		else if (300.f < abs(GetPosition().x - GetPlayerPosition().x))
+		{
+			ChangeState(BossState::RED_Tel);
+			return;
 		}
 	}
+	break;
+	default:
+		break;
+	}
+
 }
 
 void Boss::CollisonCheck()
@@ -389,9 +480,6 @@ void Boss::CollisonCheck()
 
 void Boss::IdleStart()
 {
-	PrevPos_ = GetPosition();
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER});
-
 	switch (CurType_)
 	{
 	case BossType::NORMAL: 
@@ -414,14 +502,10 @@ void Boss::IdleStart()
 		break;
 	}
 
-	Renderer_->ScaleToTexture();
 }
 
 void Boss::MoveStart()
 {
-	PrevPos_ = GetPosition();
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
-
 	switch (CurType_)
 	{
 	case BossType::NORMAL:
@@ -443,7 +527,6 @@ void Boss::MoveStart()
 		break;
 	}
 
-	Renderer_->ScaleToTexture();
 }
 
 void Boss::DamagedStart()
@@ -482,17 +565,11 @@ void Boss::DamagedStart()
 	default:
 		break;
 	}
-	Renderer_->ScaleToTexture();
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 10.f, (int)ZOrder::MONSTER });
-
-//	Renderer_->GetTransform().SetLocalScale({ 248.f, 255.f });
 }
 
 void Boss::DieStart()
 {
 	GameEngineSound::SoundPlayOneShot("BossDie.mp3");
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y + 30.f, (int)ZOrder::MONSTER });
-
 	AddAccTime(Time_);
 
 	switch (CurType_)
@@ -516,14 +593,13 @@ void Boss::DieStart()
 	default:
 		break;
 	}
-	Renderer_->ScaleToTexture();
+
 
 	Collision_->Off();
 }
 
 void Boss::TransformStart()
 {
-	GameEngineSound::SoundPlayOneShot("BossTransForm.mp3");
 	switch (CurType_)
 	{
 	case BossType::NORMAL:
@@ -545,35 +621,52 @@ void Boss::TransformStart()
 	default:
 		break;
 	}
-	Renderer_->ScaleToTexture();
+
 }
 
 void Boss::RegenStart()
 {
-	GameEngineSound::SoundPlayOneShot("BossRegen.mp3");
-//	Renderer_->GetTransform().SetLocalScale({ 413.f, 299.f });
 	switch (CurType_)
 	{
 	case BossType::NORMAL:
 	{
-		Renderer_->ChangeFrameAnimation("Regen");
+		Random_ = GameEngineRandom::MainRandom.RandomInt(0, 0);
+		switch (Random_)
+		{
+		case 0:
+		{
+			SetBossType(BossType::BLUE);
+			Renderer_->ChangeFrameAnimation("Blue_Regen");
+		}
+		break;
+		case 1:
+		{
+			SetBossType(BossType::RED);
+			Renderer_->ChangeFrameAnimation("Red_Regen");
+		}
+		break;
+		}
 	}
 	break;
 	case BossType::BLUE:
 	{
-		Renderer_->ChangeFrameAnimation("Blue_Regen");
+		SetBossType(BossType::NORMAL);
+		BlueAttackACollision_->Off();
+		Renderer_->ChangeFrameAnimation("Regen");
 	}
 	break;
 	case BossType::RED:
 	{
-		Renderer_->ChangeFrameAnimation("Red_Regen");
+		SetBossType(BossType::NORMAL);
+		RedAttackACollision_->Off();
+		RedAttackBCollision_->Off();
+		Renderer_->ChangeFrameAnimation("Regen");
 	}
 	break;
-
 	default:
 		break;
 	}
-	Renderer_->ScaleToTexture();
+
 }
 
 
@@ -581,44 +674,38 @@ void Boss::AttackAStart()
 {
 	IsAttack = true;
 	GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
-	Renderer_->GetTransform().SetLocalScale({ 357.f, 360.f });
 
 	CurDirCheck(GetPlayerPosition().x, GetPosition(), 90.f);
 	SetBossSkill(BossAttackType::Att_A);
 
 	if (CurDir_ == ACTORDIR::LEFT)
 	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 60.f,  GetPosition().y - 33.f, (int)ZOrder::MONSTER });
 		AttackACollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f,  GetPosition().y - 30.f });
 	}
 	else if (CurDir_ == ACTORDIR::RIGHT)
 	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 60.f,  GetPosition().y - 33.f, (int)ZOrder::MONSTER });
 		AttackACollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f,  GetPosition().y - 30.f });
 
 	}
-	Renderer_->ChangeFrameAnimation("AttackA");
 
+	Renderer_->ChangeFrameAnimation("AttackA");
 }
 
 void Boss::AttackBStart()
 {
 	IsAttack = true;
-	//GameEngineSound::SoundPlayOneShot("BossAttack2.mp3");
-	Renderer_->GetTransform().SetLocalScale({ 427.f, 276.f });
+	GameEngineSound::SoundPlayOneShot("BossAttack2.mp3");
 
 	CurDirCheck(GetPlayerPosition().x, GetPosition(), 90.f);
 	SetBossSkill(BossAttackType::Att_B);
 
 	if (CurDir_ == ACTORDIR::LEFT)
 	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 90.f,  GetPosition().y - 13.f, (int)ZOrder::MONSTER });
 		AttackBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f,  GetPosition().y - 30.f });
 
 	}
 	else if (CurDir_ == ACTORDIR::RIGHT)
 	{
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 90.f,  GetPosition().y - 13.f, (int)ZOrder::MONSTER });
 		AttackBCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f,  GetPosition().y - 30.f });
 	}
 
@@ -628,64 +715,97 @@ void Boss::AttackBStart()
 void Boss::AttackCStart()
 {
 	IsAttack = true;
-	Renderer_->GetTransform().SetLocalScale({ 427.f, 276.f });
-	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x,  GetPosition().y, (int)ZOrder::MONSTER });
 }
 
 void Boss::BlueAttackStart()
 {
+	Player::MainPlayer_->IsChase_ = true;
+	IsChase_ = true;
 	IsAttack = true;
 	Renderer_->ChangeFrameAnimation("Blue_Attack");
-	Renderer_->ScaleToTexture();
+
 	SetBossSkill(BossAttackType::BlueAtt_A);
 	BlueAttackACollision_->On();
 }
 
 void Boss::RedAttackAStart()
 {
+	GameEngineSound::SoundPlayOneShot("RedAttack1.mp3");
 	IsAttack = true;
-	Renderer_->ChangeFrameAnimation("Red_AttackA");
-	Renderer_->ScaleToTexture();
 	SetBossSkill(BossAttackType::RedAtt_A);
+	RedAttackACollision_->On();
+	if (CurDir_ == ACTORDIR::LEFT)
+	{
+		RedAttackACollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f,  GetPosition().y - 30.f });
+
+	}
+	else if (CurDir_ == ACTORDIR::RIGHT)
+	{
+		RedAttackACollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f,  GetPosition().y - 30.f });
+	}
+
+	Renderer_->ChangeFrameAnimation("Red_AttackA");
 }
 
 void Boss::RedAttackBStart()
 {
+	GameEngineSound::SoundPlayOneShot("RedAttack2.mp3");
 	IsAttack = true;
-	Renderer_->ChangeFrameAnimation("Red_AttackB");
-	Renderer_->ScaleToTexture();
 	SetBossSkill(BossAttackType::RedAtt_B);
+	RedAttackBCollision_->On();
+	if (CurDir_ == ACTORDIR::LEFT)
+	{
+		RedAttackBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f,  GetPosition().y - 30.f });
+
+	}
+	else if (CurDir_ == ACTORDIR::RIGHT)
+	{
+		RedAttackBCollision_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f,  GetPosition().y - 30.f });
+	}
+	Renderer_->ChangeFrameAnimation("Red_AttackB");
 }
 
 void Boss::RedTeleportStart()
 {
+	GameEngineSound::SoundPlayOneShot("RedSkill1.mp3");
 	Renderer_->ChangeFrameAnimation("Red_Tel");
-	Renderer_->ScaleToTexture();
 }
 
 void Boss::RedTeleportRegenStart()
 {
+	Renderer_->On();
+	Collision_->On();
+	GetTransform().SetLocalPosition(GetPlayerPosition());
 	Renderer_->ChangeFrameAnimation("Red_TelRegen");
-	Renderer_->ScaleToTexture();
 }
 
 void Boss::IdleUpdate()
 {
-	Attack();
-
-	if (IdleTime_ < GetAccTime())
+	if (CurType_ == BossType::BLUE)
 	{
-		ReSetAccTime();
-		ChangeState(BossState::Move);
-		return;
+		if (GetAccTime() > 1.f)
+		{
+			ChangeState(BossState::BLUE_Attack);
+			return;
+		}
 	}
+	else
+	{
+		Attack();
 
+		if (IdleTime_ < GetAccTime())
+		{
+			ReSetAccTime();
+			ChangeState(BossState::Move);
+			return;
+		}
+	}
 }
 
 void Boss::MoveUpdate()
 {
 	Attack();
-
+	TypeChangeTime_ += GameEngineTime::GetDeltaTime();
 	if (MoveTime_ < GetAccTime())
 	{
 		ReSetAccTime();
@@ -720,6 +840,7 @@ void Boss::DieUpdate()
 
 void Boss::TransformUpdate()
 {
+
 }
 
 void Boss::RegenUpdate()
@@ -741,6 +862,27 @@ void Boss::AttackCUpdate()
 
 void Boss::BlueAttackUpdate()
 {
+	if (ChaseTime_ > 7.f)
+	{
+		IsAttack = false;
+		Player::MainPlayer_->IsChase_ = false;
+
+		SetBossSkill(BossAttackType::MAX);
+		ChangeState(BossState::Idle);
+		return;
+	}
+	ChaseTime_ += GameEngineTime::GetDeltaTime();
+
+	if (GetPlayerPosition().x < GetPosition().x)
+	{
+		CurDir_ = ACTORDIR::LEFT;
+		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * BlueSpeed_ * GameEngineTime::GetDeltaTime());
+	}	//오른쪽에 있다 -> 오른쪽
+	else if (GetPlayerPosition().x > GetPosition().x)
+	{
+		CurDir_ = ACTORDIR::RIGHT;
+		GetTransform().SetWorldMove(GetTransform().GetRightVector() * BlueSpeed_ * GameEngineTime::GetDeltaTime());
+	}
 }
 
 void Boss::RedAttackAUpdate()
@@ -757,6 +899,7 @@ void Boss::RedTeleportUpdate()
 
 void Boss::RedTeleportRegenUpdate()
 {
+
 }
 
 void Boss::BindBossDieEnd(const FrameAnimation_DESC& _Info)
@@ -835,7 +978,7 @@ void Boss::BindBossAttackEnd(const FrameAnimation_DESC& _Info)
 		break;
 	case BossAttackType::BlueAtt_A:
 	{
-		BlueAttackACollision_->Off();
+		//BlueAttackACollision_->Off();
 	}
 		break;
 	case BossAttackType::RedAtt_A:
@@ -859,8 +1002,51 @@ void Boss::BindBossAttackEnd(const FrameAnimation_DESC& _Info)
 	return;
 }
 
+void Boss::BindRedBossAttackBEnd(const FrameAnimation_DESC& _Info)
+{
+	//RedAttackBCollision_->Off();
+	//ChangeState(BossState::Idle);
+	//return;
+}
+
 void Boss::BindBossDamagedEnd(const FrameAnimation_DESC& _Info)
 {
 	ChangeState(BossState::Move);
+	return;
+}
+
+void Boss::BindBossTransformFrame(const FrameAnimation_DESC& _Info)
+{
+	if (1 == _Info.CurFrame)
+	{
+		//GameEngineSound::SoundPlayOneShot("BossTransForm.mp3");
+	}
+}
+
+void Boss::BindBossTransformEnd(const FrameAnimation_DESC& _Info)
+{
+	ChangeState(BossState::Regen);
+	return;
+}
+
+void Boss::BindBossRegenEnd(const FrameAnimation_DESC& _Info)
+{
+//	GameEngineSound::SoundPlayOneShot("BossRegen.mp3");
+	ChangeState(BossState::Idle);
+	return;
+}
+
+void Boss::BindRedBossTelEnd(const FrameAnimation_DESC& _Info)
+{
+	// 텔레포트 끝나면 렌더러 off
+	Renderer_->Off();
+	Collision_->Off();
+	IsTeleport_ = true;
+}
+
+void Boss::BindRedBossTelRegenEnd(const FrameAnimation_DESC& _Info)
+{
+	GameEngineSound::SoundPlayOneShot("RedSkillAfter1.mp3");
+	ChangeState(BossState::RED_AttackB);
 	return;
 }

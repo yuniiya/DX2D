@@ -124,7 +124,13 @@ protected:
 	void BindBossAttackStart(const FrameAnimation_DESC& _Info);
 	void BindBossAttackFrame(const FrameAnimation_DESC& _Info);
 	void BindBossAttackEnd(const FrameAnimation_DESC& _Info);
+	void BindRedBossAttackBEnd(const FrameAnimation_DESC& _Info);
 	void BindBossDamagedEnd(const FrameAnimation_DESC& _Info);
+	void BindBossTransformFrame(const FrameAnimation_DESC& _Info);
+	void BindBossTransformEnd(const FrameAnimation_DESC& _Info);
+	void BindBossRegenEnd(const FrameAnimation_DESC& _Info);
+	void BindRedBossTelEnd(const FrameAnimation_DESC& _Info);
+	void BindRedBossTelRegenEnd(const FrameAnimation_DESC& _Info);
 
 private:
 	GameEngineCollision* AttackACollision_;		// 노멀 A : 2초간 상하좌우 조작 바뀜
@@ -140,7 +146,18 @@ private:
 	float4 PlayerPos_;
 	float4 Position_;
 
-	float CreateHatTime_;
+	bool BossTypeChange_;
+	bool IsTeleport_;
+	bool IsChase_;
+
+	float CreateHatTime_; 
+	float TypeChangeTime_;
+	float TransformTime_;
+	float TeleportTime_;
+	float ChaseTime_;
+	float Speed_;
+	float BlueSpeed_;
 	int RandomTime_;
+	int Random_;
 };
 

@@ -5,6 +5,7 @@
 class GameEngineTextureRenderer;
 class GlobalLevel;
 class Skill;
+class Boss;
 class Player : public GlobalActor
 {
 public:
@@ -126,6 +127,7 @@ public:
 	bool IsCactusQuestClear_;
 	bool IsCastleQuestClear_;
 	bool IsCactusQuestEnd_;
+	bool IsChase_;
 
 
 private:
@@ -164,7 +166,6 @@ private:
 	bool IsStun_; 
 	bool IsSkillLock_;
 
-
 	std::string CurLevelName_;
 
 	PLAYERSTATE CurState_;
@@ -174,6 +175,7 @@ private:
 	ACTORDIR PrevDir_;
 
 	Skill* Skill_;
+	Boss* Boss_;
 
 private:
 	int SinSkillAttCount_;

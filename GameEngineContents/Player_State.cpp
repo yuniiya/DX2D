@@ -537,14 +537,12 @@ void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })			// 땅
-		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })			// 흰색
-/*		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })*/)		// 투명
+	if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })				// 땅
+		|| true == BottomUpColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f }))			// 흰색
 	{
 		StateManager.ChangeState("Idle");
 		return;
 	}
-
 
 }
 
@@ -559,7 +557,6 @@ void Player::DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-
 	SkillPositionUpdate(CurSkill_);
 
 	
@@ -630,12 +627,7 @@ void Player::JumpSkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 	SkillPositionUpdate(CurSkill_);
 
 	PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-	//if (PLAYERSKILL::SKILL_PA == CurSkill_)
-	//{
-	//	SkillPositionUpdate(CurSkill_);
 
-	//	PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-	//}
 }
 
 void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -703,34 +695,13 @@ void Player::KnockBackUpdate(float _DeltaTime, const StateInfo& _Info)
 			StateManager.ChangeState("Idle");
 			return;
 		}
-		//if (true == LeftLeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
-		//{
-		//	// 왼쪽이 검정이 아닐때까지 오른쪽으로 
-		//	while (false == LeftLeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
-		//	{
-		//		MoveDir_ = 0.f;
-		//		GetTransform().SetWorldMove(float4::RIGHT);
-		//		break;
-		//	}
-
-		//}
-		//else if (true == RightRightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
-		//{
-		//	// 오른쪽이 검정이 아닐때까지
-		//	while (false == RightRightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
-		//	{
-		//		MoveDir_ = 0.f;
-		//		GetTransform().SetWorldMove(float4::LEFT);
-		//		break;
-		//	}
-		//}
 	}
 
-	//if (true == LeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }) || true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
-	//{
-
-	//}
-	Boss* Boss_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetBoss();
+	if (nullptr == dynamic_cast<GlobalLevel*>(GetLevel())->GetBoss())
+	{
+		return;
+	}
+	Boss_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetBoss();
 	if (abs(GetPosition().x - Boss_->GetPosition().x) < 90.f)
 	{
 		return;

@@ -108,6 +108,7 @@ Player::Player()
 	, HatChaseRenderer_(nullptr)
 	, StunRenderer_(nullptr)
 	, SkillLockRenderer_(nullptr)
+	, IsChase_(false)
 {
 }
 
@@ -441,16 +442,16 @@ void Player::Start()
 
 		HatChaseRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 		HatChaseRenderer_->GetTransform().SetLocalScale({ 81.f, 92.f });
-		HatChaseRenderer_->CreateFrameAnimationFolder("Hat_Chase", FrameAnimation_DESC("Hat_Chase", 0.05f));
+		HatChaseRenderer_->CreateFrameAnimationFolder("Hat_Chase", FrameAnimation_DESC("Hat_Chase", 0.1f));
 		HatChaseRenderer_->ChangeFrameAnimation("Hat_Chase");
-		HatChaseRenderer_->GetTransform().SetLocalPosition({ 0.f, 40.f });
+		HatChaseRenderer_->GetTransform().SetLocalPosition({ 0.f, 60.f });
 		HatChaseRenderer_->Off();
 
 		SkillLockRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 		SkillLockRenderer_->GetTransform().SetLocalScale({ 59.f, 42.f });
-		SkillLockRenderer_->CreateFrameAnimationFolder("SkillLock", FrameAnimation_DESC("SkillLock", 0.05f));
+		SkillLockRenderer_->CreateFrameAnimationFolder("SkillLock", FrameAnimation_DESC("SkillLock", 0.1f));
 		SkillLockRenderer_->ChangeFrameAnimation("SkillLock");
-		SkillLockRenderer_->GetTransform().SetLocalPosition({ 0.f, 20.f });
+		SkillLockRenderer_->GetTransform().SetLocalPosition({ 0.f, 30.f });
 		SkillLockRenderer_->Off();
 	}
 
@@ -485,7 +486,12 @@ void Player::Update(float _DeltaTime)
 		StunTime_ = 0.f;
 		StunRenderer_->Off();
 	}
-
+	if (SkillLockTime_ > 5.f)
+	{
+		SkillLockTime_ = 0.f;
+		IsSkillLock_ = false;
+		SkillLockRenderer_->Off();
+	}
 	if (true == IsMoveKeyChange_)
 	{
 		MoveKeyChaneTime_ += _DeltaTime;
@@ -493,6 +499,18 @@ void Player::Update(float _DeltaTime)
 	if (true == IsStun_)
 	{
 		StunTime_ += _DeltaTime;
+	}
+	if (true == IsSkillLock_)
+	{
+		SkillLockTime_ += _DeltaTime;
+	}
+	if (true == IsChase_)
+	{
+		HatChaseRenderer_->On();
+	}
+	else
+	{
+		HatChaseRenderer_->Off();
 	}
 	if (true == GameEngineInput::GetInst()->IsDown("Test"))
 	{
@@ -794,7 +812,7 @@ void Player::CollisionCheck()
 			PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 		}
 		
-		if (1.5f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
+		if (1.3f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
 		{
 			IsHit = false;
 			DamageTime_ = 0.0f;							// 시간 리셋
@@ -1016,7 +1034,7 @@ void Player::PlayerMove(float _DeltaTime)
 
 void Player::UseSkill()
 {
-	if (CurMP_ <= 0.f)
+	if (CurMP_ <= 0.f || true == IsSkillLock_)
 	{
 		return;
 	}
