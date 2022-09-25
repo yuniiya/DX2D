@@ -26,6 +26,8 @@ Boss::Boss()
 	, IsTeleport_(false)
 	, Speed_(100.f)
 	, BlueSpeed_(130.f)
+	, IsCreateHat_(false)
+	, RandomHatTime_(0)
 {
 }
 
@@ -143,7 +145,7 @@ void Boss::Start()
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(BossState::Idle);
 
-	SetHP(100.f);
+	SetHP(1000.f);
 	SetMaxHP(HP_);
 	SetSpeed(Speed_);
 	SetPixelCheckPos(44, -113);
@@ -196,6 +198,30 @@ void Boss::Update(float _DeltaTime)
 		ChangeState(BossState::Idle);
 		return;
 	}
+	// 모자 생성
+	if (true == IsCreateHat_)
+	{
+		RandomHatTime_ = GameEngineRandom::MainRandom.RandomInt(8, 15);
+		IsCreateHat_ = false;
+	}
+	if (CreateHatTime_ > 7)	// RandomHatTime_ -> 7 로 잠깐 수정
+	{
+		BossHat* Hat = GetLevel()->CreateActor<BossHat>();
+		Hat->GetTransform().SetLocalPosition({ GetPlayerPosition().x, GetPlayerPosition().y + 565.f, (int)ZOrder::EFFECT});
+		CreateHatTime_ = 0.f;
+		IsCreateHat_ = true;
+	}
+	//if (true == IsCreateHat_)
+	//{
+	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
+	//	Hat->GetTransform().SetLocalPosition({ GetPlayerPosition() });
+	//	IsCreateHat_ = false;
+	//	//for (int i = 0; i < 5; ++i)
+	//	//{
+	//	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
+	//	//	Hat->GetTransform().SetLocalPosition({GetPlayerPosition()});
+	//	//
+	//}
 
 	if (true == IsTeleport_)
 	{
@@ -258,21 +284,6 @@ void Boss::Update(float _DeltaTime)
 			return;
 		}
 	}
-
-
-	//RandomTime_ = GameEngineRandom::MainRandom.RandomInt(5, 13);
-	//if (CreateHatTime_ > 2.f)
-	//{
-	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
-	//	Hat->GetTransform().SetLocalPosition({ GetPlayerPosition() });
-	//	//for (int i = 0; i < 5; ++i)
-	//	//{
-	//	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
-	//	//	Hat->GetTransform().SetLocalPosition({GetPlayerPosition()});
-	//	//}
-
-	//	CreateHatTime_ = 0.f;
-	//}
 
 }
 
@@ -680,7 +691,7 @@ void Boss::TransformStart()
 
 void Boss::RegenStart()
 {
-	GameEngineSound::SoundPlayOneShot("BossRegen.mp3");
+//	GameEngineSound::SoundPlayOneShot("BossRegen.mp3");
 	switch (CurType_)
 	{
 	case BossType::NORMAL:
@@ -966,11 +977,6 @@ void Boss::BindBossDieEnd(const FrameAnimation_DESC& _Info)
 	Death();
 }
 
-//void Boss::BindBossAttackStart(const FrameAnimation_DESC& _Info)
-//{
-//	
-//}
-
 void Boss::BindBossAttackFrame(const FrameAnimation_DESC& _Info)
 {
 	switch (CurBossSkill_)
@@ -1000,11 +1006,6 @@ void Boss::BindBossAttackFrame(const FrameAnimation_DESC& _Info)
 		}
 	}
 	break;
-	//case BossAttackType::BlueAtt_A:
-	//{
-	//	BlueAttackACollision_->On();
-	//}
-	//break;
 	case BossAttackType::RedAtt_A:
 	{
 		if (1 == _Info.CurFrame)

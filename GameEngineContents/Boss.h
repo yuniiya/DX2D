@@ -150,6 +150,7 @@ private:
 	bool IsTeleport_;
 	bool IsTeleportStart_;
 	bool IsChase_;
+	bool IsCreateHat_;
 
 	float CreateHatTime_; 
 	float TypeChangeTime_;
@@ -159,6 +160,7 @@ private:
 	float Speed_;
 	float BlueSpeed_;
 	float RandomTime_;
+	int RandomHatTime_;
 	int Random_;
 };
 

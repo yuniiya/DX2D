@@ -875,12 +875,14 @@ void Player::CollisionCheck()
 	}
 
 	////////////// Boss
+	// ¸ðÀÚ
 	if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, BossAttackType::Hat, CollisionType::CT_OBB2D))
 	{
 		IsStun_ = true;
 		IsHit = true;
+		StunRenderer_->On();
 
-		TakeDamage(2.f);
+		//TakeDamage(2.f);
 		StateManager.ChangeState("Damaged");
 		return;
 	}
@@ -1102,10 +1104,10 @@ void Player::UseSkill()
 
 		Skill_ = GetLevel()->CreateActor<Skill>();
 		Skill_->GetJiARenderer()->On();
-		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 70.f });
+		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 70.f, (int)ZOrder::SKILLBACK});
 		Skill_->GetJiBRenderer()->On();
 		Skill_->GetJiBRenderer()->ChangeFrameAnimation("Ji_B");
-		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 130.f });
+		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 130.f, (int)ZOrder::SKILLBACK });
 		Skill_->GetCollision()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 100.f });
 		Skill_->GetCollision()->On();
 		CurSkill_ = PLAYERSKILL::SKILL_JI;

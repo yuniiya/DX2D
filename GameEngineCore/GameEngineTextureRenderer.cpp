@@ -43,10 +43,13 @@ void FrameAnimation::Update(float _Delta)
 			{
 				if (nullptr != End)
 				{
+					bOnceEnd = true;
+					bOnceStart = false;
 					End(Info);
+					return;
 				}
-				bOnceEnd = true;
-				bOnceStart = false;
+
+
 			}
 
 			++Info.CurFrame;
