@@ -160,6 +160,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
 
 		GameEngineInput::GetInst()->CreateKey("Test", 'T');
+		GameEngineInput::GetInst()->CreateKey("Invincible", 'O');
 
 		// 점프 두번 => 초상비
 		// 여의선 인 Q
@@ -453,6 +454,12 @@ void Player::Start()
 		SkillLockRenderer_->ChangeFrameAnimation("SkillLock");
 		SkillLockRenderer_->GetTransform().SetLocalPosition({ 0.f, 30.f });
 		SkillLockRenderer_->Off();
+
+		MissRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+		MissRenderer_->GetTransform().SetLocalScale({ 98.f * 0.8f, 38.f * 0.8f });
+		MissRenderer_->SetTexture("NoViolet0.Miss.png");
+		MissRenderer_->GetTransform().SetLocalPosition({ 0.f, 50.f });
+		MissRenderer_->Off();
 	}
 
 
@@ -515,6 +522,21 @@ void Player::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsDown("Test"))
 	{
 		Player::MainPlayer_->AddExp(30.f);
+	}
+
+	// 무적
+	if (true == GameEngineInput::GetInst()->IsDown("Invincible"))
+	{
+		if (true == IsInvincible_)
+		{
+			IsInvincible_ = false;
+			MissRenderer_->Off();
+		}
+		else
+		{
+			IsInvincible_ = true;
+			MissRenderer_->On();
+		}
 	}
 }
 
@@ -753,6 +775,10 @@ void Player::ObjectPixelCheck()
 
 void Player::CollisionCheck()
 {
+	if (true == IsInvincible_)
+	{
+		return;
+	}
 	if ("Ladder" == StateManager.GetCurStateStateName()
 		|| "Rope" == StateManager.GetCurStateStateName())
 	{

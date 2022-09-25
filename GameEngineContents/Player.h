@@ -255,6 +255,7 @@ private:
 	GameEngineTextureRenderer* StunRenderer_;
 	GameEngineTextureRenderer* HatChaseRenderer_;
 	GameEngineTextureRenderer* SkillLockRenderer_;
+	GameEngineTextureRenderer* MissRenderer_;
 
 
 protected:
