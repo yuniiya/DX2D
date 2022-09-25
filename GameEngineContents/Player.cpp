@@ -825,6 +825,12 @@ void Player::CollisionCheck()
 	// 몬스터 
 	if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MONSTER, CollisionType::CT_OBB2D))
 	{
+		// 블루 A : 스킬 봉인 
+		if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, BossAttackType::BlueAtt_A, CollisionType::CT_OBB2D))
+		{
+			IsSkillLock_ = true;
+			SkillLockRenderer_->On();
+		}
 		IsHit = true;
 
 		TakeDamage(3.f);
@@ -873,17 +879,6 @@ void Player::CollisionCheck()
 		StateManager.ChangeState("KnockBack");
 		return;
 	}
-	// 블루 A : 스킬 봉인 
-	else if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, BossAttackType::BlueAtt_A, CollisionType::CT_OBB2D))
-	{
-		IsSkillLock_ = true;
-		IsHit = true;
-		SkillLockRenderer_->On();
-
-		TakeDamage(2.f);
-		StateManager.ChangeState("Damaged");
-		return;
-	}
 	// 레드 B : 세 번 공격
 	else if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, BossAttackType::RedAtt_B, CollisionType::CT_OBB2D))
 	{
@@ -893,7 +888,6 @@ void Player::CollisionCheck()
 		StateManager.ChangeState("Damaged");
 		return;
 	}
-
 	// 레드 A : 한 번 내려치기, 슬로우
 	else if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, BossAttackType::RedAtt_A, CollisionType::CT_OBB2D))
 	{

@@ -25,8 +25,8 @@ Monster::Monster()
 	, MonsterDir_(ACTORDIR::MAX)
 	, MonsterName_(MONSTERNAME::MAX)
 	, MonsterType_(MONSTERTYPE::MAX)
-	, IdleTime_(0)
-	, MoveTime_(0)
+	, IdleTime_(0.f)
+	, MoveTime_(0.f)
 	, IsHit(false)
 	, DamageTime_(0.0f)
 	, DirChangeTime_(0.0f)
@@ -167,8 +167,8 @@ void Monster::EffectPositionUpdate()
 
 void Monster::Start()
 {
-	IdleTime_ = GameEngineRandom::MainRandom.RandomInt(3, 6);
-	MoveTime_ = GameEngineRandom::MainRandom.RandomInt(35, 50);
+	IdleTime_ = GameEngineRandom::MainRandom.RandomFloat(3.f, 6.f);
+	MoveTime_ = GameEngineRandom::MainRandom.RandomFloat(35.f, 50.f);
 
 	GetTransform().SetLocalPosition({ 0, 0, (int)ZOrder::MONSTER });
 }

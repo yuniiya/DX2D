@@ -128,7 +128,7 @@ public:
 		SetDir(_Dir);
 	}
 
-	inline void SetChangeTime(int _IdleTime, int _MoveTime)
+	inline void SetChangeTime(float _IdleTime, float _MoveTime)
 	{
 		IdleTime_ = _IdleTime;
 		MoveTime_ = _MoveTime;
@@ -170,8 +170,8 @@ protected:
 	float Speed_;
 	float Time_;
 
-	int IdleTime_;
-	int MoveTime_;
+	float IdleTime_;
+	float MoveTime_;
 	float DamageTime_;
 	float DirChangeTime_;
 	float ChaseTime_;

@@ -26,7 +26,7 @@ enum class BossState
 
 	// Blue
 	BLUE_Attack,
-
+	BLUE_Damaged,
 	// Red
 	RED_AttackA,
 	RED_AttackB,
@@ -95,7 +95,7 @@ protected:
 	void AttackCStart();	// 모자 떨구기
 	
 	void BlueAttackStart();	
-
+	void BlueDamagedStart();
 	void RedAttackAStart();			// 한 번 내려치기
 	void RedAttackBStart();			// TeleRegen 후 세 번 내려치기	
 	void RedTeleportStart();	
@@ -114,23 +114,23 @@ protected:
 	void AttackCUpdate();
 
 	void BlueAttackUpdate();
-
+	void BlueDamagedUpdate();
 	void RedAttackAUpdate();			// 한 번 내려치기
 	void RedAttackBUpdate();			// TeleRegen 후 세 번 내려치기	
 	void RedTeleportUpdate();
 	void RedTeleportRegenUpdate();	// 플레이어 자리에 나타나기
 
-	void BindBossDieEnd(const FrameAnimation_DESC& _Info);
 	void BindBossAttackStart(const FrameAnimation_DESC& _Info);
 	void BindBossAttackFrame(const FrameAnimation_DESC& _Info);
 	void BindBossAttackEnd(const FrameAnimation_DESC& _Info);
-	void BindRedBossAttackBEnd(const FrameAnimation_DESC& _Info);
 	void BindBossDamagedEnd(const FrameAnimation_DESC& _Info);
 	void BindBossTransformFrame(const FrameAnimation_DESC& _Info);
 	void BindBossTransformEnd(const FrameAnimation_DESC& _Info);
 	void BindBossRegenEnd(const FrameAnimation_DESC& _Info);
 	void BindRedBossTelEnd(const FrameAnimation_DESC& _Info);
 	void BindRedBossTelRegenEnd(const FrameAnimation_DESC& _Info);
+	void BindBossDieFrame(const FrameAnimation_DESC& _Info);
+	void BindBossDieEnd(const FrameAnimation_DESC& _Info);
 
 private:
 	GameEngineCollision* AttackACollision_;		// 노멀 A : 2초간 상하좌우 조작 바뀜
@@ -148,6 +148,7 @@ private:
 
 	bool BossTypeChange_;
 	bool IsTeleport_;
+	bool IsTeleportStart_;
 	bool IsChase_;
 
 	float CreateHatTime_; 
@@ -157,7 +158,7 @@ private:
 	float ChaseTime_;
 	float Speed_;
 	float BlueSpeed_;
-	int RandomTime_;
+	float RandomTime_;
 	int Random_;
 };
 

@@ -42,13 +42,12 @@ void BossUI::Update(float _DeltaTime)
 
 	BossHP_ = Boss_->GetHP();
 	BossMaxHP_ = Boss_->GetMaxHP();
+
 	if (BossHP_ <= 0)
 	{
-		return;
+		BossHP_ = 0.f;
 	}
-
 	float HPratio = BossHP_ / BossMaxHP_;
-
 	HPBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio, HPBarScale_.y });
 
 }
