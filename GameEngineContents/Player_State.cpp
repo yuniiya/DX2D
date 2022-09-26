@@ -13,8 +13,7 @@ void Player::IdleStart(const StateInfo& _Info)
 	JumpPower_ = 0.0f;
 	Speed_ = 200.f;
 	ReSetAccTime();
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 80.f, 96.f});
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 }
 
@@ -26,7 +25,7 @@ void Player::MoveStart(const StateInfo& _Info)
 	}
 	MoveDir_ = 0.0f;
 	JumpPower_ = 0.0f;
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 70.f});
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 70.f});
 	PlayerRenderer_->ChangeFrameAnimation("Move");
 }
 
@@ -46,20 +45,19 @@ void Player::JumpStart(const StateInfo& _Info)
 	AddAccTime(Time_);
 	JumpPower_ = float4{ 0.f, 230.f, 0.f };
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
-	PlayerRenderer_->ChangeFrameAnimation("JumpAttack");
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
+	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
 void Player::FallStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Fall");
 }
 
 void Player::ProneStart(const StateInfo& _Info)
 {
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 90.f, 130.f});
-	PlayerRenderer_->GetTransform().SetLocalScale({ 87.f, 130.f});
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 87.f, 130.f});
 	PlayerRenderer_->ChangeFrameAnimation("Prone");
 }
 
@@ -70,21 +68,19 @@ void Player::ProneStabStart(const StateInfo& _Info)
 
 void Player::LadderStart(const StateInfo& _Info)
 {
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 85.f, 97.f});
-	PlayerRenderer_->GetTransform().SetLocalScale({ 69.f, 74.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 69.f, 74.f });
 	PlayerRenderer_->ChangeFrameAnimation("LadderA");
 }
 
 void Player::RopeStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 78.f});
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 78.f});
 	PlayerRenderer_->ChangeFrameAnimation("RopeA");
 }
 
 void Player::DefaultAttackStart(const StateInfo& _Info)
 {
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 107.f, 101.f });
-	PlayerRenderer_->GetTransform().SetLocalScale({ 94.f, 75.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 94.f, 75.f });
 	PlayerRenderer_->ChangeFrameAnimation("DefaultAtt");
 }
 
@@ -93,8 +89,7 @@ void Player::SkillAttackStart(const StateInfo& _Info)
 	PrevPosition_ = GetPosition();
 	PrevDir_ = CurDir_;
 
-	//PlayerRenderer_->GetTransform().SetLocalScale({ 92.f, 102.f });
-	PlayerRenderer_->GetTransform().SetLocalScale({ 79.f, 76.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 79.f, 76.f });
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
 
@@ -112,7 +107,7 @@ void Player::JumpSkillAttackStart(const StateInfo& _Info)
 	AddAccTime(Time_);
 	JumpPower_ = float4{ 0.f, 230.f, 0.f };
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
@@ -135,14 +130,13 @@ void Player::DoubleJumpStart(const StateInfo& _Info)
 		ChoA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 160.f, GetPosition().y - 60.f, (int)ZOrder::SKILLBACK });
 	}
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	GameEngineSound::SoundPlayOneShot("Cho.mp3");
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
 void Player::DamagedStart(const StateInfo& _Info)
 {
-	//MoveDir_ = float4{ 170.f, 0.f, 0.f };
 	JumpPower_ = 0.0f; 
 	MoveDir_.y = 130.f;
 
@@ -153,7 +147,7 @@ void Player::DamagedStart(const StateInfo& _Info)
 	DamageNum_->SetDamage(Damage_);
 
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
 }
 
@@ -169,13 +163,13 @@ void Player::KnockBackStart(const StateInfo& _Info)
 	DamageNum_->SetDamage(Damage_);
 
 
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
 }
 
 void Player::DieStart(const StateInfo& _Info)
 {
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
+//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 	PlayerRenderer_->ChangeFrameAnimation("Die");
 }
 

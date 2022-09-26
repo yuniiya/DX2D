@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "Meso.h"
 #include "Inventory.h"
+#include "GameBgmPlayer.h"
 
 AriantLevel::AriantLevel() 
 	: Player_(nullptr)

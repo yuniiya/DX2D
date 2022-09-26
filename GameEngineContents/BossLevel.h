@@ -22,6 +22,7 @@ protected:
 	void End() override;
 
 	void LevelStartEvent() override;
+	void LevelEndEvent() override;
 
 private:
 	MapStage* StageActor_;

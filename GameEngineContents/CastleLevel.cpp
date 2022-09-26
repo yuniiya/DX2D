@@ -8,6 +8,7 @@
 #include "Fade.h"
 #include "Inventory.h"
 #include "NPC_Castle.h"
+#include "GameBgmPlayer.h"
 
 CastleLevel::CastleLevel() 
 	: Player_(nullptr)

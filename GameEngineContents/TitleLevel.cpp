@@ -4,6 +4,7 @@
 #include "Fade.h"
 #include "TitleLogo.h"
 #include "Fade.h"
+#include "GameBgmPlayer.h"
 
 TitleLevel::TitleLevel() 
 	: Time_(0.0f)

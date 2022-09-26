@@ -5,6 +5,7 @@
 #include "SelectUI.h"
 #include "Mouse.h"
 #include "Fade.h"
+#include "GameBgmPlayer.h"
 
 SelectLevel::SelectLevel() 
 {

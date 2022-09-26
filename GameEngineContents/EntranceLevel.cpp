@@ -6,6 +6,7 @@
 #include "Fade.h"
 #include "Inventory.h"
 #include "NPC_Entrance.h"
+#include "GameBgmPlayer.h"
 
 EntranceLevel::EntranceLevel() 
 {

@@ -10,6 +10,7 @@
 #include "Inventory.h"
 #include "Boss.h"
 #include "BossUI.h"
+#include "GameBgmPlayer.h"
 
 BossLevel::BossLevel()
 	: StageActor_(nullptr)
@@ -68,6 +69,8 @@ void BossLevel::End()
 void BossLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	GameBgmPlayer::BgmPlay_->ChangeBgm("JoyfulTeaParty.mp3");
+	//GameEngineSound::SoundPlayControl("JoyfulTeaParty.mp3");
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();
@@ -83,4 +86,9 @@ void BossLevel::LevelStartEvent()
 		Boss_->GetTransform().SetLocalPosition({ 900.f, -300.f, (int)ZOrder::MONSTER });
 		Boss_->SetMonsterDir(ACTORDIR::LEFT);
 	}
+}
+
+void BossLevel::LevelEndEvent()
+{
+	GameBgmPlayer::BgmPlay_->Stop();
 }

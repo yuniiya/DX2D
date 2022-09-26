@@ -11,6 +11,7 @@
 #include "GameEngineContents/SelectLevel.h"
 #include "GameEngineContents/TitleLevel.h"
 #include "GameEngineContents/TestLevel.h"
+#include "GameBgmPlayer.h"
 
 
 
@@ -65,7 +66,34 @@ void ContentsCore::Start()
 			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Player_BlueHat");
 
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("Player_RedHat");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+	}
 
 	{
 		GameEngineDirectory Dir;
@@ -891,5 +919,5 @@ void ContentsCore::Update(float _DeltaTime)
 
 void ContentsCore::End()
 {
-	int a = 0;
+	GameBgmPlayer::BgmPlay_->Destroy();
 }

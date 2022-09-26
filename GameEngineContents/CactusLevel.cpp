@@ -10,6 +10,7 @@
 #include "BabyCactus.h"
 #include "Inventory.h"
 #include "NPC_Cactus.h"
+#include "GameBgmPlayer.h"
 
 CactusLevel::CactusLevel() 
 	: Player_(nullptr)

@@ -196,27 +196,60 @@ void Player::Start()
 	LevelUpCollision_->Off();
 
 	PlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
-	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
-	PlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Player_Move", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Jump", FrameAnimation_DESC("Jump", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("JumpAttack", FrameAnimation_DESC("JumpAttack", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("Fall", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.37f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.5f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.5f));
-	PlayerRenderer_->CreateFrameAnimationFolder("LadderA", FrameAnimation_DESC("LadderA", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("RopeA", FrameAnimation_DESC("RopeA", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("KnockBack", FrameAnimation_DESC("Alert", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
-	PlayerRenderer_->CreateFrameAnimationFolder("DoubleJump", FrameAnimation_DESC("Jump", 0.2f));
+	NormalPlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+	//NormalPlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
+	NormalPlayerRenderer_->GetTransform().SetLocalScale({ 200.f, 200.f });
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Player_Idle", 0.5f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Player_Move", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Jump", FrameAnimation_DESC("Jump", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("JumpAttack", FrameAnimation_DESC("JumpAttack", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("Fall", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("Prone", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("ProneStab", 0.37f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Ladder", FrameAnimation_DESC("Ladder", 0.5f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Rope", FrameAnimation_DESC("Rope", 0.5f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("LadderA", FrameAnimation_DESC("LadderA", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("RopeA", FrameAnimation_DESC("RopeA", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("Player_Attack1", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("Player_Attack2", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Alert", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("KnockBack", FrameAnimation_DESC("Alert", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("DoubleJump", FrameAnimation_DESC("Jump", 0.2f));
+	NormalPlayerRenderer_->ChangeFrameAnimation("Idle");
+	PlayerRenderer_ = NormalPlayerRenderer_;
 
-	PlayerRenderer_->ChangeFrameAnimation("Idle");
+	BlueHatPlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+	BlueHatPlayerRenderer_->GetTransform().SetLocalScale({ 200.f, 200.f });
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("BlueHat_Idle", 0.5f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("BlueHat_Move", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("Jump", FrameAnimation_DESC("BlueHat_Jump", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("JumpAttack", FrameAnimation_DESC("BlueHat_JumpAttack", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("BlueHat_Fall", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("BlueHat_Prone", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("BlueHat_ProneStab", 0.37f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("BlueHat_Attack1", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("BlueHat_Attack2", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("BlueHat_Alert", 0.2f));
+	BlueHatPlayerRenderer_->CreateFrameAnimationFolder("KnockBack", FrameAnimation_DESC("BlueHat_Alert", 0.2f));
+	BlueHatPlayerRenderer_->ChangeFrameAnimation("Idle");
+	BlueHatPlayerRenderer_->Off();
 
+	RedHatPlayerRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+	RedHatPlayerRenderer_->GetTransform().SetLocalScale({ 200.f, 200.f });
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("RedHat_Idle", 0.5f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("RedHat_Move", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("Jump", FrameAnimation_DESC("RedHat_Jump", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("Fall", FrameAnimation_DESC("RedHat_Fall", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("JumpAttack", FrameAnimation_DESC("RedHat_JumpAttack", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("Prone", FrameAnimation_DESC("RedHat_Prone", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("ProneStab", FrameAnimation_DESC("RedHat_ProneStab", 0.37f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("DefaultAtt", FrameAnimation_DESC("RedHat_Attack1", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("SkillAtt", FrameAnimation_DESC("RedHat_Attack2", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("RedHat_Alert", 0.2f));
+	RedHatPlayerRenderer_->CreateFrameAnimationFolder("KnockBack", FrameAnimation_DESC("RedHat_Alert", 0.2f));
+	RedHatPlayerRenderer_->ChangeFrameAnimation("Idle");
+	RedHatPlayerRenderer_->Off();
 
 
 	StateManager.CreateStateMember("Idle"
@@ -1065,46 +1098,94 @@ void Player::PlayerMove(float _DeltaTime)
 	if ("Ladder" != StateManager.GetCurStateStateName()
 		&& "Rope" != StateManager.GetCurStateStateName())
 	{
+		PlayerRendererChange();
 		DirCheck(PlayerRenderer_, CurDir_);
 	}
 
 	// 보스 레벨 모자
+
+	//if (true == IsRedHat_)
+	//{
+	//	if (true == BlueHatRenderer_->IsUpdate())
+	//	{
+	//		
+	//		BlueHatRenderer_->Off();
+	//	}
+	//	RedHatRenderer_->On();
+	//	if (ACTORDIR::LEFT == CurDir_)
+	//	{
+	//		RedHatRenderer_->GetTransform().PixLocalPositiveX();
+	//		RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f});
+	//	}
+	//	else if (ACTORDIR::RIGHT == CurDir_)
+	//	{
+	//		RedHatRenderer_->GetTransform().PixLocalNegativeX();
+	//		RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
+	//	}
+	//}
+	//else if (true == IsBlueHat_)
+	//{
+	//	if (true == RedHatRenderer_->IsUpdate())
+	//	{
+	//		RedHatRenderer_->Off();
+	//	}
+	//	BlueHatRenderer_->On();
+	//	if (ACTORDIR::LEFT == CurDir_)
+	//	{
+	//		BlueHatRenderer_->GetTransform().PixLocalPositiveX();
+	//		BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
+	//	}
+	//	else if (ACTORDIR::RIGHT == CurDir_)
+	//	{
+	//		BlueHatRenderer_->GetTransform().PixLocalNegativeX();
+	//		BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
+	//	}
+	//}
+}
+
+void Player::PlayerRendererChange()
+{
 	if (true == IsRedHat_)
 	{
-		if (true == BlueHatRenderer_->IsUpdate())
+		if (true == BlueHatPlayerRenderer_->IsUpdate())
 		{
-			BlueHatRenderer_->Off();
+			BlueHatPlayerRenderer_->Off();
 		}
-		RedHatRenderer_->On();
-		if (ACTORDIR::LEFT == CurDir_)
+		if (true == PlayerRenderer_->IsUpdate())
 		{
-			RedHatRenderer_->GetTransform().PixLocalPositiveX();
-			RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f});
+			PlayerRenderer_->Off();
 		}
-		else if (ACTORDIR::RIGHT == CurDir_)
-		{
-			RedHatRenderer_->GetTransform().PixLocalNegativeX();
-			RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
-		}
+		RedHatPlayerRenderer_->On();
+		PlayerRenderer_ = RedHatPlayerRenderer_;
 	}
 	else if (true == IsBlueHat_)
 	{
-		if (true == RedHatRenderer_->IsUpdate())
+		if (true == RedHatPlayerRenderer_->IsUpdate())
 		{
-			RedHatRenderer_->Off();
+			RedHatPlayerRenderer_->Off();
 		}
-		BlueHatRenderer_->On();
-		if (ACTORDIR::LEFT == CurDir_)
+		if (true == PlayerRenderer_->IsUpdate())
 		{
-			BlueHatRenderer_->GetTransform().PixLocalPositiveX();
-			BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
+			PlayerRenderer_->Off();
 		}
-		else if (ACTORDIR::RIGHT == CurDir_)
-		{
-			BlueHatRenderer_->GetTransform().PixLocalNegativeX();
-			BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
-		}
+		BlueHatPlayerRenderer_->On();
+		PlayerRenderer_ = BlueHatPlayerRenderer_;
 	}
+	else
+	{
+		if (true == BlueHatPlayerRenderer_->IsUpdate())
+		{
+			BlueHatPlayerRenderer_->Off();
+		}
+		if (true == RedHatPlayerRenderer_->IsUpdate())
+		{
+			RedHatPlayerRenderer_->Off();
+		}
+		NormalPlayerRenderer_->On();
+		PlayerRenderer_ = NormalPlayerRenderer_;
+	}
+	PlayerRenderer_->ChangeFrameAnimation(StateManager.GetCurStateStateName());
+	PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 }
 
 void Player::UseSkill()

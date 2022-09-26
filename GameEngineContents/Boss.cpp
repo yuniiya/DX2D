@@ -613,6 +613,7 @@ void Boss::DieStart()
 	break;
 	case BossType::BLUE:
 	{
+		Player::MainPlayer_->IsChase_ = false;
 		Renderer_->ChangeFrameAnimation("Blue_Die");
 	}
 	break;
@@ -625,7 +626,6 @@ void Boss::DieStart()
 	default:
 		break;
 	}
-
 
 	Collision_->Off();
 }
@@ -659,7 +659,7 @@ void Boss::TransformStart()
 
 void Boss::RegenStart()
 {
-//	GameEngineSound::SoundPlayOneShot("BossRegen.mp3");
+	GameEngineSound::SoundPlayOneShot("BossRegen.mp3");
 	switch (CurType_)
 	{
 	case BossType::NORMAL:

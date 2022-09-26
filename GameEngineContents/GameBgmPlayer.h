@@ -4,6 +4,7 @@
 class GameBgmPlayer
 {
 public:
+	static GameBgmPlayer* BgmPlay_;
 	// constrcuter destructer
 	GameBgmPlayer();
 	~GameBgmPlayer();
@@ -13,6 +14,29 @@ public:
 	GameBgmPlayer(GameBgmPlayer&& _Other) noexcept = delete;
 	GameBgmPlayer& operator=(const GameBgmPlayer& _Other) = delete;
 	GameBgmPlayer& operator=(GameBgmPlayer&& _Other) noexcept = delete;
+
+	GameEngineSoundPlayer BgmPlayer_;
+
+public:
+	void Stop()
+	{
+		BgmPlayer_.Stop();
+	}
+
+	void ChangeBgm(std::string _BgmName, unsigned int LoopCount)
+	{
+		BgmPlayer_.Stop();
+		LoopCount = 30;
+		BgmPlayer_ = GameEngineSound::SoundPlayControl(_BgmName, LoopCount);
+	}
+
+	void Destroy()
+	{
+		if (BgmPlay_ != nullptr)
+		{
+			delete BgmPlay_;
+		}
+	}
 
 protected:
 

@@ -7,6 +7,7 @@
 #include "Sand.h"
 #include "Scorpion.h"
 #include "Inventory.h"
+#include "GameBgmPlayer.h"
 
 DesertLevel::DesertLevel() 
 	: Player_(nullptr)

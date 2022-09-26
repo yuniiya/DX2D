@@ -7,6 +7,7 @@
 #include "MapBackGround.h"
 #include "Mouse.h"
 #include "Fade.h"
+#include "GameBgmPlayer.h"
 
 LoginLevel::LoginLevel()
 {

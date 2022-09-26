@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Mouse.h"
 #include "Inventory.h"
+#include "GameBgmPlayer.h"
 
 GlobalLevel::GlobalLevel() 
 	: MapSizeX_(0.f)

@@ -261,6 +261,10 @@ private:
 	GameEngineTextureRenderer* BlueHatRenderer_;
 	GameEngineTextureRenderer* MissRenderer_;
 
+	GameEngineTextureRenderer* RedHatPlayerRenderer_;
+	GameEngineTextureRenderer* BlueHatPlayerRenderer_;
+	GameEngineTextureRenderer* NormalPlayerRenderer_;
+
 
 protected:
 	bool StagePixelCheck();
@@ -273,6 +277,7 @@ protected:
 	bool IsSkillKey();
 
 	void PlayerMove(float _DeltaTime);
+	void PlayerRendererChange();
 	
 	void UseSkill();
 	void SkillSinLoop();
