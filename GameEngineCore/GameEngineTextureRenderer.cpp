@@ -142,6 +142,7 @@ void GameEngineTextureRenderer::SetTextureRendererSetting()
 
 	ShaderResources.SetConstantBufferLink("AtlasData", AtlasDataInst);
 	ShaderResources.SetConstantBufferLink("PixelData", PixelDataInst);
+	ShaderResources.SetConstantBufferLink("Time", TimeData_);
 	
 }
 
@@ -167,6 +168,11 @@ void GameEngineTextureRenderer::SetSamplingModePoint()
 void GameEngineTextureRenderer::SetSamplingModeLiner()
 {
 	ShaderResources.SetSampler("Smp", "EngineSamplerLinear");
+}
+
+void GameEngineTextureRenderer::SetSamplingModeLinerMirror()
+{
+	ShaderResources.SetSampler("Smp", "EngineSamplerLinearMirror");
 }
 
 void GameEngineTextureRenderer::SetPivot()

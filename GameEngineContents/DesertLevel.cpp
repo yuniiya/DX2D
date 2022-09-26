@@ -8,6 +8,7 @@
 #include "Scorpion.h"
 #include "Inventory.h"
 #include "GameBgmPlayer.h"
+#include "Cloud.h"
 
 DesertLevel::DesertLevel() 
 	: Player_(nullptr)
@@ -23,6 +24,8 @@ void DesertLevel::Start()
 	SetCollisionMap("ColMap_Desert.png");
 	SetBackGround("Back_Desert.png");
 	SetStage("Stage_Desert.png");
+	Cloud* Cloud_ = CreateActor<Cloud>();
+	Cloud_->CreateCloud("Desert_Cloud.png", { 1619.f / 2.f, -380.f }, 90.f);
 
 	SetPortal({ 168.f, -240.f, (int)ZOrder::PORTAL});
 	SetPortal({ 1489.f, -542.f, (int)ZOrder::PORTAL});

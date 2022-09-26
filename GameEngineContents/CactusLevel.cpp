@@ -11,6 +11,7 @@
 #include "Inventory.h"
 #include "NPC_Cactus.h"
 #include "GameBgmPlayer.h"
+#include "Cloud.h"
 
 CactusLevel::CactusLevel() 
 	: Player_(nullptr)
@@ -25,8 +26,12 @@ void CactusLevel::Start()
 {
 	SetCollisionMap("ColMap_Cactus2.png");
 	SetBackGround("Back_Cactus.png");
-	SetAriantSunLight(-500.f);
+//	SetAriantCloud(-500.f);
+	SetAriantSunLight(-300.f);
 	SetStage("Stage_Cactus.png");
+
+	Cloud* Cloud_ = CreateActor<Cloud>();
+	Cloud_->CreateCloud("Cactus_Cloud.png", { 2060.f / 2.f, -500.f }, 90.f);
 
 	SetPortal({ 111.f, -776.f, (int)ZOrder::PORTAL });
 	SetPortal({ 1864.f, -776.f, (int)ZOrder::PORTAL });

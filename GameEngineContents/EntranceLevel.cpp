@@ -7,6 +7,7 @@
 #include "Inventory.h"
 #include "NPC_Entrance.h"
 #include "GameBgmPlayer.h"
+#include "Cloud.h"
 
 EntranceLevel::EntranceLevel() 
 {
@@ -22,7 +23,8 @@ void EntranceLevel::Start()
 	SetBackGround("Back_Entrance.png");
 	SetAriantSunLight(-600.f);
 	SetStage("Stage_Entrance.png");
-
+	Cloud* Cloud_ = CreateActor<Cloud>();
+	Cloud_->CreateCloud("Entrance_Cloud.png", { 2340.f / 2.f, -850.f }, 90.f);
 	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	//Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f});
 

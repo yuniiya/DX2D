@@ -162,6 +162,20 @@ void EngineTextureLoad()
 		GameEngineSampler::Create("EngineSamplerLinear", Desc);
 	}
 
+	{
+		D3D11_SAMPLER_DESC Desc = { D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR };
+		Desc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR;
+		Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Desc.MipLODBias = 0.0f;
+		Desc.MaxAnisotropy = 1;
+		Desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+		Desc.MinLOD = -FLT_MAX;
+		Desc.MaxLOD = FLT_MAX;
+
+		GameEngineSampler::Create("EngineSamplerLinearMirror", Desc);
+	}
+
 	GameEngineDirectory Dir;
 
 	Dir.MoveParentToExitsChildDirectory("GameEngineResources");

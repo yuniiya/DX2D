@@ -24,6 +24,7 @@ private:
 
 	GameEngineTextureRenderer* MapBackGroundRender_;
 	GameEngineTextureRenderer* AriantSunLight_;
+	GameEngineTextureRenderer* AriantCloud_;
 
 public:
 	inline GameEngineTextureRenderer* GetRenderer()
@@ -36,12 +37,23 @@ public:
 		return AriantSunLight_;
 	}
 
+	inline GameEngineTextureRenderer* GetAriantCloudRenderer()
+	{
+		return AriantCloud_;
+	}
 	inline void SetSunShineYPos(float _YPos)
 	{
 		SunShineYPos_ = _YPos;
 	}
 
+	inline void SetCloudYPos(float _YPos)
+	{
+		AriantCloudPos_ = _YPos;
+	}
+
 private:
 	float SunShineYPos_;
+	float AriantCloudPos_;
+	float Time_;
 };
 

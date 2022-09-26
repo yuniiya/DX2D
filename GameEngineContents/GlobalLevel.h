@@ -45,6 +45,7 @@ private:
 	GameEngineTextureRenderer* BackRenderer_;
 
 	GameEngineTextureRenderer* AriantSunLight_;
+	GameEngineTextureRenderer* AriantCloud_;
 
 public:
 	inline Mouse* GetMouse()
@@ -93,6 +94,7 @@ protected:
 	void SetCollisionMap(const std::string& _Name);
 	void SetPortal(float4 _Pos);
 	void SetAriantSunLight(float _YPos);
+	void SetAriantCloud(float _YPos);
 
 	Boss* Boss_;
 

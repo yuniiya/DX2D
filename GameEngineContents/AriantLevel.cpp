@@ -9,6 +9,7 @@
 #include "Meso.h"
 #include "Inventory.h"
 #include "GameBgmPlayer.h"
+#include "Cloud.h"
 
 AriantLevel::AriantLevel() 
 	: Player_(nullptr)
@@ -25,7 +26,8 @@ void AriantLevel::Start()
 	SetBackGround("Back_Ariant.png");
 	SetAriantSunLight(-600.f);
 	SetStage("Stage_Ariant.png");
-
+	Cloud* Cloud_ = CreateActor<Cloud>();
+	Cloud_->CreateCloud("Ariant_Cloud.png", { 5760.f / 2.f, -600.f }, 210.f);
 	if (nullptr == Player::MainPlayer_)
 	{
 		Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);

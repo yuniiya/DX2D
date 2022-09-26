@@ -178,9 +178,6 @@
     <ClInclude Include="InventoryItem.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
-    <ClInclude Include="MapBackGround.h">
-      <Filter>Actor\Item</Filter>
-    </ClInclude>
     <ClInclude Include="QuestUI.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
@@ -216,6 +213,12 @@
     </ClInclude>
     <ClInclude Include="BossHat.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloud.h">
+      <Filter>Actor\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapBackGround.h">
+      <Filter>Actor\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -384,6 +387,9 @@
     </ClCompile>
     <ClCompile Include="BossHat.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloud.cpp">
+      <Filter>Actor\Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

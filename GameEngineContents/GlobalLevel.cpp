@@ -22,6 +22,8 @@ GlobalLevel::GlobalLevel()
 	, Inventory_(nullptr)
 	, Mouse_(nullptr)
 	, ContentsUI_(nullptr)
+	, AriantSunLight_(nullptr)
+	, AriantCloud_(nullptr)
 {
 }
 
@@ -111,6 +113,13 @@ void GlobalLevel::SetAriantSunLight(float _YPos)
 	AriantSunLight_ = BackGroundActor->GetSunLightRenderer();
 	AriantSunLight_->On();
 	BackGroundActor->SetSunShineYPos(_YPos);
+}
+
+void GlobalLevel::SetAriantCloud(float _YPos)
+{
+	AriantCloud_ = BackGroundActor->GetAriantCloudRenderer();
+	AriantCloud_->On();
+	BackGroundActor->SetCloudYPos(_YPos);
 }
 
 

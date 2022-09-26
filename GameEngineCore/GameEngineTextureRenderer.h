@@ -36,6 +36,11 @@ struct PixelData
 	}
 };
 
+struct TimeData
+{
+	float4 Time;
+};
+
 struct AtlasData 
 {
 public:
@@ -161,6 +166,7 @@ public:
 
 	void SetSamplingModePoint();
 	void SetSamplingModeLiner();
+	void SetSamplingModeLinerMirror();
 
 	void SetScaleModeImage()
 	{
@@ -232,6 +238,10 @@ public:
 		return PixelDataInst;
 	}
 
+	TimeData& GetTimeData()
+	{
+		return TimeData_;
+	}
 
 	// 애니메이션 바인드
 	// 시작 프레임에 들어온다.
@@ -303,6 +313,7 @@ private:
 
 	PixelData PixelDataInst;
 	AtlasData AtlasDataInst;
+	TimeData TimeData_;
 
 	std::map<std::string, FrameAnimation> FrameAni;
 	FrameAnimation* CurAni;
