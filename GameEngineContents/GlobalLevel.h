@@ -44,6 +44,8 @@ private:
 	GameEngineTextureRenderer* StageRenderer_;
 	GameEngineTextureRenderer* BackRenderer_;
 
+	GameEngineTextureRenderer* AriantSunLight_;
+
 public:
 	inline Mouse* GetMouse()
 	{
@@ -90,6 +92,7 @@ protected:
 	void SetStage(const std::string& _Name);
 	void SetCollisionMap(const std::string& _Name);
 	void SetPortal(float4 _Pos);
+	void SetAriantSunLight(float _YPos);
 
 	Boss* Boss_;
 
@@ -98,6 +101,6 @@ private:
 	ContentsUI* ContentsUI_;
 
 	Inventory* Inventory_;
-
+	MapBackGround* BackGroundActor;
 };
 

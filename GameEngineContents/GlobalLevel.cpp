@@ -56,9 +56,8 @@ void GlobalLevel::SetCamera()
 
 void GlobalLevel::SetBackGround(const std::string& _Name)
 {
-	MapBackGround* BackGroundActor = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
+	BackGroundActor = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
 	BackRenderer_ = BackGroundActor->GetRenderer();
-
 	BackRenderer_->SetTexture(_Name);
 	BackRenderer_->ScaleToTexture();
 	BackRenderer_->SetPivot(PIVOTMODE::LEFTTOP);
@@ -105,6 +104,13 @@ void GlobalLevel::SetPortal(float4 _Pos)
 	PortalRenderer->ChangeFrameAnimation("Portal");
 	PortalRenderer->GetTransform().SetLocalPosition({ _Pos .x, _Pos.y, (int)ZOrder::PORTAL});
 	PortalRenderer->GetTransform().SetLocalScale({104.f, 142.f});
+}
+
+void GlobalLevel::SetAriantSunLight(float _YPos)
+{
+	AriantSunLight_ = BackGroundActor->GetSunLightRenderer();
+	AriantSunLight_->On();
+	BackGroundActor->SetSunShineYPos(_YPos);
 }
 
 

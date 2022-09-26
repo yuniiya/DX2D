@@ -25,6 +25,7 @@ void CactusLevel::Start()
 {
 	SetCollisionMap("ColMap_Cactus2.png");
 	SetBackGround("Back_Cactus.png");
+	SetAriantSunLight(-500.f);
 	SetStage("Stage_Cactus.png");
 
 	SetPortal({ 111.f, -776.f, (int)ZOrder::PORTAL });

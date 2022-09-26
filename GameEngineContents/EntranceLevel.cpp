@@ -20,6 +20,7 @@ void EntranceLevel::Start()
 {
 	SetCollisionMap("ColMap_Entrance.png");
 	SetBackGround("Back_Entrance.png");
+	SetAriantSunLight(-600.f);
 	SetStage("Stage_Entrance.png");
 
 	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);

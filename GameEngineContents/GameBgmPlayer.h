@@ -23,10 +23,9 @@ public:
 		BgmPlayer_.Stop();
 	}
 
-	void ChangeBgm(std::string _BgmName, unsigned int LoopCount)
+	void ChangeBgm(std::string _BgmName, unsigned int LoopCount = 30)
 	{
 		BgmPlayer_.Stop();
-		LoopCount = 30;
 		BgmPlayer_ = GameEngineSound::SoundPlayControl(_BgmName, LoopCount);
 	}
 

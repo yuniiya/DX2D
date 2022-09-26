@@ -47,6 +47,79 @@ LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARA
         GameEngineInput::GetInst()->WheelValue = (SHORT)HIWORD(wParam);
         break;
     }
+    // 키보드 등록(채팅기능용)
+    case WM_CHAR:
+    {
+        unsigned char ch = static_cast<unsigned char>(wParam);
+
+        // 예외처리 : 해당 키들은 input에 등록하여 사용함
+        if (ch == '\b') // BackSpace Key Down
+        {
+            int a = 0;
+
+            break;
+        }
+        else if (ch == '\r') // Enter Key Down
+        {
+            break;
+        }
+
+        //// 문자 입력에 의한 큐 등록
+        //if (KeyboardClass::GetInst().IsCharsAutoRepeat())
+        //{
+        //    KeyboardClass::GetInst().OnChar(ch);
+        //}
+        //else
+        //{
+        //    const bool wasPressed = lParam & 0x40000000;
+        //    if (!wasPressed)
+        //    {
+        //        KeyboardClass::GetInst().OnChar(ch);
+        //    }
+        //}
+        return 0;
+    }
+    case WM_KEYDOWN:
+    {
+        unsigned char keycode = static_cast<unsigned char>(wParam);
+
+        // 예외처리 : 해당 키들은 input에 등록하여 사용함
+        if (keycode == '\b') // BackSpace Key Down
+        {
+            break;
+        }
+        else if (keycode == '\r') // Enter Key Down
+        {
+            break;
+        }
+        else if (keycode == ' ') // Space Key Down
+        {
+            break;
+        }
+
+        //if (KeyboardClass::GetInst().IsKeysAutoRepeat())
+        //{
+        //    KeyboardClass::GetInst().OnKeyPressed(keycode);
+        //}
+        //else
+        //{
+        //    const bool wasPressed = lParam & 0x40000000;
+        //    if (!wasPressed)
+        //    {
+        //        KeyboardClass::GetInst().OnKeyPressed(keycode);
+        //    }
+        //}
+
+        return 0;
+    }
+    case WM_KEYUP:
+    {
+        //unsigned char keycode = static_cast<unsigned char>(wParam);
+        //KeyboardClass::GetInst().OnKeyReleased(keycode);
+
+        return 0;
+    }
+
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

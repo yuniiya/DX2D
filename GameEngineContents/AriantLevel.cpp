@@ -23,6 +23,7 @@ void AriantLevel::Start()
 {
 	SetCollisionMap("ColMap_Ariant.png");
 	SetBackGround("Back_Ariant.png");
+	SetAriantSunLight(-600.f);
 	SetStage("Stage_Ariant.png");
 
 	if (nullptr == Player::MainPlayer_)
@@ -38,6 +39,8 @@ void AriantLevel::Start()
 
 	SetPortal({ 3008.f, -750.f, (int)ZOrder::PORTAL});
 	SetPortal({ 3410.f, -750.f, (int)ZOrder::PORTAL });
+
+
 
 }
 

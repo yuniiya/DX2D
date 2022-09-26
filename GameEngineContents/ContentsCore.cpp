@@ -131,7 +131,6 @@ void ContentsCore::Start()
 			}
 		}
 	}
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("Resources");
@@ -146,8 +145,6 @@ void ContentsCore::Start()
 			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 	}
-
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("Resources");
@@ -873,6 +870,20 @@ void ContentsCore::Start()
 			{
 				GameEngineTexture::Load(File[i].GetFullPath());
 			}
+		}
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("Resources");
+		Dir.Move("Resources");
+		Dir.Move("Texture");
+		Dir.Move("MapAnimation");
+
+		std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+		for (GameEngineDirectory Dir : Folder)
+		{
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 	}
 

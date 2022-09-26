@@ -19,15 +19,29 @@ protected:
 
 private:
 	void Start();
-	void Update(float _DeltaTime) override {};
+	void Update(float _DeltaTime) override;
 	void End() override {};
 
 	GameEngineTextureRenderer* MapBackGroundRender_;
+	GameEngineTextureRenderer* AriantSunLight_;
 
 public:
-	GameEngineTextureRenderer* GetRenderer()
+	inline GameEngineTextureRenderer* GetRenderer()
 	{
 		return	MapBackGroundRender_;
 	}
+
+	inline GameEngineTextureRenderer* GetSunLightRenderer()
+	{
+		return AriantSunLight_;
+	}
+
+	inline void SetSunShineYPos(float _YPos)
+	{
+		SunShineYPos_ = _YPos;
+	}
+
+private:
+	float SunShineYPos_;
 };
 
