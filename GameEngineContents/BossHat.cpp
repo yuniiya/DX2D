@@ -139,7 +139,7 @@ void BossHat::FallStart()
 void BossHat::GroundStart()
 {
 	IsGround_ = false;
-	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x, Player::MainPlayer_->GetPosition().y + 28.f});
+	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x, -440.f + 28.f});
 	//HitRenderer_->On();
 	//HitRenderer_->GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x, Player::MainPlayer_->GetPosition().y + 28.f });
 	Collision_->On();
@@ -149,7 +149,7 @@ void BossHat::GroundStart()
 
 void BossHat::IdleStart()
 {
-	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x - 4.5f, Player::MainPlayer_->GetPosition().y + 10.f});
+	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x - 4.5f, -440.f + 10.f});
 	Renderer_->ChangeFrameAnimation("Idle");
 	Renderer_->ScaleToTexture();
 }

@@ -101,6 +101,11 @@ protected:
 	void RedTeleportStart();	
 	void RedTeleportRegenStart();	// 플레이어 자리에 나타나기
 
+	void TimeCheck();
+	void CreateHat();
+	void BossTypeChange();
+	void PlayerHatChange();
+
 
 	// Update
 	void IdleUpdate() override;
@@ -149,8 +154,9 @@ private:
 	bool BossTypeChange_;
 	bool IsTeleport_;
 	bool IsTeleportStart_;
-	bool IsChase_;
 	bool IsCreateHat_;
+	bool IsRedHat_;
+	bool IsBlueHat_;
 
 	float CreateHatTime_; 
 	float TypeChangeTime_;
@@ -160,7 +166,8 @@ private:
 	float Speed_;
 	float BlueSpeed_;
 	float RandomTime_;
+	float PlayerHatTime_;
 	int RandomHatTime_;
 	int Random_;
+	int DamageAmount_;
 };
-

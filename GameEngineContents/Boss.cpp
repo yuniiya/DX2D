@@ -28,6 +28,12 @@ Boss::Boss()
 	, BlueSpeed_(130.f)
 	, IsCreateHat_(false)
 	, RandomHatTime_(0)
+	, ChaseTime_(0.f)
+	, IsTeleportStart_(false)
+	, PlayerHatTime_(0.f)
+	, IsRedHat_(false)
+	, IsBlueHat_(false)
+	, DamageAmount_(25)
 {
 }
 
@@ -160,68 +166,16 @@ void Boss::Start()
 
 void Boss::Update(float _DeltaTime)
 {
-	//SetChangeTime(IdleTime_, MoveTime_);;
 	MonsterStateUpdate();
 	PixelCollisionMapUpdate(this, LeftRightPos_, BottomPos_);
-
 	CollisonCheck();
 	DirChange();
 
-	if (CanAttTime_ > 3.f)
-	{
-		CanAttTime_ = 0.0f;
-		IsAttack = false;
-	}
-
-	if (AttEndTime_ > 0.04f)
-	{
-		AttEndTime_ = 0.0f;
-		IsAttackEnd = false;
-
-		ChangeState(BossState::Idle);
-		return;
-	}
-
-	if (TeleportTime_ > 3.f)
-	{
-		TeleportTime_ = 0.f;
-		IsTeleport_ = false;
-		ChangeState(BossState::RED_TelRegen);
-		return;
-	}
-	if (ChaseTime_ > 10.f)
-	{
-		Player::MainPlayer_->IsChase_ = false;
-		ChaseTime_ = 0.f;
-		BlueAttackACollision_->Off();
-		SetBossSkill(BossAttackType::MAX);
-		ChangeState(BossState::Idle);
-		return;
-	}
+	TimeCheck();
 	// 모자 생성
-	if (true == IsCreateHat_)
-	{
-		RandomHatTime_ = GameEngineRandom::MainRandom.RandomInt(8, 15);
-		IsCreateHat_ = false;
-	}
-	if (CreateHatTime_ > 7)	// RandomHatTime_ -> 7 로 잠깐 수정
-	{
-		BossHat* Hat = GetLevel()->CreateActor<BossHat>();
-		Hat->GetTransform().SetLocalPosition({ GetPlayerPosition().x, GetPlayerPosition().y + 565.f, (int)ZOrder::EFFECT});
-		CreateHatTime_ = 0.f;
-		IsCreateHat_ = true;
-	}
-	//if (true == IsCreateHat_)
-	//{
-	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
-	//	Hat->GetTransform().SetLocalPosition({ GetPlayerPosition() });
-	//	IsCreateHat_ = false;
-	//	//for (int i = 0; i < 5; ++i)
-	//	//{
-	//	//	BossHat* Hat = GetLevel()->CreateActor<BossHat>();
-	//	//	Hat->GetTransform().SetLocalPosition({GetPlayerPosition()});
-	//	//
-	//}
+	CreateHat();
+	// 플레이어 모자 색 체인지
+	PlayerHatChange();
 
 	if (true == IsTeleport_)
 	{
@@ -239,6 +193,7 @@ void Boss::Update(float _DeltaTime)
 	}
 
 	CreateHatTime_ += _DeltaTime;
+	PlayerHatTime_ += _DeltaTime;
 
 	if (CurType_ == BossType::RED && true == IsTeleportStart_)
 	{
@@ -252,39 +207,7 @@ void Boss::Update(float _DeltaTime)
 	}
 
 	// 20초마다 상태 체인지
-	if (CurState_ == BossState::Attack_A
-		|| CurState_ == BossState::Attack_B
-		|| CurState_ == BossState::RED_Tel
-		|| CurState_ == BossState::RED_TelRegen)
-	{
-		return;
-	}
-	if (CurType_ == BossType::BLUE || CurType_ == BossType::RED)
-	{
-		if (TypeChangeTime_ > 10.f)
-		{
-			if (CurType_ == BossType::BLUE)
-			{
-				Player::MainPlayer_->IsChase_ = false;
-				ChaseTime_ = 0.f;
-				BlueAttackACollision_->Off();
-				SetBossSkill(BossAttackType::MAX);
-			}
-			TypeChangeTime_ = 0.f;
-			ChangeState(BossState::Transform);
-			return;
-		}
-	}
-	else if (CurType_ == BossType::NORMAL)
-	{
-		if (TypeChangeTime_ > 5.f)
-		{
-			TypeChangeTime_ = 0.f;
-			ChangeState(BossState::Transform);
-			return;
-		}
-	}
-
+	BossTypeChange();
 }
 
 void Boss::ChangeState(BossState _State)
@@ -398,7 +321,52 @@ void Boss::MonsterStateUpdate()
 
 void Boss::Hit()
 {
-	TakeDamage(50);
+	if (true == IsBlueHat_)
+	{
+		switch (CurType_)
+		{
+		case BossType::NORMAL:	// 다른 모자 -> 데미지 두 배 (50)
+		{
+			TakeDamage(DamageAmount_ * 2);
+		}
+		break;
+		case BossType::BLUE:	// 같은 모자 -> 체력 회복
+		{
+			TakeDamage(-DamageAmount_);
+		}
+			break;
+		case BossType::RED:
+		{
+			TakeDamage(DamageAmount_ * 2);
+		}
+			break;
+		default:
+			break;
+		}
+	}
+	else if (true == IsRedHat_)
+	{
+		switch (CurType_)
+		{
+		case BossType::NORMAL:	// 다른 모자 -> 데미지 두 배 (50)
+		{
+			TakeDamage(DamageAmount_ * 2);
+		}
+		break;
+		case BossType::BLUE:
+		{
+			TakeDamage(DamageAmount_ * 2);
+		}
+			break;
+		case BossType::RED:		// 같은 모자 -> 체력 회복
+		{
+			TakeDamage(-DamageAmount_);
+		}
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void Boss::DirChange()
@@ -696,6 +664,8 @@ void Boss::RegenStart()
 	{
 	case BossType::NORMAL:
 	{
+		AttackACollision_->Off();
+		AttackBCollision_->Off();
 		Random_ = GameEngineRandom::MainRandom.RandomInt(0, 1);
 		switch (Random_)
 		{
@@ -725,18 +695,16 @@ void Boss::RegenStart()
 	break;
 	case BossType::RED:
 	{
-		SetBossType(BossType::NORMAL);
 		RedAttackACollision_->Off();
 		RedAttackBCollision_->Off();
+		SetBossType(BossType::NORMAL);
 		Renderer_->ChangeFrameAnimation("Regen");
 	}
 	break;
 	default:
 		break;
 	}
-
 }
-
 
 void Boss::AttackAStart()
 {
@@ -786,7 +754,6 @@ void Boss::AttackCStart()
 void Boss::BlueAttackStart()
 {
 	Player::MainPlayer_->IsChase_ = true;
-	IsChase_ = true;
 	Renderer_->ChangeFrameAnimation("Blue_Attack");
 
 	SetBossSkill(BossAttackType::BlueAtt_A);
@@ -852,6 +819,138 @@ void Boss::RedTeleportRegenStart()
 	Renderer_->On();
 	GetTransform().SetLocalPosition(GetPlayerPosition());
 	Renderer_->ChangeFrameAnimation("Red_TelRegen");
+}
+
+void Boss::TimeCheck()
+{
+	if (CanAttTime_ > 3.f)
+	{
+		CanAttTime_ = 0.0f;
+		IsAttack = false;
+	}
+
+	if (AttEndTime_ > 0.04f)
+	{
+		AttEndTime_ = 0.0f;
+		IsAttackEnd = false;
+
+		ChangeState(BossState::Idle);
+		return;
+	}
+
+	if (TeleportTime_ > 3.f)
+	{
+		TeleportTime_ = 0.f;
+		IsTeleport_ = false;
+		ChangeState(BossState::RED_TelRegen);
+		return;
+	}
+	if (ChaseTime_ > 10.f)
+	{
+		Player::MainPlayer_->IsChase_ = false;
+		ChaseTime_ = 0.f;
+		BlueAttackACollision_->Off();
+		SetBossSkill(BossAttackType::MAX);
+		ChangeState(BossState::Idle);
+		return;
+	}
+
+}
+
+void Boss::CreateHat()
+{
+	if (true == IsCreateHat_)
+	{
+		RandomHatTime_ = GameEngineRandom::MainRandom.RandomInt(8, 15);
+		IsCreateHat_ = false;
+	}
+	if (CreateHatTime_ > 7)	// RandomHatTime_ -> 7 로 잠깐 수정
+	{
+		for (int i = -3; i < 3; ++i)
+		{
+			BossHat* Hat = GetLevel()->CreateActor<BossHat>();
+			Hat->GetTransform().SetLocalPosition({ GetPlayerPosition().x + i * 250.f, -440.f + 565.f, (int)ZOrder::EFFECT });
+		}
+		//BossHat* Hat = GetLevel()->CreateActor<BossHat>();
+		//Hat->GetTransform().SetLocalPosition({ GetPlayerPosition().x, GetPlayerPosition().y + 565.f, (int)ZOrder::EFFECT});
+		CreateHatTime_ = 0.f;
+		IsCreateHat_ = true;
+	}
+
+}
+
+void Boss::BossTypeChange()
+{
+	if (CurState_ == BossState::Attack_A
+		|| CurState_ == BossState::Attack_B
+		|| CurState_ == BossState::RED_Tel
+		|| CurState_ == BossState::RED_TelRegen)
+	{
+		return;
+	}
+	if (CurType_ == BossType::BLUE || CurType_ == BossType::RED)
+	{
+		if (TypeChangeTime_ > 10.f)
+		{
+			if (CurType_ == BossType::BLUE)
+			{
+				Player::MainPlayer_->IsChase_ = false;
+				ChaseTime_ = 0.f;
+				BlueAttackACollision_->Off();
+				SetBossSkill(BossAttackType::MAX);
+			}
+			TypeChangeTime_ = 0.f;
+			ChangeState(BossState::Transform);
+			return;
+		}
+	}
+	else if (CurType_ == BossType::NORMAL)
+	{
+		if (TypeChangeTime_ > 5.f)
+		{
+			TypeChangeTime_ = 0.f;
+			ChangeState(BossState::Transform);
+			return;
+		}
+	}
+
+}
+
+void Boss::PlayerHatChange()
+{
+	if (PlayerHatTime_ > 10.f)
+	{
+		int Random = GameEngineRandom::MainRandom.RandomInt(0, 1);
+		switch (Random)
+		{
+		case 0:
+		{
+			if (true == IsBlueHat_)
+			{
+				IsBlueHat_ = false;
+				Player::MainPlayer_->IsBlueHat_ = false;
+			}
+			IsRedHat_ = true;
+			Player::MainPlayer_->IsRedHat_ = true;
+		}
+		break;
+		case 1:
+		{
+			if (true == IsRedHat_)
+			{
+				IsRedHat_ = false;
+				Player::MainPlayer_->IsRedHat_ = false;
+			}
+			IsBlueHat_ = true;
+			Player::MainPlayer_->IsBlueHat_ = true;
+		}
+		break;
+		default:
+			break;
+		}
+		PlayerHatTime_ = 0.f;
+	}
+
 }
 
 void Boss::IdleUpdate()

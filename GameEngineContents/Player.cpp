@@ -109,6 +109,12 @@ Player::Player()
 	, StunRenderer_(nullptr)
 	, SkillLockRenderer_(nullptr)
 	, IsChase_(false)
+	, MissRenderer_(nullptr)
+	, Boss_(nullptr)
+	, RedHatRenderer_(nullptr)
+	, BlueHatRenderer_(nullptr)
+	, IsBlueHat_(false)
+	, IsRedHat_(false)
 {
 }
 
@@ -434,6 +440,16 @@ void Player::Start()
 
 	// 플레이어 머리 위 상태 이상 렌더러
 	{
+		RedHatRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+		RedHatRenderer_->GetTransform().SetLocalScale({ 91.f, 61.f });
+		RedHatRenderer_->SetTexture("RedBoss_Hat.png");
+		RedHatRenderer_->Off();
+
+		BlueHatRenderer_ = CreateComponent<GameEngineTextureRenderer>();
+		BlueHatRenderer_->GetTransform().SetLocalScale({ 91.f, 61.f });
+		BlueHatRenderer_->SetTexture("BlueBoss_Hat.png");
+		BlueHatRenderer_->Off();
+
 		StunRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 		StunRenderer_->GetTransform().SetLocalScale({ 66.f, 18.f });
 		StunRenderer_->CreateFrameAnimationFolder("Stun", FrameAnimation_DESC("Stun", 0.09f));
@@ -445,14 +461,14 @@ void Player::Start()
 		HatChaseRenderer_->GetTransform().SetLocalScale({ 81.f, 92.f });
 		HatChaseRenderer_->CreateFrameAnimationFolder("Hat_Chase", FrameAnimation_DESC("Hat_Chase", 0.1f));
 		HatChaseRenderer_->ChangeFrameAnimation("Hat_Chase");
-		HatChaseRenderer_->GetTransform().SetLocalPosition({ 0.f, 60.f });
+		HatChaseRenderer_->GetTransform().SetLocalPosition({ 0.f, 70.f });
 		HatChaseRenderer_->Off();
 
 		SkillLockRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 		SkillLockRenderer_->GetTransform().SetLocalScale({ 59.f, 42.f });
 		SkillLockRenderer_->CreateFrameAnimationFolder("SkillLock", FrameAnimation_DESC("SkillLock", 0.1f));
 		SkillLockRenderer_->ChangeFrameAnimation("SkillLock");
-		SkillLockRenderer_->GetTransform().SetLocalPosition({ 0.f, 30.f });
+		SkillLockRenderer_->GetTransform().SetLocalPosition({ 0.f, 35.f });
 		SkillLockRenderer_->Off();
 
 		MissRenderer_ = CreateComponent<GameEngineTextureRenderer>();
@@ -1052,6 +1068,43 @@ void Player::PlayerMove(float _DeltaTime)
 		DirCheck(PlayerRenderer_, CurDir_);
 	}
 
+	// 보스 레벨 모자
+	if (true == IsRedHat_)
+	{
+		if (true == BlueHatRenderer_->IsUpdate())
+		{
+			BlueHatRenderer_->Off();
+		}
+		RedHatRenderer_->On();
+		if (ACTORDIR::LEFT == CurDir_)
+		{
+			RedHatRenderer_->GetTransform().PixLocalPositiveX();
+			RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f});
+		}
+		else if (ACTORDIR::RIGHT == CurDir_)
+		{
+			RedHatRenderer_->GetTransform().PixLocalNegativeX();
+			RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
+		}
+	}
+	else if (true == IsBlueHat_)
+	{
+		if (true == RedHatRenderer_->IsUpdate())
+		{
+			RedHatRenderer_->Off();
+		}
+		BlueHatRenderer_->On();
+		if (ACTORDIR::LEFT == CurDir_)
+		{
+			BlueHatRenderer_->GetTransform().PixLocalPositiveX();
+			BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
+		}
+		else if (ACTORDIR::RIGHT == CurDir_)
+		{
+			BlueHatRenderer_->GetTransform().PixLocalNegativeX();
+			BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
+		}
+	}
 }
 
 void Player::UseSkill()
@@ -1104,10 +1157,10 @@ void Player::UseSkill()
 
 		Skill_ = GetLevel()->CreateActor<Skill>();
 		Skill_->GetJiARenderer()->On();
-		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 70.f, (int)ZOrder::SKILLBACK});
+		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 70.f});
 		Skill_->GetJiBRenderer()->On();
 		Skill_->GetJiBRenderer()->ChangeFrameAnimation("Ji_B");
-		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 130.f, (int)ZOrder::SKILLBACK });
+		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 130.f});
 		Skill_->GetCollision()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 100.f });
 		Skill_->GetCollision()->On();
 		CurSkill_ = PLAYERSKILL::SKILL_JI;

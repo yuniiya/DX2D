@@ -128,6 +128,8 @@ public:
 	bool IsCastleQuestClear_;
 	bool IsCactusQuestEnd_;
 	bool IsChase_;
+	bool IsBlueHat_;
+	bool IsRedHat_;
 
 
 private:
@@ -255,6 +257,8 @@ private:
 	GameEngineTextureRenderer* StunRenderer_;
 	GameEngineTextureRenderer* HatChaseRenderer_;
 	GameEngineTextureRenderer* SkillLockRenderer_;
+	GameEngineTextureRenderer* RedHatRenderer_;
+	GameEngineTextureRenderer* BlueHatRenderer_;
 	GameEngineTextureRenderer* MissRenderer_;
 
 
