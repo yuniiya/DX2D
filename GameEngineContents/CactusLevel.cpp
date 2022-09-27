@@ -31,7 +31,51 @@ void CactusLevel::Start()
 	SetStage("Stage_Cactus.png");
 
 	Cloud* Cloud_ = CreateActor<Cloud>();
-	Cloud_->CreateCloud("Cactus_Cloud.png", { 2060.f / 2.f, -500.f }, 90.f);
+	Cloud_->CreateCloud("Cactus_Cloud.png", { 2060.f / 2.f, -500.f }, 90.f, true);
+
+	// Monster
+	{
+		WhiteRabbit* Rabbit1 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit1->GetTransform().SetLocalPosition({ 1050.f, -750.f, (int)ZOrder::MONSTER });
+		Rabbit1->SetMonsterDir(ACTORDIR::LEFT);
+
+		WhiteRabbit* Rabbit2 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit2->GetTransform().SetLocalPosition({ 300.f, -750.f, (int)ZOrder::MONSTER });
+		Rabbit2->SetMonsterDir(ACTORDIR::RIGHT);
+
+		WhiteRabbit* Rabbit3 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit3->GetTransform().SetLocalPosition({ 500.f, -750.f, (int)ZOrder::MONSTER });
+		Rabbit3->SetMonsterDir(ACTORDIR::RIGHT);
+	}
+
+	{
+		BrownRabbit* Rabbit1 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit1->GetTransform().SetLocalPosition({ 800.f, -500.f, (int)ZOrder::MONSTER });
+		Rabbit1->SetMonsterDir(ACTORDIR::RIGHT);
+
+		BrownRabbit* Rabbit2 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit2->GetTransform().SetLocalPosition({ 500.f, -500.f, (int)ZOrder::MONSTER });
+		Rabbit2->SetMonsterDir(ACTORDIR::LEFT);
+
+		BrownRabbit* Rabbit3 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
+		Rabbit3->GetTransform().SetLocalPosition({ 600.f, -500.f, (int)ZOrder::MONSTER });
+		Rabbit3->SetMonsterDir(ACTORDIR::LEFT);
+	}
+
+
+	{
+		BabyCactus* Cactus1 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
+		Cactus1->GetTransform().SetLocalPosition({ 820.f, -500.f, (int)ZOrder::MONSTER });
+		Cactus1->SetMonsterDir(ACTORDIR::LEFT);
+
+		BabyCactus* Cactus2 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
+		Cactus2->GetTransform().SetLocalPosition({ 520.f, -500.f, (int)ZOrder::MONSTER });
+		Cactus2->SetMonsterDir(ACTORDIR::RIGHT);
+
+		BabyCactus* Cactus3 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
+		Cactus3->GetTransform().SetLocalPosition({ 1000.f, -750.f, (int)ZOrder::MONSTER });
+		Cactus3->SetMonsterDir(ACTORDIR::LEFT);
+	}
 
 	SetPortal({ 111.f, -776.f, (int)ZOrder::PORTAL });
 	SetPortal({ 1864.f, -776.f, (int)ZOrder::PORTAL });
@@ -84,49 +128,7 @@ void CactusLevel::LevelStartEvent()
 	{
 		ContentsUI::MainUI_->On();
 	}
-	// Monster
-	{
-		WhiteRabbit* Rabbit1 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
-		Rabbit1->GetTransform().SetLocalPosition({ 1050.f, -600.f, (int)ZOrder::MONSTER });
-		Rabbit1->SetMonsterDir(ACTORDIR::LEFT);
 
-		WhiteRabbit* Rabbit2 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
-		Rabbit2->GetTransform().SetLocalPosition({ 300.f, -600.f, (int)ZOrder::MONSTER });
-		Rabbit2->SetMonsterDir(ACTORDIR::RIGHT);
-
-		WhiteRabbit* Rabbit3 = CreateActor<WhiteRabbit>(GAMEOBJGROUP::MONSTER);
-		Rabbit3->GetTransform().SetLocalPosition({ 500.f, -600.f, (int)ZOrder::MONSTER });
-		Rabbit3->SetMonsterDir(ACTORDIR::RIGHT);
-	}
-
-	{
-		BrownRabbit* Rabbit1 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
-		Rabbit1->GetTransform().SetLocalPosition({ 800.f, -300.f, (int)ZOrder::MONSTER });
-		Rabbit1->SetMonsterDir(ACTORDIR::RIGHT);
-
-		BrownRabbit* Rabbit2 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
-		Rabbit2->GetTransform().SetLocalPosition({ 500.f, -300.f, (int)ZOrder::MONSTER });
-		Rabbit2->SetMonsterDir(ACTORDIR::LEFT);
-
-		BrownRabbit* Rabbit3 = CreateActor<BrownRabbit>(GAMEOBJGROUP::MONSTER);
-		Rabbit3->GetTransform().SetLocalPosition({ 600.f, -300.f, (int)ZOrder::MONSTER });
-		Rabbit3->SetMonsterDir(ACTORDIR::LEFT);
-	}
-
-
-	{
-		BabyCactus* Cactus1 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
-		Cactus1->GetTransform().SetLocalPosition({ 820.f, -300.f, (int)ZOrder::MONSTER });
-		Cactus1->SetMonsterDir(ACTORDIR::LEFT);
-
-		BabyCactus* Cactus2 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
-		Cactus2->GetTransform().SetLocalPosition({ 520.f, -300.f, (int)ZOrder::MONSTER });
-		Cactus2->SetMonsterDir(ACTORDIR::RIGHT);
-
-		BabyCactus* Cactus3 = CreateActor<BabyCactus>(GAMEOBJGROUP::MONSTER);
-		Cactus3->GetTransform().SetLocalPosition({ 1000.f, -600.f, (int)ZOrder::MONSTER });
-		Cactus3->SetMonsterDir(ACTORDIR::LEFT);
-	}
 }
 
 void CactusLevel::LevelEndEvent()

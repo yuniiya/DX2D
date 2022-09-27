@@ -220,6 +220,9 @@
     <ClInclude Include="MapBackGround.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Actor\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -389,6 +392,9 @@
       <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="Cloud.cpp">
+      <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
       <Filter>Actor\Map</Filter>
     </ClCompile>
   </ItemGroup>

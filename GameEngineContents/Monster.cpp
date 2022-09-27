@@ -46,11 +46,21 @@ Monster::Monster()
 	, FreezerAttCol_(nullptr)
 	, Damage_(0)
 	, IsRight(false)
+	, RegenPos_(0.f)
+	, RegenTime_(0.f)
+	, IsDeath(false)
+	, IsRegenEnd(false)
 {
 }
 
 Monster::~Monster()
 {
+}
+
+void Monster::SetMonsterDir(ACTORDIR _Dir)
+{
+	SetDir(_Dir);
+	SetRegenPosition(GetTransform().GetLocalPosition());
 }
 
 void Monster::TakeDamage(int _Damage)
@@ -197,17 +207,43 @@ void Monster::Update(float _DeltaTime)
 		ChangeState(MONSTERSTATE::IDLE);
 		return;
 	}
+	if (RegenTime_ > 5.f)
+	{
+		IsDeath = false;
+		IsRegenEnd = true;
+
+		GetTransform().SetLocalPosition(RegenPos_);
+		SetHP(100.f);
+
+		RegenTime_ = 0.f;
+		ChangeState(MONSTERSTATE::IDLE);
+		return;
+	}
+	if (true == IsRegenEnd)
+	{
+		Renderer_->GetPixelData().MulColor.a += 0.8f * GameEngineTime::GetDeltaTime();
+
+		if (1 <= Renderer_->GetPixelData().MulColor.a)
+		{
+			Renderer_->GetPixelData().MulColor.a = 1;
+			IsRegenEnd = false;
+		}
+	}
 
 	if (true == IsAttack)
 	{
-		CanAttTime_ += GameEngineTime::GetDeltaTime();
+		CanAttTime_ += _DeltaTime;
 	}
 
 	if (true == IsAttackEnd)
 	{
-		AttEndTime_ += GameEngineTime::GetDeltaTime();
+		AttEndTime_ += _DeltaTime;
 	}
 
+	if (true == IsDeath)
+	{
+		RegenTime_ += _DeltaTime;
+	}
 }
 
 void Monster::ChangeState(MONSTERSTATE _State)
@@ -233,6 +269,9 @@ void Monster::ChangeState(MONSTERSTATE _State)
 			break;
 		case MONSTERSTATE::DIE:
 			DieStart();
+			break;
+		case MONSTERSTATE::REGEN:
+			RegenStart();
 			break;
 		}
 	}
@@ -261,6 +300,9 @@ void Monster::MonsterStateUpdate()
 		break;
 	case MONSTERSTATE::DIE:
 		DieUpdate();
+		break;
+	case MONSTERSTATE::REGEN:
+		RegenUpdate();
 		break;
 	}
 }
@@ -316,11 +358,14 @@ void Monster::Attack()
 		return;
 	}
 
+	PlayerPos_ = Player::MainPlayer_->GetPosition();
+	MonsterPos_ = GetPosition();
+	if (100.f < abs(MonsterPos_.y - PlayerPos_.y))
+	{
+		return;
+	}
 	if (MonsterType_ == MONSTERTYPE::ATTACK)
 	{
-		PlayerPos_ = Player::MainPlayer_->GetPosition();
-		MonsterPos_ = GetPosition();
-
 		if (100.f >= abs(MonsterPos_.x - PlayerPos_.x))
 		{
 			ChangeState(MONSTERSTATE::ATTACK);
@@ -536,7 +581,6 @@ void Monster::MoveStart()
 	}
 
 	Collision_->On();
-
 	Renderer_->ChangeFrameAnimation("Move");
 }
 
@@ -676,12 +720,14 @@ void Monster::DieStart()
 	case MONSTERNAME::Freezer:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 116.f, 107.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f });
 		GameEngineSound::SoundPlayOneShot("FrDie.mp3");
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
 		Renderer_->GetTransform().SetLocalScale({ 139.f, 132.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f });
 		GameEngineSound::SoundPlayOneShot("SpDie.mp3");
 
 	}
@@ -695,8 +741,15 @@ void Monster::DieStart()
 	Collision_->Off();
 
 	Player::MainPlayer_->AddExp(1.f);
-
+	Renderer_->AnimationBindEnd("Die", std::bind(&Monster::BindMonsterDeathCheck, this, std::placeholders::_1));
 	Renderer_->ChangeFrameAnimation("Die");
+}
+
+void Monster::RegenStart()
+{
+	IsDeath = true;
+	Renderer_->ChangeFrameAnimation("Idle");
+	Renderer_->GetPixelData().MulColor.a = 0;
 }
 
 void Monster::IdleUpdate()
@@ -794,11 +847,20 @@ void Monster::AttackUpdate()
 
 void Monster::DieUpdate()
 {
-	Renderer_->AnimationBindEnd("Die", std::bind(&Monster::BindMonsterDeathCheck, this, std::placeholders::_1));
+
+}
+
+void Monster::RegenUpdate()
+{
+	
 }
 
 void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 {
+	if (true == IsDeath)
+	{
+		return;
+	}
 	GameEngineSound::SoundPlayOneShot("DropItem.mp3");
 
 	Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::ITEM);
@@ -811,7 +873,10 @@ void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 	MesoActor->GetTransform().SetLocalPosition({ GetPosition().x + 10.f, GetPosition().y - 14.f, (int)ZOrder::ITEM });
 	MesoActor->TimeAttackStart();
 
-	Death();
+	//Death();
+	ChangeState(MONSTERSTATE::REGEN);
+	return;
+
 }
 
 void Monster::BindAttackStartCheck(const FrameAnimation_DESC& _Info)

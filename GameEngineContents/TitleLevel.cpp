@@ -47,5 +47,8 @@ void TitleLevel::End()
 
 void TitleLevel::LevelStartEvent()
 {
-	//Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	if (nullptr != ContentsUI::MainUI_)
+	{
+		ContentsUI::MainUI_->Off();
+	}
 }

@@ -88,13 +88,11 @@ public:
 	void CameraFix(float4 _MapSize);
 
 protected:
-	void SetCamera();
 	void SetBackGround(const std::string& _Name);
 	void SetStage(const std::string& _Name);
 	void SetCollisionMap(const std::string& _Name);
 	void SetPortal(float4 _Pos);
 	void SetAriantSunLight(float _YPos);
-	void SetAriantCloud(float _YPos);
 
 	Boss* Boss_;
 

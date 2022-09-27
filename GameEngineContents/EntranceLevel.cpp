@@ -24,7 +24,7 @@ void EntranceLevel::Start()
 	SetAriantSunLight(-600.f);
 	SetStage("Stage_Entrance.png");
 	Cloud* Cloud_ = CreateActor<Cloud>();
-	Cloud_->CreateCloud("Entrance_Cloud.png", { 2340.f / 2.f, -850.f }, 90.f);
+	Cloud_->CreateCloud("Entrance_Cloud.png", { 2340.f / 2.f, -850.f }, 90.f, true);
 	//Player_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 	//Player_->GetTransform().SetLocalPosition({ 2100.0f, -1000.0f});
 

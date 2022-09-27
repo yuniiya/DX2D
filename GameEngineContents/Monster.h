@@ -9,6 +9,7 @@ enum class MONSTERSTATE
 	ATTACK,
 	DAMAGED,
 	DIE,
+	REGEN,
 
 	MAX,
 };
@@ -123,15 +124,17 @@ public:
 		MonsterType_ = _MonsterType;
 	}
 
-	inline void SetMonsterDir(ACTORDIR _Dir)
-	{
-		SetDir(_Dir);
-	}
+	void SetMonsterDir(ACTORDIR _Dir); 
 
 	inline void SetChangeTime(float _IdleTime, float _MoveTime)
 	{
 		IdleTime_ = _IdleTime;
 		MoveTime_ = _MoveTime;
+	}
+
+	inline void SetRegenPosition(float4 _RegenPos)
+	{
+		RegenPos_ = _RegenPos;
 	}
 
 	void TakeDamage(int _Damage);
@@ -177,6 +180,7 @@ protected:
 	float ChaseTime_;
 	float CanAttTime_;
 	float AttEndTime_;
+	float RegenTime_;
 
 	int BottomPos_;
 	int LeftRightPos_;
@@ -186,6 +190,7 @@ protected:
 	float4 PlayerPos_;
 	float4 MonsterPos_;
 	float4 PrevPos_;
+	float4 RegenPos_;
 
 	MONSTERSTATE CurState_;
 	MONSTERSTATE PrevState_;
@@ -199,6 +204,8 @@ protected:
 	bool IsAttack;
 	bool IsAttackEnd;
 	bool IsRight;
+	bool IsDeath;
+	bool IsRegenEnd;
 
 protected:
 	GameEngineTextureRenderer* Renderer_;
@@ -216,6 +223,7 @@ protected:
 	virtual void DamagedStart();
 	virtual void AttackStart();
 	virtual void DieStart();
+	virtual void RegenStart();
 
 	virtual void IdleUpdate();
 	virtual void MoveUpdate();
@@ -223,5 +231,7 @@ protected:
 	virtual void DamagedUpdate();
 	virtual void AttackUpdate();
 	virtual void DieUpdate();
+	virtual void RegenUpdate();
+
 };
 

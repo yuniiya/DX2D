@@ -13,7 +13,6 @@ void Player::IdleStart(const StateInfo& _Info)
 	JumpPower_ = 0.0f;
 	Speed_ = 200.f;
 	ReSetAccTime();
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 	PlayerRenderer_->ChangeFrameAnimation("Idle");
 }
 
@@ -25,7 +24,6 @@ void Player::MoveStart(const StateInfo& _Info)
 	}
 	MoveDir_ = 0.0f;
 	JumpPower_ = 0.0f;
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 70.f});
 	PlayerRenderer_->ChangeFrameAnimation("Move");
 }
 
@@ -45,19 +43,16 @@ void Player::JumpStart(const StateInfo& _Info)
 	AddAccTime(Time_);
 	JumpPower_ = float4{ 0.f, 230.f, 0.f };
 
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
 void Player::FallStart(const StateInfo& _Info)
 {
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Fall");
 }
 
 void Player::ProneStart(const StateInfo& _Info)
 {
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 87.f, 130.f});
 	PlayerRenderer_->ChangeFrameAnimation("Prone");
 }
 
@@ -68,7 +63,6 @@ void Player::ProneStabStart(const StateInfo& _Info)
 
 void Player::LadderStart(const StateInfo& _Info)
 {
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 69.f, 74.f });
 	PlayerRenderer_->ChangeFrameAnimation("LadderA");
 }
 
@@ -89,7 +83,6 @@ void Player::SkillAttackStart(const StateInfo& _Info)
 	PrevPosition_ = GetPosition();
 	PrevDir_ = CurDir_;
 
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 79.f, 76.f });
 	PlayerRenderer_->ChangeFrameAnimation("SkillAtt");
 }
 
@@ -107,13 +100,12 @@ void Player::JumpSkillAttackStart(const StateInfo& _Info)
 	AddAccTime(Time_);
 	JumpPower_ = float4{ 0.f, 230.f, 0.f };
 
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
 
 void Player::DoubleJumpStart(const StateInfo& _Info)
 {
-	JumpPower_ = float4{ 0.f, 500.f, 0.f };
+	JumpPower_ = float4{ 0.f, 400.f, 0.f };
 	Speed_ = 350.f;
 
 	AddAccTime(DoubleJumpTime_);
@@ -130,7 +122,6 @@ void Player::DoubleJumpStart(const StateInfo& _Info)
 		ChoA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 160.f, GetPosition().y - 60.f, (int)ZOrder::SKILLBACK });
 	}
 
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f });
 	GameEngineSound::SoundPlayOneShot("Cho.mp3");
 	PlayerRenderer_->ChangeFrameAnimation("Jump");
 }
@@ -146,8 +137,6 @@ void Player::DamagedStart(const StateInfo& _Info)
 	DamageNum_->GetTransform().SetLocalMove({ 0.f, -20.f });
 	DamageNum_->SetDamage(Damage_);
 
-
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
 }
 
@@ -162,15 +151,18 @@ void Player::KnockBackStart(const StateInfo& _Info)
 	DamageNum_->GetTransform().SetLocalMove({ 0.f, -20.f });
 	DamageNum_->SetDamage(Damage_);
 
-
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 71.f });
 	PlayerRenderer_->ChangeFrameAnimation("Damaged");
 }
 
 void Player::DieStart(const StateInfo& _Info)
 {
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 69.f});
 	PlayerRenderer_->ChangeFrameAnimation("Die");
+}
+
+void Player::FlyingStart(const StateInfo& _Info)
+{
+	GameEngineSound::SoundPlayOneShot("Jump.mp3");
+	PlayerRenderer_->ChangeFrameAnimation("Flying");
 }
 
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -202,8 +194,17 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
 	{
-		StateManager.ChangeState("Jump");
-		return;
+		if (CurLevelName_ == "AQUA")
+		{
+			MoveDir_ = float4{ 0.f, 200.f, 0.f };
+			StateManager.ChangeState("Flying");
+			return;
+		}
+		else
+		{
+			StateManager.ChangeState("Jump");
+			return;
+		}
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("Attack"))
@@ -295,8 +296,17 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("Jump"))
 	{
-		StateManager.ChangeState("Jump");
-		return;
+		if (CurLevelName_ == "AQUA")
+		{
+			MoveDir_ = float4{ 0.f, 200.f, 0.f };
+			StateManager.ChangeState("Flying");
+			return;
+		}
+		else
+		{
+			StateManager.ChangeState("Jump");
+			return;
+		}
 	}
 
 	if (false == IsMoveKey())
@@ -397,6 +407,13 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (CurLevelName_ == "AQUA")
+	{
+		MoveDir_ = float4{ 0.f, -50.f, 0.f };
+		StateManager.ChangeState("Flying");
+		return;
+	}
+
 	if (true == IsSkillKey())
 	{
 		UseSkill();
@@ -714,4 +731,52 @@ void Player::KnockBackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DieUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+}
+
+void Player::FlyingUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (0.01f < _Info.StateTime && false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	{
+		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 0.5f;
+	}
+	else if (1.f < _Info.StateTime)
+	{
+		if (true == BottomDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			StateManager.ChangeState("Idle");
+			return;
+		}
+	}
+	
+	if (true == GameEngineInput::GetInst()->IsDown("Jump"))
+	{
+		MoveDir_.y = 180.f;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+	{
+		MoveDir_.y = 120.f;
+	}
+	else if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	{
+		MoveDir_.y = -120.f;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		CurDir_ = ACTORDIR::LEFT;
+	}
+	else if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+	{
+		CurDir_ = ACTORDIR::RIGHT;
+	}
+
+
+	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
+
+	//if (true == IsSkillKey())
+	//{
+	//	UseSkill();
+	//}
+
 }

@@ -310,6 +310,7 @@ protected:
 	void DamagedStart(const StateInfo& _Info);
 	void KnockBackStart(const StateInfo& _Info);
 	void DieStart(const StateInfo& _Info);
+	void FlyingStart(const StateInfo& _Info);
 
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
@@ -326,5 +327,6 @@ protected:
 	void DamagedUpdate(float _DeltaTime, const StateInfo& _Info);
 	void KnockBackUpdate(float _DeltaTime, const StateInfo& _Info);
 	void DieUpdate(float _DeltaTime, const StateInfo& _Info);
+	void FlyingUpdate(float _DeltaTime, const StateInfo& _Info);
 };
 

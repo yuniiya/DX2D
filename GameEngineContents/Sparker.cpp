@@ -34,7 +34,7 @@ void Sparker::Start()
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Sparker_Walk", 0.15f));
 	Renderer_->CreateFrameAnimationFolder("Attack", FrameAnimation_DESC("Sparker_Att", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Sparker_Hit", 0.1f));
-	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Sparker_Die", 0.1f));
+	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Sparker_Die", 0.14f));
 
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);

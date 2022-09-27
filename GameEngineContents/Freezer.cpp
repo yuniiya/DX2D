@@ -34,7 +34,7 @@ void Freezer::Start()
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Freezer_Walk", 0.15f));
 	Renderer_->CreateFrameAnimationFolder("Attack", FrameAnimation_DESC("Freezer_Att", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Damaged", FrameAnimation_DESC("Freezer_Hit", 0.1f));
-	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Freezer_Die", 0.1f));
+	Renderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Freezer_Die", 0.14f));
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(MONSTERSTATE::MOVE);
 

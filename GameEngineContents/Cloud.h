@@ -21,7 +21,7 @@ public:
 		return Renderer_;
 	}
 
-	void CreateCloud(const std::string _Name, float4 _Pos, float _Speed);
+	void CreateCloud(const std::string _Name, float4 _Pos, float _Speed, bool _IsPluseMove);
 
 protected:
 	void Start();
@@ -33,5 +33,6 @@ private:
 
 	float Time_;
 	float Speed_;
+	bool IsPlusMove_;
 };
 

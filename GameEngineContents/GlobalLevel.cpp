@@ -49,13 +49,6 @@ void GlobalLevel::LevelStartEvent()
 
 }
 
-void GlobalLevel::SetCamera()
-{
-	//GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
-	//CameraActor->GetTransform().SetLocalPosition({ 0.f, 0.f, -500.0f });
-	//CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-}
-
 void GlobalLevel::SetBackGround(const std::string& _Name)
 {
 	BackGroundActor = CreateActor<MapBackGround>(GAMEOBJGROUP::BACKGROUND);
@@ -114,14 +107,6 @@ void GlobalLevel::SetAriantSunLight(float _YPos)
 	AriantSunLight_->On();
 	BackGroundActor->SetSunShineYPos(_YPos);
 }
-
-void GlobalLevel::SetAriantCloud(float _YPos)
-{
-	AriantCloud_ = BackGroundActor->GetAriantCloudRenderer();
-	AriantCloud_->On();
-	BackGroundActor->SetCloudYPos(_YPos);
-}
-
 
 void GlobalLevel::CameraFix(float4 _MapSize)
 {

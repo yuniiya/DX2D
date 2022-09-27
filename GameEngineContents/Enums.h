@@ -62,6 +62,7 @@ enum class PLAYERSTATE
 	ATTACK,
 	DAMAGED,
 	DIE,
+	FLY,
 
 	MAX,
 };

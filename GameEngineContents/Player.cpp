@@ -216,6 +216,7 @@ void Player::Start()
 	NormalPlayerRenderer_->CreateFrameAnimationFolder("KnockBack", FrameAnimation_DESC("Alert", 0.2f));
 	NormalPlayerRenderer_->CreateFrameAnimationFolder("Die", FrameAnimation_DESC("Player_Die", 0.2f));
 	NormalPlayerRenderer_->CreateFrameAnimationFolder("DoubleJump", FrameAnimation_DESC("Jump", 0.2f));
+	NormalPlayerRenderer_->CreateFrameAnimationFolder("Flying", FrameAnimation_DESC("Flying", 0.3f));
 	NormalPlayerRenderer_->ChangeFrameAnimation("Idle");
 	PlayerRenderer_ = NormalPlayerRenderer_;
 
@@ -311,6 +312,10 @@ void Player::Start()
 	StateManager.CreateStateMember("Die"
 		, std::bind(&Player::DieUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::DieStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("Flying"
+		, std::bind(&Player::FlyingUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::FlyingStart, this, std::placeholders::_1)
 	);
 
 	StateManager.ChangeState("Idle");
@@ -668,20 +673,30 @@ bool Player::StagePixelCheck()
 	{
 		// 카메라 바깥쪽 이동 막기 - 위
 		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f })
-			|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+/*			|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }*/)
 		{
-			Pos = float4{ 0.f, -2.f, 0.f };
+			Pos = float4{ 0.f, -1.f, 0.f };
 			GetTransform().SetWorldMove(Pos);
+	/*		if ("Flying" != StateManager.GetCurStateStateName())
+			{
+				
+			}*/
 		}
 		else // 허공 -> 땅에 닿을 때까지 내려준다
 		{
 			if ("Jump" != StateManager.GetCurStateStateName()
 				&& "Damaged" != StateManager.GetCurStateStateName()
-				&& "JumpAttack" != StateManager.GetCurStateStateName())
+				&& "JumpAttack" != StateManager.GetCurStateStateName()
+				&& "Flying" != StateManager.GetCurStateStateName())
 			{
 				DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 5.f;
 				GetTransform().SetWorldMove(DownPower_);
 			}
+			//else if ()
+			//{
+			//	DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 2.f;
+			//	GetTransform().SetWorldMove(DownPower_);
+			//}
 			else
 			{
 				DownPower_ = 0.0f;
