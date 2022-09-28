@@ -737,7 +737,7 @@ void Player::FlyingUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (0.01f < _Info.StateTime && false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
-		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 0.5f;
+		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 1.4f;
 	}
 	else if (1.f < _Info.StateTime)
 	{

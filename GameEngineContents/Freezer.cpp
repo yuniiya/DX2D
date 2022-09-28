@@ -29,7 +29,7 @@ void Freezer::Start()
 	FreezerAttEffect_->Off();
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->GetTransform().SetLocalScale({ 80.f, 82.f });	// Move
+	Renderer_->GetTransform().SetLocalScale({ 300.f, 300.f });	// Move
 	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Freezer_Idle", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Freezer_Walk", 0.15f));
 	Renderer_->CreateFrameAnimationFolder("Attack", FrameAnimation_DESC("Freezer_Att", 0.1f));
@@ -39,7 +39,7 @@ void Freezer::Start()
 	ChangeState(MONSTERSTATE::MOVE);
 
 	SetHP(100.f);
-	SetSpeed(45.f);
+	SetSpeed(40.f);
 	SetPixelCheckPos(15, -37);
 	SetMonsterName(MONSTERNAME::Freezer);
 	SetMonsterType(MONSTERTYPE::ATTACK);

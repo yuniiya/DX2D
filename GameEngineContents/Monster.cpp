@@ -212,9 +212,16 @@ void Monster::Update(float _DeltaTime)
 		IsDeath = false;
 		IsRegenEnd = true;
 
-		GetTransform().SetLocalPosition(RegenPos_);
-		SetHP(100.f);
+		if (MonsterName_ == MONSTERNAME::Sand)
+		{
+			GetTransform().SetLocalPosition({RegenPos_.x, RegenPos_.y - 50.f});
+		}
+		else
+		{
+			GetTransform().SetLocalPosition(RegenPos_);
+		}
 
+		SetHP(100.f);
 		RegenTime_ = 0.f;
 		ChangeState(MONSTERSTATE::IDLE);
 		return;
@@ -506,7 +513,9 @@ void Monster::IdleStart()
 		break;
 	case MONSTERNAME::Sand:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 107.f, 81.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
+
+	//	Renderer_->GetTransform().SetLocalScale({ 107.f, 81.f });
 	}
 		break;
 	case MONSTERNAME::Scorpion:
@@ -516,14 +525,16 @@ void Monster::IdleStart()
 	break;
 	case MONSTERNAME::Freezer:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 77.f, 82.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
+		//Renderer_->GetTransform().SetLocalScale({ 77.f, 82.f });
+		//Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 77.f, 79.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
+		//Renderer_->GetTransform().SetLocalScale({ 77.f, 79.f });
+		//Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y });
 	}
 		break;
 	default:
@@ -556,7 +567,8 @@ void Monster::MoveStart()
 		break;
 	case MONSTERNAME::Sand:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 108.f, 48.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
+//		Renderer_->GetTransform().SetLocalScale({ 108.f, 48.f });
 	}
 		break;
 	case MONSTERNAME::Scorpion:
@@ -566,14 +578,14 @@ void Monster::MoveStart()
 	break;
 	case MONSTERNAME::Freezer:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 80.f, 82.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y});
+	//	Renderer_->GetTransform().SetLocalScale({ 80.f, 82.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 80.f, 81.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y});
+	//	Renderer_->GetTransform().SetLocalScale({ 80.f, 81.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, PrevPos_.y, (int)ZOrder::MONSTER });
 	}
 		break;
 	default:
@@ -613,7 +625,8 @@ void Monster::DamagedStart()
 		break;
 	case MONSTERNAME::Sand:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 86.f, 86.f });
+	//	Renderer_->GetTransform().SetLocalScale({ 86.f, 86.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 10.f, (int)ZOrder::MONSTER });
 		GameEngineSound::SoundPlayOneShot("SaDamage.mp3");
 	}
 		break;
@@ -625,13 +638,15 @@ void Monster::DamagedStart()
 	break;
 	case MONSTERNAME::Freezer:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 73.f, 92.f });
+//		Renderer_->GetTransform().SetLocalScale({ 73.f, 92.f });
+	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y - 10.f });
 		GameEngineSound::SoundPlayOneShot("FrDamage.mp3");
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 77.f, 73.f });
+	//	Renderer_->GetTransform().SetLocalScale({ 77.f, 73.f });
+	//	Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y - 10.f });
 		GameEngineSound::SoundPlayOneShot("SpDamage.mp3");
 	}
 		break;
@@ -658,8 +673,8 @@ void Monster::AttackStart()
 	{
 	case MONSTERNAME::Freezer:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 133.f, 143.f});
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 27.f});
+//		Renderer_->GetTransform().SetLocalScale({ 133.f, 143.f});
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 24.f, (int)ZOrder::MONSTER });
 		GameEngineSound::SoundPlayOneShot("FrAttack1.mp3");
 
 		FreezerAttCol_->On();
@@ -667,8 +682,8 @@ void Monster::AttackStart()
 	break;
 	case MONSTERNAME::Sparker:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 159.f, 147.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f});
+//		Renderer_->GetTransform().SetLocalScale({ 159.f, 147.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 17.f, (int)ZOrder::MONSTER});
 		GameEngineSound::SoundPlayOneShot("SpAttack1.mp3");
 
 		SparkerAttCol_->On();
@@ -706,8 +721,8 @@ void Monster::DieStart()
 		break;
 	case MONSTERNAME::Sand:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 97.f, 99.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 10.f });
+//		Renderer_->GetTransform().SetLocalScale({ 97.f, 99.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 10.f, (int)ZOrder::MONSTER });
 		GameEngineSound::SoundPlayOneShot("SaDie.mp3");
 	}
 		break;
@@ -719,15 +734,15 @@ void Monster::DieStart()
 	break;
 	case MONSTERNAME::Freezer:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 116.f, 107.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f });
+//		Renderer_->GetTransform().SetLocalScale({ 116.f, 107.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f, (int)ZOrder::MONSTER });
 		GameEngineSound::SoundPlayOneShot("FrDie.mp3");
 	}
 		break;
 	case MONSTERNAME::Sparker:
 	{
-		Renderer_->GetTransform().SetLocalScale({ 139.f, 132.f });
-		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f });
+//		Renderer_->GetTransform().SetLocalScale({ 139.f, 132.f });
+		Renderer_->GetTransform().SetWorldPosition({ GetPosition().x, GetPosition().y + 20.f, (int)ZOrder::MONSTER });
 		GameEngineSound::SoundPlayOneShot("SpDie.mp3");
 
 	}
@@ -739,6 +754,15 @@ void Monster::DieStart()
 	AddAccTime(Time_);
 
 	Collision_->Off();
+
+	if (MonsterName_ == MONSTERNAME::Sparker)
+	{
+		SparkerAttCol_->Off();
+	}
+	else if (MonsterName_ == MONSTERNAME::Freezer)
+	{
+		FreezerAttCol_->Off();
+	}
 
 	Player::MainPlayer_->AddExp(1.f);
 	Renderer_->AnimationBindEnd("Die", std::bind(&Monster::BindMonsterDeathCheck, this, std::placeholders::_1));

@@ -29,7 +29,7 @@ void Sparker::Start()
 	SparkerAttEffect_->Off();
 
 	Renderer_ = CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->GetTransform().SetLocalScale({ 80.f, 81.f });	// Move
+	Renderer_->GetTransform().SetLocalScale({ 300.f, 300.f });	// Move
 	Renderer_->CreateFrameAnimationFolder("Idle", FrameAnimation_DESC("Sparker_Idle", 0.1f));
 	Renderer_->CreateFrameAnimationFolder("Move", FrameAnimation_DESC("Sparker_Walk", 0.15f));
 	Renderer_->CreateFrameAnimationFolder("Attack", FrameAnimation_DESC("Sparker_Att", 0.1f));
@@ -40,7 +40,7 @@ void Sparker::Start()
 	ChangeState(MONSTERSTATE::MOVE);
 
 	SetHP(100.f);
-	SetSpeed(45.f);
+	SetSpeed(40.f);
 	SetPixelCheckPos(15, -37);
 	SetMonsterName(MONSTERNAME::Sparker);
 	SetMonsterType(MONSTERTYPE::ATTACK);

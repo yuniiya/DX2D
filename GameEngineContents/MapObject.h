@@ -21,14 +21,24 @@ public:
 		return AnimationRenderer_;
 	}
 
+	inline GameEngineTextureRenderer* GetXMoveRenderer()
+	{
+		return XMoveRenderer_;
+	}
+
 	inline GameEngineTextureRenderer* GetUVMoveRenderer()
 	{
 		return UVMoveRenderer_;
 	}
 
+	inline void GetWindowScale()
+	{
+		WindowScale_ = GameEngineWindow::GetScale();
+	}
+
 	void CreateAnimation(const std::string _Name, const std::string _FolderName, float _PlaySpeed, float4 _Pos, float4 _Scale);
-	void CreateFish(const std::string _Name, const std::string _FolderName, float _PlaySpeed, float _Speed, float4 _Pos, float4 _Scale);
-	void CreateTexture(const std::string _Name, float4 _Pos, float _Speed, bool _IsPluseMove);
+	void CreateXMoveAnimaition(const std::string _Name, const std::string _FolderName, float _PlaySpeed, float _MoveSpeed_, float4 _Pos, float4 _Scale, ACTORDIR _Dir);
+	void CreateUVMoveTexture(const std::string _Name, float4 _Pos, float _UVSpeed);
 protected:
 	void Start();
 	void Update(float _DeltaTime) override;
@@ -36,10 +46,16 @@ protected:
 
 private:
 	GameEngineTextureRenderer* AnimationRenderer_;
+	GameEngineTextureRenderer* XMoveRenderer_;
 	GameEngineTextureRenderer* UVMoveRenderer_;
 	 
 	float Time_;
-	float Speed_;
+	float UVSpeed_;
+	float MoveSpeed_;
 	float XPos_;
+	float4 TextureScale_;
+	float4 WindowScale_;
+
+	ACTORDIR CurDir_;
 };
 
