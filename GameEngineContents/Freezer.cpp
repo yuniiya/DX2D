@@ -40,7 +40,7 @@ void Freezer::Start()
 
 	SetHP(100.f);
 	SetSpeed(40.f);
-	SetPixelCheckPos(15, -37);
+	SetPixelCheckPos(13, -37);
 	SetMonsterName(MONSTERNAME::Freezer);
 	SetMonsterType(MONSTERTYPE::ATTACK);
 	SetMonsterDir(ACTORDIR::NONE);

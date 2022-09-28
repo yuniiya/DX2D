@@ -49,6 +49,9 @@
     <Filter Include="Actor\NPC">
       <UniqueIdentifier>{2fa43c33-f2bb-430d-a836-d6d265ff5da7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="KeyBoard">
+      <UniqueIdentifier>{f2d101ab-740b-4a27-be7b-d03cf134f468}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -223,6 +226,15 @@
     <ClInclude Include="MapObject.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="KeyboardClass.h">
+      <Filter>KeyBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEvent.h">
+      <Filter>KeyBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="TextArea.h">
+      <Filter>KeyBoard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -396,6 +408,15 @@
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardClass.cpp">
+      <Filter>KeyBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardEvent.cpp">
+      <Filter>KeyBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="TextArea.cpp">
+      <Filter>KeyBoard</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

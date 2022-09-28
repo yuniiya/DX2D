@@ -85,7 +85,7 @@ bool GlobalActor::PixelCollisionMapUpdate(GlobalActor* _Actor, int _LeftRightPos
 		}
 		else
 		{
-			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 10.f;
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 2.f;
 			GetTransform().SetWorldMove(DownPower_);
 		}
 

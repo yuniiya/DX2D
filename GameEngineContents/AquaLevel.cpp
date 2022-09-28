@@ -45,35 +45,45 @@ void AquaLevel::Start()
 
 
 	// Monster
-	//{
-	//	// 1類
-	//	Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-	//	Spark1->GetTransform().SetLocalPosition({ 1000.f, -1100.f, (int)ZOrder::MONSTER });
-	//	Spark1->SetMonsterDir(ACTORDIR::LEFT);
+	// 1類
+	{
+		Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
+		Spark1->GetTransform().SetLocalPosition({ 1000.f, -1100.f, (int)ZOrder::MONSTER });
+		Spark1->SetMonsterDir(ACTORDIR::LEFT);
 
-	//	Sparker* Spark2 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-	//	Spark2->GetTransform().SetLocalPosition({ 800.f, -1100.f, (int)ZOrder::MONSTER });
-	//	Spark2->SetMonsterDir(ACTORDIR::RIGHT);
+		Sparker* Spark2 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
+		Spark2->GetTransform().SetLocalPosition({ 800.f, -1100.f, (int)ZOrder::MONSTER });
+		Spark2->SetMonsterDir(ACTORDIR::RIGHT);
 
-	//	Sparker* Spark3 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-	//	Spark3->GetTransform().SetLocalPosition({ 300.f, -1100.f, (int)ZOrder::MONSTER });
-	//	Spark3->SetMonsterDir(ACTORDIR::RIGHT);
-	//}
+		Sparker* Spark3 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
+		Spark3->GetTransform().SetLocalPosition({ 300.f, -1100.f, (int)ZOrder::MONSTER });
+		Spark3->SetMonsterDir(ACTORDIR::RIGHT);
+	}
+	{
+		Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez1->GetTransform().SetLocalPosition({ 250.f, -1100.f, (int)ZOrder::MONSTER });
+		Freez1->SetMonsterDir(ACTORDIR::LEFT);
+
+		Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez2->GetTransform().SetLocalPosition({ 550.f, -1100.f, (int)ZOrder::MONSTER });
+		Freez2->SetMonsterDir(ACTORDIR::RIGHT);
+
+		//Freezer* Freez3 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		//Freez3->GetTransform().SetLocalPosition({ 950.f, -1000.f, (int)ZOrder::MONSTER });
+		//Freez3->SetMonsterDir(ACTORDIR::LEFT);
+	}
+
+
 	// 2類
 	{
 		Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-		Spark1->GetTransform().SetLocalPosition({ 500.f, -700.f, (int)ZOrder::MONSTER });
+		Spark1->GetTransform().SetLocalPosition({ 450.f, -800.f, (int)ZOrder::MONSTER });
 		Spark1->SetMonsterDir(ACTORDIR::LEFT);
 
 		//Sparker* Spark2 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
 		//Spark2->GetTransform().SetLocalPosition({ 350.f, -600.f, (int)ZOrder::MONSTER });
 		//Spark2->SetMonsterDir(ACTORDIR::RIGHT);
-
-		//Sparker* Spark3 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-		//Spark3->GetTransform().SetLocalPosition({ 340.f, -600.f, (int)ZOrder::MONSTER });
-		//Spark3->SetMonsterDir(ACTORDIR::RIGHT);
 	}
-	// 2類
 	{
 		//Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
 		//Spark1->GetTransform().SetLocalPosition({ 1300.f, -600.f, (int)ZOrder::MONSTER });
@@ -87,95 +97,65 @@ void AquaLevel::Start()
 		//Spark3->GetTransform().SetLocalPosition({ 930.f, -600.f, (int)ZOrder::MONSTER });
 		//Spark3->SetMonsterDir(ACTORDIR::RIGHT);
 	}
+	{
+		Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez1->GetTransform().SetLocalPosition({ 300.f, -800.f, (int)ZOrder::MONSTER });
+		Freez1->SetMonsterDir(ACTORDIR::LEFT);
+
+		Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez2->GetTransform().SetLocalPosition({ 320.f, -800.f, (int)ZOrder::MONSTER });
+		Freez2->SetMonsterDir(ACTORDIR::RIGHT);
+
+		//Freezer* Freez3 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		//Freez3->GetTransform().SetLocalPosition({ 340.f, -600.f, (int)ZOrder::MONSTER });
+		//Freez3->SetMonsterDir(ACTORDIR::LEFT);
+	}
+	{
+		Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez1->GetTransform().SetLocalPosition({ 1380.f, -500.f, (int)ZOrder::MONSTER });
+		Freez1->SetMonsterDir(ACTORDIR::LEFT);
+
+		//Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		//Freez2->GetTransform().SetLocalPosition({ 1320.f, -500.f, (int)ZOrder::MONSTER });
+		//Freez2->SetMonsterDir(ACTORDIR::RIGHT);
+
+		//Freezer* Freez3 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		//Freez3->GetTransform().SetLocalPosition({ 940.f, -600.f, (int)ZOrder::MONSTER });
+		//Freez3->SetMonsterDir(ACTORDIR::LEFT);
+	}
+
 
 	// 3類
 	{
 		Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-		Spark1->GetTransform().SetLocalPosition({ 500.f, -200.f, (int)ZOrder::MONSTER });
+		Spark1->GetTransform().SetLocalPosition({ 400.f, -500.f, (int)ZOrder::MONSTER });
 		Spark1->SetMonsterDir(ACTORDIR::RIGHT);
 
 		Sparker* Spark2 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-		Spark2->GetTransform().SetLocalPosition({ 1350.f, -300.f, (int)ZOrder::MONSTER });
+		Spark2->GetTransform().SetLocalPosition({ 1350.f, -500.f, (int)ZOrder::MONSTER });
 		Spark2->SetMonsterDir(ACTORDIR::LEFT);
-
-		//Sparker* Spark3 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-		//Spark3->GetTransform().SetLocalPosition({ 930.f, -200.f, (int)ZOrder::MONSTER });
-		//Spark3->SetMonsterDir(ACTORDIR::RIGHT);
 	}
-	//// 3類
-	//{
-	//	Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-	//	Spark1->GetTransform().SetLocalPosition({ 800.f, -200.f, (int)ZOrder::MONSTER });
-	//	Spark1->SetMonsterDir(ACTORDIR::RIGHT);
+	{
+		//Sparker* Spark1 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
+		//Spark1->GetTransform().SetLocalPosition({ 800.f, -500.f, (int)ZOrder::MONSTER });
+		//Spark1->SetMonsterDir(ACTORDIR::RIGHT);
 
-	//	Sparker* Spark2 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-	//	Spark2->GetTransform().SetLocalPosition({ 900.f, -200.f, (int)ZOrder::MONSTER });
-	//	Spark2->SetMonsterDir(ACTORDIR::LEFT);
+		//Sparker* Spark2 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
+		//Spark2->GetTransform().SetLocalPosition({ 900.f, -500.f, (int)ZOrder::MONSTER });
+		//Spark2->SetMonsterDir(ACTORDIR::LEFT);
+	}
+	{
+		Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez1->GetTransform().SetLocalPosition({ 350.f, -400.f, (int)ZOrder::MONSTER });
+		Freez1->SetMonsterDir(ACTORDIR::LEFT);
 
-	//	Sparker* Spark3 = CreateActor<Sparker>(GAMEOBJGROUP::MONSTER);
-	//	Spark3->GetTransform().SetLocalPosition({ 1000.f, -200.f, (int)ZOrder::MONSTER });
-	//	Spark3->SetMonsterDir(ACTORDIR::LEFT);
-	//}
+		Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
+		Freez2->GetTransform().SetLocalPosition({ 1300.f, -400.f, (int)ZOrder::MONSTER });
+		Freez2->SetMonsterDir(ACTORDIR::RIGHT);
+	}
 
-	// 1類
-	//{
-	//	Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez1->GetTransform().SetLocalPosition({ 250.f, -1100.f, (int)ZOrder::MONSTER });
-	//	Freez1->SetMonsterDir(ACTORDIR::LEFT);
 
-	//	Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez2->GetTransform().SetLocalPosition({ 550.f, -1100.f, (int)ZOrder::MONSTER });
-	//	Freez2->SetMonsterDir(ACTORDIR::RIGHT);
 
-	//	//Freezer* Freez3 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	//Freez3->GetTransform().SetLocalPosition({ 950.f, -1000.f, (int)ZOrder::MONSTER });
-	//	//Freez3->SetMonsterDir(ACTORDIR::LEFT);
-	//}
-
-	// 2類
-	//{
-	//	Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez1->GetTransform().SetLocalPosition({ 300.f, -600.f, (int)ZOrder::MONSTER });
-	//	Freez1->SetMonsterDir(ACTORDIR::LEFT);
-
-	//	Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez2->GetTransform().SetLocalPosition({ 320.f, -600.f, (int)ZOrder::MONSTER });
-	//	Freez2->SetMonsterDir(ACTORDIR::RIGHT);
-
-	//	//Freezer* Freez3 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	//Freez3->GetTransform().SetLocalPosition({ 340.f, -600.f, (int)ZOrder::MONSTER });
-	//	//Freez3->SetMonsterDir(ACTORDIR::LEFT);
-	//}
-
-	// 2類
-	//{
-	//	Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez1->GetTransform().SetLocalPosition({ 1300.f, -600.f, (int)ZOrder::MONSTER });
-	//	Freez1->SetMonsterDir(ACTORDIR::LEFT);
-
-	//	Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez2->GetTransform().SetLocalPosition({ 1320.f, -600.f, (int)ZOrder::MONSTER });
-	//	Freez2->SetMonsterDir(ACTORDIR::RIGHT);
-
-	//	//Freezer* Freez3 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	//Freez3->GetTransform().SetLocalPosition({ 940.f, -600.f, (int)ZOrder::MONSTER });
-	//	//Freez3->SetMonsterDir(ACTORDIR::LEFT);
-	//}
-
-	// 3類
-	//{
-	//	Freezer* Freez1 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez1->GetTransform().SetLocalPosition({ 350.f, -200.f, (int)ZOrder::MONSTER });
-	//	Freez1->SetMonsterDir(ACTORDIR::LEFT);
-
-	//	Freezer* Freez2 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//	Freez2->GetTransform().SetLocalPosition({ 1300.f, -200.f, (int)ZOrder::MONSTER });
-	//	Freez2->SetMonsterDir(ACTORDIR::LEFT);
-
-	//}
-	//Freezer* Freez3 = CreateActor<Freezer>(GAMEOBJGROUP::MONSTER);
-	//Freez3->GetTransform().SetLocalPosition({ 350.f, -200.f, (int)ZOrder::MONSTER });
-	//Freez3->SetMonsterDir(ACTORDIR::LEFT);
 
 
 	SetPortal({ 97.f, -1123.f, (int)ZOrder::PORTAL});

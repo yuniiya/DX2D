@@ -232,6 +232,7 @@ void Monster::Update(float _DeltaTime)
 
 		if (1 <= Renderer_->GetPixelData().MulColor.a)
 		{
+			Collision_->On();
 			Renderer_->GetPixelData().MulColor.a = 1;
 			IsRegenEnd = false;
 		}
@@ -418,13 +419,22 @@ void Monster::CollisonCheck()
 
 		if (1.8f < DamageTime_)							// 2초가 지났으면 다시 IsHit -> Off
 		{
+			Collision_->On();
 			IsHit = false;
 			DamageTime_ = 0.0f;							// 시간 리셋
 						
 			if (abs(Player::MainPlayer_->GetTransform().GetLocalPosition().y - GetPosition().y) < 100.f)
 			{
-				ChangeState(MONSTERSTATE::CHASE);			// 상태 체인지
-				return;
+				if (MonsterType_ == MONSTERTYPE::ATTACK)
+				{
+					ChangeState(MONSTERSTATE::MOVE);
+					return;
+				}
+				else
+				{
+					ChangeState(MONSTERSTATE::CHASE);			// 상태 체인지
+					return;
+				}
 			}
 		}
 	}
@@ -592,7 +602,7 @@ void Monster::MoveStart()
 		break;
 	}
 
-	Collision_->On();
+	//Collision_->On();
 	Renderer_->ChangeFrameAnimation("Move");
 }
 

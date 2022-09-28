@@ -12,6 +12,7 @@
 #include "GameEngineContents/TitleLevel.h"
 #include "GameEngineContents/TestLevel.h"
 #include "GameBgmPlayer.h"
+#include "KeyboardClass.h"
 
 
 
@@ -917,7 +918,7 @@ void ContentsCore::Start()
 	CreateLevel<TestLevel>("Test");
 	//CreateLevel<EndingLevel>("End");
 
-	ChangeLevel("Ariant");
+	ChangeLevel("Login");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
@@ -931,4 +932,5 @@ void ContentsCore::Update(float _DeltaTime)
 void ContentsCore::End()
 {
 	GameBgmPlayer::BgmPlay_->Destroy();
+	KeyboardClass::Destory();
 }

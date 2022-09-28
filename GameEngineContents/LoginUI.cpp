@@ -4,6 +4,8 @@
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 #include "Mouse.h"
 #include "Fade.h"
+#include "TextArea.h"
+#include <GameEngineCore/GameEngineFontRenderer.h>
 
 LoginUI::LoginUI()
 	: LoginBackUI_(nullptr)
@@ -16,6 +18,10 @@ LoginUI::LoginUI()
 	, IDAreaCol_(nullptr)
 	, PWAreaCol_(nullptr)
 	, LoginCol_(nullptr)
+	, Notice0_(nullptr)
+	, Notice1_(nullptr)
+	, IsCorrectID_(false)
+	, IsCorrectPW_(false)
 {
 }
 
@@ -27,6 +33,8 @@ LoginUI::~LoginUI()
 void LoginUI::Start()
 {
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::UI});
+	UserID_ = "yuniiya";
+	UserPW_ = "1111";
 
 	float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
 
@@ -78,12 +86,19 @@ void LoginUI::Start()
 		PWAreaCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
 	SoundPlay = false;
-}
 
-void LoginUI::Update(float _DeltaTime)
-{
-	float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ CamPos.x - 100.f, CamPos.y});	//, CamPos.y + GameEngineWindow::GetScale().y / 2.f 
+	Notice0_ = CreateComponent<GameEngineUIRenderer>();
+	Notice0_->SetTexture("Notice0.png");
+	Notice0_->GetTransform().SetLocalScale({249.f * 1.3f, 142.f * 1.3f });
+	Notice0_->ChangeCamera(CAMERAORDER::UICAMERA);
+	Notice0_->Off();
+
+	Notice1_ = CreateComponent<GameEngineUIRenderer>();
+	Notice1_->SetTexture("Notice1.png");
+	Notice1_->GetTransform().SetLocalScale({ 249.f * 1.3f, 142.f * 1.3f });
+	Notice1_->ChangeCamera(CAMERAORDER::UICAMERA);
+	Notice1_->Off();
+
 
 	LoginBackUI_->GetTransform().SetLocalPosition(float4{ CamPos.x + 5.f, CamPos.y });
 	LoginUI_->GetTransform().SetLocalPosition(float4{ CamPos.x + 5.f, CamPos.y - 60.f });
@@ -93,9 +108,48 @@ void LoginUI::Update(float _DeltaTime)
 	IDArea_->GetTransform().SetLocalPosition(float4{ CamPos.x - 45.f, CamPos.y + 57.f });
 	PWArea->GetTransform().SetLocalPosition(float4{ CamPos.x - 45.f, CamPos.y + 5.f });
 
+	IDText_ = GetLevel()->CreateActor<TextArea>();
+	IDText_->TextAreaInit({ 200.0f, 23.0f }, 13);
+	IDText_->GetTransform().SetLocalPosition(float4{ CamPos.x - 45.f, CamPos.y + 57.f, (int)ZOrder::FONT });
+	IDText_->SetTextPosition({ 510.f, 300.f });
+	IDText_->SetLoginTextType(LoginTextType::ID);
+
+	PWText_ = GetLevel()->CreateActor<TextArea>();
+	PWText_->TextAreaInit({ 200.0f, 23.0f }, 13);
+	PWText_->GetTransform().SetLocalPosition(float4{ CamPos.x - 45.f, CamPos.y + 5.f, (int)ZOrder::FONT });
+	PWText_->SetTextPosition({ 510.f, 340.f });
+	PWText_->SetLoginTextType(LoginTextType::PW);
+
+	Notice0_->GetTransform().SetLocalPosition({CamPos.x, CamPos.y, (int)ZOrder::UI});
+	Notice1_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y, (int)ZOrder::UI });
+}
+
+void LoginUI::Update(float _DeltaTime)
+{
+	//float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
+	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ CamPos.x - 100.f, CamPos.y});	//, CamPos.y + GameEngineWindow::GetScale().y / 2.f 
+
 	CollisionCheck();
 
+	if (UserID_ == IDText_->GetText())
+	{
+		IsCorrectID_ = true;
 
+	}
+	else
+	{
+		IsCorrectID_ = false;
+
+	}
+
+	if (UserPW_ == PWText_->GetText())
+	{
+		IsCorrectPW_ = true;
+	}
+	else
+	{
+		IsCorrectPW_ = false;
+	}
 }
 
 void LoginUI::End()
@@ -115,12 +169,31 @@ void LoginUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			//Fade* FadeActor = GetLevel()->CreateActor<Fade>(GAMEOBJGROUP::FADE);
 			LoginUI_->SetTexture("Title_new.BtLogin.pressed.0.png");
 
-			GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
-			GEngine::ChangeLevel("Select");
+			if (false == IsCorrectPW_)
+			{
+				Notice0_->On();
+				LoginCol_->Off();
+			}
+			else if (false == IsCorrectID_)
+			{
+				Notice1_->On();
+				LoginCol_->Off();
+			}
+			
+			if (true == IsCorrectID_ && true == IsCorrectPW_)
+			{
+				// 레벨이 바뀌면 전체 리셋
+				IDText_->ReSetText();
+				PWText_->ReSetText();
+				IDArea_->Off();
+				PWArea->Off();
+				Notice0_->Off();
 
+				GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
+				GEngine::ChangeLevel("Select");
+			}
 		}
 		else if (true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
 		{
@@ -134,7 +207,19 @@ void LoginUI::CollisionCheck()
 	}
 	else
 	{
+		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
+		{
+			if (true == Notice0_->IsUpdate())
+			{
+				Notice0_->Off();
+			}
+			else if (true == Notice1_->IsUpdate())
+			{
+				Notice1_->Off();
+			}
+		}
 		LoginUI_->SetTexture("Title_new.BtLogin.normal.0.png");
+		LoginCol_->On();
 	}
 
 
@@ -144,6 +229,7 @@ void LoginUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
+			// 글자없는 텍스처
 			IDArea_->On();
 		}
 	
@@ -151,9 +237,14 @@ void LoginUI::CollisionCheck()
 
 	else
 	{
+		// 글자있는 텍스처 -> 입력 중인 글자가 없을 때만 출력
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			IDArea_->Off();
+			// 입력된 텍스트가 없을때만 
+			if (false == IDText_->IsTextOn_)
+			{
+				IDArea_->Off();
+			}
 		}
 	}
 	if (true == PWAreaCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D,
@@ -163,6 +254,7 @@ void LoginUI::CollisionCheck()
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
 			PWArea->On();
+
 		}
 
 	}
@@ -170,7 +262,10 @@ void LoginUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			PWArea->Off();
+			if (false == PWText_->IsTextOn_)
+			{
+				PWArea->Off();
+			}
 		}
 	}
 

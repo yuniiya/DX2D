@@ -171,6 +171,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="KeyboardClass.h" />
+    <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MapObject.h">
       <SubType>
       </SubType>
@@ -380,6 +382,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TextArea.h" />
     <ClInclude Include="TextInput.h">
       <SubType>
       </SubType>
@@ -402,6 +405,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="KeyboardClass.cpp" />
+    <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="MapObject.cpp">
       <SubType>
       </SubType>
@@ -613,6 +618,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TextArea.cpp" />
     <ClCompile Include="TextInput.cpp">
       <SubType>
       </SubType>

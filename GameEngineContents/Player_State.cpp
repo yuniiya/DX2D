@@ -571,49 +571,49 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 	SkillPositionUpdate(CurSkill_);
 
 	
-	switch (CurSkill_)
+switch (CurSkill_)
+{
+case PLAYERSKILL::SKILL_IN:
+{
+	InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+}
+break;
+case PLAYERSKILL::SKILL_PA:
+{
+	PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+}
+break;
+case PLAYERSKILL::SKILL_JI:
+{
+	if (true == Skill_->IsEnd_)
 	{
-	case PLAYERSKILL::SKILL_IN:
-	{
-		InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+		StateManager.ChangeState("Idle");
+		return;
 	}
-		break;
-	case PLAYERSKILL::SKILL_PA:
-	{
-		PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-	}
-		break;
-	case PLAYERSKILL::SKILL_JI:
-	{
-		if (true == Skill_->IsEnd_)
-		{
-			StateManager.ChangeState("Idle");
-			return;
-		}
-	}
-		break;
-	case PLAYERSKILL::SKILL_SIN:
-	{
-		SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-	}
-		break;
-	case PLAYERSKILL::SKILL_SINA:
-		break;
-	case PLAYERSKILL::SKILL_SINB:
-		break;
-	case PLAYERSKILL::SKILL_SINC:
-		break;
-	case PLAYERSKILL::SKILL_SIND:
-		break;
-	case PLAYERSKILL::MAX:
-		break;
-	default:
-		break;
-	}
-	//InB_Renderer_->AnimationBindEnd("In_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+}
+break;
+case PLAYERSKILL::SKILL_SIN:
+{
+	SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+}
+break;
+case PLAYERSKILL::SKILL_SINA:
+	break;
+case PLAYERSKILL::SKILL_SINB:
+	break;
+case PLAYERSKILL::SKILL_SINC:
+	break;
+case PLAYERSKILL::SKILL_SIND:
+	break;
+case PLAYERSKILL::MAX:
+	break;
+default:
+	break;
+}
+//InB_Renderer_->AnimationBindEnd("In_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 
-	//StateManager.ChangeState("Idle");
-	//return;
+//StateManager.ChangeState("Idle");
+//return;
 }
 
 void Player::JumpSkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -643,7 +643,7 @@ void Player::JumpSkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	
+
 	GetTransform().SetWorldMove(GetTransform().GetUpVector() * JumpPower_ * GameEngineTime::GetDeltaTime());
 
 	if (GetAccTime() > 0.5f)	// ÇÑ¹ø ´õ ¶Ú´Ù
@@ -664,23 +664,33 @@ void Player::DoubleJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (0.3f < _Info.StateTime)
+	if (GetCurLevelName() == "AQUA")
 	{
-		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 70.f;
-
-		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		if (0.1f < _Info.StateTime)
 		{
-			MoveDir_ = 0.f;
-			StateManager.ChangeState("Idle");
+			MoveDir_ -= float4{ 0.f, 1.f, 0.f } *2.f;
+		}
+		if (1.f < _Info.StateTime)
+		{
+			MoveDir_ = float4{ 0.f, -50.f, 0.f };
+			StateManager.ChangeState("Flying");
 			return;
 		}
 	}
+	else
+	{
+		if (0.3f < _Info.StateTime)
+		{
+			MoveDir_ -= float4{ 0.f, 1.f, 0.f } *70.f;
 
-	//if (0.2f < _Info.StateTime)
-	//{
-	//	StateManager.ChangeState("Idle");
-	//	return;
-	//}
+			if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+			{
+				MoveDir_ = 0.f;
+				StateManager.ChangeState("Idle");
+				return;
+			}
+		}
+	}
 
 	if (CurDir_ == ACTORDIR::LEFT)
 	{
@@ -737,9 +747,9 @@ void Player::FlyingUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (0.01f < _Info.StateTime && false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
-		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 1.4f;
+		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 1.2f;
 	}
-	else if (1.f < _Info.StateTime)
+	else if (0.2f < _Info.StateTime)
 	{
 		if (true == BottomDownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 		{

@@ -3,6 +3,7 @@
 
 // Ό³Έν :
 class Mouse;
+class TextArea;
 class LoginUI : public GameEngineActor
 {
 public:
@@ -33,9 +34,20 @@ private:
 	GameEngineTextureRenderer* MapleID_;
 	GameEngineTextureRenderer* IDArea_;
 	GameEngineTextureRenderer* PWArea;
+	GameEngineUIRenderer* Notice0_;
+	GameEngineUIRenderer* Notice1_;
 
 	GameEngineCollision* LoginCol_;
 	GameEngineCollision* IDAreaCol_;
 	GameEngineCollision* PWAreaCol_;
+
+	TextArea* IDText_;
+	TextArea* PWText_;
+
+	bool IsCorrectID_;
+	bool IsCorrectPW_;
+
+	std::string UserID_;
+	std::string UserPW_;
 };
 

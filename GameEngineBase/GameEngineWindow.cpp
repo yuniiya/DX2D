@@ -1,7 +1,8 @@
 #include "PreCompile.h"
 #include "GameEngineWindow.h"
 #include "GameEngineInput.h"
-
+#include <GameEngineContents/KeyboardClass.h>
+#include <GameEngineContents/KeyboardEvent.h>
 
 // HWND hWnd 어떤 윈도우에 무슨일이 생겼는지 그 윈도우의 핸들
 // UINT message 그 메세지의 중료가 뭔지.
@@ -64,19 +65,19 @@ LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARA
             break;
         }
 
-        //// 문자 입력에 의한 큐 등록
-        //if (KeyboardClass::GetInst().IsCharsAutoRepeat())
-        //{
-        //    KeyboardClass::GetInst().OnChar(ch);
-        //}
-        //else
-        //{
-        //    const bool wasPressed = lParam & 0x40000000;
-        //    if (!wasPressed)
-        //    {
-        //        KeyboardClass::GetInst().OnChar(ch);
-        //    }
-        //}
+        // 문자 입력에 의한 큐 등록
+        if (KeyboardClass::GetInst().IsCharsAutoRepeat())
+        {
+            KeyboardClass::GetInst().OnChar(ch);
+        }
+        else
+        {
+            const bool wasPressed = lParam & 0x40000000;
+            if (!wasPressed)
+            {
+                KeyboardClass::GetInst().OnChar(ch);
+            }
+        }
         return 0;
     }
     case WM_KEYDOWN:
@@ -97,25 +98,25 @@ LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARA
             break;
         }
 
-        //if (KeyboardClass::GetInst().IsKeysAutoRepeat())
-        //{
-        //    KeyboardClass::GetInst().OnKeyPressed(keycode);
-        //}
-        //else
-        //{
-        //    const bool wasPressed = lParam & 0x40000000;
-        //    if (!wasPressed)
-        //    {
-        //        KeyboardClass::GetInst().OnKeyPressed(keycode);
-        //    }
-        //}
+        if (KeyboardClass::GetInst().IsKeysAutoRepeat())
+        {
+            KeyboardClass::GetInst().OnKeyPressed(keycode);
+        }
+        else
+        {
+            const bool wasPressed = lParam & 0x40000000;
+            if (!wasPressed)
+            {
+                KeyboardClass::GetInst().OnKeyPressed(keycode);
+            }
+        }
 
         return 0;
     }
     case WM_KEYUP:
     {
-        //unsigned char keycode = static_cast<unsigned char>(wParam);
-        //KeyboardClass::GetInst().OnKeyReleased(keycode);
+        unsigned char keycode = static_cast<unsigned char>(wParam);
+        KeyboardClass::GetInst().OnKeyReleased(keycode);
 
         return 0;
     }
