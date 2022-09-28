@@ -17,6 +17,9 @@ public:
 	LoginUI& operator=(const LoginUI& _Other) = delete;
 	LoginUI& operator=(LoginUI&& _Other) noexcept = delete;
 
+public:
+	void ResetLoginUI();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -47,7 +50,14 @@ private:
 	bool IsCorrectID_;
 	bool IsCorrectPW_;
 
+	bool IsNoticeEnd0_;
+	bool IsNoticeEnd1_;
+
+	bool IsChageLevel_;
+
 	std::string UserID_;
 	std::string UserPW_;
+
+	float Time_;
 };
 

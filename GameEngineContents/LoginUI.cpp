@@ -22,6 +22,10 @@ LoginUI::LoginUI()
 	, Notice1_(nullptr)
 	, IsCorrectID_(false)
 	, IsCorrectPW_(false)
+	, IsNoticeEnd0_(false)
+	, IsNoticeEnd1_(false)
+	, IsChageLevel_(false)
+	, Time_(0.f)
 {
 }
 
@@ -30,9 +34,24 @@ LoginUI::~LoginUI()
 }
 
 
+void LoginUI::ResetLoginUI()
+{
+	// 레벨이 바뀌면 전체 리셋
+	IDText_->ReSetText();
+	PWText_->ReSetText();
+	IDArea_->Off();
+	PWArea->Off();
+	//IsNoticeEnd0_ = false;
+	//IsNoticeEnd1_ = false;
+	IsCorrectID_ = false;
+	IsCorrectPW_ = false;
+	Notice0_->Off();
+	Notice1_->Off();
+}
+
 void LoginUI::Start()
 {
-	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::UI});
+	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::NOTICE});
 	UserID_ = "yuniiya";
 	UserPW_ = "1111";
 
@@ -69,7 +88,7 @@ void LoginUI::Start()
 		IDArea_->Off();
 
 		IDAreaCol_ = CreateComponent<GameEngineCollision>();
-		IDAreaCol_->GetTransform().SetLocalScale({ 201.f * 0.8f, 45.f * 0.8f});
+		IDAreaCol_->GetTransform().SetLocalScale({ 201.f * 0.8f, 45.f * 0.9f});
 		IDAreaCol_->GetTransform().SetLocalPosition(float4{ CamPos.x - 40.f, CamPos.y + 69.f });
 		IDAreaCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
@@ -81,7 +100,7 @@ void LoginUI::Start()
 		PWArea->Off();
 
 		PWAreaCol_ = CreateComponent<GameEngineCollision>();
-		PWAreaCol_->GetTransform().SetLocalScale({ 201.f * 0.8f, 45.f * 0.8f });
+		PWAreaCol_->GetTransform().SetLocalScale({ 201.f * 0.8f, 45.f * 0.9f });
 		PWAreaCol_->GetTransform().SetLocalPosition(float4{ CamPos.x - 40.f, CamPos.y + 5.f });
 		PWAreaCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	}
@@ -91,14 +110,15 @@ void LoginUI::Start()
 	Notice0_->SetTexture("Notice0.png");
 	Notice0_->GetTransform().SetLocalScale({249.f * 1.3f, 142.f * 1.3f });
 	Notice0_->ChangeCamera(CAMERAORDER::UICAMERA);
+	Notice0_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y, (int)ZOrder::NOTICE });
 	Notice0_->Off();
 
 	Notice1_ = CreateComponent<GameEngineUIRenderer>();
 	Notice1_->SetTexture("Notice1.png");
 	Notice1_->GetTransform().SetLocalScale({ 249.f * 1.3f, 142.f * 1.3f });
 	Notice1_->ChangeCamera(CAMERAORDER::UICAMERA);
+	Notice1_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y, (int)ZOrder::NOTICE });
 	Notice1_->Off();
-
 
 	LoginBackUI_->GetTransform().SetLocalPosition(float4{ CamPos.x + 5.f, CamPos.y });
 	LoginUI_->GetTransform().SetLocalPosition(float4{ CamPos.x + 5.f, CamPos.y - 60.f });
@@ -120,14 +140,25 @@ void LoginUI::Start()
 	PWText_->SetTextPosition({ 510.f, 340.f });
 	PWText_->SetLoginTextType(LoginTextType::PW);
 
-	Notice0_->GetTransform().SetLocalPosition({CamPos.x, CamPos.y, (int)ZOrder::UI});
-	Notice1_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y, (int)ZOrder::UI });
+
 }
 
 void LoginUI::Update(float _DeltaTime)
 {
-	//float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ CamPos.x - 100.f, CamPos.y});	//, CamPos.y + GameEngineWindow::GetScale().y / 2.f 
+	if (true == IsChageLevel_)
+	{
+		Time_ += _DeltaTime;
+	}
+
+	if (Time_ >= 0.2f)
+	{
+		IsChageLevel_ = false;
+		Time_ = 0.f;
+
+		ResetLoginUI();
+		GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
+		GEngine::ChangeLevel("Select");
+	}
 
 	CollisionCheck();
 
@@ -171,28 +202,36 @@ void LoginUI::CollisionCheck()
 		{
 			LoginUI_->SetTexture("Title_new.BtLogin.pressed.0.png");
 
-			if (false == IsCorrectPW_)
+			if (true == IDText_->GetText().empty() || true == PWText_->GetText().empty())
 			{
+				if (false == PWText_->GetText().empty())
+				{
+					PWText_->ReSetText();
+				}
+				if (false == IDText_->GetText().empty())
+				{
+					IDText_->ReSetText();
+				}
 				Notice0_->On();
-				LoginCol_->Off();
 			}
-			else if (false == IsCorrectID_)
+			else if (false == IsCorrectPW_ || false == IsCorrectID_)
 			{
-				Notice1_->On();
-				LoginCol_->Off();
+				IDText_->ReSetText();
+				PWText_->ReSetText();
+			//	Notice1_->On();
+				Notice0_->On();
 			}
+			//else if (false == IsCorrectID_)
+			//{
+			//	IDText_->ReSetText();
+			//	PWText_->ReSetText();
+			////	Notice0_->On();
+			//}
 			
 			if (true == IsCorrectID_ && true == IsCorrectPW_)
 			{
 				// 레벨이 바뀌면 전체 리셋
-				IDText_->ReSetText();
-				PWText_->ReSetText();
-				IDArea_->Off();
-				PWArea->Off();
-				Notice0_->Off();
-
-				GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
-				GEngine::ChangeLevel("Select");
+				IsChageLevel_ = true;
 			}
 		}
 		else if (true == GameEngineInput::GetInst()->IsUp("LeftMouse"))
@@ -210,16 +249,16 @@ void LoginUI::CollisionCheck()
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
 			if (true == Notice0_->IsUpdate())
-			{
+			{		
 				Notice0_->Off();
 			}
-			else if (true == Notice1_->IsUpdate())
+			if (true == Notice1_->IsUpdate())
 			{
 				Notice1_->Off();
 			}
 		}
 		LoginUI_->SetTexture("Title_new.BtLogin.normal.0.png");
-		LoginCol_->On();
+
 	}
 
 

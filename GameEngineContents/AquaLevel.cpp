@@ -194,7 +194,6 @@ void AquaLevel::LevelStartEvent()
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();
-		//Player::MainPlayer_->GetTransform().SetLocalPosition({ 300.0f, -1000.0f, (int)ZOrder::PLAYER });
 		Player::MainPlayer_->GetTransform().SetLocalPosition({ 1000.0f, -400.0f, (int)ZOrder::PLAYER });
 
 	}

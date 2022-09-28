@@ -41,7 +41,7 @@ void LoginLevel::Start()
 	//}
 
 
-	LoginUI* UIActor = CreateActor<LoginUI>(GAMEOBJGROUP::UI);
+	LoginUI_ = CreateActor<LoginUI>(GAMEOBJGROUP::UI);
 
 	if (nullptr == Mouse::MainMouse_)
 	{
@@ -73,7 +73,7 @@ void LoginLevel::End()
 void LoginLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-
+	LoginUI_->ResetLoginUI();
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->Off();
@@ -83,4 +83,9 @@ void LoginLevel::LevelStartEvent()
 	{
 		ContentsUI::MainUI_->Off();
 	}
+}
+
+void LoginLevel::LevelEndEvent()
+{
+	LoginUI_->ResetLoginUI();
 }

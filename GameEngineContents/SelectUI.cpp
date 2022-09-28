@@ -31,6 +31,7 @@ SelectUI::SelectUI()
 	, Effect2_(nullptr)
 	, Effect3_(nullptr)
 	, Effect4_(nullptr)
+	, IsPressedPrev_(false)
 {
 }
 
@@ -226,6 +227,11 @@ void SelectUI::End()
 {
 }
 
+void SelectUI::LevelEndEvent()
+{
+	//IsPressedPrev_ = false;
+}
+
 bool SelectUI::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	return true;
@@ -252,8 +258,7 @@ void SelectUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			//GameEngineSound::SoundPlayOneShot("CharSelect.mp3");
-			GameEngineSound::SoundPlayControl("CharSelect.mp3", 0);
+			GameEngineSound::SoundPlayOneShot("CharSelect.mp3");
 
 			Player_->ChangeFrameAnimation("Move");
 			InfoUI_->On();
@@ -312,10 +317,15 @@ void SelectUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
+			if (true == IsPressedPrev_)
+			{
+				return;
+			}
 			PrevButton_->SetTexture("Common.BtPreview.pressed.0.png");
 
 			GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
 
+			IsPressedPrev_ = true;
 			GEngine::ChangeLevel("Login");
 		}
 		else

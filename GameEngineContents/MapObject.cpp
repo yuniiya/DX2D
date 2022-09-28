@@ -78,7 +78,7 @@ void MapObject::Update(float _DeltaTime)
 	if (true == XMoveRenderer_->IsUpdate())
 	{
 		// 왼쪽으로 나갔으면
-		if (TextureScale_.x <= abs(0.f - TextureScale_.x))
+		if (-TextureScale_.x <= (0.f - TextureScale_.x))
 		{
 			// 오른쪽으로 보낸다
 			XMoveRenderer_->GetTransform().SetLocalPosition(WindowScale_.x + TextureScale_.x);

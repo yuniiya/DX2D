@@ -21,7 +21,7 @@ void TextArea::SetCurCaretState(bool _Flag)
 void TextArea::TextAreaInit(const float4& _Value, int _Len)
 {
 	TextAreaCollision_ = CreateComponent<GameEngineCollision>();
-	TextAreaCollision_->GetTransform().SetLocalScale({300.f, 50.f});
+	TextAreaCollision_->GetTransform().SetLocalScale({250.f, 30.f});
 	MaxLen_ = _Len;
 }
 
@@ -46,6 +46,7 @@ void TextArea::Start()
 		GameEngineInput::GetInst()->CreateKey("Chatting_Del", VK_BACK);
 	}
 
+	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::FONT });
 	TextRenderer_ = CreateComponent<GameEngineFontRenderer>();
 	TextRenderer_->SetSize(20);
 	//TextRenderer_->SetScreenPostion({510.f, 300.f });

@@ -627,6 +627,15 @@ void Boss::DieStart()
 		break;
 	}
 
+	if (true == Player::MainPlayer_->IsRedHat_)
+	{
+		Player::MainPlayer_->IsRedHat_ = false;
+	}
+	else if (true == Player::MainPlayer_->IsBlueHat_)
+	{
+		Player::MainPlayer_->IsBlueHat_ = false;
+	}
+
 	Collision_->Off();
 }
 

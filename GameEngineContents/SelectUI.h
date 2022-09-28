@@ -20,12 +20,16 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
+	void LevelEndEvent() override;
+
 	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	void CollisionCheck();
+
 
 	bool SoundPlay;
 	bool AlreadyPlay;
 	bool GameStart;
+	bool IsPressedPrev_;
 
 	float Time_;
 

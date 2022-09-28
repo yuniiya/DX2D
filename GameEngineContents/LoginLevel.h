@@ -2,6 +2,7 @@
 #include "GlobalLevel.h"
 
 // Ό³Έν :
+class LoginUI;
 class LoginLevel : public GlobalLevel
 {
 public:
@@ -27,8 +28,11 @@ protected:
 	}
 
 	void LevelStartEvent() override;
+	void LevelEndEvent() override;
 
 private:
 	float4 CurPos_;
+
+	LoginUI* LoginUI_;
 };
 
