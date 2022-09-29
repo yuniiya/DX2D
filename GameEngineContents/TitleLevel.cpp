@@ -47,6 +47,7 @@ void TitleLevel::End()
 
 void TitleLevel::LevelStartEvent()
 {
+	GameBgmPlayer::BgmPlay_->Stop();
 	if (nullptr != ContentsUI::MainUI_)
 	{
 		ContentsUI::MainUI_->Off();

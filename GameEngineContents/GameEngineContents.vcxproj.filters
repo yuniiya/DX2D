@@ -235,6 +235,9 @@
     <ClInclude Include="TextArea.h">
       <Filter>KeyBoard</Filter>
     </ClInclude>
+    <ClInclude Include="MapAnimationObject.h">
+      <Filter>Actor\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -417,6 +420,9 @@
     </ClCompile>
     <ClCompile Include="TextArea.cpp">
       <Filter>KeyBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="MapAnimationObject.cpp">
+      <Filter>Actor\Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

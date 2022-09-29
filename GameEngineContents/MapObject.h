@@ -1,8 +1,9 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+//#include <GameEngineCore/GameEngineActor.h>
+#include "GlobalActor.h"
 
 class GameEngineTextureRenderer;
-class MapObject : public GameEngineActor
+class MapObject : public GlobalActor
 {
 public:
 	// constrcuter destructer
@@ -33,10 +34,10 @@ public:
 
 	inline void GetWindowScale()
 	{
-		WindowScale_ = GameEngineWindow::GetScale();
+	//	WindowScale_ = GameEngineWindow::GetScale();
+		WindowScale_ = { 1614.f, 1380.f };
 	}
 
-	void CreateAnimation(const std::string _Name, const std::string _FolderName, float _PlaySpeed, float4 _Pos, float4 _Scale);
 	void CreateXMoveAnimaition(const std::string _Name, const std::string _FolderName, float _PlaySpeed, float _MoveSpeed_, float4 _Pos, float4 _Scale, ACTORDIR _Dir);
 	void CreateUVMoveTexture(const std::string _Name, float4 _Pos, float _UVSpeed);
 protected:
@@ -44,8 +45,9 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
-private:
 	GameEngineTextureRenderer* AnimationRenderer_;
+private:
+
 	GameEngineTextureRenderer* XMoveRenderer_;
 	GameEngineTextureRenderer* UVMoveRenderer_;
 	 
@@ -55,6 +57,7 @@ private:
 	float XPos_;
 	float4 TextureScale_;
 	float4 WindowScale_;
+	float4 TexturePos_;
 
 	ACTORDIR CurDir_;
 };

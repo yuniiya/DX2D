@@ -9,6 +9,8 @@
 #include "Inventory.h"
 #include "MapObject.h"
 #include "Cloud.h"
+#include "MapAnimationObject.h"
+#include "GameBgmPlayer.h"
 
 AquaLevel::AquaLevel() 
 	: Player_(nullptr)
@@ -26,22 +28,61 @@ void AquaLevel::Start()
 	SetStage("Stage_Aqua.png");
 
 	{
-		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
 		Obj_->CreateAnimation("Light0", "Aqua_SunLight0", 0.05f, { 300.f, -500.f }, { 526.f, 372.f });
 	}
 	{
-		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
 		Obj_->CreateAnimation("Light1", "Aqua_SunLight1", 0.05f, { 1400.f, -500.f }, { 526.f, 372.f });
 	}
 	{
-		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
 		Obj_->CreateAnimation("Light3", "Aqua_SunLight3", 0.05f, { 600.f, -300.f }, { 380.f, 340.f });
 	}
 	{
-		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
-		Obj_->CreateXMoveAnimaition("Fish0", "Fish0", 1.f, 30.f, { 1000.f, -200.f }, {326.f, 65.f}, ACTORDIR::LEFT);
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateAnimation("Light1", "Light1", 0.2f, { 400.f, -500.f }, { 768.f, 825.f });
 	}
-
+	{
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateAnimation("Light1", "Light1", 0.2f, { 1000.f, -600.f }, { 768.f, 825.f });
+	}
+	{
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateAnimation("Light0", "Light0", 0.6f, { 1400.f, -500.f }, { 262.f, 380.f });
+	}
+	{
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateAnimation("Light0", "Light0", 0.6f, { 300.f, -1000.f }, { 262.f, 380.f });
+	}
+	{
+		MapAnimationObject* Obj_ = CreateActor<MapAnimationObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateAnimation("Light0", "Light0", 0.6f, { 1250.f, -1000.f }, { 262.f, 380.f });
+	}
+	{
+		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateXMoveAnimaition("Fish0", "Fish0", 0.5f, 0.2f, { 900.f, -80.f }, {326.f, 65.f}, ACTORDIR::LEFT);
+	}
+	{
+		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateXMoveAnimaition("Fish1", "Fish1", 0.5f, 0.35f, { 1200.f, -200.f }, { 402.f, 67.f }, ACTORDIR::LEFT);
+	}
+	{
+		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateXMoveAnimaition("Fish2", "Fish2", 0.5f, 0.45f, { 200.f, -380.f }, { 362.f, 86.f }, ACTORDIR::RIGHT);
+	}
+	{
+		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateXMoveAnimaition("Turtle1", "Turtle1", 0.2f, 0.25f, { 200.f, -340.f }, { 63.f, 38.f }, ACTORDIR::RIGHT);
+	}
+	{
+		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateXMoveAnimaition("Turtle0", "Turtle0", 0.2f, 0.25f, { 120.f, -365.f }, { 41.f, 25.f }, ACTORDIR::RIGHT);
+	}
+	{
+		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
+		Obj_->CreateXMoveAnimaition("Turtle0", "Turtle0", 0.2f, 0.25f, { 160.f, -300.f }, { 41.f, 25.f }, ACTORDIR::RIGHT);
+	}
 
 
 	// Monster
@@ -190,6 +231,7 @@ void AquaLevel::End()
 
 void AquaLevel::LevelStartEvent()
 {
+	GameBgmPlayer::BgmPlay_->ChangeBgm("BlueWorld.mp3");
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	if (nullptr != Player::MainPlayer_)
 	{
@@ -205,6 +247,7 @@ void AquaLevel::LevelStartEvent()
 
 void AquaLevel::LevelEndEvent()
 {
+	GameBgmPlayer::BgmPlay_->Stop();
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
 	Mouse::MainMouse_->SetLevelOverOn();

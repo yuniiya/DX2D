@@ -75,6 +75,7 @@ void AriantLevel::End()
 void AriantLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	GameBgmPlayer::BgmPlay_->Stop();
 
 	if (nullptr != Player::MainPlayer_)
 	{

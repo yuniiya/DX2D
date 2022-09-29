@@ -41,8 +41,8 @@ void LoginUI::ResetLoginUI()
 	PWText_->ReSetText();
 	IDArea_->Off();
 	PWArea->Off();
-	//IsNoticeEnd0_ = false;
-	//IsNoticeEnd1_ = false;
+	IsNoticeEnd0_ = false;
+	IsNoticeEnd1_ = false;
 	IsCorrectID_ = false;
 	IsCorrectPW_ = false;
 	Notice0_->Off();
@@ -52,7 +52,7 @@ void LoginUI::ResetLoginUI()
 void LoginUI::Start()
 {
 	GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::NOTICE});
-	UserID_ = "yuniiya";
+	UserID_ = "yuniya";
 	UserPW_ = "1111";
 
 	float4 CamPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
@@ -155,7 +155,6 @@ void LoginUI::Update(float _DeltaTime)
 		IsChageLevel_ = false;
 		Time_ = 0.f;
 
-		ResetLoginUI();
 		GameEngineSound::SoundPlayOneShot("ScrollUp.mp3");
 		GEngine::ChangeLevel("Select");
 	}
@@ -187,6 +186,16 @@ void LoginUI::End()
 {
 }
 
+void LoginUI::LevelStartEvent()
+{
+	ResetLoginUI();
+}
+
+void LoginUI::LevelEndEvent()
+{
+	ResetLoginUI();
+}
+
 bool LoginUI::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	return true;
@@ -214,19 +223,26 @@ void LoginUI::CollisionCheck()
 				}
 				Notice0_->On();
 			}
-			else if (false == IsCorrectPW_ || false == IsCorrectID_)
+			else if (false == IsCorrectPW_/* || false == IsCorrectID_*/)
 			{
 				IDText_->ReSetText();
 				PWText_->ReSetText();
-			//	Notice1_->On();
+				if (true == Notice0_->IsUpdate())
+				{
+					Notice0_->Off();
+				}
+				Notice1_->On();
+			}
+			else if (false == IsCorrectID_)
+			{
+				IDText_->ReSetText();
+				PWText_->ReSetText();
+				if (true == Notice1_->IsUpdate())
+				{
+					Notice1_->Off();
+				}
 				Notice0_->On();
 			}
-			//else if (false == IsCorrectID_)
-			//{
-			//	IDText_->ReSetText();
-			//	PWText_->ReSetText();
-			////	Notice0_->On();
-			//}
 			
 			if (true == IsCorrectID_ && true == IsCorrectPW_)
 			{

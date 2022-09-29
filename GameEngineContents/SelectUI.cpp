@@ -229,7 +229,7 @@ void SelectUI::End()
 
 void SelectUI::LevelEndEvent()
 {
-	//IsPressedPrev_ = false;
+	IsPressedPrev_ = false;
 }
 
 bool SelectUI::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -293,9 +293,7 @@ void SelectUI::CollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("LeftMouse"))
 		{
-			//GameEngineSound::SoundPlayOneShot("GameIn.mp3");
-			GameEngineSound::SoundPlayControl("GameIn.mp3", 0);
-
+			GameEngineSound::SoundPlayOneShot("GameIn.mp3");
 
 			GameStartButton_->SetTexture("GameStartBut_Pressed.png");
 			GameStart = true;
@@ -303,7 +301,6 @@ void SelectUI::CollisionCheck()
 		else
 		{
 			GameStartButton_->SetTexture("GameStartBut_Mouse.png");
-
 		}
 	}
 	else

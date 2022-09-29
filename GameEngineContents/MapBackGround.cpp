@@ -4,6 +4,9 @@
 
 MapBackGround::MapBackGround() 
 	: Time_(0.f)
+	, MapBackGroundRender_(nullptr)
+	, SunShineYPos_(0.f)
+	, AriantSunLight_(nullptr)
 {
 }
 

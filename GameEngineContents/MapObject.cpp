@@ -18,18 +18,11 @@ MapObject::~MapObject()
 {
 }
 
-void MapObject::CreateAnimation(const std::string _Name, const std::string _FolderName, float _PlaySpeed, float4 _Pos, float4 _Scale)
-{
-//	AnimationRenderer_ = CreateComponent<GameEngineTextureRenderer>();
-	AnimationRenderer_->CreateFrameAnimationFolder(_Name, FrameAnimation_DESC(_FolderName, _PlaySpeed));
-	AnimationRenderer_->GetTransform().SetLocalPosition(_Pos);
-	AnimationRenderer_->GetTransform().SetLocalScale(_Scale);
-	AnimationRenderer_->ChangeFrameAnimation(_Name);
-}
-
 void MapObject::CreateXMoveAnimaition(const std::string _Name, const std::string _FolderName, float _PlaySpeed, float _MoveSpeed_, float4 _Pos, float4 _Scale, ACTORDIR _Dir)
 {
+	TexturePos_ = _Pos;
 	TextureScale_ = _Scale;
+	CurDir_ = _Dir;
 	if (_Dir == ACTORDIR::LEFT)
 	{
 		MoveSpeed_ = -_MoveSpeed_;
@@ -44,6 +37,7 @@ void MapObject::CreateXMoveAnimaition(const std::string _Name, const std::string
 	XMoveRenderer_->GetTransform().SetLocalPosition(_Pos);
 	XMoveRenderer_->GetTransform().SetLocalScale(_Scale);
 	XMoveRenderer_->ChangeFrameAnimation(_Name);
+	DirCheck(XMoveRenderer_, _Dir);
 }
 
 void MapObject::CreateUVMoveTexture(const std::string _Name, float4 _Pos, float _UVSpeed)
@@ -75,20 +69,34 @@ void MapObject::Update(float _DeltaTime)
 		UVMoveRenderer_->GetTimeData().Time = Time_ / UVSpeed_;
 	}
 
-	if (true == XMoveRenderer_->IsUpdate())
+	if (CurDir_ == ACTORDIR::RIGHT)
 	{
-		// 왼쪽으로 나갔으면
-		if (-TextureScale_.x <= (0.f - TextureScale_.x))
+		// 오른쪽으로 나갔으면
+		if (XMoveRenderer_->GetTransform().GetLocalPosition().x >= WindowScale_.x + TextureScale_.x)
 		{
-			// 오른쪽으로 보낸다
-			XMoveRenderer_->GetTransform().SetLocalPosition(WindowScale_.x + TextureScale_.x);
+			// 왼쪽으로 보낸다
+			XMoveRenderer_->GetTransform().SetLocalPosition({ -TextureScale_.x, TexturePos_.y });
 		}
 		else
 		{
 			// 나가기 전까지는 이동
-			XMoveRenderer_->GetTransform().SetLocalMove(MoveSpeed_ * _DeltaTime);
+			XMoveRenderer_->GetTransform().SetLocalMove({ MoveSpeed_, 0.f * _DeltaTime });
 		}
 	}
 
+	if (CurDir_ == ACTORDIR::LEFT)
+	{
+		// 왼쪽으로 나갔으면
+		if (XMoveRenderer_->GetTransform().GetLocalPosition().x <= -TextureScale_.x)
+		{
+			// 오른쪽으로 보낸다
+			XMoveRenderer_->GetTransform().SetLocalPosition({ WindowScale_.x + TextureScale_.x, TexturePos_.y });
+		}
+		else
+		{
+			// 나가기 전까지는 이동
+			XMoveRenderer_->GetTransform().SetLocalMove({ MoveSpeed_, 0.f * _DeltaTime });
+		}
+	}
 }
 

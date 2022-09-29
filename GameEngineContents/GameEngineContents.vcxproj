@@ -173,6 +173,10 @@
     </ClInclude>
     <ClInclude Include="KeyboardClass.h" />
     <ClInclude Include="KeyboardEvent.h" />
+    <ClInclude Include="MapAnimationObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapObject.h">
       <SubType>
       </SubType>
@@ -407,6 +411,10 @@
     </ClCompile>
     <ClCompile Include="KeyboardClass.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
+    <ClCompile Include="MapAnimationObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <SubType>
       </SubType>

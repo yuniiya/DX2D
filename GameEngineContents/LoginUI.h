@@ -25,6 +25,9 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
+
 	bool MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	void CollisionCheck();
 

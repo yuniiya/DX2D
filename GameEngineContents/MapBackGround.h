@@ -16,11 +16,11 @@ public:
 	MapBackGround& operator=(MapBackGround&& _Other) noexcept = delete;
 
 protected:
-
-private:
 	void Start();
 	void Update(float _DeltaTime) override;
 	void End() override {};
+
+private:
 
 	GameEngineTextureRenderer* MapBackGroundRender_;
 	GameEngineTextureRenderer* AriantSunLight_;
@@ -46,14 +46,8 @@ public:
 		SunShineYPos_ = _YPos;
 	}
 
-	inline void SetCloudYPos(float _YPos)
-	{
-		AriantCloudPos_ = _YPos;
-	}
-
 private:
 	float SunShineYPos_;
-	float AriantCloudPos_;
 	float Time_;
 };
 

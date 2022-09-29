@@ -53,9 +53,6 @@ void LoginLevel::Start()
 
 void LoginLevel::Update(float _DeltaTime)
 {
-	//float4 CamPos = GetMainCameraActorTransform().GetWorldPosition();
-	//GetMainCameraActorTransform().SetWorldPosition({ CurPos_.x + 968.f / 2.f, CurPos_.y - 605.f / 2.f});	//, CamPos.y + GameEngineWindow::GetScale().y / 2.f 
-
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Select");
@@ -72,8 +69,8 @@ void LoginLevel::End()
 
 void LoginLevel::LevelStartEvent()
 {
+	GameBgmPlayer::BgmPlay_->ChangeBgm("Title.mp3");
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	LoginUI_->ResetLoginUI();
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->Off();
@@ -87,5 +84,4 @@ void LoginLevel::LevelStartEvent()
 
 void LoginLevel::LevelEndEvent()
 {
-	LoginUI_->ResetLoginUI();
 }
