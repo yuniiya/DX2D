@@ -119,8 +119,8 @@ void CactusLevel::End()
 void CactusLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	GameBgmPlayer::BgmPlay_->Stop();
-	GameBgmPlayer::BgmPlay_->ChangeBgm("HotDesert.mp3");
+	//GameBgmPlayer::BgmPlay_->Stop();
+	//GameBgmPlayer::BgmPlay_->ChangeBgm("HotDesert.mp3");
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();

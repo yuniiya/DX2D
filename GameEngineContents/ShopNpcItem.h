@@ -2,7 +2,7 @@
 #include "ShopItem.h"
 
 // Ό³Έν :
-class ShopNpcItem : ShopItem
+class ShopNpcItem : public ShopItem
 {
 public:
 	// constrcuter destructer

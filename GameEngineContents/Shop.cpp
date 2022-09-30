@@ -4,6 +4,9 @@
 #include "ShopItem.h"
 #include "ShopMyItem.h"
 #include "Player.h"
+#include "Inventory.h"
+#include "Item.h"
+#include "ShopNpcItem.h"
 
 Shop::Shop() 
 	: ShopRenderer_(nullptr)
@@ -33,6 +36,7 @@ Shop::Shop()
 	, IsShopOn_(false)
 	, StartPosition_(0.f)
 	, CurMesoFont_(nullptr)
+	, PlayerMeso_(0)
 
 {
 }
@@ -191,7 +195,6 @@ void Shop::Start()
 
 		ShopMyItem* ItemActor = GetLevel()->CreateActor<ShopMyItem>();
 		ItemActor->GetTransform().SetLocalPosition({ Pos });
-		ItemActor->SetItemType(ItemType::ITEM_CACTUS);
 		ShopMyItemsList_Etc.push_back(ItemActor);
 	}
 
@@ -209,20 +212,27 @@ void Shop::Start()
 		ShopMyItemsList_None.push_back(ItemActor);
 	}
 
-	Pos = float4({ -285.f, 180.f, (int)ZOrder::UI });
-	for (int i = 0; i < 9; ++i)
 	{
-		if (i != 0 && 0 == i % 1)
+		Pos = float4({ -285.f, 180.f, (int)ZOrder::UI });
+		for (int i = 0; i < 9; ++i)
 		{
-			Pos.y -= 42.f;
-		}
+			if (i != 0 && 0 == i % 1)
+			{
+				Pos.y -= 42.f;
+			}
 
-		ShopItem* ItemActor = GetLevel()->CreateActor<ShopItem>();
-		ItemActor->GetTransform().SetLocalPosition({ Pos });
-		ItemActor->SetItemType(ItemType::ITEM_HP300);
-		ShopItemsList_.push_back(ItemActor);
+			ShopNpcItem* ItemActor = GetLevel()->CreateActor<ShopNpcItem>();
+			ItemActor->GetTransform().SetLocalPosition({ Pos });
+			ShopItemsList_.push_back(ItemActor);
+		}
 	}
 
+	PushShopNpcItem(ItemType::ITEM_HP300);
+	PushShopNpcItem(ItemType::ITEM_MP300);
+	PushShopNpcItem(ItemType::ITEM_HP4000);
+	PushShopNpcItem(ItemType::ITEM_HP5000);
+	PushShopNpcItem(ItemType::ITEM_MP4000);
+	PushShopNpcItem(ItemType::ITEM_MP5000);
 }
 
 void Shop::Update(float _DeltaTime)
@@ -681,11 +691,6 @@ void Shop::ShopOff()
 
 	for (size_t i = 0; i < ShopItemsList_.size(); i++)
 	{
-		if (ItemType::MAX == ShopItemsList_[i]->GetItemType())
-		{
-			continue;
-		}
-
 		ShopItemsList_[i]->GetRenderer()->Off();
 	//	ShopItemsList_[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 		ShopItemsList_[i]->GetCollision()->Off();
@@ -694,8 +699,45 @@ void Shop::ShopOff()
 	Off();
 }
 
+void Shop::PushShopNpcItem(ItemType _ItemType)
+{
+	for (size_t i = 0; i < ShopItemsList_.size(); i++)
+	{
+		if (ShopItemsList_[i]->GetItemType() != ItemType::MAX)
+		{
+			continue;
+		}
+
+		ShopItemsList_[i]->SetItemType(_ItemType);	// Ä­¿¡ ¾ÆÀÌÅÛÀ» Ã¤¿ö³Ö°í -> for¹® ¸ØÃá´Ù
+
+		break;
+	}
+
+
+	//ShopItemsList_[i]->SetCount(ShopItemsList_[i]->GetCount() + 1);	// °³¼ö´Â 1°³
+//ShopItemsList_[i]->GetContensFont()->GetNoramlFontRenderer()->SetScreenPostion({
+//	  ShopItemsList_[i]->GetTransform().GetLocalPosition().x + 700.f
+//	, -ShopItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
+}
+
 void Shop::ShopOn()
 {
+	for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+	{
+		if (ItemType::ITEM_QUEST == Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType())
+		{
+			continue;
+		}
+
+		ShopMyItemsList_Etc[i]->SetItemType(Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType());
+	}
+
+	for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+	{
+
+		ShopMyItemsList_Potion[i]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
+	}
+
 	CurMesoFont_->GetNoramlFontRenderer()->On();
 
 	for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
@@ -734,6 +776,7 @@ void Shop::ShopOn()
 	//	ShopMyItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->On();
 		ShopMyItemsList_None[i]->GetCollision()->On();
 	}
+
 	for (size_t i = 0; i < ShopItemsList_.size(); i++)
 	{
 		// ºó Ä­Àº °Ç³Ê¶Ú´Ù

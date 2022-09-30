@@ -5,6 +5,7 @@
 // 설명 :
 class GameEngineTextureRenderer;
 class ContentsFont;
+class ShopNpcItem;
 class ShopMyItem;
 class ShopItem;
 class Shop : public GameEngineActor
@@ -26,8 +27,11 @@ public:
 		return ShopRenderer_;
 	}
 
+	void PushShopNpcItem(ItemType _ItemType);
+
 	void ShopOn();
 	bool IsShopOn_;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -53,7 +57,7 @@ protected:
 	std::vector<ShopMyItem*> ShopMyItemsList_None;		// 장비, 캐시 등 안쓰는 인벤토리
 
 	// 판매하는 아이템 목록
-	std::vector<ShopItem*> ShopItemsList_;				
+	std::vector<ShopNpcItem*> ShopItemsList_;				
 
 private:
 	GameEngineUIRenderer* ShopRenderer_;

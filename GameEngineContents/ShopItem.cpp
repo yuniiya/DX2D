@@ -21,20 +21,20 @@ void ShopItem::Start()
 
 	ItemCountFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemCountFont_->SetFontType(FontType::Normal);
-	ItemCountFont_->GetNoramlFontRenderer()->SetText(std::to_string(ItemState_.Count_));
-	ItemCountFont_->SetTextSize(17.f);
+	//ItemCountFont_->GetNoramlFontRenderer()->SetText(std::to_string(ItemState_.Count_));
+	//ItemCountFont_->SetTextSize(17.f);
 	//ItemCountFont_->On();
 
 	ItemNameFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemNameFont_->SetFontType(FontType::Normal);
-	ItemNameFont_->GetNoramlFontRenderer()->SetText(ItemState_.Name_);
-	ItemNameFont_->SetTextSize(17.f);
+	//ItemNameFont_->GetNoramlFontRenderer()->SetText(ItemState_.Name_);
+	//ItemNameFont_->SetTextSize(17.f);
 	//ItemNameFont_->On();
 
 	ItemCostFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemCostFont_->SetFontType(FontType::Normal);
-	ItemCostFont_->GetNoramlFontRenderer()->SetText(std::to_string(ItemState_.Cost_));
-	ItemCostFont_->SetTextSize(17.f);
+	//ItemCostFont_->GetNoramlFontRenderer()->SetText(std::to_string(ItemState_.Cost_));
+	//ItemCostFont_->SetTextSize(17.f);
 	//ItemCostFont_->On();
 
 	Collision_ = CreateComponent<GameEngineCollision>();
