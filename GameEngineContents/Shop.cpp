@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "ShopItem.h"
 #include "ShopMyItem.h"
+#include "Player.h"
 
 Shop::Shop() 
 	: ShopRenderer_(nullptr)
@@ -31,6 +32,7 @@ Shop::Shop()
 	, IsCategoryOn_5(false)
 	, IsShopOn_(false)
 	, StartPosition_(0.f)
+	, CurMesoFont_(nullptr)
 
 {
 }
@@ -153,6 +155,16 @@ void Shop::Start()
 	SellButtonCol_->GetTransform().SetLocalPosition({ SellButton_->GetTransform().GetLocalPosition().x, SellButton_->GetTransform().GetLocalPosition().y });
 	//SellButtonCol_->Off();
 
+	CurMesoFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
+	CurMesoFont_->GetNoramlFontRenderer()->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
+	CurMesoFont_->GetNoramlFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
+	PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+	CurMesoFont_->GetNoramlFontRenderer()->SetText(std::to_string(PlayerMeso_));
+	CurMesoFont_->SetComma();
+	CurMesoFont_->GetNoramlFontRenderer()->SetScreenPostion({ 800.f, 172.f});
+	CurMesoFont_->SetTextSize(13.5f);
+	CurMesoFont_->On();
+	//CurMesoFont_->GetNoramlFontRenderer()->Off();
 
 	// ¼ÒºñÃ¢
 	StartPosition_ = float4({ -51.f, 180.f, (int)ZOrder::UI });
@@ -217,6 +229,11 @@ void Shop::Update(float _DeltaTime)
 {
 	MyShopCategoryCheck();
 	CollisionCheck();
+}
+
+void Shop::LevelStartEvent()
+{
+	CurMesoFont_->GetNoramlFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
 }
 
 void Shop::CollisionCheck()
@@ -617,6 +634,8 @@ void Shop::MyShopCategoryCheck()
 
 void Shop::ShopOff()
 {
+	CurMesoFont_->GetNoramlFontRenderer()->Off();
+
 	if (true == IsCategoryOn_2)
 	{
 		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
@@ -627,7 +646,7 @@ void Shop::ShopOff()
 			}
 
 			ShopMyItemsList_Potion[i]->GetRenderer()->Off();
-			ShopMyItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+		//	ShopMyItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			ShopMyItemsList_Potion[i]->GetCollision()->Off();
 		}
 	}
@@ -641,7 +660,7 @@ void Shop::ShopOff()
 			}
 
 			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
-			ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+		//	ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			ShopMyItemsList_Etc[i]->GetCollision()->Off();
 		}
 	}
@@ -655,7 +674,7 @@ void Shop::ShopOff()
 			}
 
 			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
-			ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+		//	ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 			ShopMyItemsList_Etc[i]->GetCollision()->Off();
 		}
 	}
@@ -668,7 +687,7 @@ void Shop::ShopOff()
 		}
 
 		ShopItemsList_[i]->GetRenderer()->Off();
-		ShopItemsList_[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+	//	ShopItemsList_[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
 		ShopItemsList_[i]->GetCollision()->Off();
 	}
 
@@ -677,6 +696,8 @@ void Shop::ShopOff()
 
 void Shop::ShopOn()
 {
+	CurMesoFont_->GetNoramlFontRenderer()->On();
+
 	for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
 	{
 		// ºó Ä­Àº °Ç³Ê¶Ú´Ù

@@ -239,7 +239,6 @@ void Inventory::Update(float _DeltaTime)
 
 void Inventory::LevelStartEvent()
 {
-
 	CurMesoFont_->GetNoramlFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
 }
 

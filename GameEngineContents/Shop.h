@@ -33,6 +33,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void LevelStartEvent() override;
+
 protected:
 	void CollisionCheck();
 	void CategoryCollisionCheck();
@@ -76,6 +78,8 @@ private:
 	GameEngineCollision* CategoryCollision_4;
 	GameEngineCollision* CategoryCollision_5;
 
+	ContentsFont* CurMesoFont_;
+
 private:
 	bool IsCategoryOn_1;
 	bool IsCategoryOn_2;
@@ -86,5 +90,6 @@ private:
 	bool IsClick_;
 
 	float4 StartPosition_;
+	int PlayerMeso_;
 };
 
