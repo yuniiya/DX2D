@@ -102,6 +102,8 @@ void DesertLevel::End()
 void DesertLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	GameBgmPlayer::BgmPlay_->Stop();
+	GameBgmPlayer::BgmPlay_->ChangeBgm("SunsetDesert.mp3");
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();

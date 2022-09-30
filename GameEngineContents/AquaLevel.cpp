@@ -231,12 +231,14 @@ void AquaLevel::End()
 
 void AquaLevel::LevelStartEvent()
 {
-	GameBgmPlayer::BgmPlay_->ChangeBgm("BlueWorld.mp3");
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	GameBgmPlayer::BgmPlay_->Stop();
+	GameBgmPlayer::BgmPlay_->ChangeBgm("BlueWorld.mp3");
+
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();
-		Player::MainPlayer_->GetTransform().SetLocalPosition({ 1000.0f, -400.0f, (int)ZOrder::PLAYER });
+		Player::MainPlayer_->GetTransform().SetLocalPosition({ 97.f, -1123.f, (int)ZOrder::PLAYER });
 
 	}
 	if (nullptr != ContentsUI::MainUI_)
@@ -247,7 +249,7 @@ void AquaLevel::LevelStartEvent()
 
 void AquaLevel::LevelEndEvent()
 {
-	GameBgmPlayer::BgmPlay_->Stop();
+	//GameBgmPlayer::BgmPlay_->Stop();
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
 	Mouse::MainMouse_->SetLevelOverOn();

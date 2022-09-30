@@ -20,10 +20,6 @@ void NPC_Cactus::Update(float _DeltaTime)
 {
 	NPC::Update(_DeltaTime);
 
-	//if (true == IsQuestEnd_)
-	//{
-	//	Collision_->Off();
-	//}
 	if (true == Player::MainPlayer_->IsCactusQuestEnd_)
 	{
 		Collision_->Off();
@@ -54,12 +50,5 @@ void NPC_Cactus::Update(float _DeltaTime)
   		Collision_->Off();
 	}   
 
-
-
-	//// 대화창이 꺼져있을 경우 콜리전 On
-	//if (false == QuestUI_->IsUpdate())
-	//{
-	//	Collision_->On();
-	//}
 }
 

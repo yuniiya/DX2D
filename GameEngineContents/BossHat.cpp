@@ -14,7 +14,7 @@ BossHat::~BossHat()
 
 void BossHat::Start()
 {
-	GetTransform().SetLocalPosition({ 0, 0, (int)ZOrder::BOSSSKILL});
+	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::EFFECT});
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetLocalScale({ 130.f, 130.f });
@@ -139,7 +139,7 @@ void BossHat::FallStart()
 void BossHat::GroundStart()
 {
 	IsGround_ = false;
-	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x, -440.f + 28.f});
+	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x, -440.f + 28.f, (int)ZOrder::EFFECT });
 	//HitRenderer_->On();
 	//HitRenderer_->GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x, Player::MainPlayer_->GetPosition().y + 28.f });
 	Collision_->On();
@@ -149,7 +149,7 @@ void BossHat::GroundStart()
 
 void BossHat::IdleStart()
 {
-	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x - 4.5f, -440.f + 10.f});
+	GetTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x - 4.5f, -440.f + 10.f, (int)ZOrder::EFFECT });
 	Renderer_->ChangeFrameAnimation("Idle");
 	Renderer_->ScaleToTexture();
 }

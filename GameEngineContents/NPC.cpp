@@ -48,6 +48,12 @@ void NPC::SetNPCType(NPCType _NPCType)
 		QuestRenderer_->Off();
 	}
 	break;
+	case NPCType::MAX:
+	{
+		Renderer_->Off();
+		QuestRenderer_->Off();
+	}
+	break;
 	}
 }
 

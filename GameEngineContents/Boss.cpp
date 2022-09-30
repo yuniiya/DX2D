@@ -880,8 +880,6 @@ void Boss::CreateHat()
 			BossHat* Hat = GetLevel()->CreateActor<BossHat>();
 			Hat->GetTransform().SetLocalPosition({ GetPlayerPosition().x + i * 250.f, -440.f + 565.f, (int)ZOrder::EFFECT });
 		}
-		//BossHat* Hat = GetLevel()->CreateActor<BossHat>();
-		//Hat->GetTransform().SetLocalPosition({ GetPlayerPosition().x, GetPlayerPosition().y + 565.f, (int)ZOrder::EFFECT});
 		CreateHatTime_ = 0.f;
 		IsCreateHat_ = true;
 	}

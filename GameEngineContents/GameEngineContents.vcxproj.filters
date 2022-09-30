@@ -238,6 +238,12 @@
     <ClInclude Include="MapAnimationObject.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
+    <ClInclude Include="Shop.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC_Shop.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -423,6 +429,12 @@
     </ClCompile>
     <ClCompile Include="MapAnimationObject.cpp">
       <Filter>Actor\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC_Shop.cpp">
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

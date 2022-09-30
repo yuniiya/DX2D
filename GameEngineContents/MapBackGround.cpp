@@ -29,7 +29,7 @@ void MapBackGround::Update(float _DeltaTime)
 {
 	if (true == AriantSunLight_->IsUpdate())
 	{
-		AriantSunLight_->GetTransform().SetLocalPosition({ GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x, SunShineYPos_});
+		AriantSunLight_->GetTransform().SetLocalPosition({ GetLevel()->GetMainCameraActor()->GetTransform().GetLocalPosition().x, SunShineYPos_, (int)ZOrder::BACKGROUND});
 	}
 }
 

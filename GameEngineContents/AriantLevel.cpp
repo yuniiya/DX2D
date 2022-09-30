@@ -10,6 +10,7 @@
 #include "Inventory.h"
 #include "GameBgmPlayer.h"
 #include "Cloud.h"
+#include "NPC_Shop.h"
 
 AriantLevel::AriantLevel() 
 	: Player_(nullptr)
@@ -26,24 +27,28 @@ void AriantLevel::Start()
 	SetBackGround("Back_Ariant.png");
 	SetAriantSunLight(-600.f);
 	SetStage("Stage_Ariant.png");
+
 	Cloud* Cloud_ = CreateActor<Cloud>((int)GAMEOBJGROUP::BACKGROUND);
 	Cloud_->CreateCloud("Ariant_Cloud.png", { 5760.f / 2.f, -600.f }, 210.f, true);
+
 	if (nullptr == Player::MainPlayer_)
 	{
 		Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 		Inventory::MainInventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
 		ContentsUI::MainUI_ = CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
+
 	}
 	if (nullptr == Mouse::MainMouse_)
 	{
 		Mouse::MainMouse_ = CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 	}
 
+	NPC_Shop* NPC_ = CreateActor<NPC_Shop>((int)GAMEOBJGROUP::OBJ);
+	NPC_->SetNPCType(NPCType::MAX);
+	NPC_->GetTransform().SetLocalPosition({ 2800.f, -800.f, (int)ZOrder::NPC });
+
 	SetPortal({ 3008.f, -750.f, (int)ZOrder::PORTAL});
 	SetPortal({ 3410.f, -750.f, (int)ZOrder::PORTAL });
-
-
-
 }
 
 void AriantLevel::Update(float _DeltaTime)
@@ -76,6 +81,7 @@ void AriantLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 	GameBgmPlayer::BgmPlay_->Stop();
+	GameBgmPlayer::BgmPlay_->ChangeBgm("Ariant.mp3");
 
 	if (nullptr != Player::MainPlayer_)
 	{

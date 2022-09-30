@@ -69,8 +69,9 @@ void BossLevel::End()
 void BossLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
+	GameBgmPlayer::BgmPlay_->Stop();
 	GameBgmPlayer::BgmPlay_->ChangeBgm("JoyfulTeaParty.mp3");
-	//GameEngineSound::SoundPlayControl("JoyfulTeaParty.mp3");
+
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();

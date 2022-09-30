@@ -767,6 +767,7 @@ void Player::ObjectPixelCheck()
 		{
 			if ("ARIANT" == CurLevelName_)
 			{
+				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 111.f, -776.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Cactus");
 			}
 			else if ("ENTRANCE" == CurLevelName_)
@@ -780,10 +781,12 @@ void Player::ObjectPixelCheck()
 			}
 			else if ("CACTUS" == CurLevelName_)
 			{
+			//	Player::MainPlayer_->GetTransform().SetLocalPosition({ 168.f, -240.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Desert");
 			}
 			else if ("DESERT" == CurLevelName_)
 			{
+				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 97.f, -240.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Aqua");
 			}
 			else if ("AQUA" == CurLevelName_)
@@ -814,10 +817,12 @@ void Player::ObjectPixelCheck()
 			}
 			else if ("DESERT" == CurLevelName_)
 			{
+				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 1864.f, -776.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Cactus");
 			}
 			else if ("AQUA" == CurLevelName_)
 			{
+				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 1489.f, -542.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Desert");
 			}
 

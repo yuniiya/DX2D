@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineCore/GameEngineActor.h"
 
+class GameEngineTextureRenderer;
 class GameEngineCollision;
 class QuestUI;
 class NPC : public GameEngineActor

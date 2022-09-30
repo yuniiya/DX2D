@@ -245,7 +245,7 @@ void Inventory::LevelStartEvent()
 
 void Inventory::LevelEndEvent()
 {
-	InventoryItemsList_Etc;
+	//InventoryItemsList_Etc;
 }
 
 
