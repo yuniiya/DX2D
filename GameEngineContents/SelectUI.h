@@ -26,8 +26,6 @@ protected:
 	void CollisionCheck();
 
 
-	bool SoundPlay;
-	bool AlreadyPlay;
 	bool GameStart;
 	bool IsPressedPrev_;
 

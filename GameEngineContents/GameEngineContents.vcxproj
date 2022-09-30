@@ -382,6 +382,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ShopItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShopMyItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShopNpcItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Skill.h">
       <SubType>
       </SubType>
@@ -627,6 +639,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Shop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ShopItem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ShopMyItem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ShopNpcItem.cpp">
       <SubType>
       </SubType>
     </ClCompile>

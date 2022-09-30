@@ -32,7 +32,7 @@ void NPC_Shop::ShopOnOff()
 		if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MAINMOUSE, CollisionType::CT_OBB2D)
 			&& true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{
-			ShopUI_->On();
+			ShopUI_->ShopOn();
 			ShopUI_->IsShopOn_ = true;
 		}
 	}

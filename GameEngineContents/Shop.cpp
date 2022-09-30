@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Shop.h"
 #include "Mouse.h"
+#include "ShopItem.h"
+#include "ShopMyItem.h"
 
 Shop::Shop() 
 	: ShopRenderer_(nullptr)
@@ -12,6 +14,24 @@ Shop::Shop()
 	, SellButtonCol_(nullptr)
 	, Button_(nullptr)
 	, IsClick_(false)
+	, Category_1(nullptr)
+	, Category_2(nullptr)
+	, Category_3(nullptr)
+	, Category_4(nullptr)
+	, Category_5(nullptr)
+	, CategoryCollision_1(nullptr)
+	, CategoryCollision_2(nullptr)
+	, CategoryCollision_3(nullptr)
+	, CategoryCollision_4(nullptr)
+	, CategoryCollision_5(nullptr)
+	, IsCategoryOn_1(false)
+	, IsCategoryOn_2(false)
+	, IsCategoryOn_3(true)
+	, IsCategoryOn_4(false)
+	, IsCategoryOn_5(false)
+	, IsShopOn_(false)
+	, StartPosition_(0.f)
+
 {
 }
 
@@ -78,35 +98,35 @@ void Shop::Start()
 	/// Collision
 	CategoryCollision_1 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_1->SetUIDebugCamera();
-	CategoryCollision_1->GetTransform().SetLocalScale({ 18.f, 15.f });
+	CategoryCollision_1->GetTransform().SetLocalScale({ 22.f, 15.f });
 	CategoryCollision_1->ChangeOrder(GAMEOBJGROUP::UI);
 	CategoryCollision_1->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x - 92.f, Category_1->GetTransform().GetLocalPosition().y });
 	//CategoryCollision_1->Off();
 
 	CategoryCollision_2 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_2->SetUIDebugCamera();
-	CategoryCollision_2->GetTransform().SetLocalScale({ 18.f, 15.f });
+	CategoryCollision_2->GetTransform().SetLocalScale({ 22.f, 15.f });
 	CategoryCollision_2->ChangeOrder(GAMEOBJGROUP::UI);
 	CategoryCollision_2->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x - 92.f + 45.f, Category_1->GetTransform().GetLocalPosition().y });
 	//CategoryCollision_2->Off();
 
 	CategoryCollision_3 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_3->SetUIDebugCamera();
-	CategoryCollision_3->GetTransform().SetLocalScale({ 18.f, 15.f });
+	CategoryCollision_3->GetTransform().SetLocalScale({ 22.f, 15.f });
 	CategoryCollision_3->ChangeOrder(GAMEOBJGROUP::UI);
 	CategoryCollision_3->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x - 92.f + 90.f, Category_1->GetTransform().GetLocalPosition().y});
 	//CategoryCollision_3->Off();
 
 	CategoryCollision_4 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_4->SetUIDebugCamera();
-	CategoryCollision_4->GetTransform().SetLocalScale({ 18.f, 15.f });
+	CategoryCollision_4->GetTransform().SetLocalScale({ 22.f, 15.f });
 	CategoryCollision_4->ChangeOrder(GAMEOBJGROUP::UI);
 	CategoryCollision_4->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x - 92.f + 135.f, Category_1->GetTransform().GetLocalPosition().y});
 	//CategoryCollision_4->Off();
 
 	CategoryCollision_5 = CreateComponent<GameEngineCollision>();
 	CategoryCollision_5->SetUIDebugCamera();
-	CategoryCollision_5->GetTransform().SetLocalScale({ 18.f, 15.f });
+	CategoryCollision_5->GetTransform().SetLocalScale({ 22.f, 15.f });
 	CategoryCollision_5->ChangeOrder(GAMEOBJGROUP::UI);
 	CategoryCollision_5->GetTransform().SetLocalPosition({ Category_1->GetTransform().GetLocalPosition().x - 92.f + 180.f, Category_1->GetTransform().GetLocalPosition().y });
 	//CategoryCollision_5->Off();
@@ -114,29 +134,88 @@ void Shop::Start()
 
 	ExitButtonCol_ = CreateComponent<GameEngineCollision>();
 	ExitButtonCol_->SetUIDebugCamera();
-	ExitButtonCol_->GetTransform().SetLocalScale({ 40.f, 15.f });
+	ExitButtonCol_->GetTransform().SetLocalScale({ 40.f, 7.f });
 	ExitButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
-	ExitButtonCol_->GetTransform().SetLocalPosition({ ExitButton_->GetTransform().GetLocalPosition().x, ExitButton_->GetTransform().GetLocalPosition().y });
+	ExitButtonCol_->GetTransform().SetLocalPosition({ ExitButton_->GetTransform().GetLocalPosition().x, ExitButton_->GetTransform().GetLocalPosition().y + 5.f});
 	//ExitButtonCol_->Off();
 
 	BuyButtonCol_ = CreateComponent<GameEngineCollision>();
 	BuyButtonCol_->SetUIDebugCamera();
-	BuyButtonCol_->GetTransform().SetLocalScale({ 40.f, 15.f });
+	BuyButtonCol_->GetTransform().SetLocalScale({ 40.f, 7.f });
 	BuyButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
-	BuyButtonCol_->GetTransform().SetLocalPosition({ BuyButton_->GetTransform().GetLocalPosition().x, BuyButton_->GetTransform().GetLocalPosition().y });
+	BuyButtonCol_->GetTransform().SetLocalPosition({ BuyButton_->GetTransform().GetLocalPosition().x, BuyButton_->GetTransform().GetLocalPosition().y - 5.f});
 	//BuyButtonCol_->Off();
 
 	SellButtonCol_ = CreateComponent<GameEngineCollision>();
 	SellButtonCol_->SetUIDebugCamera();
-	SellButtonCol_->GetTransform().SetLocalScale({ 40.f, 15.f });
+	SellButtonCol_->GetTransform().SetLocalScale({ 40.f, 10.f });
 	SellButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
 	SellButtonCol_->GetTransform().SetLocalPosition({ SellButton_->GetTransform().GetLocalPosition().x, SellButton_->GetTransform().GetLocalPosition().y });
 	//SellButtonCol_->Off();
+
+
+	// º“∫Ò√¢
+	StartPosition_ = float4({ -51.f, 180.f, (int)ZOrder::UI });
+	float4 Pos = StartPosition_;
+	for (int i = 0; i < 9; ++i)
+	{
+		if (i != 0 && 0 == i % 1)
+		{
+			Pos.y -= 43.f;
+		}
+
+		ShopMyItem* ItemActor = GetLevel()->CreateActor<ShopMyItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		ShopMyItemsList_Potion.push_back(ItemActor);
+	}
+
+	// ±‚≈∏√¢
+	Pos = StartPosition_;	for (int i = 0; i < 9; ++i)
+	{
+		if (i != 0 && 0 == i % 1)
+		{
+			Pos.y -= 42.f;
+		}
+
+		ShopMyItem* ItemActor = GetLevel()->CreateActor<ShopMyItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		ItemActor->SetItemType(ItemType::ITEM_CACTUS);
+		ShopMyItemsList_Etc.push_back(ItemActor);
+	}
+
+	// None
+	Pos = StartPosition_;
+	for (int i = 0; i < 9; ++i)
+	{
+		if (i != 0 && 0 == i % 1)
+		{
+			Pos.y -= 43.f;
+		}
+
+		ShopMyItem* ItemActor = GetLevel()->CreateActor<ShopMyItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		ShopMyItemsList_None.push_back(ItemActor);
+	}
+
+	Pos = float4({ -285.f, 180.f, (int)ZOrder::UI });
+	for (int i = 0; i < 9; ++i)
+	{
+		if (i != 0 && 0 == i % 1)
+		{
+			Pos.y -= 42.f;
+		}
+
+		ShopItem* ItemActor = GetLevel()->CreateActor<ShopItem>();
+		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		ItemActor->SetItemType(ItemType::ITEM_HP300);
+		ShopItemsList_.push_back(ItemActor);
+	}
 
 }
 
 void Shop::Update(float _DeltaTime)
 {
+	MyShopCategoryCheck();
 	CollisionCheck();
 }
 
@@ -297,14 +376,14 @@ void Shop::ButtonCollisionCheck()
 			GameEngineSound::SoundPlayOneShot("MenuUp.mp3");
 			ExitButton_->SetTexture("Shop.BtExit.pressed.0.png");
 			IsShopOn_ = false;
-			Off();
-			//AllOff();
+			ShopOff();
+		
 		}
 		else
 		{
 			ExitButton_->SetTexture("Shop.BtExit.mouseOver.0.png");
 		}
-	}i
+	}
 	else
 	{
 		ExitButton_->SetTexture("Shop.BtExit.normal.0.png");
@@ -408,50 +487,294 @@ void Shop::CategoryOnCheck()
 	}
 }
 
+void Shop::MyShopCategoryCheck()
+{
+	if (true == IsCategoryOn_2)
+	{
+		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_Potion[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Potion[i]->GetRenderer()->On();
+		//	ShopMyItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->On();
+			ShopMyItemsList_Potion[i]->GetCollision()->On();
+		}
+
+		for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_Etc[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
+		//	ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetCollision()->Off();
+		}
+
+		for (size_t i = 0; i < ShopMyItemsList_None.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_None[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_None[i]->GetRenderer()->Off();
+		//	ShopMyItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_None[i]->GetCollision()->Off();
+		}
+	}
+	else if (true == IsCategoryOn_3)
+	{
+		for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_Etc[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Etc[i]->GetRenderer()->On();
+		//	ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->On();
+			ShopMyItemsList_Etc[i]->GetCollision()->On();
+		}
+
+		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_Potion[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Potion[i]->GetRenderer()->Off();
+		//	ShopMyItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_Potion[i]->GetCollision()->Off();
+		}
+
+		for (size_t i = 0; i < ShopMyItemsList_None.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_None[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_None[i]->GetRenderer()->Off();
+		//	ShopMyItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_None[i]->GetCollision()->Off();
+		}
+
+	}
+	else
+	{
+		for (size_t i = 0; i < ShopMyItemsList_None.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_None[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_None[i]->GetRenderer()->On();
+		//	ShopMyItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->On();
+			ShopMyItemsList_None[i]->GetCollision()->On();
+		}
+
+		for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_Etc[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
+		//	ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetCollision()->Off();
+		}
+
+		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+		{
+			// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+			if (ItemType::MAX == ShopMyItemsList_Potion[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Potion[i]->GetRenderer()->Off();
+		//	ShopMyItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_Potion[i]->GetCollision()->Off();
+		}
+	}
+}
+
+void Shop::ShopOff()
+{
+	if (true == IsCategoryOn_2)
+	{
+		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+		{
+			if (ItemType::MAX == ShopMyItemsList_Potion[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Potion[i]->GetRenderer()->Off();
+			ShopMyItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_Potion[i]->GetCollision()->Off();
+		}
+	}
+	else if (true == IsCategoryOn_3)
+	{
+		for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+		{
+			if (ItemType::MAX == ShopMyItemsList_Etc[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetCollision()->Off();
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+		{
+			if (ItemType::MAX == ShopMyItemsList_Etc[i]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetCollision()->Off();
+		}
+	}
+
+	for (size_t i = 0; i < ShopItemsList_.size(); i++)
+	{
+		if (ItemType::MAX == ShopItemsList_[i]->GetItemType())
+		{
+			continue;
+		}
+
+		ShopItemsList_[i]->GetRenderer()->Off();
+		ShopItemsList_[i]->GetContensFont()->GetNoramlFontRenderer()->Off();
+		ShopItemsList_[i]->GetCollision()->Off();
+	}
+
+	Off();
+}
+
+void Shop::ShopOn()
+{
+	for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+	{
+		// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+		if (ItemType::MAX == ShopMyItemsList_Potion[i]->GetItemType())
+		{
+			continue;
+		}
+
+		ShopMyItemsList_Potion[i]->GetRenderer()->On();
+	//	ShopMyItemsList_Potion[i]->GetContensFont()->GetNoramlFontRenderer()->On();
+		ShopMyItemsList_Potion[i]->GetCollision()->On();
+	}
+	for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+	{
+		// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+		if (ItemType::MAX == ShopMyItemsList_Etc[i]->GetItemType())
+		{
+			continue;
+		}
+
+		ShopMyItemsList_Etc[i]->GetRenderer()->On();
+	//	ShopMyItemsList_Etc[i]->GetContensFont()->GetNoramlFontRenderer()->On();
+		ShopMyItemsList_Etc[i]->GetCollision()->On();
+	}
+	for (size_t i = 0; i < ShopMyItemsList_None.size(); i++)
+	{
+		// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+		if (ItemType::MAX == ShopMyItemsList_None[i]->GetItemType())
+		{
+			continue;
+		}
+
+		ShopMyItemsList_None[i]->GetRenderer()->On();
+	//	ShopMyItemsList_None[i]->GetContensFont()->GetNoramlFontRenderer()->On();
+		ShopMyItemsList_None[i]->GetCollision()->On();
+	}
+	for (size_t i = 0; i < ShopItemsList_.size(); i++)
+	{
+		// ∫Û ƒ≠¿∫ ∞«≥ ∂⁄¥Ÿ
+		if (ItemType::MAX == ShopItemsList_[i]->GetItemType())
+		{
+			continue;
+		}
+
+		ShopItemsList_[i]->GetRenderer()->On();
+	//	ShopItemsList_[i]->GetContensFont()->GetNoramlFontRenderer()->On();
+		ShopItemsList_[i]->GetCollision()->On();
+	}
+
+	On();
+}
+
 void Shop::AllOff()
 {
 	IsShopOn_ = false;
 
-	ShopRenderer_->Off();
-	Category_1->Off();
-	Category_2->Off();
-	Category_3->Off();
-	Category_4->Off();
-	Category_5->Off();
-	ExitButton_->Off();
-	BuyButton_->Off();
-	SellButton_->Off();
+	//ShopRenderer_->Off();
+	//Category_1->Off();
+	//Category_2->Off();
+	//Category_3->Off();
+	//Category_4->Off();
+	//Category_5->Off();
+	//ExitButton_->Off();
+	//BuyButton_->Off();
+	//SellButton_->Off();
 
-	CategoryCollision_1->Off();
-	CategoryCollision_2->Off();
-	CategoryCollision_3->Off();
-	CategoryCollision_4->Off();
-	CategoryCollision_5->Off();
-	ExitButtonCol_->Off();
-	BuyButtonCol_->Off();
-	SellButtonCol_->Off();
+	//CategoryCollision_1->Off();
+	//CategoryCollision_2->Off();
+	//CategoryCollision_3->Off();
+	//CategoryCollision_4->Off();
+	//CategoryCollision_5->Off();
+	//ExitButtonCol_->Off();
+	//BuyButtonCol_->Off();
+	//SellButtonCol_->Off();
 }
 
 void Shop::AllOn()
 {
 	IsShopOn_ = true;
 
-	ShopRenderer_->On();
-	Category_1->On();
-	Category_2->On();
-	Category_3->On();
-	Category_4->On();
-	Category_5->On();
-	ExitButton_->On();
-	BuyButton_->On();
-	SellButton_->On();
+	//ShopRenderer_->On();
+	//Category_1->On();
+	//Category_2->On();
+	//Category_3->On();
+	//Category_4->On();
+	//Category_5->On();
+	//ExitButton_->On();
+	//BuyButton_->On();
+	//SellButton_->On();
 
-	CategoryCollision_1->On();
-	CategoryCollision_2->On();
-	CategoryCollision_3->On();
-	CategoryCollision_4->On();
-	CategoryCollision_5->On();
-	ExitButtonCol_->On();
-	BuyButtonCol_->On();
-	SellButtonCol_->On();
+	//CategoryCollision_1->On();
+	//CategoryCollision_2->On();
+	//CategoryCollision_3->On();
+	//CategoryCollision_4->On();
+	//CategoryCollision_5->On();
+	//ExitButtonCol_->On();
+	//BuyButtonCol_->On();
+	//SellButtonCol_->On();
+
+	
 }

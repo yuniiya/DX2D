@@ -13,8 +13,9 @@
 
 struct InventoryItemState
 {
+	std::string Name_;
 	int Count_;
-	int Price_;
+	int Cost_;
 };
 
 class GameEngineFontRenderer;
@@ -52,9 +53,14 @@ public:
 		return ItemState_.Count_;
 	}
 
-	inline int GetPrice()
+	inline int GetCost()
 	{
-		return ItemState_.Price_;
+		return ItemState_.Cost_;
+	}
+
+	inline std::string GetName()
+	{
+		return ItemState_.Name_;
 	}
 
 	inline GameEngineTextureRenderer* GetRenderer()
@@ -119,6 +125,11 @@ public:
 		ItemState_.Count_ = _Count;
 
 		ItemCountFont_->GetNoramlFontRenderer()->SetText(std::to_string(_Count));
+	}
+
+	inline void SetName(std::string _Name)
+	{
+		ItemState_.Name_ = _Name;
 	}
 
 	inline void SetSlotIndex(int _SlotIndex)

@@ -31,7 +31,7 @@ InventoryItem::InventoryItem()
 	, MouseSlot_(nullptr)
 {
 	ItemState_.Count_ = 0;
-	ItemState_.Price_ = 500;
+	ItemState_.Cost_ = 500;
 }
 
 InventoryItem::~InventoryItem() 
@@ -45,14 +45,6 @@ void InventoryItem::Start()
 	Renderer_->SetPivot(PIVOTMODE::LEFTTOP);
 	Renderer_->GetTransform().SetLocalScale({ 128.f, 128.f });
 	Renderer_->Off();
-
-	//ItemCountFont_ = CreateComponent<GameEngineFontRenderer>();
-	//ItemCountFont_->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
-	//ItemCountFont_->SetText(std::to_string(ItemState_.Count_));
-	//ItemCountFont_->SetColor({ 0.0f, 0.0f, 0.0f, 1.0 });
-	//ItemCountFont_->SetSize(17);
-	//ItemCountFont_->ChangeCamera(CAMERAORDER::UICAMERA);
-	//ItemCountFont_->Off();
 
 	ItemCountFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemCountFont_->SetFontType(FontType::Normal);
@@ -68,12 +60,6 @@ void InventoryItem::Start()
 	Collision_->GetTransform().SetLocalPosition(
 		{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
 		, Renderer_->GetTransform().GetLocalPosition().y - 76.f });
-
-	//MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
-	//MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
-	//MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
-	//MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
-	//MouseSlot_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
 
 	SetLevelOverOn();
 }
@@ -278,7 +264,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	{
 	case ItemType::ITEM_CACTUS:
 	{
-
+		SetName("선인장의 줄기");
 		Renderer_->SetTexture("Item2.png", 0);
 		Index_ = 0;
 		MonsterName_ = MONSTERNAME::BabyCactus;
@@ -287,6 +273,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_WHITERABBIT:
 	{
+		SetName("클로버");
 		Renderer_->SetTexture("Item2.png", 1);
 		Index_ = 1;
 		MonsterName_ = MONSTERNAME::WhiteRabbit;
@@ -295,6 +282,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_BROWNRABBIT:
 	{
+		SetName("홍당무");
 		Renderer_->SetTexture("Item2.png", 2);
 		Index_ = 2;
 		MonsterName_ = MONSTERNAME::BrownRabbit;
@@ -303,6 +291,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_SCOR:
 	{
+		SetName("전갈의 독침");
 		Renderer_->SetTexture("Item2.png", 4);
 		Index_ = 4;
 		MonsterName_ = MONSTERNAME::Scorpion;
@@ -311,6 +300,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_SAND:
 	{
+		SetName("나무 망치");
 		Renderer_->SetTexture("Item2.png", 3);
 		Index_ = 3;
 		MonsterName_ = MONSTERNAME::Sand;
@@ -319,6 +309,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_SPARKER:
 	{
+		SetName("물개 가죽");
 		Renderer_->SetTexture("Item2.png", 6);
 		Index_ = 6;
 		MonsterName_ = MONSTERNAME::Sparker;
@@ -327,6 +318,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_FREEZER:
 	{
+		SetName("물개의 송곳니");
 		Renderer_->SetTexture("Item2.png", 5);
 		Index_ = 5;
 		MonsterName_ = MONSTERNAME::Freezer;
@@ -335,6 +327,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_HP300:
 	{
+		SetName("하얀 포션");
 		Renderer_->SetTexture("Item2.png", 7);
 		Index_ = 7;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -342,6 +335,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_MP300:
 	{
+		SetName("마나 엘릭서");
 		Renderer_->SetTexture("Item2.png", 8);
 		Index_ = 8;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -349,6 +343,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_HP5000:
 	{
+		SetName("순록의 우유");
 		Renderer_->SetTexture("Item2.png", 13);
 		Index_ = 13;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -356,6 +351,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_HP4000:
 	{
+		SetName("살살 녹는 치즈");
 		Renderer_->SetTexture("Item2.png", 12);
 		Index_ = 12;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -363,6 +359,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_MP5000:
 	{
+		SetName("황혼의 이슬");
 		Renderer_->SetTexture("Item2.png", 15);
 		Index_ = 15;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -370,6 +367,7 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_MP4000:
 	{
+		SetName("새벽의 이슬");
 		Renderer_->SetTexture("Item2.png", 14);
 		Index_ = 14;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;

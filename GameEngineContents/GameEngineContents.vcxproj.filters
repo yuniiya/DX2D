@@ -52,6 +52,9 @@
     <Filter Include="KeyBoard">
       <UniqueIdentifier>{f2d101ab-740b-4a27-be7b-d03cf134f468}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\UI\Shop">
+      <UniqueIdentifier>{e2aa473b-9691-4a28-b981-e7d13379dbdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -238,11 +241,20 @@
     <ClInclude Include="MapAnimationObject.h">
       <Filter>Actor\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Shop.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
     <ClInclude Include="NPC_Shop.h">
       <Filter>Actor\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Shop.h">
+      <Filter>Actor\UI\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopItem.h">
+      <Filter>Actor\UI\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopMyItem.h">
+      <Filter>Actor\UI\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopNpcItem.h">
+      <Filter>Actor\UI\Shop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -430,11 +442,20 @@
     <ClCompile Include="MapAnimationObject.cpp">
       <Filter>Actor\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Shop.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="NPC_Shop.cpp">
       <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop.cpp">
+      <Filter>Actor\UI\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopItem.cpp">
+      <Filter>Actor\UI\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopMyItem.cpp">
+      <Filter>Actor\UI\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopNpcItem.cpp">
+      <Filter>Actor\UI\Shop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

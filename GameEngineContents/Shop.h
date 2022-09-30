@@ -5,6 +5,8 @@
 // 설명 :
 class GameEngineTextureRenderer;
 class ContentsFont;
+class ShopMyItem;
+class ShopItem;
 class Shop : public GameEngineActor
 {
 public:
@@ -24,6 +26,7 @@ public:
 		return ShopRenderer_;
 	}
 
+	void ShopOn();
 	bool IsShopOn_;
 protected:
 	void Start() override;
@@ -35,9 +38,20 @@ protected:
 	void CategoryCollisionCheck();
 	void ButtonCollisionCheck();
 	void CategoryOnCheck();
+	void MyShopCategoryCheck();
+	void ShopOff();
 
 	void AllOff();
 	void AllOn();
+
+protected:
+	// 플레이어 아이템 목록
+	std::vector<ShopMyItem*> ShopMyItemsList_Potion;	// 소비
+	std::vector<ShopMyItem*> ShopMyItemsList_Etc;		// 기타
+	std::vector<ShopMyItem*> ShopMyItemsList_None;		// 장비, 캐시 등 안쓰는 인벤토리
+
+	// 판매하는 아이템 목록
+	std::vector<ShopItem*> ShopItemsList_;				
 
 private:
 	GameEngineUIRenderer* ShopRenderer_;
@@ -70,5 +84,7 @@ private:
 	bool IsCategoryOn_5;
 
 	bool IsClick_;
+
+	float4 StartPosition_;
 };
 
