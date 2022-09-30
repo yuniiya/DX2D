@@ -248,7 +248,6 @@ void Inventory::LevelEndEvent()
 	//InventoryItemsList_Etc;
 }
 
-
 void Inventory::CollisionCheck()
 { 
 	if (nullptr == Mouse::MainMouse_)

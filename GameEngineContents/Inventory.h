@@ -50,6 +50,7 @@ public:
 	bool IsCategoryOn_3;
 	bool IsCategoryOn_4;
 	bool IsCategoryOn_5;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -64,11 +65,8 @@ protected:
 	void InventoryOnOffCheck();
 	void CategoryOnCheck();
 
-private:
-	float4 Position_;
-	float4 StartPosition_;
 
-private:
+protected:
 	GameEngineUIRenderer* Inventory_;
 
 	GameEngineUIRenderer* Category_1;
@@ -80,7 +78,7 @@ private:
 	//GameEngineFontRenderer* CurMesoFont_;
 	ContentsFont* CurMesoFont_;
 
-private:
+protected:
 	GameEngineCollision* Collision_;
 	GameEngineCollision* HeaderCollision_;
 	GameEngineCollision* CategoryCollision_1;
@@ -89,7 +87,7 @@ private:
 	GameEngineCollision* CategoryCollision_4;
 	GameEngineCollision* CategoryCollision_5;
 
-private:
+protected:
 	std::vector<InventoryItem*> InventoryItemsList_Potion;	// 소비
 	std::vector<InventoryItem*> InventoryItemsList_Etc;		// 기타
 	std::vector<InventoryItem*> InventoryItemsList_None;	// 장비, 캐시 등 안쓰는 인벤토리
@@ -97,7 +95,9 @@ private:
 private:
 	int Capacity_;
 	int ItemSlotCount_;
-
 	int PlayerMeso_;
+
+	float4 Position_;
+	float4 StartPosition_;
 };
 

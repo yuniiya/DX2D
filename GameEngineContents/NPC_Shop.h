@@ -16,6 +16,9 @@ public:
 	NPC_Shop& operator=(const NPC_Shop& _Other) = delete;
 	NPC_Shop& operator=(NPC_Shop&& _Other) noexcept = delete;
 
+public:
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -25,7 +28,7 @@ protected:
 
 private:
 	Shop* ShopUI_;
-	bool IsShopOn_;
+
 
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+//#include "Inventory.h"
 
 // Ό³Έν :
 class GameEngineTextureRenderer;
@@ -23,6 +24,7 @@ public:
 		return ShopRenderer_;
 	}
 
+	bool IsShopOn_;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -30,8 +32,43 @@ protected:
 
 protected:
 	void CollisionCheck();
+	void CategoryCollisionCheck();
+	void ButtonCollisionCheck();
+	void CategoryOnCheck();
+
+	void AllOff();
+	void AllOn();
 
 private:
 	GameEngineUIRenderer* ShopRenderer_;
+	GameEngineUIRenderer* Button_;
+	GameEngineUIRenderer* ExitButton_;
+	GameEngineUIRenderer* BuyButton_;
+	GameEngineUIRenderer* SellButton_;
+
+	GameEngineUIRenderer* Category_1;
+	GameEngineUIRenderer* Category_2;
+	GameEngineUIRenderer* Category_3;
+	GameEngineUIRenderer* Category_4;
+	GameEngineUIRenderer* Category_5;
+
+	GameEngineCollision* ExitButtonCol_;
+	GameEngineCollision* BuyButtonCol_;
+	GameEngineCollision* SellButtonCol_;
+
+	GameEngineCollision* CategoryCollision_1;
+	GameEngineCollision* CategoryCollision_2;
+	GameEngineCollision* CategoryCollision_3;
+	GameEngineCollision* CategoryCollision_4;
+	GameEngineCollision* CategoryCollision_5;
+
+private:
+	bool IsCategoryOn_1;
+	bool IsCategoryOn_2;
+	bool IsCategoryOn_3;
+	bool IsCategoryOn_4;
+	bool IsCategoryOn_5;
+
+	bool IsClick_;
 };
 
