@@ -96,5 +96,6 @@ private:
 
 	float4 StartPosition_;
 	int PlayerMeso_;
+	int Count_;
 };
 
