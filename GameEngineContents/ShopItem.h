@@ -26,16 +26,17 @@ public:
 		return ItemCostFont_;
 	}
 
-	inline void SetItemNameFont(ContentsFont* _ItemNameFont)
-	{
-		ItemNameFont_ = _ItemNameFont;
-	}
+	//inline void SetItemNameFont()
+	//{
 
-	inline void SetItemCostFont(ContentsFont* _ItemCostFont)
-	{
-		ItemCostFont_ = _ItemCostFont;
-	}
+	//}
 
+	//inline void SetItemCostFont(ContentsFont* _ItemCostFont)
+	//{
+	//	ItemCostFont_ = _ItemCostFont;
+	//}
+
+	void SetShopItemInfo(ItemType _ItemType);
 
 protected:
 	void Start() override;

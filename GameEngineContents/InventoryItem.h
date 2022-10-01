@@ -53,12 +53,12 @@ public:
 		return ItemState_.Count_;
 	}
 
-	inline int GetCost()
+	inline int GetItemCost()
 	{
 		return ItemState_.Cost_;
 	}
 
-	inline std::string GetName()
+	inline std::string GeItemtName()
 	{
 		return ItemState_.Name_;
 	}
@@ -124,12 +124,17 @@ public:
 	{
 		ItemState_.Count_ = _Count;
 
-		ItemCountFont_->GetNoramlFontRenderer()->SetText(std::to_string(_Count));
+		ItemCountFont_->GetNormalFontRenderer()->SetText(std::to_string(_Count));
 	}
 
-	inline void SetName(std::string _Name)
+	inline void SetItemName(std::string _Name)
 	{
 		ItemState_.Name_ = _Name;
+	}
+
+	inline void SetItemCost(int _Cost)
+	{
+		ItemState_.Cost_ = _Cost;
 	}
 
 	inline void SetSlotIndex(int _SlotIndex)

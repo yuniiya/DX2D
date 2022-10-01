@@ -36,7 +36,7 @@ void QuickSlotItem::Start()
 	ItemCountFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	//ItemCountFont_->SetRenderingOrder((int)GAMEOBJGROUP::FONT);
 	ItemCountFont_->SetFontType(FontType::Normal);
-	ItemCountFont_->GetNoramlFontRenderer()->SetText(std::to_string(ItemState_.Count_));
+	ItemCountFont_->GetNormalFontRenderer()->SetText(std::to_string(ItemState_.Count_));
 	ItemCountFont_->SetTextSize(17.f);
 	ItemCountFont_->On();
 
@@ -60,7 +60,7 @@ void QuickSlotItem::Start()
 
 void QuickSlotItem::Update(float _DeltaTime)
 {
-	ItemCountFont_->GetNoramlFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
+	ItemCountFont_->GetNormalFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
 	if (GetCount() <= 0)
 	{
 		SetItemType(ItemType::MAX);
@@ -94,7 +94,7 @@ void QuickSlotItem::Update(float _DeltaTime)
 
 void QuickSlotItem::LevelStartEvent()
 {
-	ItemCountFont_->GetNoramlFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
+	ItemCountFont_->GetNormalFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
 }
 
 void QuickSlotItem::SlotKeyCheck()
@@ -180,7 +180,7 @@ void QuickSlotItem::CollisionCheck()
 				//ItemCountFontUpdate();
 
 				// ºóÄ­ÀÇ ÆùÆ® ·»´õ·¯ À§Ä¡ ¼³Á¤
-				ItemCountFont_->GetNoramlFontRenderer()->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
+				ItemCountFont_->GetNormalFontRenderer()->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 
 				// ºó Ä­ÀÇ ¾ÆÀÌÅÛ Å¸ÀÔ ½½·Ô ¾ÆÀÌÅÛ Å¸ÀÔÀ¸·Î ¼³Á¤
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());

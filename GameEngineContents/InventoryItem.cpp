@@ -48,7 +48,7 @@ void InventoryItem::Start()
 
 	ItemCountFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemCountFont_->SetFontType(FontType::Normal);
-	ItemCountFont_->GetNoramlFontRenderer()->SetText(std::to_string(ItemState_.Count_));
+	ItemCountFont_->GetNormalFontRenderer()->SetText(std::to_string(ItemState_.Count_));
 	ItemCountFont_->SetTextSize(17.f);
 	ItemCountFont_->On();
 
@@ -80,7 +80,7 @@ void InventoryItem::Update(float _DeltaTime)
 void InventoryItem::LevelStartEvent()
 {
 	// 인벤토리가 켜져있을 때만 아이템 카운트 On
-	ItemCountFont_->GetNoramlFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
+	ItemCountFont_->GetNormalFontRenderer()->ChangeCamera(CAMERAORDER::UICAMERA);
 }
 
 void InventoryItem::ItemMouseHold()
@@ -143,14 +143,14 @@ void InventoryItem::CollisionCheck()
 				SetCount(MouseSlot_->GetInventoryItem()->GetCount() + GetCount());
 				//ItemCountFontUpdate();
 				// 빈칸의 폰트 렌더러 위치 설정
-				ItemCountFont_->GetNoramlFontRenderer()->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
+				ItemCountFont_->GetNormalFontRenderer()->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
 
 				MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
 				// 슬롯 폰트 오프
 				MouseSlot_->GetInventoryItem()->SetCount(0);
-				MouseSlot_->GetInventoryItem()->GetContensFont()->GetNoramlFontRenderer()->Off();
+				MouseSlot_->GetInventoryItem()->GetContensFont()->GetNormalFontRenderer()->Off();
 				// 슬롯 아이템 null로 만들기
 				MouseSlot_->SetInventoryItem(nullptr);
 			}
@@ -162,14 +162,14 @@ void InventoryItem::CollisionCheck()
 			SetCount(MouseSlot_->GetInventoryItem()->GetCount());
 			//ItemCountFontUpdate();
 			// 빈칸의 폰트 렌더러 위치 설정
-			ItemCountFont_->GetNoramlFontRenderer()->SetScreenPostion({GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
+			ItemCountFont_->GetNormalFontRenderer()->SetScreenPostion({GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 			// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 			SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
 
 			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
 			// 슬롯 폰트 오프
 			MouseSlot_->GetInventoryItem()->SetCount(0);
-			MouseSlot_->GetInventoryItem()->GetContensFont()->GetNoramlFontRenderer()->Off();
+			MouseSlot_->GetInventoryItem()->GetContensFont()->GetNormalFontRenderer()->Off();
 			// 슬롯 아이템 null로 만들기
 			MouseSlot_->SetInventoryItem(nullptr);
 			
@@ -264,7 +264,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	{
 	case ItemType::ITEM_CACTUS:
 	{
-		SetName("선인장의 줄기");
 		Renderer_->SetTexture("Item2.png", 0);
 		Index_ = 0;
 		MonsterName_ = MONSTERNAME::BabyCactus;
@@ -273,7 +272,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_WHITERABBIT:
 	{
-		SetName("클로버");
 		Renderer_->SetTexture("Item2.png", 1);
 		Index_ = 1;
 		MonsterName_ = MONSTERNAME::WhiteRabbit;
@@ -282,7 +280,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_BROWNRABBIT:
 	{
-		SetName("홍당무");
 		Renderer_->SetTexture("Item2.png", 2);
 		Index_ = 2;
 		MonsterName_ = MONSTERNAME::BrownRabbit;
@@ -291,7 +288,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_SCOR:
 	{
-		SetName("전갈의 독침");
 		Renderer_->SetTexture("Item2.png", 4);
 		Index_ = 4;
 		MonsterName_ = MONSTERNAME::Scorpion;
@@ -300,7 +296,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_SAND:
 	{
-		SetName("나무 망치");
 		Renderer_->SetTexture("Item2.png", 3);
 		Index_ = 3;
 		MonsterName_ = MONSTERNAME::Sand;
@@ -309,7 +304,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_SPARKER:
 	{
-		SetName("물개 가죽");
 		Renderer_->SetTexture("Item2.png", 6);
 		Index_ = 6;
 		MonsterName_ = MONSTERNAME::Sparker;
@@ -318,7 +312,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_FREEZER:
 	{
-		SetName("물개의 송곳니");
 		Renderer_->SetTexture("Item2.png", 5);
 		Index_ = 5;
 		MonsterName_ = MONSTERNAME::Freezer;
@@ -327,7 +320,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_HP300:
 	{
-		SetName("하얀 포션");
 		Renderer_->SetTexture("Item2.png", 7);
 		Index_ = 7;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -335,7 +327,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_MP300:
 	{
-		SetName("마나 엘릭서");
 		Renderer_->SetTexture("Item2.png", 8);
 		Index_ = 8;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -343,7 +334,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_HP5000:
 	{
-		SetName("순록의 우유");
 		Renderer_->SetTexture("Item2.png", 13);
 		Index_ = 13;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -351,7 +341,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_HP4000:
 	{
-		SetName("살살 녹는 치즈");
 		Renderer_->SetTexture("Item2.png", 12);
 		Index_ = 12;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -359,7 +348,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_MP5000:
 	{
-		SetName("황혼의 이슬");
 		Renderer_->SetTexture("Item2.png", 15);
 		Index_ = 15;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
@@ -367,7 +355,6 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	break;
 	case ItemType::ITEM_MP4000:
 	{
-		SetName("새벽의 이슬");
 		Renderer_->SetTexture("Item2.png", 14);
 		Index_ = 14;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;

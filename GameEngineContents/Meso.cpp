@@ -72,7 +72,7 @@ void Meso::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		Player::MainPlayer_->AddPlayerMeso(GetMesoAmount());
 
 		PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
-		Inventory::MainInventory_->GetContentsFontMeso()->GetNoramlFontRenderer()->SetText(std::to_string(PlayerMeso_));
+		Inventory::MainInventory_->GetContentsFontMeso()->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
 		Inventory::MainInventory_->GetContentsFontMeso()->SetComma();
 
 		Death();	// ÀúÀå

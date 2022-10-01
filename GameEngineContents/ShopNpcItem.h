@@ -15,12 +15,12 @@ public:
 	ShopNpcItem& operator=(const ShopNpcItem& _Other) = delete;
 	ShopNpcItem& operator=(ShopNpcItem&& _Other) noexcept = delete;
 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
 private:
-
 };
 

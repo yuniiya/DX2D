@@ -31,7 +31,7 @@ public:
 		return FontRenderer_;
 	}
 
-	inline GameEngineFontRenderer* GetNoramlFontRenderer()
+	inline GameEngineFontRenderer* GetNormalFontRenderer()
 	{
 		return NormalFontRenderer_;
 	}

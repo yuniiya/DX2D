@@ -157,12 +157,12 @@ void Mouse::Update(float _DeltaTime)
 		ItemActor->TimeAttackStart();
 
 		MouseSlot_->GetInventoryItem()->SetCount(MouseSlot_->GetInventoryItem()->GetCount() - 1);
-		MouseSlot_->GetInventoryItem()->GetContensFont()->GetNoramlFontRenderer()->SetText(std::to_string(MouseSlot_->GetInventoryItem()->GetCount()));
+		MouseSlot_->GetInventoryItem()->GetContensFont()->GetNormalFontRenderer()->SetText(std::to_string(MouseSlot_->GetInventoryItem()->GetCount()));
 		
 		if (MouseSlot_->GetInventoryItem()->GetCount() <= 0)
 		{
 			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
-			MouseSlot_->GetInventoryItem()->GetContensFont()->GetNoramlFontRenderer()->Off();
+			MouseSlot_->GetInventoryItem()->GetContensFont()->GetNormalFontRenderer()->Off();
 		}
 	}
 	
