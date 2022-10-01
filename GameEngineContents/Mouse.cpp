@@ -162,7 +162,10 @@ void Mouse::Update(float _DeltaTime)
 		if (MouseSlot_->GetInventoryItem()->GetCount() <= 0)
 		{
 			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
+			MouseSlot_->GetInventoryItem()->SetMonsterName(MONSTERNAME::MAX);
+			MouseSlot_->GetInventoryItem()->SetInventorySlotType(InventorySlotType::MAX);
 			MouseSlot_->GetInventoryItem()->GetContensFont()->GetNormalFontRenderer()->Off();
+			MouseSlot_->SetInventoryItem(nullptr);
 		}
 	}
 	

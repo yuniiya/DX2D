@@ -61,6 +61,7 @@ protected:
 
 private:
 	GameEngineUIRenderer* ShopRenderer_;
+	GameEngineUIRenderer* SelectItemRenderer_;
 	GameEngineUIRenderer* Button_;
 	GameEngineUIRenderer* ExitButton_;
 	GameEngineUIRenderer* BuyButton_;

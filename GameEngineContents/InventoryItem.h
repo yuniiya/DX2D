@@ -142,6 +142,16 @@ public:
 		SlotIndex_ = _SlotIndex;
 	}
 
+	inline void SetMonsterName(MONSTERNAME _MonsterName)
+	{
+		MonsterName_ = _MonsterName;
+	}
+
+	inline void SetInventorySlotType(InventorySlotType _InventorySlotType)
+	{
+		InventorySlotType_ = _InventorySlotType;
+	}
+
 	void SetItemType(ItemType _ItemType);
 
 	bool IsHold_;

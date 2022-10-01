@@ -63,6 +63,12 @@ void ShopItem::SetShopItemInfo(ItemType _ItemType)
 		SetItemCost(96);
 	}
 		break;
+	case ItemType::ITEM_HP2000:
+	{
+		SetItemName("ÂÞÂÞ¹Ù");
+		SetItemCost(230);
+	}
+	break;
 	case ItemType::ITEM_HP4000:
 	{
 		SetItemName("»ì»ì ³ì´Â Ä¡Áî");
@@ -75,12 +81,24 @@ void ShopItem::SetShopItemInfo(ItemType _ItemType)
 		SetItemCost(560);
 	}
 		break;
+	case ItemType::ITEM_MP100:
+	{
+		SetItemName("ÆÄ¶õ Æ÷¼Ç");
+		SetItemCost(20);
+	}
+	break;
 	case ItemType::ITEM_MP300:
 	{
 		SetItemName("¸¶³ª ¿¤¸¯¼­");
 		SetItemCost(186);
 	}
 		break;
+	case ItemType::ITEM_MP2000:
+	{
+		SetItemName("ÆÏºù¼ö");
+		SetItemCost(400);
+	}
+	break;
 	case ItemType::ITEM_MP4000:
 	{
 		SetItemName("»õº®ÀÇ ÀÌ½½");

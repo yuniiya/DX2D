@@ -22,5 +22,7 @@ protected:
 	void End() override {};
 
 private:
+	GameEngineUIRenderer* Renderer_;
+
 };
 

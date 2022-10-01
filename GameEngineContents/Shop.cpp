@@ -56,6 +56,12 @@ void Shop::Start()
 	ShopRenderer_->GetTransform().SetLocalPosition({ 0.f, 0.f,(int)ZOrder::UI });
 	//ShopRenderer_->Off();
 
+	SelectItemRenderer_ = CreateComponent<GameEngineUIRenderer>();
+	SelectItemRenderer_->SetTexture("Shop.select.png");
+	SelectItemRenderer_->ScaleToTexture();
+	SelectItemRenderer_->GetTransform().SetLocalPosition({ 0.f, 0.f,(int)ZOrder::UI });
+	SelectItemRenderer_->Off();
+
 	Category_1 = CreateComponent<GameEngineUIRenderer>();
 	Category_1->SetTexture("Category_0-0.png");
 	Category_1->ScaleToTexture();
@@ -228,7 +234,10 @@ void Shop::Start()
 	}
 
 	PushShopNpcItem(ItemType::ITEM_HP300);
+	PushShopNpcItem(ItemType::ITEM_MP100);
 	PushShopNpcItem(ItemType::ITEM_MP300);
+	PushShopNpcItem(ItemType::ITEM_HP2000);
+	PushShopNpcItem(ItemType::ITEM_MP2000);
 	PushShopNpcItem(ItemType::ITEM_HP4000);
 	PushShopNpcItem(ItemType::ITEM_HP5000);
 	PushShopNpcItem(ItemType::ITEM_MP4000);
@@ -528,6 +537,9 @@ void Shop::MyShopCategoryCheck()
 
 			ShopMyItemsList_Potion[i]->GetRenderer()->On();
 			ShopMyItemsList_Potion[i]->GetCollision()->On();
+			ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->On();
+			ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->On();
+
 		}
 
 		for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
@@ -540,6 +552,8 @@ void Shop::MyShopCategoryCheck()
 
 			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
 			ShopMyItemsList_Etc[i]->GetCollision()->Off();
+			ShopMyItemsList_Etc[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
 		}
 
 		for (size_t i = 0; i < ShopMyItemsList_None.size(); i++)
@@ -566,6 +580,8 @@ void Shop::MyShopCategoryCheck()
 
 			ShopMyItemsList_Etc[i]->GetRenderer()->On();
 			ShopMyItemsList_Etc[i]->GetCollision()->On();
+			ShopMyItemsList_Etc[i]->GetItemNameFont()->GetNormalFontRenderer()->On();
+			ShopMyItemsList_Etc[i]->GetItemCostFont()->GetNormalFontRenderer()->On();
 		}
 
 		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
@@ -578,6 +594,8 @@ void Shop::MyShopCategoryCheck()
 
 			ShopMyItemsList_Potion[i]->GetRenderer()->Off();
 			ShopMyItemsList_Potion[i]->GetCollision()->Off();
+			ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+			ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
 		}
 
 		for (size_t i = 0; i < ShopMyItemsList_None.size(); i++)
@@ -617,6 +635,8 @@ void Shop::MyShopCategoryCheck()
 
 			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
 			ShopMyItemsList_Etc[i]->GetCollision()->Off();
+			ShopMyItemsList_Etc[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
 		}
 
 		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
@@ -629,14 +649,14 @@ void Shop::MyShopCategoryCheck()
 
 			ShopMyItemsList_Potion[i]->GetRenderer()->Off();
 			ShopMyItemsList_Potion[i]->GetCollision()->Off();
+			ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+			ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
 		}
 	}
 }
 
 void Shop::ShopOff()
 {
-	CurMesoFont_->GetNormalFontRenderer()->Off();
-
 	if (true == IsCategoryOn_2)
 	{
 		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
@@ -648,6 +668,8 @@ void Shop::ShopOff()
 
 			ShopMyItemsList_Potion[i]->GetRenderer()->Off();
 			ShopMyItemsList_Potion[i]->GetCollision()->Off();
+			ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+			ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
 		}
 	}
 	else if (true == IsCategoryOn_3)
@@ -661,6 +683,8 @@ void Shop::ShopOff()
 
 			ShopMyItemsList_Etc[i]->GetRenderer()->Off();
 			ShopMyItemsList_Etc[i]->GetCollision()->Off();
+			ShopMyItemsList_Etc[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+			ShopMyItemsList_Etc[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
 		}
 	}
 	else
@@ -679,12 +703,18 @@ void Shop::ShopOff()
 
 	for (size_t i = 0; i < ShopItemsList_.size(); i++)
 	{
+		// ºó Ä­Àº °Ç³Ê¶Ú´Ù
+		if (ItemType::MAX == ShopItemsList_[i]->GetItemType())
+		{
+			continue;
+		}
 		ShopItemsList_[i]->GetRenderer()->Off();
 		ShopItemsList_[i]->GetCollision()->Off();
 		ShopItemsList_[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
 		ShopItemsList_[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
 	}
 
+	CurMesoFont_->GetNormalFontRenderer()->Off();
 	Off();
 }
 
@@ -708,33 +738,50 @@ void Shop::PushShopNpcItem(ItemType _ItemType)
 
 		break;
 	}
-
-
-	//ShopItemsList_[i]->SetCount(ShopItemsList_[i]->GetCount() + 1);	// °³¼ö´Â 1°³
-//ShopItemsList_[i]->GetContensFont()->GetNoramlFontRenderer()->SetScreenPostion({
-//	  ShopItemsList_[i]->GetTransform().GetLocalPosition().x + 700.f
-//	, -ShopItemsList_[i]->GetTransform().GetLocalPosition().y + 440.f });
 }
 
 void Shop::ShopOn()
 {
 	for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
 	{
-		if (ItemType::ITEM_QUEST == Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType())
+		ShopMyItemsList_Etc[i]->SetItemType(Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType());
+		if (ItemType::ITEM_QUEST == Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType()
+			|| ItemType::MAX == Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType())
 		{
 			continue;
 		}
 
-		ShopMyItemsList_Etc[i]->SetItemType(Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType());
+	//	ShopMyItemsList_Etc[i]->SetItemType(Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType());
+		ShopMyItemsList_Etc[i]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType());
+		ShopMyItemsList_Etc[i]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
+			ShopMyItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 745.f,
+			-ShopMyItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 422.f });
+		ShopMyItemsList_Etc[i]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
+			ShopMyItemsList_Etc[i]->GetTransform().GetLocalPosition().x + 745.f,
+			-ShopMyItemsList_Etc[i]->GetTransform().GetLocalPosition().y + 438.f });
 	}
 
 	for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
 	{
 
 		ShopMyItemsList_Potion[i]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
+
+		if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType())
+		{
+			continue;
+		}
+
+	//	ShopMyItemsList_Potion[i]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
+		ShopMyItemsList_Potion[i]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
+		ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
+			ShopMyItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 745.f,
+			-ShopMyItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 422.f });
+		ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
+			ShopMyItemsList_Potion[i]->GetTransform().GetLocalPosition().x + 745.f,
+			-ShopMyItemsList_Potion[i]->GetTransform().GetLocalPosition().y + 438.f });
+
 	}
 
-	CurMesoFont_->GetNormalFontRenderer()->On();
 
 	for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
 	{
@@ -746,6 +793,8 @@ void Shop::ShopOn()
 
 		ShopMyItemsList_Potion[i]->GetRenderer()->On();
 		ShopMyItemsList_Potion[i]->GetCollision()->On();
+		ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->On();
+		ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->On();
 	}
 	for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
 	{
@@ -757,6 +806,8 @@ void Shop::ShopOn()
 
 		ShopMyItemsList_Etc[i]->GetRenderer()->On();
 		ShopMyItemsList_Etc[i]->GetCollision()->On();
+		ShopMyItemsList_Etc[i]->GetItemNameFont()->GetNormalFontRenderer()->On();
+		ShopMyItemsList_Etc[i]->GetItemCostFont()->GetNormalFontRenderer()->On();
 	}
 	for (size_t i = 0; i < ShopMyItemsList_None.size(); i++)
 	{
@@ -784,6 +835,8 @@ void Shop::ShopOn()
 		ShopItemsList_[i]->GetItemCostFont()->GetNormalFontRenderer()->On();
 	}
 
+
+	CurMesoFont_->GetNormalFontRenderer()->On();
 	On();
 }
 

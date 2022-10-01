@@ -102,12 +102,15 @@ enum class ItemType
 	ITEM_SPARKER,
 	ITEM_FREEZER,
 	ITEM_MESO,
-	ITEM_HP300,
-	ITEM_HP4000,
-	ITEM_HP5000,
-	ITEM_MP300,
-	ITEM_MP4000,
-	ITEM_MP5000,
+	ITEM_HP300,			// 하얀 포션
+	ITEM_HP2000,		// 쭈쭈바
+	ITEM_HP4000,		// 살살 녹는 치즈
+	ITEM_HP5000,		// 순록의 우류
+	ITEM_MP100,			// 파란 포션
+	ITEM_MP300,			// 마나 엘릭서
+	ITEM_MP2000,		// 팥빙수
+	ITEM_MP4000,		// 새벽의 이슬
+	ITEM_MP5000,		// 황혼의 이슬
 	ITEM_QUEST,
 
 	MAX,

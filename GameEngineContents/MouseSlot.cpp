@@ -48,6 +48,18 @@ void MouseSlot::Update(float _DeltaTime)
 		return;
 	}
 
+	if (nullptr != CurInventoryItem_)
+	{
+		if (GetInventoryItem()->GetCount() <= 0)
+		{
+			GetInventoryItem()->SetItemType(ItemType::MAX);
+			GetInventoryItem()->SetMonsterName(MONSTERNAME::MAX);
+			GetInventoryItem()->SetInventorySlotType(InventorySlotType::MAX);
+			GetInventoryItem()->GetContensFont()->GetNormalFontRenderer()->Off();
+			SetInventoryItem(nullptr);
+		}
+	}
+
 	HoldItemRenderer_->GetTransform().SetLocalPosition({
 		Mouse::MainMouse_->GetMouseRenderer()->GetTransform().GetLocalPosition().x - 90.f
 		, Mouse::MainMouse_->GetMouseRenderer()->GetTransform().GetLocalPosition().y + 85.f });

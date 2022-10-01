@@ -325,17 +325,10 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
-	case ItemType::ITEM_MP300:
+	case ItemType::ITEM_HP2000:
 	{
-		Renderer_->SetTexture("Item2.png", 8);
-		Index_ = 8;
-		InventorySlotType_ = InventorySlotType::SLOT_POTION;
-	}
-	break;
-	case ItemType::ITEM_HP5000:
-	{
-		Renderer_->SetTexture("Item2.png", 13);
-		Index_ = 13;
+		Renderer_->SetTexture("Item2.png", 9);
+		Index_ = 9;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
@@ -346,10 +339,31 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
-	case ItemType::ITEM_MP5000:
+	case ItemType::ITEM_HP5000:
 	{
-		Renderer_->SetTexture("Item2.png", 15);
-		Index_ = 15;
+		Renderer_->SetTexture("Item2.png", 13);
+		Index_ = 13;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+	}
+	break;
+	case ItemType::ITEM_MP100:
+	{
+		Renderer_->SetTexture("Item2.png", 11);
+		Index_ = 11;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+	}
+	break;
+	case ItemType::ITEM_MP300:
+	{
+		Renderer_->SetTexture("Item2.png", 8);
+		Index_ = 8;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+	}
+	break;
+	case ItemType::ITEM_MP2000:
+	{
+		Renderer_->SetTexture("Item2.png", 10);
+		Index_ = 10;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
@@ -357,6 +371,13 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 	{
 		Renderer_->SetTexture("Item2.png", 14);
 		Index_ = 14;
+		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+	}
+	break;
+	case ItemType::ITEM_MP5000:
+	{
+		Renderer_->SetTexture("Item2.png", 15);
+		Index_ = 15;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
 	}
 	break;
@@ -376,7 +397,11 @@ void InventoryItem::UsePotion()
 {
 	if (ItemType::ITEM_HP300 == ItemType_)
 	{
-		Player::MainPlayer_->AddHP(5.f);
+		Player::MainPlayer_->AddHP(4.f);
+	}
+	else if (ItemType::ITEM_HP2000 == ItemType_)
+	{
+		Player::MainPlayer_->AddHP(7.f);
 	}
 	else if (ItemType::ITEM_HP4000 == ItemType_)
 	{
@@ -386,21 +411,25 @@ void InventoryItem::UsePotion()
 	{
 		Player::MainPlayer_->AddHP(11.f);
 	}
+	else if (ItemType::ITEM_MP100 == ItemType_)
+	{
+		Player::MainPlayer_->AddMP(2.f);
+	}
 	else if (ItemType::ITEM_MP300 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(5.f);
+		Player::MainPlayer_->AddMP(4.f);
 	}
-	else if (ItemType::ITEM_MP5000 == ItemType_)
+	else if (ItemType::ITEM_MP2000 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(10.f);
+		Player::MainPlayer_->AddMP(7.f);
 	}
 	else if (ItemType::ITEM_MP4000 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(11.f);
+		Player::MainPlayer_->AddMP(10.f);
 	}
-	else
+	else if (ItemType::ITEM_MP5000 == ItemType_)
 	{
-
+		Player::MainPlayer_->AddMP(11.f);
 	}
 
 	//std::vector<QuickSlotItem*> CurItem = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI()->QuickSlotItemsList_;
