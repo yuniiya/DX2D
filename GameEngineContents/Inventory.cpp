@@ -186,7 +186,7 @@ void Inventory::Start()
 		ItemSlotCount_ += 1;
 
 		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
-		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		ItemActor->GetTransform().SetLocalPosition({ Pos.x, Pos.y, (int)ZOrder::UI});
 		InventoryItemsList_Potion.push_back(ItemActor);
 	}
 

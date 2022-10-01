@@ -26,6 +26,27 @@ public:
 		return ItemCostFont_;
 	}
 
+	inline int GetShopItemCount()
+	{
+		return ItemState_.Count_;
+	}
+	//inline ContentsFont* GetItemCountFont()
+	//{
+	//	return ItemCountFont_;
+	//}
+
+	inline ContentsFont* GetShopItemCountFont()
+	{
+		return ShopItemCountFont_;
+	}
+
+	inline void SetShopItemCount(int _Count)
+	{
+		ItemState_.Count_ = _Count;
+
+		ShopItemCountFont_->GetNormalFontRenderer()->SetText(std::to_string(_Count));
+	}
+
 	//inline void SetItemNameFont()
 	//{
 
@@ -46,6 +67,7 @@ protected:
 protected:
 	ContentsFont* ItemNameFont_;
 	ContentsFont* ItemCostFont_;
+	ContentsFont* ShopItemCountFont_;
 
 };
 

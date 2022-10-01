@@ -161,6 +161,36 @@ void Mouse::Update(float _DeltaTime)
 		
 		if (MouseSlot_->GetInventoryItem()->GetCount() <= 0)
 		{
+			if (InventorySlotType::SLOT_POTION == MouseSlot_->GetInventoryItem()->GetInventorySlotType())
+			{
+				for (size_t i = 0; i < Inventory::MainInventory_->GetInventoryListPotion().size(); i++)
+				{
+					// 버리는 아이템 타입과 같은 아이템이 있는지 검사
+					if (MouseSlot_->GetInventoryItem()->GetItemType() == Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType())
+					{
+						Inventory::MainInventory_->GetInventoryListPotion()[i]->SetItemType(ItemType::MAX);
+						Inventory::MainInventory_->GetInventoryListPotion()[i]->GetContensFont()->GetNormalFontRenderer()->Off();
+
+						break;
+					}
+				}
+			}
+			else if (InventorySlotType::SLOT_ETC == MouseSlot_->GetInventoryItem()->GetInventorySlotType())
+			{
+				for (size_t i = 0; i < Inventory::MainInventory_->GetInventoryListEtc().size(); i++)
+				{
+					// 버리는 아이템 타입과 같은 아이템이 있는지 검사
+					if (MouseSlot_->GetInventoryItem()->GetItemType() == Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType())
+					{
+						Inventory::MainInventory_->GetInventoryListEtc()[i]->SetItemType(ItemType::MAX);
+						Inventory::MainInventory_->GetInventoryListEtc()[i]->GetContensFont()->GetNormalFontRenderer()->Off();
+
+						break;
+					}
+				}
+			}
+
+			
 			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
 			MouseSlot_->GetInventoryItem()->SetMonsterName(MONSTERNAME::MAX);
 			MouseSlot_->GetInventoryItem()->SetInventorySlotType(InventorySlotType::MAX);

@@ -119,6 +119,8 @@ void ShopItem::SetShopItemInfo(ItemType _ItemType)
 
 	ItemNameFont_->On();
 	ItemCostFont_->On();
+	ShopItemCountFont_->On();
+
 	ItemNameFont_->GetNormalFontRenderer()->SetText(ItemState_.Name_);
 	ItemCostFont_->GetNormalFontRenderer()->SetText(std::to_string(ItemState_.Cost_));
 	ItemCostFont_->SetComma();
@@ -148,6 +150,10 @@ void ShopItem::Start()
 	ItemCostFont_->SetFontType(FontType::Normal);
 	ItemCostFont_->SetTextSize(13.f);
 	//ItemCostFont_->On();
+
+	ShopItemCountFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
+	ShopItemCountFont_->SetFontType(FontType::Normal);
+	ShopItemCountFont_->SetTextSize(14.f);
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->SetUIDebugCamera();
