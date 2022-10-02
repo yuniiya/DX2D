@@ -15,6 +15,14 @@ public:
 	ShopNpcItem& operator=(const ShopNpcItem& _Other) = delete;
 	ShopNpcItem& operator=(ShopNpcItem&& _Other) noexcept = delete;
 
+public:
+	inline GameEngineUIRenderer* GetSelectShopItemRenderer()
+	{
+		return SelectShopItemRenderer_;
+	}
+
+	void CollisionCheck() override;
+	void SelectCheck() override;
 
 protected:
 	void Start() override;
@@ -23,6 +31,5 @@ protected:
 
 private:
 	GameEngineUIRenderer* Renderer_;
-
 };
 

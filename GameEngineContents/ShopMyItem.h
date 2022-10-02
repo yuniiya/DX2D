@@ -15,6 +15,15 @@ public:
 	ShopMyItem& operator=(const ShopMyItem& _Other) = delete;
 	ShopMyItem& operator=(ShopMyItem&& _Other) noexcept = delete;
 
+public:
+	inline GameEngineUIRenderer* GetSelectMyItemRenderer()
+	{
+		return SelectMyItemRenderer_;
+	}
+
+	void CollisionCheck() override;
+	void SelectCheck() override;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

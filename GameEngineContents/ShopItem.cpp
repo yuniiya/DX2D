@@ -4,6 +4,10 @@
 ShopItem::ShopItem()
 	: ItemNameFont_(nullptr)
 	, ItemCostFont_(nullptr)
+	, ShopItemCountFont_(nullptr)
+	, SelectMyItemRenderer_(nullptr)
+	, SelectShopItemRenderer_(nullptr)
+	, IsSelect_(false)
 {
 }
 
@@ -131,6 +135,7 @@ void ShopItem::SetShopItemInfo(ItemType _ItemType)
 void ShopItem::Start()
 {
 	GetTransform().SetLocalPosition({ 0.f, 0.f, (int)ZOrder::UI });
+	
 	Renderer_ = CreateComponent<GameEngineUIRenderer>();
 	Renderer_->SetPivot(PIVOTMODE::LEFTTOP);
 	Renderer_->GetTransform().SetLocalScale({ 128.f, 128.f });
@@ -139,16 +144,19 @@ void ShopItem::Start()
 	ItemCountFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemCountFont_->SetFontType(FontType::Normal);
 	ItemCountFont_->SetTextSize(13.f);
+	ItemCountFont_->Off();
 	//ItemCountFont_->On();
 
 	ItemNameFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemNameFont_->SetFontType(FontType::Normal);
 	ItemNameFont_->SetTextSize(13.f);
+	ItemNameFont_->Off();
 	//ItemNameFont_->On();
 
 	ItemCostFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
 	ItemCostFont_->SetFontType(FontType::Normal);
 	ItemCostFont_->SetTextSize(13.f);
+	ItemCostFont_->Off();
 	//ItemCostFont_->On();
 
 	ShopItemCountFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
@@ -159,6 +167,7 @@ void ShopItem::Start()
 	Collision_->SetUIDebugCamera();
 	Collision_->GetTransform().SetLocalScale({ 147.f, 28.f });
 	Collision_->ChangeOrder((int)GAMEOBJGROUP::SLOTUI);
+	Collision_->Off();
 
 	Collision_->GetTransform().SetLocalPosition(
 		{ Renderer_->GetTransform().GetLocalPosition().x + 130.f
@@ -168,4 +177,3 @@ void ShopItem::Start()
 void ShopItem::Update(float _DeltaTime)
 {
 }
-

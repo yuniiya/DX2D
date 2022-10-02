@@ -46,6 +46,7 @@ protected:
 	void CategoryOnCheck();
 	void MyShopCategoryCheck();
 	void ShopOff();
+	void ShopItemCollisionCheck();
 
 	void AllOff();
 	void AllOn();
@@ -61,7 +62,6 @@ protected:
 
 private:
 	GameEngineUIRenderer* ShopRenderer_;
-	GameEngineUIRenderer* SelectItemRenderer_;
 	GameEngineUIRenderer* Button_;
 	GameEngineUIRenderer* ExitButton_;
 	GameEngineUIRenderer* BuyButton_;

@@ -30,10 +30,6 @@ public:
 	{
 		return ItemState_.Count_;
 	}
-	//inline ContentsFont* GetItemCountFont()
-	//{
-	//	return ItemCountFont_;
-	//}
 
 	inline ContentsFont* GetShopItemCountFont()
 	{
@@ -47,27 +43,25 @@ public:
 		ShopItemCountFont_->GetNormalFontRenderer()->SetText(std::to_string(_Count));
 	}
 
-	//inline void SetItemNameFont()
-	//{
-
-	//}
-
-	//inline void SetItemCostFont(ContentsFont* _ItemCostFont)
-	//{
-	//	ItemCostFont_ = _ItemCostFont;
-	//}
-
 	void SetShopItemInfo(ItemType _ItemType);
+	bool IsSelect_;
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void CollisionCheck() override {};
+	virtual void SelectCheck() {};
 protected:
 	ContentsFont* ItemNameFont_;
 	ContentsFont* ItemCostFont_;
 	ContentsFont* ShopItemCountFont_;
+
+	GameEngineUIRenderer* SelectMyItemRenderer_;
+	GameEngineUIRenderer* SelectShopItemRenderer_;
+
+protected:
 
 };
 
