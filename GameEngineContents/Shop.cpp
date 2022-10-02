@@ -38,7 +38,8 @@ Shop::Shop()
 	, CurMesoFont_(nullptr)
 	, PlayerMeso_(0)
 	, Count_(0)
-
+	, IsSellButtonClick_(false)
+	, IsBuyButtonClick_(false)
 {
 }
 
@@ -168,7 +169,6 @@ void Shop::Start()
 	CurMesoFont_->SetComma();
 	CurMesoFont_->GetNormalFontRenderer()->SetScreenPostion({ 800.f, 172.f});
 	CurMesoFont_->SetTextSize(13.5f);
-	//CurMesoFont_->On();
 	//CurMesoFont_->GetNoramlFontRenderer()->Off();
 
 	// 소비창
@@ -244,6 +244,7 @@ void Shop::Update(float _DeltaTime)
 	MyShopCategoryCheck();
 	CollisionCheck();
 	ShopItemCollisionCheck();
+	DealItem();
 }
 
 void Shop::LevelStartEvent()
@@ -426,6 +427,7 @@ void Shop::ButtonCollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{
+			IsSellButtonClick_ = true;
 			IsClick_ = true;
 			SellButton_->SetTexture("Shop.BtSell.pressed.0.png");
 		}
@@ -435,6 +437,7 @@ void Shop::ButtonCollisionCheck()
 		}
 		else if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsClick_)
 		{
+			IsSellButtonClick_ = false;
 			IsClick_ = false;
 		}
 	}
@@ -448,6 +451,7 @@ void Shop::ButtonCollisionCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{
+			IsBuyButtonClick_ = true;
 			IsClick_ = true;
 			BuyButton_->SetTexture("Shop.BtBuy.pressed.0.png");
 		}
@@ -457,6 +461,7 @@ void Shop::ButtonCollisionCheck()
 		}
 		else if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsClick_)
 		{
+			IsBuyButtonClick_ = false;
 			IsClick_ = false;
 		}
 	}
@@ -803,6 +808,48 @@ void Shop::ShopItemCollisionCheck()
 	}
 }
 
+void Shop::DealItem()
+{
+	BuyItem();
+	SellItem();
+}
+
+void Shop::BuyItem()
+{
+	for (size_t i = 0; i < ShopItemsList_.size(); i++)
+	{
+		if (true == ShopItemsList_[i]->IsSelect_)
+		{
+			if (true == IsBuyButtonClick_)
+			{
+				// 1) 메소 차감
+				if (Player::MainPlayer_->GetPlayerMeso() < ShopItemsList_[i]->GetItemCost())
+				{
+					return;
+				}
+
+				Player::MainPlayer_->UsePlayerMeso(ShopItemsList_[i]->GetItemCost());
+				PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+				CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
+				CurMesoFont_->SetComma();
+				IsBuyButtonClick_ = false;
+
+				// 2) 인벤토리에 구매한 아이템 추가
+				Item* ItemActor = GetLevel()->CreateActor<Item>(GAMEOBJGROUP::ITEM);
+				ItemActor->SetItemType(ShopItemsList_[i]->GetItemType());
+				ItemActor->MonsterName_ = MONSTERNAME::None;
+				ItemActor->PotionRendererTypeSetting();
+				Inventory::MainInventory_->PushItem(ItemActor);
+
+			}
+		}
+	}
+}
+
+void Shop::SellItem()
+{
+}
+
 void Shop::PushShopNpcItem(ItemType _ItemType)
 {
 	for (size_t i = 0; i < ShopItemsList_.size(); i++)
@@ -930,6 +977,7 @@ void Shop::ShopOn()
 	CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
 	CurMesoFont_->SetComma();
 	CurMesoFont_->GetNormalFontRenderer()->On();
+	CurMesoFont_->On();
 	On();
 }
 

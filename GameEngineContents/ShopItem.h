@@ -44,6 +44,7 @@ public:
 	}
 
 	void SetShopItemInfo(ItemType _ItemType);
+	void GetShopItemInfo();
 	bool IsSelect_;
 
 protected:
@@ -53,6 +54,7 @@ protected:
 
 	void CollisionCheck() override {};
 	virtual void SelectCheck() {};
+
 protected:
 	ContentsFont* ItemNameFont_;
 	ContentsFont* ItemCostFont_;
@@ -62,6 +64,6 @@ protected:
 	GameEngineUIRenderer* SelectShopItemRenderer_;
 
 protected:
-
+	ItemType ItemType_;
 };
 

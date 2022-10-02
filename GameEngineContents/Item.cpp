@@ -375,14 +375,59 @@ void Item::PotionRendererTypeSetting()
 		Renderer_->ScaleToTexture();
 	}
 	break;
+	case ItemType::ITEM_HP2000:
+	{
+		Renderer_->SetTexture("HP2000_1.png");
+		Renderer_->ScaleToTexture();
+	}
+	break;
+	case ItemType::ITEM_HP4000:
+	{
+		Renderer_->SetTexture("HP4000.png");
+		Renderer_->ScaleToTexture();
+	}
+	break;
+	case ItemType::ITEM_HP5000:
+	{
+		Renderer_->SetTexture("HP5000.png");
+		Renderer_->ScaleToTexture();
+	}
+	break;
+	case ItemType::ITEM_MP100:
+	{
+		Renderer_->SetTexture("MP100_1.png");
+		Renderer_->ScaleToTexture();
+	}
+	break;
 	case ItemType::ITEM_MP300:
 	{
 		Renderer_->SetTexture("MP300.png");
 		Renderer_->ScaleToTexture();
 	}
 	break;
+	case ItemType::ITEM_MP2000:
+	{
+		Renderer_->SetTexture("MP2000_1.png");
+		Renderer_->ScaleToTexture();
+	}
+	break;
+	case ItemType::ITEM_MP4000:
+	{
+		Renderer_->SetTexture("MP4000.png");
+		Renderer_->ScaleToTexture();
+	}
+	break;
+	case ItemType::ITEM_MP5000:
+	{
+		Renderer_->SetTexture("MP5000.png");
+		Renderer_->ScaleToTexture();
+	}
+	break;
 	default:
 		break;
 	}
+	
+
 }
 
+	

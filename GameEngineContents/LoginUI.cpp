@@ -221,6 +221,7 @@ void LoginUI::CollisionCheck()
 				{
 					IDText_->ReSetText();
 				}
+				GameEngineSound::SoundPlayOneShot("DlgNotice.mp3");
 				Notice0_->On();
 			}
 			else if (false == IsCorrectPW_/* || false == IsCorrectID_*/)
@@ -231,6 +232,7 @@ void LoginUI::CollisionCheck()
 				{
 					Notice0_->Off();
 				}
+				GameEngineSound::SoundPlayOneShot("DlgNotice.mp3");
 				Notice1_->On();
 			}
 			else if (false == IsCorrectID_)
@@ -241,6 +243,7 @@ void LoginUI::CollisionCheck()
 				{
 					Notice1_->Off();
 				}
+				GameEngineSound::SoundPlayOneShot("DlgNotice.mp3");
 				Notice0_->On();
 			}
 			

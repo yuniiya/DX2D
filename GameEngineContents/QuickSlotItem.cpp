@@ -111,14 +111,14 @@ void QuickSlotItem::SlotKeyCheck()
 
 
 	if (true == GameEngineInput::GetInst()->IsDown("1")
-		&& ItemType_ == ItemType::ITEM_HP300)
+/*		&& ItemType_ == ItemType::ITEM_HP300*/)
 	{
 		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
 		InventoryItem_->SetCount(InventoryItem_->GetCount()- 1);
 		Player::MainPlayer_->AddHP(5.f);
 	}
 	else if (true == GameEngineInput::GetInst()->IsDown("2")
-		&& ItemType_ == ItemType::ITEM_MP300)
+/*		&& ItemType_ == ItemType::ITEM_MP300*/)
 	{
 		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
 		InventoryItem_->SetCount(InventoryItem_->GetCount() - 1);

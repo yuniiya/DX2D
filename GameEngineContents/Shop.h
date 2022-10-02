@@ -47,6 +47,9 @@ protected:
 	void MyShopCategoryCheck();
 	void ShopOff();
 	void ShopItemCollisionCheck();
+	void DealItem();
+	void BuyItem();
+	void SellItem();
 
 	void AllOff();
 	void AllOn();
@@ -93,6 +96,8 @@ private:
 	bool IsCategoryOn_5;
 
 	bool IsClick_;
+	bool IsSellButtonClick_;
+	bool IsBuyButtonClick_;
 
 	float4 StartPosition_;
 	int PlayerMeso_;

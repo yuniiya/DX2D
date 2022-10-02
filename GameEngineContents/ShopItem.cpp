@@ -8,6 +8,7 @@ ShopItem::ShopItem()
 	, SelectMyItemRenderer_(nullptr)
 	, SelectShopItemRenderer_(nullptr)
 	, IsSelect_(false)
+	, ItemType_(ItemType::MAX)
 {
 }
 
@@ -17,7 +18,9 @@ ShopItem::~ShopItem()
 
 void ShopItem::SetShopItemInfo(ItemType _ItemType)
 {
-	switch (_ItemType)
+	ItemType_ = _ItemType;
+
+	switch (ItemType_)
 	{
 	case ItemType::ITEM_CACTUS:
 	{
@@ -129,6 +132,11 @@ void ShopItem::SetShopItemInfo(ItemType _ItemType)
 	ItemCostFont_->GetNormalFontRenderer()->SetText(std::to_string(ItemState_.Cost_));
 	ItemCostFont_->SetComma();
 	ItemCostFont_->GetNormalFontRenderer()->SetText(ItemCostFont_->GetText() + " ¸Þ¼Ò");
+}
+
+void ShopItem::GetShopItemInfo()
+{
+
 }
 
 
