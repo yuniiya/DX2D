@@ -51,9 +51,6 @@ protected:
 	void BuyItem();
 	void SellItem();
 
-	void AllOff();
-	void AllOn();
-
 protected:
 	// 플레이어 아이템 목록
 	std::vector<ShopMyItem*> ShopMyItemsList_Potion;	// 소비

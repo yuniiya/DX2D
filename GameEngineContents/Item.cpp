@@ -97,6 +97,11 @@ void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("Pick"))
 		{
+			if (100.f < abs(PlayerPos.y - GetItemPosition().y))
+			{
+				return;
+			}
+
 			GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");	// 플레이어쪽으로 끌려오게?
 			IsPick = true;
 

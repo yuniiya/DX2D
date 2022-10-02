@@ -119,12 +119,20 @@ void CactusLevel::End()
 void CactusLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
-	//GameBgmPlayer::BgmPlay_->Stop();
-	//GameBgmPlayer::BgmPlay_->ChangeBgm("HotDesert.mp3");
+	GameBgmPlayer::BgmPlay_->Stop();
+	GameBgmPlayer::BgmPlay_->ChangeBgm("HotDesert.mp3");
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();
-		Player::MainPlayer_->GetTransform().SetLocalPosition({ 111.f, -600.0f, (int)ZOrder::PLAYER });
+
+		if (true == Player::MainPlayer_->IsPrevLevel_)
+		{
+			Player::MainPlayer_->GetTransform().SetLocalPosition({ 1864.f, -700.f, (int)ZOrder::PLAYER });
+		}
+		else
+		{
+			Player::MainPlayer_->GetTransform().SetLocalPosition({ 111.f, -700.0f, (int)ZOrder::PLAYER });
+		}
 	}
 	if (nullptr != ContentsUI::MainUI_)
 	{

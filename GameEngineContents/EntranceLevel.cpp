@@ -77,7 +77,7 @@ void EntranceLevel::LevelStartEvent()
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();
-		Player::MainPlayer_->GetTransform().SetLocalPosition({ 1180.0f, -500.0f, (int)ZOrder::PLAYER });
+		Player::MainPlayer_->GetTransform().SetLocalPosition({ 1180.0f, -650.0f, (int)ZOrder::PLAYER });
 	}
 	if (nullptr != ContentsUI::MainUI_)
 	{

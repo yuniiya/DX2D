@@ -130,7 +130,8 @@ public:
 	bool IsChase_;
 	bool IsBlueHat_;
 	bool IsRedHat_;
-
+	bool IsAriantLevel_;
+	bool IsPrevLevel_;
 
 private:
 	float CurLevel_;

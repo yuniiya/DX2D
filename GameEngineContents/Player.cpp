@@ -115,8 +115,13 @@ Player::Player()
 	, BlueHatRenderer_(nullptr)
 	, IsBlueHat_(false)
 	, IsRedHat_(false)
-{
-}
+	, IsAriantLevel_(false)
+	, IsPrevLevel_(false)
+	, NormalPlayerRenderer_(nullptr)
+	, RedHatPlayerRenderer_(nullptr)
+	, BlueHatPlayerRenderer_(nullptr)
+{	
+}	
 
 Player::~Player() 
 {
@@ -765,9 +770,9 @@ void Player::ObjectPixelCheck()
 		// 다음 레벨
 		if (true == Color.CompareInt4D(float4{ 1.0f, 0.0f, 1.0f, 1.0f }))
 		{
+			IsPrevLevel_ = false;
 			if ("ARIANT" == CurLevelName_)
 			{
-				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 111.f, -776.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Cactus");
 			}
 			else if ("ENTRANCE" == CurLevelName_)
@@ -777,16 +782,15 @@ void Player::ObjectPixelCheck()
 				{
 					return;
 				}
+				IsAriantLevel_ = true;
 				GEngine::ChangeLevel("Castle");
 			}
 			else if ("CACTUS" == CurLevelName_)
 			{
-			//	Player::MainPlayer_->GetTransform().SetLocalPosition({ 168.f, -240.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Desert");
 			}
 			else if ("DESERT" == CurLevelName_)
 			{
-				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 97.f, -240.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Aqua");
 			}
 			else if ("AQUA" == CurLevelName_)
@@ -799,20 +803,25 @@ void Player::ObjectPixelCheck()
 		}	// 이전 레벨
 		else if (true == Color.CompareInt4D(float4{ 0.0f, 0.0f, 1.0f, 1.0f }))
 		{
+			IsPrevLevel_ = true;
 			if ("ARIANT" == CurLevelName_)
 			{
+				IsAriantLevel_ = true;
 				GEngine::ChangeLevel("Entrance");
 			}
 			else if ("ENTRANCE" == CurLevelName_)
 			{
+				IsAriantLevel_ = true;
 				GEngine::ChangeLevel("Ariant");
 			}
 			else if ("CASTLE" == CurLevelName_)
 			{
+				IsAriantLevel_ = true;
 				GEngine::ChangeLevel("Entrance");
 			}
 			else if ("CACTUS" == CurLevelName_)
 			{
+				IsAriantLevel_ = false;
 				GEngine::ChangeLevel("Ariant");
 			}
 			else if ("DESERT" == CurLevelName_)

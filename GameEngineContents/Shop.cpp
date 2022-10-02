@@ -156,9 +156,9 @@ void Shop::Start()
 
 	SellButtonCol_ = CreateComponent<GameEngineCollision>();
 	SellButtonCol_->SetUIDebugCamera();
-	SellButtonCol_->GetTransform().SetLocalScale({ 40.f, 10.f });
+	SellButtonCol_->GetTransform().SetLocalScale({ 40.f, 7.f });
 	SellButtonCol_->ChangeOrder(GAMEOBJGROUP::UI);
-	SellButtonCol_->GetTransform().SetLocalPosition({ SellButton_->GetTransform().GetLocalPosition().x, SellButton_->GetTransform().GetLocalPosition().y });
+	SellButtonCol_->GetTransform().SetLocalPosition({ SellButton_->GetTransform().GetLocalPosition().x, SellButton_->GetTransform().GetLocalPosition().y + 5.f});
 	//SellButtonCol_->Off();
 
 	CurMesoFont_ = GetLevel()->CreateActor<ContentsFont>(GAMEOBJGROUP::FONT);
@@ -178,7 +178,7 @@ void Shop::Start()
 	{
 		if (i != 0 && 0 == i % 1)
 		{
-			Pos.y -= 43.f;
+			Pos.y -= 42.f;
 		}
 
 		ShopMyItem* ItemActor = GetLevel()->CreateActor<ShopMyItem>();
@@ -205,7 +205,7 @@ void Shop::Start()
 	{
 		if (i != 0 && 0 == i % 1)
 		{
-			Pos.y -= 43.f;
+			Pos.y -= 42.f;
 		}
 
 		ShopMyItem* ItemActor = GetLevel()->CreateActor<ShopMyItem>();
@@ -841,13 +841,154 @@ void Shop::BuyItem()
 				ItemActor->PotionRendererTypeSetting();
 				Inventory::MainInventory_->PushItem(ItemActor);
 
+				// 3) 상점에 구매한 아이템 새로 업데이트 -> 문제 : 소비창이 아닌 다른 창 켜져있으면 렌더러 한 번 깜빡임
+				for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+				{
+					if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType())
+					{
+						continue;
+					}
+
+					ShopMyItemsList_Potion[Count_]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
+					ShopMyItemsList_Potion[Count_]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
+					ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
+						ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+						-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
+					ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
+						ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+						-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
+
+					ShopMyItemsList_Potion[Count_]->SetShopItemCount(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetCount());
+					ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
+					ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
+						ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
+						-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
+
+					ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
+					ShopMyItemsList_Potion[Count_]->GetCollision()->On();
+					ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
+					ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
+					//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
+
+					++Count_;
+				}
+
+				Count_ = 0;
+
 			}
+
 		}
 	}
 }
 
 void Shop::SellItem()
 {
+	// 소비 아이템
+	if (true == IsCategoryOn_2)
+	{
+		for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+		{
+			if (true == ShopMyItemsList_Potion[i]->IsSelect_)
+			{
+				if (ItemType::MAX == ShopMyItemsList_Potion[i]->GetItemType())
+				{
+					ShopMyItemsList_Potion[i]->IsSelect_ = false;
+					return;
+				}
+
+				if (true == IsSellButtonClick_)
+				{
+					// 1) 메소 증가
+					Player::MainPlayer_->AddPlayerMeso(ShopMyItemsList_Potion[i]->GetItemCost());
+					PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+					CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
+					CurMesoFont_->SetComma();
+					IsSellButtonClick_ = false;
+
+					// 2) 판매한 아이템 인벤토리에서 제외
+					for (size_t j = 0; j < Inventory::MainInventory_->GetInventoryListPotion().size(); j++)
+					{
+						// 판매하는 아이템 타입과 같은 아이템이 있는지 검사
+						if (ShopMyItemsList_Potion[i]->GetItemType() == Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType())
+						{
+							Inventory::MainInventory_->GetInventoryListPotion()[j]->SetCount(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetCount() - 1);
+
+							break;
+						}
+					}
+		
+					// 3) 판매한 아이템 내 상점에서 제외
+					ShopMyItemsList_Potion[i]->SetShopItemCount(ShopMyItemsList_Potion[i]->GetCount() - 1);
+	
+					if (ShopMyItemsList_Potion[i]->GetCount() <= 0)
+					{
+						ShopMyItemsList_Potion[i]->SetItemType(ItemType::MAX);
+						ShopMyItemsList_Potion[i]->GetCollision()->Off();
+						ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Potion[i]->GetSelectMyItemRenderer()->Off();
+
+						break;
+					}
+
+				}
+			}
+		}
+	}	// 기타 아이템
+	else if (true == IsCategoryOn_3)
+	{
+		for (size_t i = 0; i < ShopMyItemsList_Etc.size(); i++)
+		{
+			if (true == ShopMyItemsList_Etc[i]->IsSelect_)
+			{
+				if (ItemType::MAX == ShopMyItemsList_Etc[i]->GetItemType())
+				{
+					ShopMyItemsList_Etc[i]->IsSelect_ = false;
+					return;
+				}
+
+				if (true == IsSellButtonClick_)
+				{
+					// 1) 메소 증가
+					Player::MainPlayer_->AddPlayerMeso(ShopMyItemsList_Etc[i]->GetItemCost());
+					PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+					CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
+					CurMesoFont_->SetComma();
+					IsSellButtonClick_ = false;
+
+					// 2) 판매한 아이템 인벤토리에서 제외
+					for (size_t j = 0; j < Inventory::MainInventory_->GetInventoryListEtc().size(); j++)
+					{
+						// 판매하는 아이템 타입과 같은 아이템이 있는지 검사
+						if (ShopMyItemsList_Etc[i]->GetItemType() == Inventory::MainInventory_->GetInventoryListEtc()[j]->GetItemType())
+						{
+							Inventory::MainInventory_->GetInventoryListEtc()[j]->SetCount(Inventory::MainInventory_->GetInventoryListEtc()[j]->GetCount() - 1);
+
+							break;
+						}
+					}
+					// 3) 판매한 아이템 내 상점에서 제외
+					ShopMyItemsList_Etc[i]->SetShopItemCount(ShopMyItemsList_Etc[i]->GetCount() - 1);
+
+					if (ShopMyItemsList_Etc[i]->GetCount() <= 0)
+					{
+						ShopMyItemsList_Etc[i]->SetItemType(ItemType::MAX);
+						ShopMyItemsList_Etc[i]->GetCollision()->Off();
+						ShopMyItemsList_Etc[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Etc[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Etc[i]->GetShopItemCountFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Etc[i]->GetSelectMyItemRenderer()->Off();
+
+						break;
+					}
+
+				}
+			}
+
+		}
+	}
+
 }
 
 void Shop::PushShopNpcItem(ItemType _ItemType)
@@ -909,7 +1050,7 @@ void Shop::ShopOn()
 		ShopMyItemsList_Etc[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
 
 		++Count_;
-	//	ShopMyItemsList_Etc[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
+		//	ShopMyItemsList_Etc[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
 	}
 
 	Count_ = 0;
@@ -940,7 +1081,7 @@ void Shop::ShopOn()
 		ShopMyItemsList_Potion[Count_]->GetCollision()->On();
 		ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
 		ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
-	//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
+		//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
 
 		++Count_;
 	}
@@ -956,7 +1097,7 @@ void Shop::ShopOn()
 		}
 
 		ShopMyItemsList_None[i]->GetRenderer()->On();
-	//	ShopMyItemsList_None[i]->GetCollision()->On();
+		//	ShopMyItemsList_None[i]->GetCollision()->On();
 	}
 
 	for (size_t i = 0; i < ShopItemsList_.size(); i++)
@@ -979,54 +1120,6 @@ void Shop::ShopOn()
 	CurMesoFont_->GetNormalFontRenderer()->On();
 	CurMesoFont_->On();
 	On();
+
 }
 
-void Shop::AllOff()
-{
-	IsShopOn_ = false;
-
-	//ShopRenderer_->Off();
-	//Category_1->Off();
-	//Category_2->Off();
-	//Category_3->Off();
-	//Category_4->Off();
-	//Category_5->Off();
-	//ExitButton_->Off();
-	//BuyButton_->Off();
-	//SellButton_->Off();
-
-	//CategoryCollision_1->Off();
-	//CategoryCollision_2->Off();
-	//CategoryCollision_3->Off();
-	//CategoryCollision_4->Off();
-	//CategoryCollision_5->Off();
-	//ExitButtonCol_->Off();
-	//BuyButtonCol_->Off();
-	//SellButtonCol_->Off();
-}
-
-void Shop::AllOn()
-{
-	IsShopOn_ = true;
-
-	//ShopRenderer_->On();
-	//Category_1->On();
-	//Category_2->On();
-	//Category_3->On();
-	//Category_4->On();
-	//Category_5->On();
-	//ExitButton_->On();
-	//BuyButton_->On();
-	//SellButton_->On();
-
-	//CategoryCollision_1->On();
-	//CategoryCollision_2->On();
-	//CategoryCollision_3->On();
-	//CategoryCollision_4->On();
-	//CategoryCollision_5->On();
-	//ExitButtonCol_->On();
-	//BuyButtonCol_->On();
-	//SellButtonCol_->On();
-
-	
-}

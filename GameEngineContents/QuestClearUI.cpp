@@ -27,7 +27,7 @@ void QuestClearUI::Update(float _DeltaTime)
 {
 	if (true == IsClearSoundOn_)
 	{
-		GameEngineSound::SoundPlayOneShot("QuestClear.mp3");
+		GameEngineSound::SoundPlayOneShot("QuestClear2.mp3");
 		IsClearSoundOn_ = false;
 	}
 	if (false == IsQuestEnd_)

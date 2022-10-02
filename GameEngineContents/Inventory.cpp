@@ -54,42 +54,42 @@ void Inventory::Start()
 	Inventory_->SetPivot(PIVOTMODE::LEFTTOP);
 	Inventory_->ScaleToTexture();
 
-	Inventory_->GetTransform().SetLocalPosition({ -390.f, 320.f, (int)ZOrder::UI });
+	Inventory_->GetTransform().SetLocalPosition({ -420.f, 320.f, (int)ZOrder::UI });
 	Inventory_->Off();
 
 	Category_1 = CreateComponent<GameEngineUIRenderer>();
 	Category_1->SetTexture("Bt_Inven0-0.png");
 	Category_1->GetTransform().SetLocalScale({179.f * 1.1f, 17.f});
 	Category_1->SetPivot(PIVOTMODE::LEFTTOP);
-	Category_1->GetTransform().SetLocalPosition({ -375.f, 293.f, (int)ZOrder::UI});
+	Category_1->GetTransform().SetLocalPosition({ -405.f, 293.f, (int)ZOrder::UI});
 	Category_1->Off();
 
 	Category_2 = CreateComponent<GameEngineUIRenderer>();
 	Category_2->SetTexture("Bt_Inven1-0.png");
 	Category_2->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f});
 	Category_2->SetPivot(PIVOTMODE::LEFTTOP);
-	Category_2->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_2->GetTransform().SetLocalPosition({ -405.f, 293.f,(int)ZOrder::UI });
 	Category_2->Off();
 
 	Category_3 = CreateComponent<GameEngineUIRenderer>();
 	Category_3->SetTexture("Bt_Inven2-0.png");
 	Category_3->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f});
 	Category_3->SetPivot(PIVOTMODE::LEFTTOP);
-	Category_3->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_3->GetTransform().SetLocalPosition({ -405.f, 293.f,(int)ZOrder::UI });
 	Category_3->Off();
 
 	Category_4 = CreateComponent<GameEngineUIRenderer>();
 	Category_4->SetTexture("Bt_Inven3-0.png");
 	Category_4->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f });
 	Category_4->SetPivot(PIVOTMODE::LEFTTOP);
-	Category_4->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_4->GetTransform().SetLocalPosition({ -405.f, 293.f,(int)ZOrder::UI });
 	Category_4->Off();
 
 	Category_5 = CreateComponent<GameEngineUIRenderer>();
 	Category_5->SetTexture("Bt_Inven4-0.png");
 	Category_5->GetTransform().SetLocalScale({ 179.f * 1.1f, 17.f });
 	Category_5->SetPivot(PIVOTMODE::LEFTTOP);
-	Category_5->GetTransform().SetLocalPosition({ -375.f, 293.f,(int)ZOrder::UI });
+	Category_5->GetTransform().SetLocalPosition({ -405.f, 293.f,(int)ZOrder::UI });
 	Category_5->Off();
 
 	/*CurMesoFont_ = CreateComponent<GameEngineFontRenderer>();
@@ -110,7 +110,7 @@ void Inventory::Start()
 	CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
 	CurMesoFont_->SetComma();
 	CurMesoFont_->GetNormalFontRenderer()->SetScreenPostion({
-		  -(Inventory_->GetTransform().GetLocalPosition().x + 60.f)
+		  -(Inventory_->GetTransform().GetLocalPosition().x + 100.f)
 		, Inventory_->GetTransform().GetLocalPosition().y + 25.f });
 	CurMesoFont_->SetTextSize(13.5f);
 	CurMesoFont_->On();
@@ -204,7 +204,7 @@ void Inventory::Start()
 		ItemSlotCount_ += 1;
 
 		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
-		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		ItemActor->GetTransform().SetLocalPosition({ Pos.x, Pos.y, (int)ZOrder::UI });
 		InventoryItemsList_Etc.push_back(ItemActor);
 	}
 
@@ -222,7 +222,7 @@ void Inventory::Start()
 		ItemSlotCount_ += 1;
 
 		InventoryItem* ItemActor = GetLevel()->CreateActor<InventoryItem>();
-		ItemActor->GetTransform().SetLocalPosition({ Pos });
+		ItemActor->GetTransform().SetLocalPosition({ Pos.x, Pos.y, (int)ZOrder::UI });
 		InventoryItemsList_None.push_back(ItemActor);
 	}
 

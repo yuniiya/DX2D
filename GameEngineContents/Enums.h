@@ -32,6 +32,7 @@ enum class ZOrder
 	MOUSESLOT = 3,
 	NOTICE = 5,
 	FONT = 10,
+	SHOPUI = 13,
 	UI = 15,
 	DAMAGE = 20,
 	SKILLFRONT = 30,

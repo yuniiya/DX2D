@@ -48,7 +48,7 @@ void LoginLevel::Start()
 		CreateActor<Mouse>((int)GAMEOBJGROUP::MOUSE);
 	}
 
-	//ShowCursor(true);
+	ShowCursor(false);
 }
 
 void LoginLevel::Update(float _DeltaTime)
