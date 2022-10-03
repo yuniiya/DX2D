@@ -7,6 +7,7 @@
 #include "Inventory.h"
 #include "Item.h"
 #include "ShopNpcItem.h"
+#include "QuickSlotItem.h"
 
 Shop::Shop() 
 	: ShopRenderer_(nullptr)
@@ -927,6 +928,17 @@ void Shop::SellItem()
 							break;
 						}
 					}
+
+					// 2-1) 판매한 아이템과 같은 아이템이 퀵슬롯에 있다면 개수 - 1
+					// 
+					for (size_t j = 0; j < ContentsUI::MainUI_->GetQuickSlotItemsList().size(); j++)
+					{
+						if (ShopMyItemsList_Potion[i]->GetItemType() == ContentsUI::MainUI_->GetQuickSlotItemsList()[j]->GetItemType())
+						{
+							ContentsUI::MainUI_->GetQuickSlotItemsList()[j]->SetCount(ContentsUI::MainUI_->GetQuickSlotItemsList()[j]->GetCount() - 1);
+							break;
+						}
+					}
 		
 					// 3) 판매한 아이템 내 상점에서 제외
 					ShopMyItemsList_Potion[i]->SetShopItemCount(ShopMyItemsList_Potion[i]->GetCount() - 1);
@@ -975,6 +987,8 @@ void Shop::SellItem()
 
 						break;
 					}
+
+
 					//// 4) 판매한 아이템 위쪽에 빈 칸이 있는지 검사
 					//for (size_t j = i - 1; j < ShopMyItemsList_Potion.size(); j++)
 					//{

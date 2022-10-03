@@ -175,6 +175,7 @@ void QuickSlotItem::CollisionCheck()
 				//ItemCountFontUpdate();
 
 				// 빈칸의 폰트 렌더러 위치 설정
+				ItemCountFont_->GetNormalFontRenderer()->On();
 				ItemCountFont_->GetNormalFontRenderer()->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정

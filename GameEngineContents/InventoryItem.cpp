@@ -30,6 +30,8 @@ InventoryItem::InventoryItem()
 	, MonsterName_(MONSTERNAME::MAX)
 	, MouseSlot_(nullptr)
 	, PotionType_(PotionType::MAX)
+	, HPAmount_(0.f)
+	, MPAmount_(0.f)
 {
 	ItemState_.Count_ = 0;
 	ItemState_.Cost_ = 500;
@@ -451,7 +453,7 @@ void InventoryItem::UsePotion()
 		Player::MainPlayer_->AddMP(GetAddMPAmount());
 	}
 
-	std::vector<QuickSlotItem*> CurItem = ContentsUI::MainUI_->QuickSlotItemsList_;
+	std::vector<QuickSlotItem*> CurItem = ContentsUI::MainUI_->GetQuickSlotItemsList();
 	for (size_t i = 0; i < CurItem.size(); i++)
 	{
 		if (ItemType_ == CurItem[i]->GetItemType())

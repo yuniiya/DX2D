@@ -255,8 +255,8 @@ void ContentsUI::Update(float _DeltaTime)
 	MainBarScaleUpdate();
 	LevelImageUpdate();
 
-	// 4번키까지
-	for (size_t i = 0; i < 4; i++)
+	// 6번키까지
+	for (size_t i = 0; i < 6; i++)
 	{
 		// 퀵슬롯에 아이템이 있을 때만 체크
 		if (ItemType::MAX == QuickSlotItemsList_[i]->GetItemType())
@@ -264,7 +264,7 @@ void ContentsUI::Update(float _DeltaTime)
 			continue;
 		}
 
-		// 1 ~ 4번 키 
+		// 1 ~ 6번 키 
 		std::string Input = std::to_string(i + 1);
 
 		if (true == GameEngineInput::GetInst()->IsDown(Input))

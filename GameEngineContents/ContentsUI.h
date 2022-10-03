@@ -32,6 +32,11 @@ public:
 		return QuickSlotItem_;
 	}
 
+	inline std::vector<QuickSlotItem*> GetQuickSlotItemsList()
+	{
+		return QuickSlotItemsList_;
+	}
+
 	inline ItemType GetItemType()
 	{
 		return ItemType_;
@@ -47,7 +52,6 @@ public:
 		QuickSlotItem_ = _QuickSlotItem;
 	}
 
-	std::vector<QuickSlotItem*> QuickSlotItemsList_;
 
 protected:
 	void Start() override;
@@ -107,6 +111,9 @@ private:
 
 	QuickSlotItem* QuickSlotItem_;
 	ItemType ItemType_;
+
+
+	std::vector<QuickSlotItem*> QuickSlotItemsList_;
 
 };
 

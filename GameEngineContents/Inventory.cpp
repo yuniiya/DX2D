@@ -6,6 +6,7 @@
 #include "Mouse.h"
 #include "MouseSlot.h"
 #include "ContentsFont.h"
+#include "QuickSlotItem.h"
 
 Inventory* Inventory::MainInventory_ = nullptr;
 
@@ -926,6 +927,16 @@ void Inventory::PushItem(Item* _Item)
 					break;
 				}
 
+				// 습득한 아이템과 같은 아이템이 퀵슬롯에 있다면 개수 + 1
+				for (size_t j = 0; j < ContentsUI::MainUI_->GetQuickSlotItemsList().size(); j++)
+				{
+					if (InventoryItemsList_Potion[i]->GetItemType() == ContentsUI::MainUI_->GetQuickSlotItemsList()[j]->GetItemType())
+					{
+						ContentsUI::MainUI_->GetQuickSlotItemsList()[j]->SetCount(ContentsUI::MainUI_->GetQuickSlotItemsList()[j]->GetCount() + 1);
+						break;
+					}
+				}
+
 				break;
 			}
 			// 아이템이 있는 칸이다 -> 다음 칸으로 넘어간다
@@ -947,6 +958,7 @@ void Inventory::PushItem(Item* _Item)
 				InventoryItemsList_Potion[i]->GetContensFont()->GetNormalFontRenderer()->Off();
 				InventoryItemsList_Potion[i]->GetCollision()->Off();
 			}
+
 			break;
 		}
 	}

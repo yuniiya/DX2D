@@ -120,6 +120,9 @@ Player::Player()
 	, NormalPlayerRenderer_(nullptr)
 	, RedHatPlayerRenderer_(nullptr)
 	, BlueHatPlayerRenderer_(nullptr)
+	, IsSinA_(false)
+	, IsSinB_(false)
+	, IsSinC_(false)
 {	
 }	
 
@@ -187,6 +190,8 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("2", '2');
 		GameEngineInput::GetInst()->CreateKey("3", '3');
 		GameEngineInput::GetInst()->CreateKey("4", '4');
+		GameEngineInput::GetInst()->CreateKey("5", '5');
+		GameEngineInput::GetInst()->CreateKey("6", '6');
 		GameEngineInput::GetInst()->CreateKey("SpaceBar", VK_SPACE);
 
 	}

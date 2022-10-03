@@ -121,12 +121,12 @@ void Mouse::Update(float _DeltaTime)
 			MouseSlot_->IsDoneHolding_ = false;
 
 			//ContentsUI* ContentsUI_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI();
-			for (size_t i = 0; i < ContentsUI::MainUI_->QuickSlotItemsList_.size(); i++)
+			for (size_t i = 0; i < ContentsUI::MainUI_->GetQuickSlotItemsList().size(); i++)
 			{
-				if (true == ContentsUI::MainUI_->QuickSlotItemsList_[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+				if (true == ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->GetCollision()->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
 				{
-					ContentsUI::MainUI_->QuickSlotItemsList_[i]->CollisionCheck();
-					ContentsUI::MainUI_->QuickSlotItemsList_[i]->SetQuickSlotIndex((int)i);
+					ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->CollisionCheck();
+					ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->SetQuickSlotIndex((int)i);
 
 					break;
 				}
@@ -159,13 +159,22 @@ void Mouse::Update(float _DeltaTime)
 		MouseSlot_->GetInventoryItem()->SetCount(MouseSlot_->GetInventoryItem()->GetCount() - 1);
 		MouseSlot_->GetInventoryItem()->GetContensFont()->GetNormalFontRenderer()->SetText(std::to_string(MouseSlot_->GetInventoryItem()->GetCount()));
 		
+		// 2) 퀵슬롯에 버리는 아이템 타입과 같은 아이템이 있는지 검사
+		for (size_t i = 0; i < ContentsUI::MainUI_->GetQuickSlotItemsList().size(); i++)
+		{
+			if (MouseSlot_->GetInventoryItem()->GetItemType() == ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->GetItemType())
+			{
+				ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->SetCount(ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->GetCount() - 1);
+				break;
+			}
+		}
 		if (MouseSlot_->GetInventoryItem()->GetCount() <= 0)
 		{
+			// 1) 인벤토리에 버리는 아이템 타입과 같은 아이템이 있는지 검사
 			if (InventorySlotType::SLOT_POTION == MouseSlot_->GetInventoryItem()->GetInventorySlotType())
 			{
 				for (size_t i = 0; i < Inventory::MainInventory_->GetInventoryListPotion().size(); i++)
 				{
-					// 버리는 아이템 타입과 같은 아이템이 있는지 검사
 					if (MouseSlot_->GetInventoryItem()->GetItemType() == Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType())
 					{
 						Inventory::MainInventory_->GetInventoryListPotion()[i]->SetItemType(ItemType::MAX);
@@ -179,7 +188,6 @@ void Mouse::Update(float _DeltaTime)
 			{
 				for (size_t i = 0; i < Inventory::MainInventory_->GetInventoryListEtc().size(); i++)
 				{
-					// 버리는 아이템 타입과 같은 아이템이 있는지 검사
 					if (MouseSlot_->GetInventoryItem()->GetItemType() == Inventory::MainInventory_->GetInventoryListEtc()[i]->GetItemType())
 					{
 						Inventory::MainInventory_->GetInventoryListEtc()[i]->SetItemType(ItemType::MAX);
@@ -190,7 +198,18 @@ void Mouse::Update(float _DeltaTime)
 				}
 			}
 
-			
+			// 2) 퀵슬롯에 버리는 아이템 타입과 같은 아이템이 있는지 검사
+			for (size_t i = 0; i < ContentsUI::MainUI_->GetQuickSlotItemsList().size(); i++)
+			{
+				if (MouseSlot_->GetInventoryItem()->GetItemType() == ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->GetItemType())
+				{
+					ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->SetItemType(ItemType::MAX);
+					ContentsUI::MainUI_->GetQuickSlotItemsList()[i]->GetContensFont()->GetNormalFontRenderer()->Off();
+
+					break;
+				}
+			}
+
 			MouseSlot_->GetInventoryItem()->SetItemType(ItemType::MAX);
 			MouseSlot_->GetInventoryItem()->SetMonsterName(MONSTERNAME::MAX);
 			MouseSlot_->GetInventoryItem()->SetInventorySlotType(InventorySlotType::MAX);
