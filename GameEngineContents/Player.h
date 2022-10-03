@@ -122,6 +122,17 @@ public:
 		CurMeso_ = CurMeso_ - _Meso;
 	}
 
+	inline void SetMoveDir(float4 _MoveDir)
+	{
+		MoveDir_ = _MoveDir;
+	}
+
+	inline void SetPlayerStateIdle()
+	{
+		StateManager.ChangeState("Idle");
+		return;
+	}
+
 	bool IsCactusQuestOngoing_;
 	bool IsEntranceQuestClear_;
 	bool IsCactusQuestClear_;
@@ -162,6 +173,9 @@ private:
 	bool SinAttackEnd;
 	bool IsSinLoopStart;
 	bool IsSinLoopEnd;
+	bool IsSinA_;
+	bool IsSinB_;
+	bool IsSinC_;
 	bool IsLevelUp;
 
 	bool IsInvincible_;

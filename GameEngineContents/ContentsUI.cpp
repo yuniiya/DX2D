@@ -41,6 +41,13 @@ ContentsUI::ContentsUI()
 	, SlotKey_(0)
 	, BarBgr_1(nullptr)
 	, BarBgr_2(nullptr)
+	, ExitNotice_(nullptr)
+	, YesButton_(nullptr)
+	, NoButton_(nullptr)
+	, YesCollision_(nullptr)
+	, NoCollision_(nullptr)
+	, IsExitNoticeOn_(false)
+	, IsExitOn_(false)
 
 {
 }
@@ -182,6 +189,40 @@ void ContentsUI::Start()
 	QuickSlot_->ScaleToTexture();
 	QuickSlot_->GetTransform().SetLocalPosition({ 290.f, -273.f });
 
+	ExitNotice_ = CreateComponent<GameEngineUIRenderer>();
+	ExitNotice_->SetTexture("ExitNotice.png");
+	ExitNotice_->ScaleToTexture();
+	//ExitNotice_->GetTransform().SetLocalScale({249.f * 1.1f, 142.f * 1.1f });
+	ExitNotice_->GetTransform().SetLocalPosition({0.f, 0.f, (int)ZOrder::UI });
+	ExitNotice_->Off();
+
+	YesButton_ = CreateComponent<GameEngineUIRenderer>();
+	YesButton_->SetTexture("Notice.BtYes.normal.0.png");
+	YesButton_->ScaleToTexture();
+//	YesButton_->GetTransform().SetLocalScale({ 50.f * 1.1f, 23.f * 1.1f });
+	YesButton_->GetTransform().SetLocalPosition({ -30.f, -47.f, (int)ZOrder::UI });
+	YesButton_->Off();
+
+	NoButton_ = CreateComponent<GameEngineUIRenderer>();
+	NoButton_->SetTexture("Notice.BtNo.normal.0.png");
+	NoButton_->ScaleToTexture();
+	//NoButton_->GetTransform().SetLocalScale({ 50.f * 1.1f, 23.f * 1.1f });
+	NoButton_->GetTransform().SetLocalPosition({ 30.f, -47.f, (int)ZOrder::UI });
+	NoButton_->Off();
+
+	YesCollision_ = CreateComponent<GameEngineCollision>();
+	YesCollision_->SetUIDebugCamera();
+	YesCollision_->GetTransform().SetLocalScale({45.f, 20.f });
+	YesCollision_->ChangeOrder(GAMEOBJGROUP::UI);
+	YesCollision_->GetTransform().SetLocalPosition({ YesButton_->GetTransform().GetLocalPosition().x, YesButton_->GetTransform().GetLocalPosition().y });
+	YesCollision_->Off();
+
+	NoCollision_ = CreateComponent<GameEngineCollision>();
+	NoCollision_->SetUIDebugCamera();
+	NoCollision_->GetTransform().SetLocalScale({ 45.f, 20.f });
+	NoCollision_->ChangeOrder(GAMEOBJGROUP::UI);
+	NoCollision_->GetTransform().SetLocalPosition({ NoButton_->GetTransform().GetLocalPosition().x, NoButton_->GetTransform().GetLocalPosition().y });
+	NoCollision_->Off();
 
 	StartPosition_ = float4{ 198.f, -215.f };
 	float4 Pos = StartPosition_;
@@ -207,19 +248,75 @@ void ContentsUI::Start()
 
 void ContentsUI::Update(float _DeltaTime)
 {
+	// 게임 종료
+	if (true == GameEngineInput::GetInst()->IsDown("Exit"))
+	{
+		if (true == IsExitOn_)
+		{
+			IsExitOn_ = false;
+			GameEngineSound::SoundPlayOneShot("MenuUp.mp3");
+			ExitNotice_->Off();
+			YesButton_->Off();
+			NoButton_->Off();
+			YesCollision_->Off();
+			NoCollision_->Off();
+		}
+		else
+		{
+			IsExitOn_ = true;
+			GameEngineSound::SoundPlayOneShot("DlgNotice.mp3");
+			ExitNotice_->On();
+			YesButton_->On();
+			NoButton_->On();
+			YesCollision_->On();
+			NoCollision_->On();
+		}
+	}
+
+	if (true == YesCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	{
+		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		{
+			GameEngineSound::SoundPlayOneShot("MenuUp.mp3");
+			YesButton_->SetTexture("Notice.BtYes.pressed.0.png");
+
+			GameEngineWindow::GetInst()->Off();
+		}
+		else
+		{
+			YesButton_->SetTexture("Notice.BtYes.mouseOver.0.png");
+		}
+	}
+	else
+	{
+		YesButton_->SetTexture("Notice.BtYes.normal.0.png");
+	}
+
+	if (true == NoCollision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::MOUSE, CollisionType::CT_OBB2D))
+	{
+		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
+		{
+			GameEngineSound::SoundPlayOneShot("MenuUp.mp3");
+			NoButton_->SetTexture("Notice.BtNo.pressed.0.png");
+
+			IsExitOn_ = false;
+			ExitNotice_->Off();
+			YesButton_->Off();
+			NoButton_->Off();
+			YesCollision_->Off();
+			NoCollision_->Off();
+		}
+		else
+		{
+			NoButton_->SetTexture("Notice.BtNo.mouseOver.0.png");
+		}
+	}
+	else
+	{
+		NoButton_->SetTexture("Notice.BtNo.normal.0.png");
+	}
+
 	CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-
-	//BarBgr_1->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 300.f, (int)ZOrder::UI });
-	//BarBgr_2->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 318.f, (int)ZOrder::UI });
-	//HpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 300.f, (int)ZOrder::UI });
-	//MpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 78.f, CamPos_.y - 318.f, (int)ZOrder::UI });
-	////ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 1.f , CamPos_.y - 352.5f });
-	//ExpBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 634.f , CamPos_.y - 346.f, (int)ZOrder::UI });
-
-	//MainBar_->GetTransform().SetLocalPosition(float4{ CamPos_.x, CamPos_.y - 308.f, (int)ZOrder::UI });
-	//ExpBack_->GetTransform().SetLocalPosition(float4{ CamPos_.x + 2.f, CamPos_.y - 352.f, (int)ZOrder::UI });
-	//Level_->GetTransform().SetLocalPosition(float4{ CamPos_.x - 49.f, CamPos_.y - 286.f, (int)ZOrder::UI });
-
 	MainBarScaleUpdate();
 	LevelImageUpdate();
 

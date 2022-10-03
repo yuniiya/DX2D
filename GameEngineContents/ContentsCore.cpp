@@ -902,8 +902,8 @@ void ContentsCore::Start()
 		GameEngineInput::GetInst()->CreateKey("DebugModeOnOff", VK_OEM_6);			// ]
 		GameEngineInput::GetInst()->CreateKey("Exit", VK_ESCAPE);
 		GameEngineInput::GetInst()->CreateKey("Next", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("DialogExit", VK_TAB);
 	}
-
 
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<LoginLevel>("Login");

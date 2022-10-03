@@ -123,7 +123,7 @@ void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
 
 void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 {
-	if (_Renderer->GetPixelData().MulColor.a < 0)
+	if (_Renderer->GetPixelData().MulColor.a <= 0)
 	{
 		_Renderer->GetPixelData().MulColor.a = 0;
 	}

@@ -110,14 +110,14 @@ void LoginUI::Start()
 	Notice0_->SetTexture("Notice0.png");
 	Notice0_->GetTransform().SetLocalScale({249.f * 1.3f, 142.f * 1.3f });
 	Notice0_->ChangeCamera(CAMERAORDER::UICAMERA);
-	Notice0_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y, (int)ZOrder::NOTICE });
+	Notice0_->GetTransform().SetLocalPosition({ CamPos.x + 5.f, CamPos.y, (int)ZOrder::NOTICE });
 	Notice0_->Off();
 
 	Notice1_ = CreateComponent<GameEngineUIRenderer>();
 	Notice1_->SetTexture("Notice1.png");
 	Notice1_->GetTransform().SetLocalScale({ 249.f * 1.3f, 142.f * 1.3f });
 	Notice1_->ChangeCamera(CAMERAORDER::UICAMERA);
-	Notice1_->GetTransform().SetLocalPosition({ CamPos.x, CamPos.y, (int)ZOrder::NOTICE });
+	Notice1_->GetTransform().SetLocalPosition({ CamPos.x + 5.f, CamPos.y, (int)ZOrder::NOTICE });
 	Notice1_->Off();
 
 	LoginBackUI_->GetTransform().SetLocalPosition(float4{ CamPos.x + 5.f, CamPos.y });

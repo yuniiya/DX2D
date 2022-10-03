@@ -230,8 +230,6 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (CurSkill_ == PLAYERSKILL::SKILL_SIN)
 	{
 		SkillPositionUpdate(CurSkill_);
-
-		SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 	}
 }
 
@@ -337,8 +335,6 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (PLAYERSKILL::SKILL_PA == CurSkill_)
 	{
 		SkillPositionUpdate(CurSkill_);
-
-		PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 	}
 }
 
@@ -399,8 +395,6 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (PLAYERSKILL::SKILL_PA == CurSkill_)
 	{
 		SkillPositionUpdate(CurSkill_);
-
-		PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
 	}
 
 }
@@ -570,50 +564,35 @@ void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	SkillPositionUpdate(CurSkill_);
 
-	
-switch (CurSkill_)
-{
-case PLAYERSKILL::SKILL_IN:
-{
-	InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-}
-break;
-case PLAYERSKILL::SKILL_PA:
-{
-	PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-}
-break;
-case PLAYERSKILL::SKILL_JI:
-{
-	if (true == Skill_->IsEnd_)
+	if (CurSkill_ == PLAYERSKILL::SKILL_JI)
 	{
-		StateManager.ChangeState("Idle");
-		return;
+		if (true == Skill_->IsEnd_)
+		{
+			StateManager.ChangeState("Idle");
+			return;
+		}
 	}
-}
-break;
-case PLAYERSKILL::SKILL_SIN:
-{
-	SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
-}
-break;
-case PLAYERSKILL::SKILL_SINA:
-	break;
-case PLAYERSKILL::SKILL_SINB:
-	break;
-case PLAYERSKILL::SKILL_SINC:
-	break;
-case PLAYERSKILL::SKILL_SIND:
-	break;
-case PLAYERSKILL::MAX:
-	break;
-default:
-	break;
-}
-//InB_Renderer_->AnimationBindEnd("In_B", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	//switch (CurSkill_)
+	//{
+	//case PLAYERSKILL::SKILL_IN:
+	//{
+	//}
+	//break;
+	//case PLAYERSKILL::SKILL_PA:
+	//{
+	//}
+	//break;
+	//case PLAYERSKILL::SKILL_JI:
+	//{
+	//	if (true == Skill_->IsEnd_)
+	//	{
+	//		StateManager.ChangeState("Idle");
+	//		return;
+	//	}
+	//}
+	//break;
+	//}
 
-//StateManager.ChangeState("Idle");
-//return;
 }
 
 void Player::JumpSkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)

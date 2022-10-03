@@ -103,7 +103,7 @@ void QuestUI::Update(float _DeltaTime)
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDown("Exit"))
+	if (true == GameEngineInput::GetInst()->IsDown("DialogExit"))
 	{
 		DialogCount_ = 0;
 		Font_->Off(); 

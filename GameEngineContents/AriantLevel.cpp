@@ -81,15 +81,15 @@ void AriantLevel::LevelStartEvent()
 {
 	Fade* FadeActor = CreateActor<Fade>(GAMEOBJGROUP::FADE);
 
-	//if (true == Player::MainPlayer_->IsAriantLevel_)
-	//{
+	if (true == Player::MainPlayer_->IsAriantLevel_)
+	{
 
-	//}
-	//else
-	//{
-	//	GameBgmPlayer::BgmPlay_->Stop();
-	//	GameBgmPlayer::BgmPlay_->ChangeBgm("Ariant.mp3");
-	//}
+	}
+	else
+	{
+		GameBgmPlayer::BgmPlay_->Stop();
+		//GameBgmPlayer::BgmPlay_->ChangeBgm("Ariant.mp3");
+	}
 
 	if (nullptr != Player::MainPlayer_)
 	{

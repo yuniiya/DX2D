@@ -473,6 +473,11 @@ void Player::Start()
 	SinC_Renderer_->AnimationBindFrame("Sin_C", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
 	SinD_Renderer_->AnimationBindFrame("Sin_D", std::bind(&Player::SinSkillSoundUpdate, this, std::placeholders::_1));
 
+	SinStart_Renderer_->AnimationBindEnd("Sin_Start", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+
+	PaA_Renderer_->AnimationBindEnd("Pa_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+	InA_Renderer_->AnimationBindEnd("In_A", std::bind(&Player::SkillEnd, this, std::placeholders::_1));
+
 	LevelUpEffRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	LevelUpEffRenderer_->GetTransform().SetLocalScale({ 904.f, 904.f });
 	LevelUpEffRenderer_->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0.09f));
@@ -597,6 +602,7 @@ void Player::Update(float _DeltaTime)
 			MissRenderer_->On();
 		}
 	}
+
 }
 
 void Player::End()
@@ -1131,45 +1137,6 @@ void Player::PlayerMove(float _DeltaTime)
 		DirCheck(PlayerRenderer_, CurDir_);
 	}
 
-	// 보스 레벨 모자
-
-	//if (true == IsRedHat_)
-	//{
-	//	if (true == BlueHatRenderer_->IsUpdate())
-	//	{
-	//		
-	//		BlueHatRenderer_->Off();
-	//	}
-	//	RedHatRenderer_->On();
-	//	if (ACTORDIR::LEFT == CurDir_)
-	//	{
-	//		RedHatRenderer_->GetTransform().PixLocalPositiveX();
-	//		RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f});
-	//	}
-	//	else if (ACTORDIR::RIGHT == CurDir_)
-	//	{
-	//		RedHatRenderer_->GetTransform().PixLocalNegativeX();
-	//		RedHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
-	//	}
-	//}
-	//else if (true == IsBlueHat_)
-	//{
-	//	if (true == RedHatRenderer_->IsUpdate())
-	//	{
-	//		RedHatRenderer_->Off();
-	//	}
-	//	BlueHatRenderer_->On();
-	//	if (ACTORDIR::LEFT == CurDir_)
-	//	{
-	//		BlueHatRenderer_->GetTransform().PixLocalPositiveX();
-	//		BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
-	//	}
-	//	else if (ACTORDIR::RIGHT == CurDir_)
-	//	{
-	//		BlueHatRenderer_->GetTransform().PixLocalNegativeX();
-	//		BlueHatRenderer_->GetTransform().SetLocalPosition({ 0.f, 34.f });
-	//	}
-	//}
 }
 
 void Player::PlayerRendererChange()
@@ -1267,7 +1234,7 @@ void Player::UseSkill()
 
 		Skill_ = GetLevel()->CreateActor<Skill>();
 		Skill_->GetJiARenderer()->On();
-		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 70.f});
+		Skill_->GetJiARenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 70.f });
 		Skill_->GetJiBRenderer()->On();
 		Skill_->GetJiBRenderer()->ChangeFrameAnimation("Ji_B");
 		Skill_->GetJiBRenderer()->GetTransform().SetLocalPosition({ GetPosition().x, GetPosition().y + 130.f});
@@ -1281,7 +1248,7 @@ void Player::UseSkill()
 	else if (true == GameEngineInput::GetInst()->IsDown("Skill_R"))
 	{
 		GameEngineSound::SoundPlayOneShot("SinUse.mp3");
-
+		IsUseSinSkill = true;
 		SinStart_Renderer_->On();
 		CurSkill_ = PLAYERSKILL::SKILL_SIN;
 		UseMP(3.f);
@@ -1390,10 +1357,8 @@ void Player::SkillEnd(const FrameAnimation_DESC& _Info)
 	break;
 	case PLAYERSKILL::SKILL_SIN:
 	{
-		IsUseSinSkill = true;
-
 		SinStart_Renderer_->Off();
-		
+		IsSinA_ = true;
 		SinA_Renderer_->On();
 		SinSkillFrameCount_ = 1;
 		CurSkill_ = PLAYERSKILL::SKILL_SINA;
@@ -1470,6 +1435,10 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 	break;
 	case PLAYERSKILL::SKILL_SINA:
 	{
+		if (false == IsSinA_)
+		{
+			return;
+		}
 		if (ACTORDIR::RIGHT == CurDir_)
 		{
 			SinA_Renderer_->GetTransform().PixLocalNegativeX();
@@ -1482,11 +1451,15 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 			SinA_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 40.f, (int)ZOrder::SKILLBACK });
 			SinACollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 20.f, (int)ZOrder::SKILLBACK });
 		}
+		IsSinA_ = false;
 	}
-
 		break;
 	case PLAYERSKILL::SKILL_SINB:
 	{
+		if (false == IsSinB_)
+		{
+			return;
+		}
 		if (ACTORDIR::RIGHT == CurDir_)
 		{
 			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 200.f, (int)ZOrder::SKILLBACK });
@@ -1497,11 +1470,16 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 			SinB_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 200.f, (int)ZOrder::SKILLBACK });
 			SinBCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
 		}
+		IsSinB_ = false;
 		
 	}
 		break;
 	case PLAYERSKILL::SKILL_SINC:
 	{
+		if (false == IsSinC_)
+		{
+			return;
+		}
 		if (ACTORDIR::RIGHT == CurDir_)
 		{
 			SinC_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x + 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
@@ -1512,6 +1490,7 @@ void Player::SkillPositionUpdate(PLAYERSKILL _CurSkill)
 			SinC_Renderer_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
 			SinCCollision_->GetTransform().SetWorldPosition({ GetPosition().x - 200.f, GetPosition().y + 100.f, (int)ZOrder::SKILLBACK });
 		}
+		IsSinC_ = false;
 
 	}
 		break;
@@ -1539,6 +1518,7 @@ void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
 		SinACollision_->Off();
 
 		IsSinLoopStart = true;
+		IsSinB_ = true;
 		CurSkill_ = PLAYERSKILL::SKILL_SINB;
 		SinSkillFrameCount_ = 1;
 	}
@@ -1549,6 +1529,7 @@ void Player::SinSkillUpdate(const FrameAnimation_DESC& _Info)
 		SinBCollision_->Off();
 
 		IsSinLoopStart = true;
+		IsSinC_ = true;
 		CurSkill_ = PLAYERSKILL::SKILL_SINC;
 		SinSkillFrameCount_ = 1;
 	}

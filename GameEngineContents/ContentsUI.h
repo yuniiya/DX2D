@@ -75,6 +75,8 @@ private:
 	int SlotKey_1;
 	int SlotKey_2;
 	
+	bool IsExitNoticeOn_;
+	bool IsExitOn_;
 private:
 	GameEngineUIRenderer* MainBar_;
 	GameEngineUIRenderer* BarBgr_1;
@@ -83,6 +85,9 @@ private:
 	GameEngineUIRenderer* QuickSlotBack_;
 	GameEngineUIRenderer* QuickSlot_;
 	GameEngineUIRenderer* Level_;
+	GameEngineUIRenderer* ExitNotice_;
+	GameEngineUIRenderer* YesButton_;
+	GameEngineUIRenderer* NoButton_;
 
 	GameEngineUIRenderer* HpBar_;
 	GameEngineUIRenderer* MpBar_;
@@ -95,6 +100,8 @@ private:
 	GameEngineCollision* SlotCollision_3;
 	GameEngineCollision* SlotCollision_4;
 	GameEngineCollision* SlotCollision_5;
+	GameEngineCollision* YesCollision_;
+	GameEngineCollision* NoCollision_;
 
 	QuickSlotItem* QuickSlotItem_;
 	ItemType ItemType_;
