@@ -40,6 +40,7 @@ Shop::Shop()
 	, Count_(0)
 	, IsSellButtonClick_(false)
 	, IsBuyButtonClick_(false)
+	, IsBuyNewItem_(false)
 {
 }
 
@@ -812,6 +813,7 @@ void Shop::DealItem()
 {
 	BuyItem();
 	SellItem();
+	MyItemListUpdate();
 }
 
 void Shop::BuyItem()
@@ -841,39 +843,48 @@ void Shop::BuyItem()
 				ItemActor->PotionRendererTypeSetting();
 				Inventory::MainInventory_->PushItem(ItemActor);
 
-				// 3) 상점에 구매한 아이템 새로 업데이트 -> 문제 : 소비창이 아닌 다른 창 켜져있으면 렌더러 한 번 깜빡임
-				for (size_t i = 0; i < ShopMyItemsList_Potion.size(); i++)
+				// 소비창이 이미 켜져 있으면 바로 업데이트
+				if (true == IsCategoryOn_2)
 				{
-					if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType())
+					// 3) 상점에 구매한 아이템 새로 업데이트 -> 문제 : 소비창이 아닌 다른 창 켜져있으면 렌더러 한 번 깜빡임
+					for (size_t j = 0; j < ShopMyItemsList_Potion.size(); j++)
 					{
-						continue;
+						if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType())
+						{
+							continue;
+						}
+
+						ShopMyItemsList_Potion[Count_]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+						ShopMyItemsList_Potion[Count_]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+						ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
+							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
+						ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
+							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
+
+						ShopMyItemsList_Potion[Count_]->SetShopItemCount(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetCount());
+						ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
+						ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
+							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
+							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
+
+						ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
+						ShopMyItemsList_Potion[Count_]->GetCollision()->On();
+						ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
+						ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
+						//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
+
+						++Count_;
 					}
 
-					ShopMyItemsList_Potion[Count_]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
-					ShopMyItemsList_Potion[Count_]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetItemType());
-					ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
-						ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
-						-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
-					ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
-						ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
-						-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
+					Count_ = 0;
 
-					ShopMyItemsList_Potion[Count_]->SetShopItemCount(Inventory::MainInventory_->GetInventoryListPotion()[i]->GetCount());
-					ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
-					ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
-						ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
-						-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
-
-					ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
-					ShopMyItemsList_Potion[Count_]->GetCollision()->On();
-					ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
-					ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
-					//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
-
-					++Count_;
 				}
-
-				Count_ = 0;
+				else // 소비창 외 다른 창이 켜져 있을 경우 -> MyItemListUpdate();
+				{
+					IsBuyNewItem_ = true;
+				}
 
 			}
 
@@ -991,6 +1002,54 @@ void Shop::SellItem()
 
 }
 
+void Shop::MyItemListUpdate()
+{
+	// 다른 창이 켜져있을 때 아이템을 구매한 상황 저장 
+	if (false == IsBuyNewItem_)
+	{
+		return;
+	}
+
+	if (true == IsCategoryOn_2)
+	{
+		for (size_t j = 0; j < ShopMyItemsList_Potion.size(); j++)
+		{
+			if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType())
+			{
+				continue;
+			}
+
+			ShopMyItemsList_Potion[Count_]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+			ShopMyItemsList_Potion[Count_]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+			ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
+				ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+				-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
+			ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
+				ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+				-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
+
+			ShopMyItemsList_Potion[Count_]->SetShopItemCount(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetCount());
+			ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
+			ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
+				ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
+				-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
+
+			ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
+			ShopMyItemsList_Potion[Count_]->GetCollision()->On();
+			ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
+			ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
+			//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
+
+			++Count_;
+		}
+
+		Count_ = 0;
+		IsBuyNewItem_ = false;
+
+	}
+
+}
+
 void Shop::PushShopNpcItem(ItemType _ItemType)
 {
 	for (size_t i = 0; i < ShopItemsList_.size(); i++)
@@ -1050,7 +1109,7 @@ void Shop::ShopOn()
 		ShopMyItemsList_Etc[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
 
 		++Count_;
-		//	ShopMyItemsList_Etc[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
+
 	}
 
 	Count_ = 0;
@@ -1081,7 +1140,6 @@ void Shop::ShopOn()
 		ShopMyItemsList_Potion[Count_]->GetCollision()->On();
 		ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
 		ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
-		//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
 
 		++Count_;
 	}
@@ -1097,7 +1155,6 @@ void Shop::ShopOn()
 		}
 
 		ShopMyItemsList_None[i]->GetRenderer()->On();
-		//	ShopMyItemsList_None[i]->GetCollision()->On();
 	}
 
 	for (size_t i = 0; i < ShopItemsList_.size(); i++)

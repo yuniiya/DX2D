@@ -51,6 +51,8 @@ protected:
 	void BuyItem();
 	void SellItem();
 
+	void MyItemListUpdate();
+
 protected:
 	// 플레이어 아이템 목록
 	std::vector<ShopMyItem*> ShopMyItemsList_Potion;	// 소비
@@ -95,6 +97,7 @@ private:
 	bool IsClick_;
 	bool IsSellButtonClick_;
 	bool IsBuyButtonClick_;
+	bool IsBuyNewItem_;
 
 	float4 StartPosition_;
 	int PlayerMeso_;
