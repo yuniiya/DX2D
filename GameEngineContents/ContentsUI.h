@@ -54,6 +54,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
+	void GameExit();
+
 private:
 	float4 HPBarPos_;
 	float4 MPBarPos_;

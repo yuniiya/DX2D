@@ -65,8 +65,8 @@ Player::Player()
 	, CurSkill_(PLAYERSKILL::MAX)
 	, ChoA_Renderer_(nullptr)
 	, ChoB_Renderer_(nullptr)
-	, CurHP_(100.f)
-	, CurMP_(100.f)
+	, CurHP_(50.f)
+	, CurMP_(50.f)
 	, CurExp_(60.f)
 	, Atk_(5000)
 	, PrevPosition_(Position_)
@@ -185,6 +185,8 @@ void Player::Start()
 
 		GameEngineInput::GetInst()->CreateKey("1", '1');
 		GameEngineInput::GetInst()->CreateKey("2", '2');
+		GameEngineInput::GetInst()->CreateKey("3", '3');
+		GameEngineInput::GetInst()->CreateKey("4", '4');
 		GameEngineInput::GetInst()->CreateKey("SpaceBar", VK_SPACE);
 
 	}

@@ -29,13 +29,14 @@ public:
 		QuickSlotIndex_ = _QuickSlotIndex;
 	}
 
+	void SlotKeyCheck();
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override {};
 	void LevelStartEvent() override;
 
-	void SlotKeyCheck();
+
 	bool SlotKeyInputCheck();
 	
 private:

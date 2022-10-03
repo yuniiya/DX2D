@@ -49,12 +49,6 @@ void QuickSlotItem::Start()
 		{ Renderer_->GetTransform().GetLocalPosition().x + 73.f
 		, Renderer_->GetTransform().GetLocalPosition().y - 76.f });
 
-	//MouseCollision_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseCol();
-	//MouseRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseRenderer();
-	//MouseAnimationRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseAnimationRenderer();
-	//MouseSlotRenderer_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->GetRenderer();
-	//MouseSlot_ = dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot();
-
 	SetLevelOverOn();
 }
 
@@ -73,8 +67,6 @@ void QuickSlotItem::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsUp("LeftMouse") && true == IsHold_)
 	{
 		GameEngineSound::SoundPlayOneShot("DragEnd.mp3");
-		//dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsHold_ = false;
-		//dynamic_cast<GlobalLevel*>(GetLevel())->GetMouse()->GetMouseSlot()->IsDoneHolding_ = true;
 
 		Mouse::MainMouse_->GetMouseSlot()->IsHold_ = false;
 		Mouse::MainMouse_->GetMouseSlot()->IsDoneHolding_ = true;
@@ -89,7 +81,7 @@ void QuickSlotItem::Update(float _DeltaTime)
 
 	// 퀵슬롯 아이템끼리 충돌 체크 
 	QuickSlotCollisionCheck();
-	SlotKeyCheck();
+//	SlotKeyCheck();
 }
 
 void QuickSlotItem::LevelStartEvent()
@@ -109,22 +101,23 @@ void QuickSlotItem::SlotKeyCheck()
 		return;
 	}
 
-
-	if (true == GameEngineInput::GetInst()->IsDown("1")
-/*		&& ItemType_ == ItemType::ITEM_HP300*/)
+	if (PotionType::HP == GetPotionType())
 	{
-		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
-		InventoryItem_->SetCount(InventoryItem_->GetCount()- 1);
-		Player::MainPlayer_->AddHP(5.f);
+		Player::MainPlayer_->AddHP(GetAddHPAmount());
 	}
-	else if (true == GameEngineInput::GetInst()->IsDown("2")
-/*		&& ItemType_ == ItemType::ITEM_MP300*/)
+	else if (PotionType::MP == GetPotionType())
 	{
-		GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
-		InventoryItem_->SetCount(InventoryItem_->GetCount() - 1);
-		Player::MainPlayer_->AddMP(5.f);
+		Player::MainPlayer_->AddMP(GetAddMPAmount());
 	}
+	else
+	{
+		return;
+	}
+	// 인벤토리 아이템 개수 업데이트
+	GameEngineSound::SoundPlayOneShot("ItemUse.mp3");
+	InventoryItem_->SetCount(InventoryItem_->GetCount() - 1);
 
+	// 퀵슬롯 아이템 개수 업데이트
 	SetCount(InventoryItem_->GetCount());
 
 	if (GetCount() <= 0)
@@ -145,7 +138,9 @@ bool QuickSlotItem::SlotKeyInputCheck()
 	//return false;
 
 	if (true == GameEngineInput::GetInst()->IsDown("1")
-		|| true == GameEngineInput::GetInst()->IsDown("2"))
+		|| true == GameEngineInput::GetInst()->IsDown("2")
+		|| true == GameEngineInput::GetInst()->IsDown("3")
+		|| true == GameEngineInput::GetInst()->IsDown("4"))
 	{
 		return true;
 	}

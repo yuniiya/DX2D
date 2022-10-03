@@ -249,6 +249,36 @@ void ContentsUI::Start()
 void ContentsUI::Update(float _DeltaTime)
 {
 	// 게임 종료
+	GameExit();
+
+	CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
+	MainBarScaleUpdate();
+	LevelImageUpdate();
+
+	// 4번키까지
+	for (size_t i = 0; i < 4; i++)
+	{
+		// 퀵슬롯에 아이템이 있을 때만 체크
+		if (ItemType::MAX == QuickSlotItemsList_[i]->GetItemType())
+		{
+			continue;
+		}
+
+		// 1 ~ 4번 키 
+		std::string Input = std::to_string(i + 1);
+
+		if (true == GameEngineInput::GetInst()->IsDown(Input))
+		{
+			QuickSlotItemsList_[i]->SlotKeyCheck();
+
+			break;
+		}
+	}
+
+}
+
+void ContentsUI::GameExit()
+{
 	if (true == GameEngineInput::GetInst()->IsDown("Exit"))
 	{
 		if (true == IsExitOn_)
@@ -315,10 +345,6 @@ void ContentsUI::Update(float _DeltaTime)
 	{
 		NoButton_->SetTexture("Notice.BtNo.normal.0.png");
 	}
-
-	CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	MainBarScaleUpdate();
-	LevelImageUpdate();
 
 }
 

@@ -3,13 +3,13 @@
 #include <GameEngineCore/GameEngineFontRenderer.h>
 #include "ContentsFont.h"
 
-//enum class PotionItemType
-//{
-//	HP,
-//	MP,
-//
-//	MAX,
-//};
+enum class PotionType
+{
+	HP,
+	MP,
+
+	MAX,
+};
 
 struct InventoryItemState
 {
@@ -113,12 +113,20 @@ public:
 		return InventorySlotType_;
 	}
 
-	//inline void SetCount(int _Count)
-	//{
-	//	ItemState_.Count_ = _Count;
+	inline float GetAddHPAmount()
+	{
+		return HPAmount_;
+	}
 
-	//	ItemCountFont_->SetText(std::to_string(_Count));
-	//}
+	inline float GetAddMPAmount()
+	{
+		return MPAmount_;
+	}
+
+	inline PotionType GetPotionType()
+	{
+		return PotionType_;
+	}
 
 	inline void SetCount(int _Count)
 	{
@@ -152,6 +160,21 @@ public:
 		InventorySlotType_ = _InventorySlotType;
 	}
 
+	inline void SetAddHPAmount(float _HPAmount)
+	{
+		HPAmount_ = _HPAmount;
+	}
+
+	inline void SetAddMPAmount(float _MPAmount)
+	{
+		MPAmount_ = _MPAmount;
+	}
+
+	inline void SetPotionType(PotionType _PotionType)
+	{
+		PotionType_ = _PotionType;
+	}
+
 	void SetItemType(ItemType _ItemType);
 
 	bool IsHold_;
@@ -166,6 +189,7 @@ protected:
 	//PortionItemType PortionItemType_;
 	InventorySlotType InventorySlotType_;
 	ItemType ItemType_;
+	PotionType PotionType_;
 	InventoryItemState ItemState_;
 	MONSTERNAME MonsterName_;
 
@@ -175,7 +199,9 @@ protected:
 
 	int Index_;
 	int SlotIndex_;
-
+	
+	float HPAmount_;
+	float MPAmount_;
 	MouseSlot* MouseSlot_;
 
 //private:

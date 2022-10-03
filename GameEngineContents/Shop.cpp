@@ -846,7 +846,7 @@ void Shop::BuyItem()
 				// 소비창이 이미 켜져 있으면 바로 업데이트
 				if (true == IsCategoryOn_2)
 				{
-					// 3) 상점에 구매한 아이템 새로 업데이트 -> 문제 : 소비창이 아닌 다른 창 켜져있으면 렌더러 한 번 깜빡임
+					// 3) 상점에 구매한 아이템 새로 업데이트
 					for (size_t j = 0; j < ShopMyItemsList_Potion.size(); j++)
 					{
 						if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType())
@@ -931,7 +931,50 @@ void Shop::SellItem()
 					// 3) 판매한 아이템 내 상점에서 제외
 					ShopMyItemsList_Potion[i]->SetShopItemCount(ShopMyItemsList_Potion[i]->GetCount() - 1);
 	
+					for (size_t j = 0; j < ShopMyItemsList_Potion.size(); j++)
+					{
+						if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType())
+						{
+							continue;
+						}
 
+						ShopMyItemsList_Potion[Count_]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+						ShopMyItemsList_Potion[Count_]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+						ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
+							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
+						ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
+							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
+
+						ShopMyItemsList_Potion[Count_]->SetShopItemCount(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetCount());
+						ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
+						ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
+							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
+							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
+
+						ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
+						ShopMyItemsList_Potion[Count_]->GetCollision()->On();
+						ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
+						ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
+
+						++Count_;
+					}
+
+					Count_ = 0;
+
+
+					if (ShopMyItemsList_Potion[i]->GetCount() <= 0)
+					{
+						ShopMyItemsList_Potion[i]->SetItemType(ItemType::MAX);
+						ShopMyItemsList_Potion[i]->GetCollision()->Off();
+						ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->Off();
+						ShopMyItemsList_Potion[i]->GetSelectMyItemRenderer()->Off();
+
+						break;
+					}
 					//// 4) 판매한 아이템 위쪽에 빈 칸이 있는지 검사
 					//for (size_t j = i - 1; j < ShopMyItemsList_Potion.size(); j++)
 					//{
@@ -969,20 +1012,8 @@ void Shop::SellItem()
 					//}
 
 					//Count_ = 0;
-
-
-					if (ShopMyItemsList_Potion[i]->GetCount() <= 0)
-					{
-						ShopMyItemsList_Potion[i]->SetItemType(ItemType::MAX);
-						ShopMyItemsList_Potion[i]->GetCollision()->Off();
-						ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
-						ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
-						ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->Off();
-						ShopMyItemsList_Potion[i]->GetSelectMyItemRenderer()->Off();
-
-						break;
-					}
 				}
+
 			}
 		}
 	}	// 기타 아이템

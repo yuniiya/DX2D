@@ -29,6 +29,7 @@ InventoryItem::InventoryItem()
 	, IsSlot_(false)
 	, MonsterName_(MONSTERNAME::MAX)
 	, MouseSlot_(nullptr)
+	, PotionType_(PotionType::MAX)
 {
 	ItemState_.Count_ = 0;
 	ItemState_.Cost_ = 500;
@@ -323,6 +324,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 7);
 		Index_ = 7;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::HP);
+		SetAddHPAmount(4.f);
 	}
 	break;
 	case ItemType::ITEM_HP2000:
@@ -330,6 +333,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 9);
 		Index_ = 9;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::HP);
+		SetAddHPAmount(7.f);
 	}
 	break;
 	case ItemType::ITEM_HP4000:
@@ -337,6 +342,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 12);
 		Index_ = 12;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::HP);
+		SetAddHPAmount(9.f);
 	}
 	break;
 	case ItemType::ITEM_HP5000:
@@ -344,6 +351,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 13);
 		Index_ = 13;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::HP);
+		SetAddHPAmount(11.f);
 	}
 	break;
 	case ItemType::ITEM_MP100:
@@ -351,6 +360,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 11);
 		Index_ = 11;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::MP);
+		SetAddMPAmount(2.f);
 	}
 	break;
 	case ItemType::ITEM_MP300:
@@ -358,6 +369,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 8);
 		Index_ = 8;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::MP);
+		SetAddMPAmount(4.f);
 	}
 	break;
 	case ItemType::ITEM_MP2000:
@@ -365,6 +378,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 10);
 		Index_ = 10;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::MP);
+		SetAddMPAmount(7.f);
 	}
 	break;
 	case ItemType::ITEM_MP4000:
@@ -372,6 +387,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 14);
 		Index_ = 14;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::MP);
+		SetAddMPAmount(9.f);
 	}
 	break;
 	case ItemType::ITEM_MP5000:
@@ -379,6 +396,8 @@ void InventoryItem::SetItemType(ItemType _ItemType)
 		Renderer_->SetTexture("Item2.png", 15);
 		Index_ = 15;
 		InventorySlotType_ = InventorySlotType::SLOT_POTION;
+		SetPotionType(PotionType::MP);
+		SetAddMPAmount(11.f);
 	}
 	break;
 	case ItemType::ITEM_QUEST:
@@ -397,42 +416,41 @@ void InventoryItem::UsePotion()
 {
 	if (ItemType::ITEM_HP300 == ItemType_)
 	{
-		Player::MainPlayer_->AddHP(4.f);
+		Player::MainPlayer_->AddHP(GetAddHPAmount());
 	}
 	else if (ItemType::ITEM_HP2000 == ItemType_)
 	{
-		Player::MainPlayer_->AddHP(7.f);
+		Player::MainPlayer_->AddHP(GetAddHPAmount());
 	}
 	else if (ItemType::ITEM_HP4000 == ItemType_)
 	{
-		Player::MainPlayer_->AddHP(10.f);
+		Player::MainPlayer_->AddHP(GetAddHPAmount());
 	}
 	else if (ItemType::ITEM_HP5000 == ItemType_)
 	{
-		Player::MainPlayer_->AddHP(11.f);
+		Player::MainPlayer_->AddHP(GetAddHPAmount());
 	}
 	else if (ItemType::ITEM_MP100 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(2.f);
+		Player::MainPlayer_->AddMP(GetAddHPAmount());
 	}
 	else if (ItemType::ITEM_MP300 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(4.f);
+		Player::MainPlayer_->AddMP(GetAddMPAmount());
 	}
 	else if (ItemType::ITEM_MP2000 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(7.f);
+		Player::MainPlayer_->AddMP(GetAddMPAmount());
 	}
 	else if (ItemType::ITEM_MP4000 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(10.f);
+		Player::MainPlayer_->AddMP(GetAddMPAmount());
 	}
 	else if (ItemType::ITEM_MP5000 == ItemType_)
 	{
-		Player::MainPlayer_->AddMP(11.f);
+		Player::MainPlayer_->AddMP(GetAddMPAmount());
 	}
 
-	//std::vector<QuickSlotItem*> CurItem = dynamic_cast<GlobalLevel*>(GetLevel())->GetContentsUI()->QuickSlotItemsList_;
 	std::vector<QuickSlotItem*> CurItem = ContentsUI::MainUI_->QuickSlotItemsList_;
 	for (size_t i = 0; i < CurItem.size(); i++)
 	{
