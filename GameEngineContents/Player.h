@@ -72,30 +72,11 @@ public:
 		return MaxExp_;
 	}
 
-	inline void UseMP(float _MP)
-	{
-		CurMP_ = CurMP_ - _MP;
-	}
+	void UseMP(float _MP);
 
-	inline void AddHP(float _HP)
-	{
-		if (CurHP_ + _HP >= MaxHP_)
-		{
-			CurHP_ = 100.f;
-			return;
-		}
-		CurHP_ = CurHP_ + _HP;
-	}
+	void AddHP(float _HP);
 
-	inline void AddMP(float _MP)
-	{
-		if (CurMP_ + _MP >= MaxMP_)
-		{
-			CurMP_ = 100.f;
-			return;
-		}
-		CurMP_ = CurMP_ + _MP;
-	}
+	void AddMP(float _MP);
 
 	inline void AddExp(float _Exp)
 	{
@@ -143,6 +124,9 @@ public:
 	bool IsRedHat_;
 	bool IsAriantLevel_;
 	bool IsPrevLevel_;
+
+	bool IsAddHP_;
+	bool IsAddMP_;
 
 private:
 	float CurLevel_;

@@ -179,6 +179,7 @@ void QuickSlotItem::CollisionCheck()
 				ItemCountFont_->GetNormalFontRenderer()->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 
 				// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
+
 				SetItemType(MouseSlot_->GetInventoryItem()->GetItemType());
 				// 인벤토리 칸 아이템은 원래 그대로
 				InventoryItem_ = MouseSlot_->GetInventoryItem();
@@ -231,7 +232,7 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 		//		InventoryItem_ = MouseSlot_->GetQuickSlotItem();
 		//		MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
 		//		MouseSlot_->GetQuickSlotItem()->SetCount(0);
-		//		MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
+		//		MouseSlot_->GetQuickSlotItem()->GetContensFont()->GetNormalFontRenderer()->Off();
 		//		//MouseSlot_->SetQuickSlotItem(nullptr);
 		//		return;
 		//	}
@@ -246,7 +247,7 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 		//		//ItemCountFontUpdate();
 
 		//		// 빈칸의 폰트 렌더러 위치 설정
-		//		ItemCountFont_->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
+		//		ItemCountFont_->GetNormalFontRenderer()->SetScreenPostion({ GetTransform().GetLocalPosition().x + 700.f, -GetTransform().GetLocalPosition().y + 440.f });
 
 		//		// 빈 칸의 아이템 타입 슬롯 아이템 타입으로 설정
 		//		SetItemType(MouseSlot_->GetQuickSlotItem()->GetItemType());
@@ -254,7 +255,7 @@ void QuickSlotItem::QuickSlotCollisionCheck()
 		//		MouseSlot_->GetQuickSlotItem()->SetItemType(ItemType::MAX);
 		//		// 슬롯 폰트 오프
 		//		MouseSlot_->GetQuickSlotItem()->SetCount(0);
-		//		MouseSlot_->GetQuickSlotItem()->GetFontRenderer()->Off();
+		//		MouseSlot_->GetQuickSlotItem()->GetContensFont()->GetNormalFontRenderer()->Off();
 		//		// 슬롯 아이템 null로 만들기
 		//		//MouseSlot_->SetQuickSlotItem(nullptr);
 		//	} // 6-3) 다른 아이템이 이미 있다	-> 덮어 씌우기

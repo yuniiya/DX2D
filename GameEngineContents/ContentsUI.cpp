@@ -48,7 +48,11 @@ ContentsUI::ContentsUI()
 	, NoCollision_(nullptr)
 	, IsExitNoticeOn_(false)
 	, IsExitOn_(false)
-
+	, Time_(0.f)
+	, IsHPDone_(false)
+	, IsMPDone_(false)
+	, CurHPratio_(0.f)
+	, CurMPratio_(0.f)
 {
 }
 
@@ -56,28 +60,52 @@ ContentsUI::~ContentsUI()
 {
 }
 
-void ContentsUI::HPBarUpdate(float _CurHP, float _MaxHP)
+void ContentsUI::HPBarUpdate(float _CurHP, float _MaxHP, float _DeltaTime)
 {
 	if (_CurHP <= 0)
 	{
 		return;
 	}
 
-	float HPratio = _CurHP / _MaxHP;
+	// 최종 목표 비율
+	float DesHPratio = _CurHP / _MaxHP;
+	// 최종 목표 비율 != 현재 증가시키고 있는 비율이 같지 않을 때, 현재 비율을 목표 비율까지 증가
+	if (DesHPratio != CurHPratio_)
+	{
+		// 중간 목표 크기 = 현재 크기 ~ 최종 목표 크기까지 필요한 크기를 쪼개서 받음
+		float4 LerpScale = float4::Lerp(HPBarScale_.x * CurHPratio_, HPBarScale_.x * DesHPratio, _DeltaTime * 3.f);
+		// 현재 비율 = 현재 비율 ~ 최종 목표 비율까지 필요한 비율을 조개서 받음 
+		CurHPratio_ = float4::Lerp(float4{ CurHPratio_, 0.f, 0.f, 0.f }, float4{ DesHPratio, 0.f, 0.f, 0.f}, _DeltaTime * 3.f).x;
+		// 최종 목표 크기가 될 때까지 중간 목표 크기로 크기 조정 
+		HpBar_->GetTransform().SetLocalScale({ LerpScale.x, HPBarScale_.y });
+	}
 
-	HpBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio, HPBarScale_.y});
+
+	//HpBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio, HPBarScale_.y });
 }
 
-void ContentsUI::MPBarUpdate(float _CurMP, float _MaxMP)
+void ContentsUI::MPBarUpdate(float _CurMP, float _MaxMP, float _DeltaTime)
 {
 	if (_CurMP <= 0)
 	{
 		return;
 	}
 
-	float MPratio = _CurMP / _MaxMP;
+	// 최종 목표 비율
+	float DesMPratio = _CurMP / _MaxMP;
+	// 최종 목표 비율 != 현재 증가시키고 있는 비율이 같지 않을 때, 현재 비율을 목표 비율까지 증가
+	if (DesMPratio != CurMPratio_)
+	{
+		// 중간 목표 크기 = 현재 크기 ~ 최종 목표 크기까지 필요한 크기를 쪼개서 받음
+		float4 LerpScale = float4::Lerp(MPBarScale_.x * CurMPratio_, MPBarScale_.x * DesMPratio, _DeltaTime * 3.f);
+		// 현재 비율 = 현재 비율 ~ 최종 목표 비율까지 필요한 비율을 조개서 받음 
+		CurMPratio_ = float4::Lerp(float4{ CurMPratio_, 0.f, 0.f, 0.f }, float4{ DesMPratio, 0.f, 0.f, 0.f }, _DeltaTime * 3.f).x;
+		// 최종 목표 크기가 될 때까지 중간 목표 크기로 크기 조정 
+		MpBar_->GetTransform().SetLocalScale({ LerpScale.x, MPBarScale_.y });
+	}
 
-	MpBar_->GetTransform().SetLocalScale({ MPBarScale_.x * MPratio, MPBarScale_.y });
+	//float MPratio = _CurMP / _MaxMP;
+	//MpBar_->GetTransform().SetLocalScale({ MPBarScale_.x * MPratio, MPBarScale_.y });
 }
 
 void ContentsUI::ExpBarUpdate(float _CurExp, float _MaxExp)
@@ -87,14 +115,14 @@ void ContentsUI::ExpBarUpdate(float _CurExp, float _MaxExp)
 	ExpBar_->GetTransform().SetLocalScale({ ExpBarScale_.x * Expratio, ExpBarScale_.y });
 }
 
-void ContentsUI::MainBarScaleUpdate()
+void ContentsUI::MainBarScaleUpdate(float _DeltaTime)
 {
 	CurHP_ = Player::MainPlayer_->GetHP();
 	CurMP_ = Player::MainPlayer_->GetMP();
 	CurExp_ = Player::MainPlayer_->GetExp();
 
-	HPBarUpdate(CurHP_, Player::MainPlayer_->GetMaxHP());
-	MPBarUpdate(CurMP_, Player::MainPlayer_->GetMaxMP());
+	HPBarUpdate(CurHP_, Player::MainPlayer_->GetMaxHP(), _DeltaTime);
+	MPBarUpdate(CurMP_, Player::MainPlayer_->GetMaxMP(), _DeltaTime);
 	ExpBarUpdate(CurExp_, Player::MainPlayer_->GetMaxExp());
 
 	if (60.f == CurExp_)
@@ -252,7 +280,7 @@ void ContentsUI::Update(float _DeltaTime)
 	GameExit();
 
 	CamPos_ = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	MainBarScaleUpdate();
+	MainBarScaleUpdate(_DeltaTime);
 	LevelImageUpdate();
 
 	// 6번키까지
@@ -274,7 +302,7 @@ void ContentsUI::Update(float _DeltaTime)
 			break;
 		}
 	}
-
+	Time_ += _DeltaTime;
 }
 
 void ContentsUI::GameExit()

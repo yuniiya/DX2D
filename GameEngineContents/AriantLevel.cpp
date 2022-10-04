@@ -88,7 +88,7 @@ void AriantLevel::LevelStartEvent()
 	else
 	{
 		GameBgmPlayer::BgmPlay_->Stop();
-		//GameBgmPlayer::BgmPlay_->ChangeBgm("Ariant.mp3");
+		GameBgmPlayer::BgmPlay_->ChangeBgm("Ariant.mp3");
 	}
 
 	if (nullptr != Player::MainPlayer_)
@@ -103,127 +103,127 @@ void AriantLevel::LevelStartEvent()
 
 	//// ======= Å×½ºÆ® ==========
 
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->SetItemType(ItemType::ITEM_MP300);
-		ItemActor->PotionRendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3000.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->SetItemType(ItemType::ITEM_MP300);
-		ItemActor->PotionRendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3050.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->SetItemType(ItemType::ITEM_HP300);
-		ItemActor->PotionRendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3100.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->SetItemType(ItemType::ITEM_HP300);
-		ItemActor->PotionRendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3150.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3200.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->SetItemType(ItemType::ITEM_MP300);
+	//	ItemActor->PotionRendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3000.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->SetItemType(ItemType::ITEM_MP300);
+	//	ItemActor->PotionRendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3050.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->SetItemType(ItemType::ITEM_HP300);
+	//	ItemActor->PotionRendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3100.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->SetItemType(ItemType::ITEM_HP300);
+	//	ItemActor->PotionRendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3150.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3200.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
 
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3250.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3250.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
 
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3280.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::BabyCactus;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3280.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
 
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3310.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3310.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
 
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3340.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3370.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::WhiteRabbit;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3400.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::Freezer;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3430.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::Sparker;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3460.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::Scorpion;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3490.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::Sand;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3520.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
-	{
-		Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
-		ItemActor->MonsterName_ = MONSTERNAME::None;
-		ItemActor->RendererTypeSetting();
-		ItemActor->GetTransform().SetLocalPosition(float4{ 3550.f, -800.f, (int)ZOrder::ITEM });
-		ItemActor->TimeAttackStart();
-	}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3340.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::BrownRabbit;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3370.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::WhiteRabbit;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3400.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::Freezer;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3430.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::Sparker;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3460.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::Scorpion;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3490.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::Sand;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3520.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
+	//{
+	//	Item* ItemActor = CreateActor<Item>(GAMEOBJGROUP::OBJ);
+	//	ItemActor->MonsterName_ = MONSTERNAME::None;
+	//	ItemActor->RendererTypeSetting();
+	//	ItemActor->GetTransform().SetLocalPosition(float4{ 3550.f, -800.f, (int)ZOrder::ITEM });
+	//	ItemActor->TimeAttackStart();
+	//}
 
 
-	Meso* MesoActor = CreateActor<Meso>(GAMEOBJGROUP::OBJ);
-	MesoActor->GetTransform().SetLocalPosition(float4{ 3220.f, -800.f, (int)ZOrder::ITEM });
-	MesoActor->TimeAttackStart();
+	//Meso* MesoActor = CreateActor<Meso>(GAMEOBJGROUP::OBJ);
+	//MesoActor->GetTransform().SetLocalPosition(float4{ 3220.f, -800.f, (int)ZOrder::ITEM });
+	//MesoActor->TimeAttackStart();
 }
 
 void AriantLevel::LevelEndEvent()

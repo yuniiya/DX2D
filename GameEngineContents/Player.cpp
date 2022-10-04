@@ -65,8 +65,8 @@ Player::Player()
 	, CurSkill_(PLAYERSKILL::MAX)
 	, ChoA_Renderer_(nullptr)
 	, ChoB_Renderer_(nullptr)
-	, CurHP_(50.f)
-	, CurMP_(50.f)
+	, CurHP_(80.f)
+	, CurMP_(80.f)
 	, CurExp_(60.f)
 	, Atk_(5000)
 	, PrevPosition_(Position_)
@@ -123,6 +123,8 @@ Player::Player()
 	, IsSinA_(false)
 	, IsSinB_(false)
 	, IsSinC_(false)
+	, IsAddHP_(true)
+	, IsAddMP_(true)
 {	
 }	
 
@@ -152,11 +154,41 @@ void Player::TakeDamage(float _Damage)
 {
 	if (CurHP_ <= 0)
 	{
-		StateManager.ChangeState("Die");
-		return;
+		CurHP_ = 5.f;
+	/*	StateManager.ChangeState("Die");
+		return;*/
 	}
 
 	CurHP_ = CurHP_ - _Damage;
+//	ContentsUI::MainUI_->HPBarUpdate(CurHP_, GetMaxHP());
+}
+
+void Player::UseMP(float _MP)
+{
+	CurMP_ = CurMP_ - _MP;
+//	ContentsUI::MainUI_->MPBarUpdate(CurMP_, GetMaxMP());
+}
+
+void Player::AddHP(float _HP)
+{
+	if (CurHP_ + _HP >= MaxHP_)
+	{
+		CurHP_ = 100.f;
+		return;
+	}
+	CurHP_ = CurHP_ + _HP;
+//	ContentsUI::MainUI_->HPBarUpdate(CurHP_, GetMaxHP());
+}
+
+void Player::AddMP(float _MP)
+{
+	if (CurMP_ + _MP >= MaxMP_)
+	{
+		CurMP_ = 100.f;
+		return;
+	}
+	CurMP_ = CurMP_ + _MP;
+//	ContentsUI::MainUI_->MPBarUpdate(CurMP_, GetMaxMP());
 }
 
 void Player::Start()
@@ -536,6 +568,9 @@ void Player::Start()
 
 	//TakeDamage(50.f);
 	//UseMP(50.f);
+	//ContentsUI::MainUI_->HPBarUpdate(CurHP_, GetMaxHP());
+	//ContentsUI::MainUI_->MPBarUpdate(CurMP_, GetMaxMP());
+
 
 }
 

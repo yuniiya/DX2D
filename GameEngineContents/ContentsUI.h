@@ -21,10 +21,10 @@ public:
 	ContentsUI& operator=(ContentsUI&& _Other) noexcept = delete;
 
 public:
-	void HPBarUpdate(float _CurHP, float _MaxHP);
-	void MPBarUpdate(float _CurMP, float _MaxMP);
+	void HPBarUpdate(float _CurHP, float _MaxHP, float _DeltaTime);
+	void MPBarUpdate(float _CurMP, float _MaxMP, float _DeltaTime);
 	void ExpBarUpdate(float _CurExp, float _MaxExp);
-	void MainBarScaleUpdate();
+	void MainBarScaleUpdate(float _DeltaTime);
 	void LevelImageUpdate();
 
 	inline QuickSlotItem* GetQuickSlotItem()
@@ -76,6 +76,10 @@ private:
 	float CurHP_;
 	float CurMP_;
 	float CurExp_;
+	float Time_;
+
+	float CurHPratio_;
+	float CurMPratio_;
 
 	int SlotKey_;
 	int SlotKey_1;
@@ -83,6 +87,9 @@ private:
 	
 	bool IsExitNoticeOn_;
 	bool IsExitOn_;
+
+	bool IsHPDone_;
+	bool IsMPDone_;
 private:
 	GameEngineUIRenderer* MainBar_;
 	GameEngineUIRenderer* BarBgr_1;

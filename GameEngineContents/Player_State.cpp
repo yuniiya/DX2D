@@ -161,6 +161,8 @@ void Player::DieStart(const StateInfo& _Info)
 
 void Player::FlyingStart(const StateInfo& _Info)
 {
+	PlayerCollision_->On();
+
 	GameEngineSound::SoundPlayOneShot("Jump.mp3");
 	PlayerRenderer_->ChangeFrameAnimation("Flying");
 }
@@ -649,9 +651,10 @@ void Player::DamagedUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			MoveDir_ -= float4{ 0.f, 1.f, 0.f } *2.f;
 		}
-		if (1.f < _Info.StateTime)
+		if (0.3f < _Info.StateTime)
 		{
-			MoveDir_ = float4{ 0.f, -50.f, 0.f };
+			//MoveDir_ = float4{ 0.f, -90.f, 0.f };
+			MoveDir_ = 0.f;
 			StateManager.ChangeState("Flying");
 			return;
 		}

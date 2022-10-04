@@ -942,39 +942,6 @@ void Shop::SellItem()
 		
 					// 3) 판매한 아이템 내 상점에서 제외
 					ShopMyItemsList_Potion[i]->SetShopItemCount(ShopMyItemsList_Potion[i]->GetCount() - 1);
-	
-					for (size_t j = 0; j < ShopMyItemsList_Potion.size(); j++)
-					{
-						if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType())
-						{
-							continue;
-						}
-
-						ShopMyItemsList_Potion[Count_]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
-						ShopMyItemsList_Potion[Count_]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
-						ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
-							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
-							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
-						ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
-							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
-							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
-
-						ShopMyItemsList_Potion[Count_]->SetShopItemCount(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetCount());
-						ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
-						ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
-							ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
-							-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
-
-						ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
-						ShopMyItemsList_Potion[Count_]->GetCollision()->On();
-						ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
-						ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
-
-						++Count_;
-					}
-
-					Count_ = 0;
-
 
 					if (ShopMyItemsList_Potion[i]->GetCount() <= 0)
 					{
@@ -989,43 +956,54 @@ void Shop::SellItem()
 					}
 
 
-					//// 4) 판매한 아이템 위쪽에 빈 칸이 있는지 검사
-					//for (size_t j = i - 1; j < ShopMyItemsList_Potion.size(); j++)
-					//{
-					//	// 이전 아이템이 빈 칸이 아니i다
-					//	if (ItemType::MAX != ShopMyItemsList_Potion[j]->GetItemType())
-					//	{
-					//		continue;
-					//	}
+				//	// 3) 판매한 아이템 내 상점에서 제외
+				//	ShopMyItemsList_Potion[i]->SetShopItemCount(ShopMyItemsList_Potion[i]->GetCount() - 1);
+	
+				//	for (size_t j = 0; j < ShopMyItemsList_Potion.size(); j++)
+				//	{
+				//		if (ItemType::MAX == Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType())
+				//		{
+				//			continue;
+				//		}
 
-					//	// 이전 아이템이 빈 칸이다 -> j(이전 아이템)을 i로 교체, 
-					//	ShopMyItemsList_Potion[Count_]->SetItemType(ShopMyItemsList_Potion[j]->GetItemType());
-					//	ShopMyItemsList_Potion[Count_]->SetShopItemInfo(ShopMyItemsList_Potion[j]->GetItemType());
-					//	// 이름
-					//	ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
-					//		ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
-					//		-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
-					//	// 가격
-					//	ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
-					//		ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
-					//		-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
-					//	// 개수
-					//	ShopMyItemsList_Potion[Count_]->SetShopItemCount(ShopMyItemsList_Potion[j]->GetCount());
-					//	ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
-					//	ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
-					//		ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
-					//		-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
+				//		ShopMyItemsList_Potion[Count_]->SetItemType(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+				//		ShopMyItemsList_Potion[Count_]->SetShopItemInfo(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetItemType());
+				//		ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->SetScreenPostion({
+				//			ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+				//			-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 422.f });
+				//		ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->SetScreenPostion({
+				//			ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 745.f,
+				//			-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 438.f });
 
-					//	ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
-					//	ShopMyItemsList_Potion[Count_]->GetCollision()->On();
-					//	ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
-					//	ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
-					//	//	ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->On();
+				//		ShopMyItemsList_Potion[Count_]->SetShopItemCount(Inventory::MainInventory_->GetInventoryListPotion()[j]->GetCount());
+				//		ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetText(std::to_string(ShopMyItemsList_Potion[Count_]->GetCount()));
+				//		ShopMyItemsList_Potion[Count_]->GetShopItemCountFont()->GetNormalFontRenderer()->SetScreenPostion({
+				//			ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().x + 701.f,
+				//			-ShopMyItemsList_Potion[Count_]->GetTransform().GetLocalPosition().y + 439.f });
 
-					//	++Count_;
-					//}
+				//		ShopMyItemsList_Potion[Count_]->GetRenderer()->On();
+				//		ShopMyItemsList_Potion[Count_]->GetCollision()->On();
+				//		ShopMyItemsList_Potion[Count_]->GetItemNameFont()->GetNormalFontRenderer()->On();
+				//		ShopMyItemsList_Potion[Count_]->GetItemCostFont()->GetNormalFontRenderer()->On();
 
-					//Count_ = 0;
+				//		++Count_;
+				//	}
+
+				//	Count_ = 0;
+
+
+				//	if (ShopMyItemsList_Potion[i]->GetCount() <= 0)
+				//	{
+				//		ShopMyItemsList_Potion[i]->SetItemType(ItemType::MAX);
+				//		ShopMyItemsList_Potion[i]->GetCollision()->Off();
+				//		ShopMyItemsList_Potion[i]->GetItemNameFont()->GetNormalFontRenderer()->Off();
+				//		ShopMyItemsList_Potion[i]->GetItemCostFont()->GetNormalFontRenderer()->Off();
+				//		ShopMyItemsList_Potion[i]->GetShopItemCountFont()->GetNormalFontRenderer()->Off();
+				//		ShopMyItemsList_Potion[i]->GetSelectMyItemRenderer()->Off();
+
+				//		break;
+				//	}
+
 				}
 
 			}
