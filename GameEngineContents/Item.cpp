@@ -33,9 +33,9 @@ void Item::TimeAttackStart()
 	IsCreate = true;
 }
 
-void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
+void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer, float _DeltaTime)
 {
-	PickUpItem(_Renderer);
+	PickUpItem(_Renderer, _DeltaTime);
 
 	if (nullptr == _Renderer)
 	{
@@ -49,7 +49,7 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 
 	if (Time_ > 15.f)
 	{
-		_Renderer->GetPixelData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
+		_Renderer->GetPixelData().MulColor.a -= _DeltaTime * 1.8f;
 		
 		if (_Renderer->GetPixelData().MulColor.a < 0)
 		{
@@ -60,7 +60,7 @@ void Item::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 	}
 }
 
-void Item::UpDownMove()
+void Item::UpDownMove(float _DeltaTime)
 {
 	if (0.8f < MoveTime_)
 	{
@@ -76,10 +76,10 @@ void Item::UpDownMove()
 		MoveTime_ = 0.f;
 	}
 
-	GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
+	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 }
 
-void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
+void Item::PickUpItem(GameEngineTextureRenderer* _Renderer, float _DeltaTime)
 {
 	if (nullptr == this)
 	{
@@ -114,14 +114,14 @@ void Item::PickUpItem(GameEngineTextureRenderer* _Renderer)
 				MoveDir_ = { 40.f, 20.f };
 			}
 
-			GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
+			GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 
 		}
 
 	}
 }
 
-void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
+void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer, float _DeltaTime)
 {
 	if (_Renderer->GetPixelData().MulColor.a <= 0)
 	{
@@ -141,8 +141,8 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 	}
 	if (true == IsPick)
 	{
-		PickTime_ += GameEngineTime::GetDeltaTime();
-		_Renderer->GetPixelData().MulColor.a -= GameEngineTime::GetDeltaTime() * 3.f;
+		PickTime_ += _DeltaTime;
+		_Renderer->GetPixelData().MulColor.a -= _DeltaTime * 2.f;
 	}
 }
 
@@ -176,15 +176,15 @@ void Item::ChangeState(ItemMoveState _State)
 	CurState_ = _State;
 }
 
-void Item::ItemStateUpdate()
+void Item::ItemStateUpdate(float _DeltaTime)
 {
 	switch (CurState_)
 	{
 	case ItemMoveState::Drop:
-		DropUpdate();
+		DropUpdate(_DeltaTime);
 		break;
 	case ItemMoveState::Float:
-		FloatUpdate();
+		FloatUpdate(_DeltaTime);
 		break;
 	}
 }
@@ -201,10 +201,10 @@ void Item::FloatStart()
 	MoveDir_.y = 6.f;
 }
 
-void Item::DropUpdate()
+void Item::DropUpdate(float _DeltaTime)
 {
 	// 드롭 시간 체크
-	DropTime_ += GameEngineTime::GetDeltaTime();
+	DropTime_ += _DeltaTime;
 	// 픽셀 체크 결과 땅에 닿았으면 상태 체인지
 	if (true == IsGround)
 	{
@@ -213,8 +213,8 @@ void Item::DropUpdate()
 		return;
 	}
 
-	GetTransform().SetAddWorldRotation({ 0.f, 0.f, GameEngineTime::GetDeltaTime() * 1500.f });
-	GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
+	GetTransform().SetAddWorldRotation({ 0.f, 0.f, _DeltaTime * 1500.f });
+	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 	// 처음 만들어졌을 때, 위로 이동했다가 0.8초 후 아래로 다운
 	if (DropTime_ > 0.4f)
 	{
@@ -224,11 +224,11 @@ void Item::DropUpdate()
 	
 }
 
-void Item::FloatUpdate()
+void Item::FloatUpdate(float _DeltaTime)
 {
-	UpDownMove();
- 	PickUpItemCheck(Renderer_);
-	TimeAttackUpdate(Renderer_);
+	UpDownMove(_DeltaTime);
+ 	PickUpItemCheck(Renderer_, _DeltaTime);
+	TimeAttackUpdate(Renderer_, _DeltaTime);
 }
 
 void Item::Start()
@@ -240,13 +240,13 @@ void Item::Start()
 
 void Item::Update(float _DeltaTime)
 {
-	ItemStateUpdate();
+	ItemStateUpdate(_DeltaTime);
 
 	if (true == IsGround)
 	{
 		// 땅에 닿은 상태부터 소멸 시간 & 움직이는 시간을 잰다
-		Time_ += GameEngineTime::GetDeltaTime();
-		MoveTime_ += GameEngineTime::GetDeltaTime();
+		Time_ += _DeltaTime;
+		MoveTime_ += _DeltaTime;
 	}
 }
 

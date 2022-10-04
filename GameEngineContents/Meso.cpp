@@ -64,8 +64,13 @@ void Meso::Update(float _DeltaTime)
 	Item::Update(_DeltaTime);
 }
 
-void Meso::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
+void Meso::PickUpItemCheck(GameEngineTextureRenderer* _Renderer, float _DeltaTime)
 {
+	if (_Renderer->GetPixelData().MulColor.a <= 0)
+	{
+		_Renderer->GetPixelData().MulColor.a = 0;
+	}
+
 	// 다 주워졌다
 	if (PickTime_ > 0.5f)
 	{
@@ -76,21 +81,20 @@ void Meso::PickUpItemCheck(GameEngineTextureRenderer* _Renderer)
 		Inventory::MainInventory_->GetContentsFontMeso()->SetComma();
 
 		Death();	// 저장
-		_Renderer->GetPixelData().MulColor.a = 0;
 
 		PickTime_ = 0.f;
 		IsPick = false;
 	}
 	if (true == IsPick)
 	{
-		PickTime_ += GameEngineTime::GetDeltaTime();
-		_Renderer->GetPixelData().MulColor.a -= GameEngineTime::GetDeltaTime() * 3.f;
+		PickTime_ += _DeltaTime;
+		_Renderer->GetPixelData().MulColor.a -= _DeltaTime * 2.f;
 	}
 }
 
-void Meso::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
+void Meso::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer, float _DeltaTime)
 {
-	PickUpItem(_Renderer);
+	PickUpItem(_Renderer, _DeltaTime);
 
 	if (nullptr == _Renderer)
 	{
@@ -104,7 +108,7 @@ void Meso::TimeAttackUpdate(GameEngineTextureRenderer* _Renderer)
 
 	if (Time_ > 15.f)
 	{
-		_Renderer->GetPixelData().MulColor.a -= GameEngineTime::GetDeltaTime() * 1.8f;
+		_Renderer->GetPixelData().MulColor.a -= _DeltaTime * 1.8f;
 
 		if (_Renderer->GetPixelData().MulColor.a < 0)
 		{
@@ -125,10 +129,10 @@ void Meso::FloatStart()
 	Item::FloatStart();
 }
 
-void Meso::DropUpdate()
+void Meso::DropUpdate(float _DeltaTime)
 {
 	// 드롭 시간 체크
-	DropTime_ += GameEngineTime::GetDeltaTime();
+	DropTime_ += _DeltaTime;
 	// 픽셀 체크 결과 땅에 닿았으면 상태 체인지
 	if (true == IsGround)
 	{
@@ -136,7 +140,7 @@ void Meso::DropUpdate()
 		ChangeState(ItemMoveState::Float);
 		return;
 	}
-	GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
+	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 	// 처음 만들어졌을 때, 위로 이동했다가 0.8초 후 아래로 다운
 	if (DropTime_ > 0.4f)
 	{
@@ -145,11 +149,11 @@ void Meso::DropUpdate()
 	}
 }
 
-void Meso::FloatUpdate()
+void Meso::FloatUpdate(float _DeltaTime)
 {
-	UpDownMove();
-	PickUpItemCheck(Renderer_);
-	TimeAttackUpdate(Renderer_);
+	UpDownMove(_DeltaTime);
+	PickUpItemCheck(Renderer_, _DeltaTime);
+	TimeAttackUpdate(Renderer_, _DeltaTime);
 
 }
 

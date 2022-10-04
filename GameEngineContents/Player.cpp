@@ -21,7 +21,7 @@
 Player* Player::MainPlayer_ = nullptr;
 
 Player::Player()
-	: Speed_(200.0f)
+	: Speed_(230.0f)
 	, JumpPower_(200.f)
 	, DownPower_(0.0f)
 	, CurState_(PLAYERSTATE::IDLE)
@@ -91,7 +91,7 @@ Player::Player()
 	, IsLevelUp(false)
 	, LevelUpEffRenderer_(nullptr)
 	, LevelUpCollision_(nullptr)
-	, CurMeso_(10000)
+	, CurMeso_(20000)
 	, IsEntranceQuestClear_(false)
 	, IsCactusQuestOngoing_(false)
 	, IsCactusQuestClear_(false)

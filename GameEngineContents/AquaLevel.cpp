@@ -260,4 +260,5 @@ void AquaLevel::LevelEndEvent()
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
 	Mouse::MainMouse_->SetLevelOverOn();
+	Player::MainPlayer_->SetPlayerStateIdle();
 }

@@ -91,19 +91,19 @@ protected:
 	GameEngineTexture* GetCurMapTexture();
 	virtual bool StagePixelCheck();
 
-	virtual void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer);
-	virtual void UpDownMove();
-	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer);
-	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer);
+	virtual void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer, float _DeltaTime);
+	virtual void UpDownMove(float _DeltaTime);
+	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer, float _DeltaTime);
+	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer, float _DeltaTime);
 	virtual void ItemDrop();
 
 	virtual void ChangeState(ItemMoveState _State);
-	virtual void ItemStateUpdate();
+	virtual void ItemStateUpdate(float _DeltaTime);
 
 	virtual void DropStart();
 	virtual void FloatStart();
-	virtual void DropUpdate();
-	virtual void FloatUpdate();
+	virtual void DropUpdate(float _DeltaTime);
+	virtual void FloatUpdate(float _DeltaTime);
 
 protected:
 	bool IsCreate;

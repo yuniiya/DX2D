@@ -32,13 +32,13 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
-	void PickUpItemCheck(GameEngineTextureRenderer* _Renderer) override;
-	void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer) override;
+	void PickUpItemCheck(GameEngineTextureRenderer* _Renderer, float _DeltaTime) override;
+	void TimeAttackUpdate(GameEngineTextureRenderer* _Renderer, float _DeltaTime) override;
 
 	virtual void DropStart() override;
 	virtual void FloatStart() override;
-	virtual void DropUpdate() override;
-	virtual void FloatUpdate() override;
+	virtual void DropUpdate(float _DeltaTime) override;
+	virtual void FloatUpdate(float _DeltaTime) override;
 
 private:
 	GameEngineTextureRenderer* Renderer_;

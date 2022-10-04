@@ -110,7 +110,6 @@ void DesertLevel::LevelStartEvent()
 
 		if (true == Player::MainPlayer_->IsPrevLevel_)
 		{
-			Player::MainPlayer_->SetPlayerStateIdle();
 			Player::MainPlayer_->GetTransform().SetLocalPosition({ 1489.0f, -542.0f, (int)ZOrder::PLAYER });
 
 		}
