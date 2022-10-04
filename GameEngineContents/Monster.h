@@ -162,6 +162,7 @@ protected:
 	void BindAttackStartCheck(const FrameAnimation_DESC& _Info);
 	void BindAttackEndCheck(const FrameAnimation_DESC& _Info);
 	virtual void BindAttackEffectEndCheck(const FrameAnimation_DESC& _Info) {};
+	bool PixelCollisionMapUpdate(GlobalActor* _Actor, int _LeftRightPos, int _BottomPos) override;
 
 
 
@@ -191,6 +192,11 @@ protected:
 	float4 MonsterPos_;
 	float4 PrevPos_;
 	float4 RegenPos_;
+
+	float4 BottomLeftDownColor;
+	float4 BottomRightDownColor;
+	float4 LeftColor;
+	float4 RightColor;
 
 	MONSTERSTATE CurState_;
 	MONSTERSTATE PrevState_;

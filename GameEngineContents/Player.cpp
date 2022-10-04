@@ -715,7 +715,7 @@ bool Player::StagePixelCheck()
 	{
 		if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))													// 1-1) 발 조금 위가 땅이면 1픽셀 올린다
 		{
-			//Pos = float4{ 0.f, 1.f, 0.f };x
+			//Pos = float4{ 0.f, 1.f, 0.f };
 			GetTransform().SetWorldMove(float4::UP);
 		}
 	}

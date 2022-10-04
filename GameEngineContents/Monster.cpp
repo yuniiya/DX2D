@@ -50,6 +50,10 @@ Monster::Monster()
 	, RegenTime_(0.f)
 	, IsDeath(false)
 	, IsRegenEnd(false)
+	, BottomLeftDownColor(0.f)
+	, BottomRightDownColor(0.f)
+	, LeftColor(0.f)
+	, RightColor(0.f)
 {
 }
 
@@ -820,15 +824,6 @@ void Monster::ChaseUpdate()
 	MonsterPos_ = GetPosition();
 
 	CurDirCheck(PlayerPos_.x, MonsterPos_.x, 10.f);
-	//if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
-	//{
-	//	CurDir_ = ACTORDIR::LEFT;
-	//}
-	//else if (PlayerPos_.x > MonsterPos_.x)
-	//{
-	//	CurDir_ = ACTORDIR::RIGHT;
-	//}
-
 	if (7.f < ChaseTime_)
 	{
 		ChaseTime_ = 0.0f;
@@ -842,12 +837,32 @@ void Monster::DamagedUpdate()
 	// 플레이어가 몬스터 왼쪽에 있다
 	if (PlayerPos_.x < MonsterPos_.x)
 	{
-		MoveDir_ = { 18.f, 0.f };
+		// 오른쪽이 허공 or 땅이다
+		if (true == BottomRightDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
+			|| true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			MoveDir_ = 0.f;
+		}
+		else
+		{
+			// 허공이 아닌 동안 오른쪽으로 넉백
+			MoveDir_ = { 18.f, 0.f };
+		}
 	}
 	else if (PlayerPos_.x > MonsterPos_.x)
 	{
 		// 몬스터 오른쪽에 있다
-		MoveDir_ = { -18.f, 0.f };
+		// 왼쪽이 허공 or 땅이다
+		if (true == BottomLeftDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })
+			|| true == LeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			MoveDir_ = 0.f;
+		}
+		else
+		{
+			// 허공이 아닌 동안 왼쪽으로 넉백
+			MoveDir_ = { -18.f, 0.f };
+		}
 	}
 
 	GetTransform().SetLocalMove({ MoveDir_ * GameEngineTime::GetDeltaTime() });
@@ -867,14 +882,6 @@ void Monster::AttackUpdate()
 	}
 
 	CurDirCheck(PlayerPos_.x, MonsterPos_.x, 10.f);
-	//if (PlayerPos_.x < MonsterPos_.x)	// 플레이어가 왼쪽에 있다
-	//{
-	//	CurDir_ = ACTORDIR::LEFT;
-	//}
-	//else if (PlayerPos_.x > MonsterPos_.x)
-	//{
-	//	CurDir_ = ACTORDIR::RIGHT;
-	//}
 
 	IsAttack = true;
 }
@@ -907,7 +914,6 @@ void Monster::BindMonsterDeathCheck(const FrameAnimation_DESC& _Info)
 	MesoActor->GetTransform().SetLocalPosition({ GetPosition().x + 10.f, GetPosition().y - 14.f, (int)ZOrder::ITEM });
 	MesoActor->TimeAttackStart();
 
-	//Death();
 	ChangeState(MONSTERSTATE::REGEN);
 	return;
 
@@ -933,5 +939,139 @@ void Monster::BindAttackStartCheck(const FrameAnimation_DESC& _Info)
 void Monster::BindAttackEndCheck(const FrameAnimation_DESC& _Info)
 {
 	IsAttackEnd = true;
+}
+
+bool Monster::PixelCollisionMapUpdate(GlobalActor* _Actor, int _LeftRightPos, int _BottomPos)
+{
+	float4 Pos = 0.0f;
+
+	MapTexture_ = GetLevel<GlobalLevel>()->GetCollisionMap()->GetCurTexture();
+
+	if (nullptr == MapTexture_)
+	{
+		MsgBoxAssert("충돌맵이 설정되지 않았습니다");
+	}
+
+	float4 BottomColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix())
+		, -(GetTransform().GetWorldPosition().iy() + _BottomPos));
+
+	LeftColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - _LeftRightPos
+		, -(GetTransform().GetWorldPosition().iy()));
+
+	RightColor = MapTexture_->GetPixelToFloat4(_Actor->GetTransform().GetWorldPosition().ix() + _LeftRightPos
+		, -(GetTransform().GetWorldPosition().iy()));
+
+	BottomLeftDownColor = MapTexture_->GetPixelToFloat4(_Actor->GetTransform().GetWorldPosition().ix() - _LeftRightPos
+		, -((GetTransform().GetWorldPosition().iy() + (_BottomPos - 20))));
+
+	BottomRightDownColor = MapTexture_->GetPixelToFloat4(_Actor->GetTransform().GetWorldPosition().ix() + _LeftRightPos
+		, -((GetTransform().GetWorldPosition().iy()) + (_BottomPos - 20)));
+
+	float4 BottomLeftUpColor = MapTexture_->GetPixelToFloat4(GetTransform().GetWorldPosition().ix() - _LeftRightPos
+		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10));	// 발보다 조금위
+
+	float4 BottomRightUpColor = MapTexture_->GetPixelToFloat4((GetTransform().GetWorldPosition().ix() + _LeftRightPos)
+		, (-GetTransform().GetWorldPosition().iy()) + (_BottomPos + 10));	// 발보다 조금위
+
+	float4 BottomUpColor = MapTexture_->GetPixelToFloat4((_Actor->GetTransform().GetWorldPosition().ix())
+		, -((GetTransform().GetWorldPosition().iy()) + _BottomPos + 2));
+
+	float4 BottomDownColor = MapTexture_->GetPixelToFloat4((_Actor->GetTransform().GetWorldPosition().ix())
+		, -((GetTransform().GetWorldPosition().iy() + _BottomPos) - 70));
+
+
+	// 발 밑 조금 위가 땅에 박혔을 때
+	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+	{
+		//if (true == BottomLeftUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		//	|| true == BottomRightUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
+		{
+			Pos = float4{ 0.f, 1.f, 0.f };
+			GetTransform().SetWorldMove(Pos);
+		}
+	}
+
+
+	// 허공 => 내려준다
+	if (true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f })		// 흰색
+		|| true == BottomColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })	// 투명
+		|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 1.f, 1.f })	// 마젠타
+		|| true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 1.f, 1.f }))	// 레드
+	{
+
+		// 땅, 레더, 로프 => 올려준다
+		if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+			|| true == BottomColor.CompareInt4D(float4{ 0.f, 1.f, 0.f, 1.f })
+			|| true == BottomColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f }))
+		{
+			Pos = float4{ 0.f, 2.f, 0.f };
+			GetTransform().SetWorldMove(Pos);
+		}
+		else
+		{
+			DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 2.f;
+			GetTransform().SetWorldMove(DownPower_);
+		}
+
+	}
+	else
+	{
+		DownPower_ = 0.0f;
+	}
+
+	// 떠있는 지형 위에서 옆이 허공일 때
+	if (true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))				// 발 밑이 땅
+	{
+		// Damage상태일 때는 DamagedUpdate에서 따로 처리
+		if (CurState_ != MONSTERSTATE::DAMAGED)
+		{
+			if (true == BottomLeftDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f }))		// 발 밑이 땅, 발 밑에서 옆이 허공
+			{
+				Pos = float4{ 1.f, 0.f, 0.f };
+				GetTransform().SetWorldMove(Pos);
+
+				//SetDir(ACTORDIR::RIGHT);
+				if (CurState_ != MONSTERSTATE::CHASE)
+				{
+					CurDir_ = ACTORDIR::RIGHT;
+				}
+
+			}
+			else if (true == BottomRightDownColor.CompareInt4D(float4{ 1.f, 1.f, 1.f, 1.f }))
+			{
+				Pos = float4{ -1.f, 0.f, 0.f };
+				GetTransform().SetWorldMove(Pos);
+
+				if (CurState_ != MONSTERSTATE::CHASE)
+				{
+					CurDir_ = ACTORDIR::LEFT;
+				}
+			}
+		}
+	}
+
+	// 맵 외곽
+	// Damage상태일 때는 DamagedUpdate에서 따로 처리
+	if (CurState_ != MONSTERSTATE::DAMAGED)
+	{
+		if (true == LeftColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			Pos = float4{ 1.f, 0.f, 0.f };
+			GetTransform().SetWorldMove(Pos);
+
+			CurDir_ = ACTORDIR::RIGHT;
+		}
+
+		if (true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			Pos = float4{ -1.f, 0.f, 0.f };
+			GetTransform().SetWorldMove(Pos);
+
+			CurDir_ = ACTORDIR::LEFT;
+		}
+	}
+
+	return true;
 }
 

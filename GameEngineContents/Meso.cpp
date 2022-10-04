@@ -145,6 +145,9 @@ void Meso::DropUpdate(float _DeltaTime)
 	if (DropTime_ > 0.4f)
 	{
 		MoveDir_.y -= 15.f;
+	}
+	if (DropTime_ > 0.7f)
+	{
 		StagePixelCheck();
 	}
 }

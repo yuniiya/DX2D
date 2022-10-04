@@ -17,6 +17,7 @@ Item::Item()
 	, MapTexture_(nullptr)
 	, IsGround(false)
 	, CurState_(ItemMoveState::MAX)
+	, DropTime_(0.f)
 {
 	ItemState_.ItemType_ = ItemType::MAX;
 	ItemState_.Count_ = 0;
@@ -219,9 +220,11 @@ void Item::DropUpdate(float _DeltaTime)
 	if (DropTime_ > 0.4f)
 	{
 		MoveDir_.y -= 15.f;
+	}
+	if (DropTime_ > 0.7f)
+	{
 		StagePixelCheck();
 	}
-	
 }
 
 void Item::FloatUpdate(float _DeltaTime)
@@ -282,6 +285,10 @@ bool Item::StagePixelCheck()
 		|| true == RightColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 		|| true == DownColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
 		|| true == UpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f })
+		|| true == LeftColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })
+		|| true == RightColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })
+		|| true == DownColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })
+		|| true == UpColor.CompareInt4D(float4{ 1.f, 0.f, 0.f, 1.f })
 		)
 	{
 		IsGround = true;

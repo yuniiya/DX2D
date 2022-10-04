@@ -61,27 +61,27 @@ void AquaLevel::Start()
 	}
 	{
 		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
-		Obj_->CreateXMoveAnimaition("Fish0", "Fish0", 0.5f, 0.2f, { 900.f, -80.f }, {326.f, 65.f}, ACTORDIR::LEFT);
+		Obj_->CreateXMoveAnimaition("Fish0", "Fish0", 0.5f, 0.1f, { 900.f, -80.f }, {326.f, 65.f}, ACTORDIR::LEFT);
 	}
 	{
 		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
-		Obj_->CreateXMoveAnimaition("Fish1", "Fish1", 0.5f, 0.35f, { 1200.f, -200.f }, { 402.f, 67.f }, ACTORDIR::LEFT);
+		Obj_->CreateXMoveAnimaition("Fish1", "Fish1", 0.5f, 0.25f, { 1200.f, -200.f }, { 402.f, 67.f }, ACTORDIR::LEFT);
 	}
 	{
 		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
-		Obj_->CreateXMoveAnimaition("Fish2", "Fish2", 0.5f, 0.45f, { 200.f, -380.f }, { 362.f, 86.f }, ACTORDIR::RIGHT);
+		Obj_->CreateXMoveAnimaition("Fish2", "Fish2", 0.5f, 0.35f, { 200.f, -380.f }, { 362.f, 86.f }, ACTORDIR::RIGHT);
 	}
 	{
 		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
-		Obj_->CreateXMoveAnimaition("Turtle1", "Turtle1", 0.2f, 0.25f, { 200.f, -340.f }, { 63.f, 38.f }, ACTORDIR::RIGHT);
+		Obj_->CreateXMoveAnimaition("Turtle1", "Turtle1", 0.2f, 0.15f, { 200.f, -340.f }, { 63.f, 38.f }, ACTORDIR::RIGHT);
 	}
 	{
 		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
-		Obj_->CreateXMoveAnimaition("Turtle0", "Turtle0", 0.2f, 0.25f, { 120.f, -365.f }, { 41.f, 25.f }, ACTORDIR::RIGHT);
+		Obj_->CreateXMoveAnimaition("Turtle0", "Turtle0", 0.2f, 0.15f, { 120.f, -365.f }, { 41.f, 25.f }, ACTORDIR::RIGHT);
 	}
 	{
 		MapObject* Obj_ = CreateActor<MapObject>((int)GAMEOBJGROUP::BACKGROUND);
-		Obj_->CreateXMoveAnimaition("Turtle0", "Turtle0", 0.2f, 0.25f, { 160.f, -300.f }, { 41.f, 25.f }, ACTORDIR::RIGHT);
+		Obj_->CreateXMoveAnimaition("Turtle0", "Turtle0", 0.2f, 0.15f, { 160.f, -300.f }, { 41.f, 25.f }, ACTORDIR::RIGHT);
 	}
 
 
