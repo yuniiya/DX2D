@@ -503,6 +503,13 @@ void Boss::CollisonCheck()
 			return;
 		}
 	}
+
+	if (true == Collision_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::LEVELUP, CollisionType::CT_OBB2D))
+	{
+		HP_ = 0.f;
+		ChangeState(BossState::Die);
+		return;
+	}
 }
 
 void Boss::IdleStart()
