@@ -147,7 +147,7 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer, float _DeltaTim
 	}
 }
 
-void Item::ItemDrop()
+void Item::ItemDrop(float _DeltaTime)
 {
 	MoveDir_.y = 220.f;
 	// 위로 이동했다가 0.8초 후 아래로 다운
@@ -156,7 +156,7 @@ void Item::ItemDrop()
 		IsCreate = false;
 		MoveDir_.y = -100.f; 
 	}
-	GetTransform().SetWorldMove(MoveDir_ * GameEngineTime::GetDeltaTime());
+	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 }
 
 void Item::ChangeState(ItemMoveState _State)
@@ -219,9 +219,9 @@ void Item::DropUpdate(float _DeltaTime)
 	// 처음 만들어졌을 때, 위로 이동했다가 0.8초 후 아래로 다운
 	if (DropTime_ > 0.4f)
 	{
-		MoveDir_.y -= 15.f;
+		MoveDir_.y -= 13.f;
 	}
-	if (DropTime_ > 0.7f)
+	if (DropTime_ > 0.6f)
 	{
 		StagePixelCheck();
 	}

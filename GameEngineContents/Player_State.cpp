@@ -63,18 +63,18 @@ void Player::ProneStabStart(const StateInfo& _Info)
 
 void Player::LadderStart(const StateInfo& _Info)
 {
+	PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 	PlayerRenderer_->ChangeFrameAnimation("LadderA");
 }
 
 void Player::RopeStart(const StateInfo& _Info)
 {
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 66.f, 78.f});
+	PlayerRenderer_->GetPixelData().MulColor = { 1.f, 1.f, 1.f };
 	PlayerRenderer_->ChangeFrameAnimation("RopeA");
 }
 
 void Player::DefaultAttackStart(const StateInfo& _Info)
 {
-//	PlayerRenderer_->GetTransform().SetLocalScale({ 94.f, 75.f });
 	PlayerRenderer_->ChangeFrameAnimation("DefaultAtt");
 }
 
@@ -209,10 +209,10 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("Attack"))
-	{
-		StateManager.ChangeState("DefaultAtt");
-	}
+	//if (true == GameEngineInput::GetInst()->IsPress("Attack"))
+	//{
+	//	StateManager.ChangeState("DefaultAtt");
+	//}
 
 	if (true == IsSkillKey())
 	{
@@ -430,11 +430,11 @@ void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("Attack"))
-	{
-		StateManager.ChangeState("ProneStab");
-		return;
-	}
+	//if (true == GameEngineInput::GetInst()->IsPress("Attack"))
+	//{
+	//	StateManager.ChangeState("ProneStab");
+	//	return;
+	//}
 }
 
 void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -445,11 +445,11 @@ void Player::ProneStabUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsUp("Attack"))
-	{
-		StateManager.ChangeState("Prone");
-		return;
-	}
+	//if (true == GameEngineInput::GetInst()->IsUp("Attack"))
+	//{
+	//	StateManager.ChangeState("Prone");
+	//	return;
+	//}
 }
 
 void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -555,11 +555,11 @@ void Player::RopeUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DefaultAttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsUp("Attack"))
-	{
-		StateManager.ChangeState("Idle");
-		return;
-	}
+	//if (true == GameEngineInput::GetInst()->IsUp("Attack"))
+	//{
+	//	StateManager.ChangeState("Idle");
+	//	return;
+	//}
 }
 
 void Player::SkillAttackUpdate(float _DeltaTime, const StateInfo& _Info)

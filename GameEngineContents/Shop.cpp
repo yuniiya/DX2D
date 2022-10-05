@@ -835,6 +835,7 @@ void Shop::BuyItem()
 				PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
 				CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
 				CurMesoFont_->SetComma();
+				Inventory::MainInventory_->MesoUpdate();
 				IsBuyButtonClick_ = false;
 
 				// 2) 인벤토리에 구매한 아이템 추가
@@ -915,6 +916,7 @@ void Shop::SellItem()
 					PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
 					CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
 					CurMesoFont_->SetComma();
+					Inventory::MainInventory_->MesoUpdate();
 					IsSellButtonClick_ = false;
 
 					// 2) 판매한 아이템 인벤토리에서 제외
@@ -1028,6 +1030,7 @@ void Shop::SellItem()
 					PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
 					CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
 					CurMesoFont_->SetComma();
+					Inventory::MainInventory_->MesoUpdate();
 					IsSellButtonClick_ = false;
 
 					// 2) 판매한 아이템 인벤토리에서 제외

@@ -95,7 +95,7 @@ protected:
 	virtual void UpDownMove(float _DeltaTime);
 	virtual void PickUpItem(GameEngineTextureRenderer* _Renderer, float _DeltaTime);
 	virtual void PickUpItemCheck(GameEngineTextureRenderer* _Renderer, float _DeltaTime);
-	virtual void ItemDrop();
+	virtual void ItemDrop(float _DeltaTime);
 
 	virtual void ChangeState(ItemMoveState _State);
 	virtual void ItemStateUpdate(float _DeltaTime);

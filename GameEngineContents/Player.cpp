@@ -21,7 +21,7 @@
 Player* Player::MainPlayer_ = nullptr;
 
 Player::Player()
-	: Speed_(230.0f)
+	: Speed_(280.0f)
 	, JumpPower_(200.f)
 	, DownPower_(0.0f)
 	, CurState_(PLAYERSTATE::IDLE)
@@ -155,18 +155,14 @@ void Player::TakeDamage(float _Damage)
 	if (CurHP_ <= 0)
 	{
 		CurHP_ = 5.f;
-	/*	StateManager.ChangeState("Die");
-		return;*/
 	}
 
 	CurHP_ = CurHP_ - _Damage;
-//	ContentsUI::MainUI_->HPBarUpdate(CurHP_, GetMaxHP());
 }
 
 void Player::UseMP(float _MP)
 {
 	CurMP_ = CurMP_ - _MP;
-//	ContentsUI::MainUI_->MPBarUpdate(CurMP_, GetMaxMP());
 }
 
 void Player::AddHP(float _HP)
@@ -177,7 +173,6 @@ void Player::AddHP(float _HP)
 		return;
 	}
 	CurHP_ = CurHP_ + _HP;
-//	ContentsUI::MainUI_->HPBarUpdate(CurHP_, GetMaxHP());
 }
 
 void Player::AddMP(float _MP)
@@ -188,7 +183,6 @@ void Player::AddMP(float _MP)
 		return;
 	}
 	CurMP_ = CurMP_ + _MP;
-//	ContentsUI::MainUI_->MPBarUpdate(CurMP_, GetMaxMP());
 }
 
 void Player::Start()
@@ -874,12 +868,10 @@ void Player::ObjectPixelCheck()
 			}
 			else if ("DESERT" == CurLevelName_)
 			{
-				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 1864.f, -776.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Cactus");
 			}
 			else if ("AQUA" == CurLevelName_)
 			{
-				//Player::MainPlayer_->GetTransform().SetLocalPosition({ 1489.f, -542.f, (int)ZOrder::PLAYER });
 				GEngine::ChangeLevel("Desert");
 			}
 

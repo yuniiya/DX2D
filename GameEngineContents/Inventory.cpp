@@ -462,6 +462,7 @@ void Inventory::InventoryOnOffCheck()
 			HeaderCollision_->On();
 
 			CurMesoFont_->GetNormalFontRenderer()->On();
+
 		//	CurMesoFont_->SetComma();
 
 			// 소비창이 켜졌을 때 -> 소비창만 On하고 다른건 다 Off
@@ -1007,6 +1008,13 @@ void Inventory::PushItem(Item* _Item)
 			break;
 		}
 	}
+}
+
+void Inventory::MesoUpdate()
+{
+	PlayerMeso_ = Player::MainPlayer_->GetPlayerMeso();
+	CurMesoFont_->GetNormalFontRenderer()->SetText(std::to_string(PlayerMeso_));
+	CurMesoFont_->SetComma();
 }
 
 

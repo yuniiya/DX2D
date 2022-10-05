@@ -43,6 +43,7 @@ public:
 	}
 
 	void PushItem(Item* _Item);
+	void MesoUpdate();
 
 	bool IsInvenOn;
 	bool IsCategoryOn_1;
