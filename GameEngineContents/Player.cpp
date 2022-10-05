@@ -201,6 +201,8 @@ void Player::Start()
 
 		GameEngineInput::GetInst()->CreateKey("Test", 'T');
 		GameEngineInput::GetInst()->CreateKey("Invincible", 'O');
+		GameEngineInput::GetInst()->CreateKey("HP", 'H');
+		GameEngineInput::GetInst()->CreateKey("MP", 'M');
 
 		// 점프 두번 => 초상비
 		// 여의선 인 Q
@@ -637,6 +639,16 @@ void Player::Update(float _DeltaTime)
 			IsInvincible_ = true;
 			MissRenderer_->On();
 		}
+	}
+
+	// Hp & Mp증가
+	if (true == GameEngineInput::GetInst()->IsDown("HP"))
+	{
+		AddHP(10.f);
+	}
+	if (true == GameEngineInput::GetInst()->IsDown("MP"))
+	{
+		AddMP(10.f);
 	}
 
 }
