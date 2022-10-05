@@ -219,7 +219,7 @@ void Item::DropUpdate(float _DeltaTime)
 	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 	// 처음 만들어졌을 때, 위로 이동했다가 0.8초 후 아래로 다운
 
-	MoveDir_.y -= 4500.f * _DeltaTime;
+	MoveDir_.y -= 3000.f * _DeltaTime;
 
 	if (DropTime_ > 0.3f)
 	{
