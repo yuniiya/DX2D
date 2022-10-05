@@ -192,7 +192,7 @@ void Item::ItemStateUpdate(float _DeltaTime)
 
 void Item::DropStart()
 {
-	MoveDir_.y = 210.f;
+	MoveDir_.y = 800.f;
 }
 
 void Item::FloatStart()
@@ -210,6 +210,7 @@ void Item::DropUpdate(float _DeltaTime)
 	if (true == IsGround)
 	{
 		MoveDir_ = 0.f;
+		DropTime_ = 0.f;
 		ChangeState(ItemMoveState::Float);
 		return;
 	}
@@ -217,14 +218,14 @@ void Item::DropUpdate(float _DeltaTime)
 	GetTransform().SetAddWorldRotation({ 0.f, 0.f, _DeltaTime * 1500.f });
 	GetTransform().SetWorldMove(MoveDir_ * _DeltaTime);
 	// 처음 만들어졌을 때, 위로 이동했다가 0.8초 후 아래로 다운
-	if (DropTime_ > 0.4f)
-	{
-		MoveDir_.y -= 13.f;
-	}
-	if (DropTime_ > 0.6f)
+
+	MoveDir_.y -= 4500.f * _DeltaTime;
+
+	if (DropTime_ > 0.3f)
 	{
 		StagePixelCheck();
 	}
+
 }
 
 void Item::FloatUpdate(float _DeltaTime)
