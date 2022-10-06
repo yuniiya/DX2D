@@ -151,7 +151,7 @@ void Boss::Start()
 	Renderer_->ChangeFrameAnimation("Idle");
 	ChangeState(BossState::Idle);
 
-	SetHP(1000.f);
+	SetHP(600.f);
 	SetMaxHP(HP_);
 	SetSpeed(Speed_);
 	SetPixelCheckPos(44, -113);
