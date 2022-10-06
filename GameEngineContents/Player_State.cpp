@@ -729,7 +729,7 @@ void Player::FlyingUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (0.01f < _Info.StateTime && false == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))
 	{
-		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 1.2f;
+		MoveDir_ -= float4{ 0.f, 1.f, 0.f } * 170.f * _DeltaTime;
 	}
 	else if (0.2f < _Info.StateTime)
 	{
@@ -742,12 +742,27 @@ void Player::FlyingUpdate(float _DeltaTime, const StateInfo& _Info)
 	
 	if (true == GameEngineInput::GetInst()->IsDown("Jump"))
 	{
-		MoveDir_.y = 180.f;
+		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			MoveDir_.y = 0.f;
+		}
+		else
+		{
+			MoveDir_.y = 180.f;
+
+		}
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
-		MoveDir_.y = 120.f;
+		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
+		{
+			MoveDir_.y = 0.f;
+		}
+		else
+		{
+			MoveDir_.y = 120.f;
+		}
 	}
 	else if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{

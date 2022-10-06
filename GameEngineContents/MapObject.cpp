@@ -80,7 +80,7 @@ void MapObject::Update(float _DeltaTime)
 		else
 		{
 			// 나가기 전까지는 이동
-			XMoveRenderer_->GetTransform().SetLocalMove({ MoveSpeed_, 0.f * _DeltaTime });
+			XMoveRenderer_->GetTransform().SetLocalMove(float4{ MoveSpeed_, 0.f } *_DeltaTime);
 		}
 	}
 
@@ -95,7 +95,7 @@ void MapObject::Update(float _DeltaTime)
 		else
 		{
 			// 나가기 전까지는 이동
-			XMoveRenderer_->GetTransform().SetLocalMove({ MoveSpeed_, 0.f * _DeltaTime });
+			XMoveRenderer_->GetTransform().SetLocalMove(float4{ MoveSpeed_, 0.f} * _DeltaTime );
 		}
 	}
 }
