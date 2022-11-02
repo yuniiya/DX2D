@@ -72,7 +72,7 @@ LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARA
         }
         else
         {
-            const bool wasPressed = lParam & 0x40000000;
+            const bool wasPressed = lParam & 0x40000000;    // 키를 꾹 누르고 있다
             if (!wasPressed)
             {
                 KeyboardClass::GetInst().OnChar(ch);

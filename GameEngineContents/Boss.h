@@ -157,6 +157,7 @@ private:
 	bool IsCreateHat_;
 	bool IsRedHat_;
 	bool IsBlueHat_;
+	bool IsAttSoundPlay_;
 
 	float CreateHatTime_; 
 	float TypeChangeTime_;

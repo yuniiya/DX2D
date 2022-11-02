@@ -34,6 +34,7 @@ Boss::Boss()
 	, IsRedHat_(false)
 	, IsBlueHat_(false)
 	, DamageAmount_(25)
+	, IsAttSoundPlay_(false)
 {
 }
 
@@ -206,6 +207,11 @@ void Boss::Update(float _DeltaTime)
 		}
 	}
 
+	if (true == IsAttSoundPlay_)
+	{
+		GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
+		IsAttSoundPlay_ = false;
+	}
 	// 20초마다 상태 체인지
 	BossTypeChange();
 }
@@ -1098,7 +1104,7 @@ void Boss::BindBossAttackFrame(const FrameAnimation_DESC& _Info)
 	{
 		if (1 == _Info.CurFrame)
 		{
-			GameEngineSound::SoundPlayOneShot("BossAttack1.mp3");
+			IsAttSoundPlay_ = true;
 		}
 		else if (5 == _Info.CurFrame)
 		{
@@ -1123,7 +1129,7 @@ void Boss::BindBossAttackFrame(const FrameAnimation_DESC& _Info)
 	{
 		if (1 == _Info.CurFrame)
 		{
-			GameEngineSound::SoundPlayOneShot("RedAttack1.mp3");
+			IsAttSoundPlay_ = true;
 		}
 		else if (3 == _Info.CurFrame)
 		{

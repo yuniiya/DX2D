@@ -139,24 +139,9 @@ void TextArea::Update(float _DeltaTime)
 
 	if (!InputText_.empty())
 	{
-		//for (int Count = 0; Count < InputText_.size(); )
-		//{
-		//	std::string SubStr = InputText_.substr(Count, 1);
-		//	// 영어가 아니다
-		//	if (SubStr.size() != 1)
-		//	{
-		//		return;
-		//	}
-		//	else
-		//	{
-		//		break;
-		//	}
-		//}
-		
 		IsTextOn_ = true;
 		TextRenderer_->On();
 		SetBkMode(GameEngineWindow::GetHDC(), TRANSPARENT);
-		//TempText = InputText_;
 		// 입력 받은 텍스트가 있다면 출력
 		if (TextType_ == LoginTextType::PW)
 		{
@@ -172,7 +157,6 @@ void TextArea::Update(float _DeltaTime)
 		{
 			TextRenderer_->SetText(InputText_);
 		}
-	//	TextRenderer_->SetText(InputText_.c_str());
 
 		if (true == caretshow_)
 		{

@@ -140,7 +140,9 @@ bool QuickSlotItem::SlotKeyInputCheck()
 	if (true == GameEngineInput::GetInst()->IsDown("1")
 		|| true == GameEngineInput::GetInst()->IsDown("2")
 		|| true == GameEngineInput::GetInst()->IsDown("3")
-		|| true == GameEngineInput::GetInst()->IsDown("4"))
+		|| true == GameEngineInput::GetInst()->IsDown("4")
+		|| true == GameEngineInput::GetInst()->IsDown("5")
+		|| true == GameEngineInput::GetInst()->IsDown("6"))
 	{
 		return true;
 	}

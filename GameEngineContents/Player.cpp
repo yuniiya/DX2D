@@ -664,19 +664,18 @@ void Player::DebugModeOnOff()
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && true == IsDebug)
-	{
-		IsDebug = false;
-		GetLevel<GlobalLevel>()->CollisionMapOnOff();
-	}
-
 	if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && false == IsDebug)
 	{
-		IsDebug = true;
+	
 		GetLevel<GlobalLevel>()->CollisionMapOnOff();
+		IsDebug = true;
+	}
+	else if (true == GameEngineInput::GetInst()->IsDown("DebugModeOnOff") && true == IsDebug)
+	{
+		GetLevel<GlobalLevel>()->CollisionMapOnOff();
+		IsDebug = false;
 	}
 
-	
 
 	DebugRender();
 }

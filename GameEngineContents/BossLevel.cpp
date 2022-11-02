@@ -75,7 +75,7 @@ void BossLevel::LevelStartEvent()
 	if (nullptr != Player::MainPlayer_)
 	{
 		Player::MainPlayer_->On();
-		Player::MainPlayer_->GetTransform().SetLocalPosition({ 200.f, -300.0f, (int)ZOrder::PLAYER });
+		Player::MainPlayer_->GetTransform().SetLocalPosition({ 400.f, -300.0f, (int)ZOrder::PLAYER });
 	}
 	if (nullptr != ContentsUI::MainUI_)
 	{
@@ -84,7 +84,7 @@ void BossLevel::LevelStartEvent()
 	if (nullptr == Boss_)
 	{
 		Boss_ = CreateActor<Boss>(GAMEOBJGROUP::MONSTER);
-		Boss_->GetTransform().SetLocalPosition({ 900.f, -300.f, (int)ZOrder::MONSTER });
+		Boss_->GetTransform().SetLocalPosition({ 1300.f, -300.f, (int)ZOrder::MONSTER });
 		Boss_->SetMonsterDir(ACTORDIR::LEFT);
 	}
 }

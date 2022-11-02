@@ -407,10 +407,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TextArea.h" />
-    <ClInclude Include="TextInput.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -667,10 +663,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TextArea.cpp" />
-    <ClCompile Include="TextInput.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>

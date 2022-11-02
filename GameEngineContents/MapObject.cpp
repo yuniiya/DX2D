@@ -5,12 +5,11 @@
 MapObject::MapObject()
 	: AnimationRenderer_(nullptr)
 	, XMoveRenderer_(nullptr)
-	, UVMoveRenderer_(nullptr)
-	, UVSpeed_(0.f)
 	, Time_(0.f)
 	, WindowScale_(0.f)
 	, TextureScale_(0.f)
 	, MoveSpeed_(0.f)
+	, CurDir_(ACTORDIR::MAX)
 {
 }
 
@@ -40,22 +39,10 @@ void MapObject::CreateXMoveAnimaition(const std::string _Name, const std::string
 	DirCheck(XMoveRenderer_, _Dir);
 }
 
-void MapObject::CreateUVMoveTexture(const std::string _Name, float4 _Pos, float _UVSpeed)
-{
-	UVSpeed_ = _UVSpeed;
-	UVMoveRenderer_->SetTexture(_Name);
-	UVMoveRenderer_->ScaleToTexture();
-	UVMoveRenderer_->GetTransform().SetLocalPosition({ _Pos });
-}
-
 void MapObject::Start()
 {
 	GetTransform().SetLocalPosition(float4{ 0, 0, (int)ZOrder::BACKGROUND });
 	GetWindowScale();
-
-	UVMoveRenderer_ = CreateComponent<GameEngineTextureRenderer>();
-	UVMoveRenderer_->SetSamplingModeLinerMirror();
-	UVMoveRenderer_->renderOption.Temp0 = 1;
 
 	AnimationRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	XMoveRenderer_ = CreateComponent<GameEngineTextureRenderer>();
@@ -63,12 +50,6 @@ void MapObject::Start()
 
 void MapObject::Update(float _DeltaTime)
 {
-	if (true == UVMoveRenderer_->IsUpdate())
-	{
-		Time_ += _DeltaTime;
-		UVMoveRenderer_->GetTimeData().Time = Time_ / UVSpeed_;
-	}
-
 	if (CurDir_ == ACTORDIR::RIGHT)
 	{
 		// 오른쪽으로 나갔으면
