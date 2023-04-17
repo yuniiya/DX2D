@@ -720,7 +720,6 @@ bool Player::StagePixelCheck()
 	{
 		if (true == BottomUpColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }))													// 1-1) 발 조금 위가 땅이면 1픽셀 올린다
 		{
-			//Pos = float4{ 0.f, 1.f, 0.f };
 			GetTransform().SetWorldMove(float4::UP);
 		}
 	}
@@ -730,15 +729,11 @@ bool Player::StagePixelCheck()
 		|| true == BottomColor.CompareInt4D(float4{ 0.f, 0.f, 1.f, 1.f }))	// 레드
 	{
 		// 카메라 바깥쪽 이동 막기 - 위
-		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f })
-/*			|| true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 1.f }*/)
+		if (true == TopColor.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }))
 		{
 			Pos = float4{ 0.f, -1.f, 0.f };
 			GetTransform().SetWorldMove(Pos);
-	/*		if ("Flying" != StateManager.GetCurStateStateName())
-			{
-				
-			}*/
+
 		}
 		else // 허공 -> 땅에 닿을 때까지 내려준다
 		{
@@ -750,11 +745,6 @@ bool Player::StagePixelCheck()
 				DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 5.f;
 				GetTransform().SetWorldMove(DownPower_);
 			}
-			//else if ()
-			//{
-			//	DownPower_ += float4::DOWN * GameEngineTime::GetDeltaTime() * 2.f;
-			//	GetTransform().SetWorldMove(DownPower_);
-			//}
 			else
 			{
 				DownPower_ = 0.0f;

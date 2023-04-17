@@ -183,13 +183,13 @@ void Monster::Start()
 {
 	IdleTime_ = GameEngineRandom::MainRandom.RandomFloat(3.f, 6.f);
 	MoveTime_ = GameEngineRandom::MainRandom.RandomFloat(35.f, 50.f);
-
+	SetChangeTime(IdleTime_, MoveTime_);
 	GetTransform().SetLocalPosition({ 0, 0, (int)ZOrder::MONSTER });
 }
 
 void Monster::Update(float _DeltaTime)
 {
-	SetChangeTime(IdleTime_, MoveTime_);
+
 
 	MonsterStateUpdate();
 	PixelCollisionMapUpdate(this, LeftRightPos_, BottomPos_);

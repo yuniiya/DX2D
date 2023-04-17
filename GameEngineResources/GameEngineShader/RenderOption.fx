@@ -6,7 +6,7 @@ cbuffer RenderOption : register(b10)
     int Temp1;
 };
 
-cbuffer Time : register(b9)
+cbuffer TexturePos : register(b9)
 {
     float4 Pos;
 }

@@ -36,9 +36,9 @@ struct PixelData
 	}
 };
 
-struct TimeData
+struct TexturePosData
 {
-	float4 Time;
+	float4 Pos;
 };
 
 struct AtlasData 
@@ -238,9 +238,9 @@ public:
 		return PixelDataInst;
 	}
 
-	TimeData& GetTimeData()
+	TexturePosData& GetTexturePosData()
 	{
-		return TimeData_;
+		return TexturePosData_;
 	}
 
 	// 애니메이션 바인드
@@ -313,7 +313,7 @@ private:
 
 	PixelData PixelDataInst;
 	AtlasData AtlasDataInst;
-	TimeData TimeData_;
+	TexturePosData TexturePosData_;
 
 	std::map<std::string, FrameAnimation> FrameAni;
 	FrameAnimation* CurAni;

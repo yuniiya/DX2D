@@ -27,6 +27,7 @@ class GameEngineRenderer;
 class GameEngineTransform;
 class GameEngineCollision;
 class GameEngineCameraActor;
+class GameEngineComponent;
 class GameEngineLevel :
 	public GameEngineNameObject ,
 	public GameEngineUpdateObject

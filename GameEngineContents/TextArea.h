@@ -24,8 +24,8 @@ private:
 	bool TextInputOK_;
 	std::string InputText_;
 	int MaxLen_;
-	int curcaretpos_;
-	int prevcaretpos_;
+	//int curcaretpos_;				// ** ªË¡¶ ø‰∏¡
+	//int prevcaretpos_;
 	std::string TempText;
 
 	LoginTextType TextType_;

@@ -67,21 +67,13 @@ void ContentsUI::HPBarUpdate(float _CurHP, float _MaxHP, float _DeltaTime)
 		return;
 	}
 
-	// 최종 목표 비율
 	float DesHPratio = _CurHP / _MaxHP;
-	// 최종 목표 비율 != 현재 증가시키고 있는 비율이 같지 않을 때, 현재 비율을 목표 비율까지 증가
 	if (DesHPratio != CurHPratio_)
 	{
-		// 중간 목표 크기 = 현재 크기 ~ 최종 목표 크기까지 필요한 크기를 쪼개서 받음
 		float4 LerpScale = float4::Lerp(HPBarScale_.x * CurHPratio_, HPBarScale_.x * DesHPratio, _DeltaTime * 3.f);
-		// 현재 비율 = 현재 비율 ~ 최종 목표 비율까지 필요한 비율을 쪼개서 받음 
 		CurHPratio_ = float4::Lerp(float4{ CurHPratio_, 0.f, 0.f, 0.f }, float4{ DesHPratio, 0.f, 0.f, 0.f}, _DeltaTime * 3.f).x;
-		// 최종 목표 크기가 될 때까지 중간 목표 크기로 크기 조정 
 		HpBar_->GetTransform().SetLocalScale({ LerpScale.x, HPBarScale_.y });
 	}
-
-
-	//HpBar_->GetTransform().SetLocalScale({ HPBarScale_.x * HPratio, HPBarScale_.y });
 }
 
 void ContentsUI::MPBarUpdate(float _CurMP, float _MaxMP, float _DeltaTime)
@@ -103,9 +95,6 @@ void ContentsUI::MPBarUpdate(float _CurMP, float _MaxMP, float _DeltaTime)
 		// 최종 목표 크기가 될 때까지 중간 목표 크기로 크기 조정 
 		MpBar_->GetTransform().SetLocalScale({ LerpScale.x, MPBarScale_.y });
 	}
-
-	//float MPratio = _CurMP / _MaxMP;
-	//MpBar_->GetTransform().SetLocalScale({ MPBarScale_.x * MPratio, MPBarScale_.y });
 }
 
 void ContentsUI::ExpBarUpdate(float _CurExp, float _MaxExp)

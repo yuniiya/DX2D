@@ -27,8 +27,8 @@ void TextArea::TextAreaInit(const float4& _Value, int _Len)
 
 TextArea::TextArea()
 	: TextInputOK_(false)
-	, curcaretpos_(0)
-	, prevcaretpos_(0)
+	//, curcaretpos_(0)
+	//, prevcaretpos_(0)
 	, TextAreaCollision_(nullptr)
 	, MaxLen_(0)
 {
@@ -64,15 +64,16 @@ void TextArea::Update(float _DeltaTime)
 	{
 		TextInputOK_ = true;
 		KeyboardClass::GetInst().DeleteCharBuffer();
-			// Ä³·µ »ý¼º
-			if (false == caretshow_)
-			{
-				caretshow_ = true;
-				CreateCaret(GameEngineWindow::GetHWND(), NULL, 2, 14);
-				ShowCaret(GameEngineWindow::GetHWND());
-				SetCaretBlinkTime(50);
-				SetCaretPos(640,360);
-			}
+		// ** »èÁ¦ ¿ä¸Á
+			//// Ä³·µ »ý¼º
+			//if (false == caretshow_)
+			//{
+			//	caretshow_ = true;
+			//	CreateCaret(GameEngineWindow::GetHWND(), NULL, 2, 14);
+			//	ShowCaret(GameEngineWindow::GetHWND());
+			//	SetCaretBlinkTime(50);
+			//	SetCaretPos(640,360);
+			//}
 	}
 	else
 	{
@@ -83,17 +84,17 @@ void TextArea::Update(float _DeltaTime)
 				// Input On
 				TextInputOK_ = false;
 
+				// ** »èÁ¦ ¿ä¸Á
+				//// Ä³·µ »ý¼º
+				//if (true == caretshow_)
+				//{
+				//	caretshow_ = false;
 
-				// Ä³·µ »ý¼º
-				if (true == caretshow_)
-				{
-					caretshow_ = false;
-
-					// Ä³·µ ¹Ý³³
-					SetCaretBlinkTime(20);
-					HideCaret(GameEngineWindow::GetHWND());
-					DestroyCaret();
-				}
+				//	// Ä³·µ ¹Ý³³
+				//	SetCaretBlinkTime(20);
+				//	HideCaret(GameEngineWindow::GetHWND());
+				//	DestroyCaret();
+				//}
 			}
 		}
 
@@ -123,10 +124,10 @@ void TextArea::Update(float _DeltaTime)
 			if (!InputText_.empty())
 			{
 				InputText_.pop_back();
-				curcaretpos_ = static_cast<int>(lstrlen(InputText_.c_str()));
+				//curcaretpos_ = static_cast<int>(lstrlen(InputText_.c_str()));
 				SIZE CurTextSize;
 				GetTextExtentPoint(GameEngineWindow::GetHDC(), InputText_.c_str(), lstrlen(InputText_.c_str()), &CurTextSize);
-				SetCaretPos(GetTransform().GetLocalPosition().ix() - 56 + CurTextSize.cx, GetTransform().GetLocalPosition().iy() - 6);
+				//SetCaretPos(GetTransform().GetLocalPosition().ix() - 56 + CurTextSize.cx, GetTransform().GetLocalPosition().iy() - 6);// ** »èÁ¦ ¿ä¸Á
 			}
 		}
 	}
@@ -160,10 +161,10 @@ void TextArea::Update(float _DeltaTime)
 
 		if (true == caretshow_)
 		{
-			curcaretpos_ = static_cast<int>(lstrlen(InputText_.c_str()));
+			//curcaretpos_ = static_cast<int>(lstrlen(InputText_.c_str()));
 			SIZE CurTextSize;
 			GetTextExtentPoint(GameEngineWindow::GetHDC(), InputText_.c_str(), lstrlen(InputText_.c_str()), &CurTextSize);
-			SetCaretPos(GetTransform().GetLocalPosition().ix() - 56 + CurTextSize.cx, GetTransform().GetLocalPosition().iy() - 6);
+			//SetCaretPos(GetTransform().GetLocalPosition().ix() - 56 + CurTextSize.cx, GetTransform().GetLocalPosition().iy() - 6);// ** »èÁ¦ ¿ä¸Á
 		}
 	}
 	else

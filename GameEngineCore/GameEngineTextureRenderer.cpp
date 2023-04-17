@@ -142,7 +142,7 @@ void GameEngineTextureRenderer::SetTextureRendererSetting()
 
 	ShaderResources.SetConstantBufferLink("AtlasData", AtlasDataInst);
 	ShaderResources.SetConstantBufferLink("PixelData", PixelDataInst);
-	ShaderResources.SetConstantBufferLink("Time", TimeData_);
+	ShaderResources.SetConstantBufferLink("TexturePos", TexturePosData_);
 	
 }
 

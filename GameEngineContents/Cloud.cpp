@@ -34,6 +34,6 @@ void Cloud::Start()
 void Cloud::Update(float _DeltaTime)
 {
 	Time_ += _DeltaTime;
-	Renderer_->GetTimeData().Time = Time_ / Speed_;
+	Renderer_->GetTexturePosData().Pos = Time_ / Speed_;
 }
 
