@@ -3,7 +3,6 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <iostream>
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineContents/GlobalContentsValue.h>
 #include <GameEngineCore/GameEngineRenderingPipeLine.h>
 #include <GameEngineCore/GameEngineVertexShader.h>
 #include <GameEngineCore/GameEngineConstantBuffer.h>
@@ -1008,7 +1007,7 @@ void Player::CollisionCheck()
 	// 노멀 A : 2초간 상하좌우 조작 바뀜
 	if (true == PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, BossAttackType::Att_A, CollisionType::CT_OBB2D))
 	{
-	//	IsMoveKeyChange_ = true;
+		IsMoveKeyChange_ = true;
 		IsHit = true;
 
 		TakeDamage(2.f);

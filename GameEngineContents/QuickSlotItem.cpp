@@ -151,7 +151,7 @@ bool QuickSlotItem::SlotKeyInputCheck()
 
 void QuickSlotItem::CollisionCheck()
 {
-	MouseCollision_ = Mouse::MainMouse_->GetMouseCol();
+	MouseCollision_ = Mouse::MainMouse_->GetUIMouseCol();
 	MouseRenderer_ = Mouse::MainMouse_->GetMouseRenderer();
 	MouseAnimationRenderer_ = Mouse::MainMouse_->GetMouseAnimationRenderer();
 	MouseSlotRenderer_ = Mouse::MainMouse_->GetMouseSlot()->GetRenderer();

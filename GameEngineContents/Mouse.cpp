@@ -17,7 +17,7 @@
 Mouse* Mouse::MainMouse_ = nullptr;
 
 Mouse::Mouse() 
-	: MouseCol_(nullptr)
+	: UIMouseCol_(nullptr)
 	, MouseRenderer_(nullptr)
 	, ClickSoundOn_(false)
 	, MouseAnimationRenderer_(nullptr)
@@ -33,11 +33,17 @@ Mouse::~Mouse()
 
 void Mouse::GetCurPos()
 {
-	CurPos_.x = GetLevel()->GetUICamera()->GetMouseWorldPosition().x;
-	CurPos_.y = GetLevel()->GetUICamera()->GetMouseWorldPosition().y;
+	UICameraCurPos_ = GetLevel()->GetUICamera()->GetMouseWorldPosition();
+	MainCameraCurPos_ = GetLevel()->GetMainCamera()->GetMouseWorldPosition();
+
+
+
+
+	/*UICameraCurPos_.x = GetLevel()->GetUICamera()->GetMouseWorldPosition().x;
+	UICameraCurPos_.y = GetLevel()->GetUICamera()->GetMouseWorldPosition().y;
 
 	MainCameraCurPos_.x = GetLevel()->GetMainCamera()->GetMouseWorldPosition().x;
-	MainCameraCurPos_.y = GetLevel()->GetMainCamera()->GetMouseWorldPosition().y;
+	MainCameraCurPos_.y = GetLevel()->GetMainCamera()->GetMouseWorldPosition().y;*/
 
 	std::string CurLevel = GetLevel()->GetNameCopy();
 }
@@ -45,13 +51,13 @@ void Mouse::GetCurPos()
 void Mouse::Start()
 {
 	GetCurPos();
-	GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
+	GetTransform().SetLocalPosition({ UICameraCurPos_.x, UICameraCurPos_.y, (int)ZOrder::MOUSE });
 
-	MouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
-	MouseCol_->SetUIDebugCamera();
-	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 10.f });
-	MouseCol_->GetTransform().SetLocalScale({ 20.f, 20.f });
-	MouseCol_->ChangeOrder(GAMEOBJGROUP::MOUSE); 
+	UIMouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
+	UIMouseCol_->SetUIDebugCamera();
+	UIMouseCol_->GetTransform().SetLocalPosition({ UICameraCurPos_.x,UICameraCurPos_.y + 10.f });
+	UIMouseCol_->GetTransform().SetLocalScale({ 20.f, 20.f });
+	UIMouseCol_->ChangeOrder(GAMEOBJGROUP::MOUSE); 
 
 	MainCameraMouseCol_ = CreateComponent<GameEngineCollision>("MouseCol");
 	MainCameraMouseCol_->SetDebugCamera(CAMERAORDER::MAINCAMERA);
@@ -90,9 +96,9 @@ void Mouse::Start()
 void Mouse::Update(float _DeltaTime)
 {
 	GetCurPos();
-	MouseCol_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y + 10.f, (int)ZOrder::MOUSE });
-	MouseRenderer_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
-	MouseAnimationRenderer_->GetTransform().SetLocalPosition({ CurPos_.x,CurPos_.y, (int)ZOrder::MOUSE });
+	UIMouseCol_->GetTransform().SetLocalPosition({ UICameraCurPos_.x,UICameraCurPos_.y + 10.f, (int)ZOrder::MOUSE });
+	MouseRenderer_->GetTransform().SetLocalPosition({ UICameraCurPos_.x,UICameraCurPos_.y, (int)ZOrder::MOUSE });
+	MouseAnimationRenderer_->GetTransform().SetLocalPosition({ UICameraCurPos_.x,UICameraCurPos_.y, (int)ZOrder::MOUSE });
 
 	MainCameraMouseCol_->GetTransform().SetLocalPosition({ MainCameraCurPos_.x, MainCameraCurPos_.y + 10.f });
 
@@ -105,7 +111,7 @@ void Mouse::Update(float _DeltaTime)
 
 	// 아이템을 잡은 마우스가 인벤토리 외부와 충돌
 	if (true == MouseSlot_->IsDoneHolding_
-		&& false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::INVENTORY, CollisionType::CT_OBB2D))
+		&& false == UIMouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::INVENTORY, CollisionType::CT_OBB2D))
 	{
 		if (nullptr == MouseSlot_->GetInventoryItem())
 		{
@@ -113,7 +119,7 @@ void Mouse::Update(float _DeltaTime)
 		}
 
 		// 퀵슬롯과 충돌했을 경우
-		if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::QUICKSLOT, CollisionType::CT_OBB2D)
+		if (true == UIMouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::QUICKSLOT, CollisionType::CT_OBB2D)
 			&& InventorySlotType::SLOT_POTION == MouseSlot_->GetInventoryItem()->GetInventorySlotType())
 		{
 			MouseRenderer_->SetTexture("Cursor_Idle.png");
@@ -259,7 +265,7 @@ bool Mouse::MouseCollisionCheck(GameEngineCollision* _This, GameEngineCollision*
 
 void Mouse::CollisionCheck()
 {
-	if (true == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::UI, CollisionType::CT_OBB2D,
+	if (true == UIMouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::UI, CollisionType::CT_OBB2D,
 		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2))
 		&& true == MouseOverSoundOn_)
 	{
@@ -283,7 +289,7 @@ void Mouse::CollisionCheck()
 		MouseRenderer_->On();
 	}
 
-	if (false == MouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::UI, CollisionType::CT_OBB2D,
+	if (false == UIMouseCol_->IsCollision(CollisionType::CT_OBB2D, GAMEOBJGROUP::UI, CollisionType::CT_OBB2D,
 		std::bind(&Mouse::MouseCollisionCheck, this, std::placeholders::_1, std::placeholders::_2)))
 	{
 		MouseOverSoundOn_ = true;

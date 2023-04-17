@@ -14,21 +14,6 @@ enum class MONSTERSTATE
 	MAX,
 };
 
-enum class MONSTERNAME
-{
-	WhiteRabbit,
-	BrownRabbit,
-	BabyCactus,
-	Sand,
-	Scorpion,
-	Freezer,
-	Sparker,
-	Boss,
-	None,
-
-	MAX,
-};
-
 enum class MONSTERTYPE
 {
 	DEFAULT,

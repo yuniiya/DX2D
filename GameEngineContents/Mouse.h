@@ -10,6 +10,7 @@ class MouseSlot;
 class Mouse : public GameEngineActor
 {
 public:
+
 	static Mouse* MainMouse_;
 
 	// constrcuter destructer
@@ -26,7 +27,7 @@ public:
 
 	inline float4 ReturnPos()
 	{
-		return CurPos_;
+		return UICameraCurPos_;
 	}
 
 	inline GameEngineCollision* GetMainCameraMouseCol()
@@ -34,9 +35,9 @@ public:
 		return MainCameraMouseCol_;
 	}
 
-	inline GameEngineCollision* GetMouseCol()
+	inline GameEngineCollision* GetUIMouseCol()
 	{
-		return MouseCol_;
+		return UIMouseCol_;
 	}
 
 	inline GameEngineUIRenderer* GetMouseRenderer()
@@ -62,7 +63,7 @@ private:
 	bool ClickSoundOn_;
 	bool MouseOverSoundOn_;
 
-	GameEngineCollision* MouseCol_;
+	GameEngineCollision* UIMouseCol_;
 	GameEngineCollision* MainCameraMouseCol_;
 	//GameEngineTextureRenderer* MouseRenderer_;
 	//GameEngineTextureRenderer* MouseAnimationRenderer_;
@@ -72,7 +73,7 @@ private:
 
 	MouseSlot* MouseSlot_;
 
-	float4 CurPos_;
+	float4 UICameraCurPos_;
 	float4 MainCameraCurPos_;
 	void Start() override;
 	void Update(float _DeltaTime) override;

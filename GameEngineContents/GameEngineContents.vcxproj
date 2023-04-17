@@ -266,10 +266,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GlobalContentsValue.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="GlobalLevel.h">
       <SubType>
       </SubType>
@@ -516,10 +512,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalActor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="GlobalContentsValue.cpp">
       <SubType>
       </SubType>
     </ClCompile>

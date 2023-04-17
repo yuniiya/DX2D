@@ -191,7 +191,6 @@ void QuestUI::CollisionCheck()
 			case NPCType::NPC_Cactus:
 			{
 				NPC_->IsQuestOngoing_ = true;
-			//	Player::MainPlayer_->IsCactusQuestOngoing_ = true;
 			}
 				break;
 			case NPCType::NPC_Entrance:

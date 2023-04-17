@@ -66,7 +66,6 @@
     <ClInclude Include="Enums.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalContentsValue.h" />
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
@@ -261,7 +260,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalContentsValue.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>

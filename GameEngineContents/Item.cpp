@@ -133,6 +133,7 @@ void Item::PickUpItemCheck(GameEngineTextureRenderer* _Renderer, float _DeltaTim
 	if (PickTime_ > 0.4f)
 	{
 		// ========== 습득 아이템 Inventory쪽 벡터에 넣어두기 ========== //
+
 		Inventory::MainInventory_->PushItem(this);
 
 		PickTime_ = 0.f;

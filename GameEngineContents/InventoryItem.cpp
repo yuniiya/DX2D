@@ -57,6 +57,7 @@ void InventoryItem::Start()
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->SetUIDebugCamera();
+	Collision_->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.f, 0.f, 0.f, 1.f });
 	Collision_->GetTransform().SetLocalScale({30.f, 28.f});
 	Collision_->ChangeOrder((int)GAMEOBJGROUP::SLOTUI);
 
@@ -117,7 +118,7 @@ void InventoryItem::ItemMouseHold()
 
 void InventoryItem::CollisionCheck()
 {
-	MouseCollision_ = Mouse::MainMouse_->GetMouseCol();
+	MouseCollision_ = Mouse::MainMouse_->GetUIMouseCol();
 	MouseRenderer_ = Mouse::MainMouse_->GetMouseRenderer();
 	MouseAnimationRenderer_ = Mouse::MainMouse_->GetMouseAnimationRenderer();
 	MouseSlotRenderer_ = Mouse::MainMouse_->GetMouseSlot()->GetRenderer();

@@ -39,9 +39,8 @@
 
 
 
-#include "GlobalContentsValue.h"
-
 
 // contents
-#include "GlobalLevel.h"
 #include "Enums.h"
+#include "GlobalLevel.h"
+#include "Player.h"

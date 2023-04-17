@@ -63,7 +63,7 @@ void EntranceLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
 
-	CameraFix({ 2340.f, 1355.f });
+	CameraFix(GetCollisionMap()->GetTransform().GetLocalScale());
 
 }
 

@@ -109,7 +109,7 @@ void CactusLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
 
-	CameraFix({ 2060.f, 1030.f });
+	CameraFix(GetCollisionMap()->GetTransform().GetLocalScale());
 }
 
 void CactusLevel::End()

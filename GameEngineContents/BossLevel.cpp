@@ -59,7 +59,7 @@ void BossLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos.x, CameraPos.y + 100.f });
 	}
 
-	CameraFix({1978.f, 720.f});
+	CameraFix(GetCollisionMap()->GetTransform().GetLocalScale());
 }
 
 void BossLevel::End()

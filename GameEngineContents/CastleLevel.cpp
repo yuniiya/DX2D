@@ -63,7 +63,7 @@ void CastleLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos.x, CameraPos.y + 100.f});
 	}
 
-	CameraFix({ 1745.f, 730.f });
+	CameraFix(GetCollisionMap()->GetTransform().GetLocalScale());
 }
 
 void CastleLevel::End()
@@ -88,5 +88,7 @@ void CastleLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+
+
 	Mouse::MainMouse_->SetLevelOverOn();
 }

@@ -125,10 +125,6 @@ void NPC::CollisonCheck()
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("LeftMouse"))
 		{ 
-		/*	if (true == Player::MainPlayer_->IsCactusQuestEnd_)
-			{
-
-			}*/
 			if (true == Player::MainPlayer_->IsCactusQuestClear_)
 			{
 				QuestUI_->ChangeToNextDialog();

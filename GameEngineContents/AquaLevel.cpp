@@ -222,7 +222,7 @@ void AquaLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
 
-	CameraFix({ 1614.f, 1380.f });
+	CameraFix(GetCollisionMap()->GetTransform().GetLocalScale());
 }
 
 void AquaLevel::End()

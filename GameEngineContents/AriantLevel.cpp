@@ -70,7 +70,7 @@ void AriantLevel::Update(float _DeltaTime)
 		GetMainCameraActor()->GetTransform().SetLocalPosition({ PlayerPos_.x, PlayerPos_.y + 120.f });
 	}
 
-	CameraFix({ 5760.f, 995.f });
+	CameraFix(GetCollisionMap()->GetTransform().GetLocalScale());
 }
 
 void AriantLevel::End()
@@ -230,6 +230,9 @@ void AriantLevel::LevelEndEvent()
 {
 	Player::MainPlayer_->SetLevelOverOn();
 	Inventory::MainInventory_->SetLevelOverOn();
+
+
+
 	Mouse::MainMouse_->SetLevelOverOn();
 }
 
