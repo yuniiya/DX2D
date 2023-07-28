@@ -20,7 +20,7 @@ void Fade::SetFadeOut()
 	FadeOut_ = true;
 }
 
-void Fade::SetFadeIn()
+void Fade::SetFadeIn() 
 {
 	Renderer_->GetPixelData().MulColor.a = 1;	// นเพฦม๘ดู
 

@@ -36,15 +36,6 @@ void Mouse::GetCurPos()
 	UICameraCurPos_ = GetLevel()->GetUICamera()->GetMouseWorldPosition();
 	MainCameraCurPos_ = GetLevel()->GetMainCamera()->GetMouseWorldPosition();
 
-
-
-
-	/*UICameraCurPos_.x = GetLevel()->GetUICamera()->GetMouseWorldPosition().x;
-	UICameraCurPos_.y = GetLevel()->GetUICamera()->GetMouseWorldPosition().y;
-
-	MainCameraCurPos_.x = GetLevel()->GetMainCamera()->GetMouseWorldPosition().x;
-	MainCameraCurPos_.y = GetLevel()->GetMainCamera()->GetMouseWorldPosition().y;*/
-
 	std::string CurLevel = GetLevel()->GetNameCopy();
 }
 
