@@ -132,7 +132,7 @@ void Player::DamagedStart(const StateInfo& _Info)
 	MoveDir_.y = 130.f;
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
-	DamageNum_->SetDamageType(DamageType::Player);
+	DamageNum_->SetDamageType(DamageTextureType::Player);
 	int Damage_ = GameEngineRandom::MainRandom.RandomInt(5, 99);
 	DamageNum_->GetTransform().SetLocalMove({ 0.f, -20.f });
 	DamageNum_->SetDamage(Damage_);
@@ -146,7 +146,7 @@ void Player::KnockBackStart(const StateInfo& _Info)
 	MoveDir_.y = 130.f;
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
-	DamageNum_->SetDamageType(DamageType::Player);
+	DamageNum_->SetDamageType(DamageTextureType::Player);
 	int Damage_ = GameEngineRandom::MainRandom.RandomInt(5, 99);
 	DamageNum_->GetTransform().SetLocalMove({ 0.f, -20.f });
 	DamageNum_->SetDamage(Damage_);

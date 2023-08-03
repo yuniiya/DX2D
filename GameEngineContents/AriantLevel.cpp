@@ -11,6 +11,7 @@
 #include "GameBgmPlayer.h"
 #include "Cloud.h"
 #include "NPC_Shop.h"
+#include "DamageRenderManager.h"
 
 AriantLevel::AriantLevel() 
 	: Player_(nullptr)
@@ -36,6 +37,7 @@ void AriantLevel::Start()
 		Player::MainPlayer_ = CreateActor<Player>((int)GAMEOBJGROUP::PLAYER);
 		Inventory::MainInventory_ = CreateActor<Inventory>((int)GAMEOBJGROUP::UI);
 		ContentsUI::MainUI_ = CreateActor<ContentsUI>((int)GAMEOBJGROUP::UI);
+		DamageRenderManager::DamageMgr_ = CreateActor<DamageRenderManager>((int)GAMEOBJGROUP::UI);
 
 	}
 	if (nullptr == Mouse::MainMouse_)

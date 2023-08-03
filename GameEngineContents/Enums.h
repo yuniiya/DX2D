@@ -161,3 +161,11 @@ enum class MONSTERNAME
 
 	MAX,
 };
+
+enum class DamageTextureType
+{
+	Player,
+	Monster,
+
+	Max,
+};

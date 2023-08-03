@@ -582,7 +582,7 @@ void Boss::DamagedStart()
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
 	DamageNum_->SetMonster(this);
-	DamageNum_->SetDamageType(DamageType::Monster);
+	DamageNum_->SetDamageType(DamageTextureType::Monster);
 	Damage_ = GameEngineRandom::MainRandom.RandomInt(1000, 9999);
 	DamageNum_->GetTransform().SetLocalMove({0.f, 45.f});
 	DamageNum_->SetDamage(Damage_);
@@ -788,7 +788,7 @@ void Boss::BlueDamagedStart()
 
 	DamageNumber* DamageNum_ = GetLevel()->CreateActor<DamageNumber>();
 	DamageNum_->SetMonster(this);
-	DamageNum_->SetDamageType(DamageType::Monster);
+	DamageNum_->SetDamageType(DamageTextureType::Monster);
 	Damage_ = GameEngineRandom::MainRandom.RandomInt(1000, 9999);
 	DamageNum_->GetTransform().SetLocalMove({ 0.f, 45.f });
 	DamageNum_->SetDamage(Damage_);

@@ -15,6 +15,7 @@
 #include "ContentsUI.h"
 #include "Monster.h"
 #include "Skill.h"
+#include "DamageRenderManager.h"
 
 
 Player* Player::MainPlayer_ = nullptr;
@@ -566,7 +567,7 @@ void Player::Start()
 	//ContentsUI::MainUI_->HPBarUpdate(CurHP_, GetMaxHP());
 	//ContentsUI::MainUI_->MPBarUpdate(CurMP_, GetMaxMP());
 
-
+	//DamageRenderMgr_ = GetLevel()->CreateActor<DamageRenderManager>();
 }
 
 void Player::Update(float _DeltaTime)

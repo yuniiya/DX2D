@@ -171,6 +171,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="DamageRenderManager.h" />
     <ClInclude Include="KeyboardClass.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MapAnimationObject.h">
@@ -421,6 +422,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DamageRenderManager.cpp" />
     <ClCompile Include="KeyboardClass.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="MapAnimationObject.cpp">

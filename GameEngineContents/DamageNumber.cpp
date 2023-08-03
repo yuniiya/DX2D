@@ -2,6 +2,7 @@
 #include "DamageNumber.h"
 #include "Monster.h"
 #include <GameEngineBase/GameEngineRandom.h>
+#include "DamageRenderManager.h"
 
 DamageNumber::DamageNumber() 
 	: Time_(0.f)
@@ -18,14 +19,21 @@ DamageNumber::~DamageNumber()
 void DamageNumber::SetDamage(int _Damage)
 {
 	Damage_ = _Damage;
+	float4 Pos = {};
 
 	switch (DamageType_)
 	{
-	case DamageType::Player:
-		PlayerDamageNumberRender();
+	case DamageTextureType::Player:
+	{
+		Pos = Player::MainPlayer_->GetPosition();
+		DamageNumberRender(Pos, PlayerDamageNumbers_);
+	}
 		break;
-	case DamageType::Monster:
-		MonsterDamageNumberRender();
+	case DamageTextureType::Monster:
+	{
+		Pos = Monster_->GetTransform().GetLocalPosition();
+		DamageNumberRender(Pos, MonsterDamageNumbers_);
+	}
 		break;
 	default:
 		break;
@@ -41,8 +49,11 @@ void DamageNumber::Update(float _DeltaTime)
 {
 	switch (DamageType_)
 	{
-	case DamageType::Player:
+	case DamageTextureType::Player:
 	{
+		if (true == PlayerDamageNumbers_.empty())
+			return;
+
 		// 데미지 길이만큼 반복문 
 		for (int i = 0; i < PlayerDamageNumbers_.size(); i++)
 		{
@@ -57,8 +68,11 @@ void DamageNumber::Update(float _DeltaTime)
 		}
 	}
 		break;
-	case DamageType::Monster:
+	case DamageTextureType::Monster:
 	{
+		if (true == MonsterDamageNumbers_.empty())
+			return;
+
 		// 데미지 길이만큼 반복문 
 		for (int i = 0; i < MonsterDamageNumbers_.size(); i++)
 		{
@@ -92,45 +106,31 @@ void DamageNumber::Update(float _DeltaTime)
 	}
 }
 
-void DamageNumber::MonsterDamageNumberRender()
+void DamageNumber::DamageNumberRender(float4 _Pos, std::vector<GameEngineTextureRenderer*>& _Vector)
 {
 	IsDamaged_ = true;
-	// 몬스터 랜덤 데미지를 string으로 변환
-	std::string DamageStr = std::to_string(Damage_);			
-	float4 MonsterPos = Monster_->GetTransform().GetLocalPosition();
-
-	// 데미지 길이만큼 반복문 
+	// int 정수형 데미지를 문자열로 변환
+	std::string DamageStr = std::to_string(Damage_);	
+	// 데미지 자릿수만큼 반복문을 돌며 숫자 텍스처 가져오기
 	for (int i = 0; i < DamageStr.size(); i++)
 	{
-		std::string SubStr = DamageStr.substr(i, 1);
-		TextureName_ = SubStr;
-
+		int Idx = DamageStr[i] - '0';
 		GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->SetTexture("RedDamage1_0" + SubStr + ".png");
+		// 모든 데미지 텍스처를 보관해둔 vector에서 데미지 숫자에 맞는 텍스처 꺼내오기
+		GameEngineTexture* Texture = DamageRenderManager::DamageMgr_->GetDamageTexture(DamageType_, Idx);
+		// 텍스처를 가져오지 못했을 경우 예외 처리
+		if (nullptr == Texture)
+		{
+			MsgBoxAssert("데미지 텍스처를 가져오지 못 했습니다.");
+			return;
+		}
+		// 가져온 텍스처 지정
+		Renderer->SetTexture(Texture);
 		Renderer->ScaleToTexture();
-		Renderer->GetTransform().SetLocalPosition({ MonsterPos.x + i * 27 ,  MonsterPos.y + 100.f + GameEngineRandom::MainRandom.RandomFloat(-5.f, 5.f)});
-		MonsterDamageNumbers_.push_back(Renderer);
-	}
-}
-
-void DamageNumber::PlayerDamageNumberRender()
-{
-	IsDamaged_ = true;
-	// 몬스터 랜덤 데미지를 string으로 변환
-	std::string DamageStr = std::to_string(Damage_);
-	float4 Pos = Player::MainPlayer_->GetPosition();
-
-	// 데미지 길이만큼 반복문 
-	for (int i = 0; i < DamageStr.size(); i++)
-	{
-		std::string SubStr = DamageStr.substr(i, 1);
-		TextureName_ = SubStr;
-
-		GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->SetTexture("VioletDamage1_0" + SubStr + ".png");
-		Renderer->ScaleToTexture();
-		Renderer->GetTransform().SetLocalPosition({ Pos.x + i * 27 ,  Pos.y + 100.f + GameEngineRandom::MainRandom.RandomFloat(-5.f, 5.f) });
-		PlayerDamageNumbers_.push_back(Renderer);
+		// 일정 간격을 두고 위치 지정
+		Renderer->GetTransform().SetLocalPosition({ _Pos.x + i * 27 ,  _Pos.y + 100.f + GameEngineRandom::MainRandom.RandomFloat(-5.f, 5.f) });
+		// 텍스처들을 출력용 vector에 보관한 뒤, 화면에 렌더링
+		_Vector.push_back(Renderer);
 	}
 }
 

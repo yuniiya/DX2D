@@ -1,15 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-enum class DamageType
-{
-	Player,
-	Monster,
-
-	Max,
-};
-
-
 class GameEngineTextureRenderer;
 class Monster;
 class DamageNumber : public GameEngineActor
@@ -33,7 +24,7 @@ public:
 		Monster_ = _Monster;
 	}
 
-	inline void SetDamageType(DamageType _DamageType)
+	inline void SetDamageType(DamageTextureType _DamageType)
 	{
 		DamageType_ = _DamageType;
 	}
@@ -43,12 +34,10 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override {};
 
-	void MonsterDamageNumberRender();
-	void PlayerDamageNumberRender();
-
+	void DamageNumberRender(float4 _Pos, std::vector<GameEngineTextureRenderer*>& _Vector);
 private:
 	Monster* Monster_;
-	DamageType DamageType_;
+	DamageTextureType DamageType_;
 
 	int Damage_;
 	float Time_;

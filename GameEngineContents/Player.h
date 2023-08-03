@@ -6,6 +6,7 @@ class GameEngineTextureRenderer;
 class GlobalLevel;
 class Skill;
 class Boss;
+class DamageRenderManager;
 class Player : public GlobalActor
 {
 public:
@@ -265,6 +266,7 @@ private:
 	GameEngineTextureRenderer* NormalPlayerRenderer_;
 
 
+	DamageRenderManager* DamageRenderMgr_;
 protected:
 	bool StagePixelCheck();
 	void ObjectPixelCheck();

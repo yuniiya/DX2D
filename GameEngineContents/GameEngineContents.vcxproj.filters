@@ -52,7 +52,7 @@
     <Filter Include="Actor\UI\Shop">
       <UniqueIdentifier>{e2aa473b-9691-4a28-b981-e7d13379dbdd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Monster\NPC">
+    <Filter Include="Actor\NPC">
       <UniqueIdentifier>{2fa43c33-f2bb-430d-a836-d6d265ff5da7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -193,28 +193,22 @@
       <Filter>Actor\Item</Filter>
     </ClInclude>
     <ClInclude Include="NPC.h">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClInclude>
     <ClInclude Include="NPC_Cactus.h">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClInclude>
     <ClInclude Include="NPC_Entrance.h">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClInclude>
     <ClInclude Include="NPC_Castle.h">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClInclude>
     <ClInclude Include="QuestClearUI.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
-    <ClInclude Include="DamageNumber.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="BossUI.h">
       <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="BossHat.h">
-      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="Cloud.h">
       <Filter>Actor\Map</Filter>
@@ -238,7 +232,7 @@
       <Filter>Actor\Map</Filter>
     </ClInclude>
     <ClInclude Include="NPC_Shop.h">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClInclude>
     <ClInclude Include="Shop.h">
       <Filter>Actor\UI\Shop</Filter>
@@ -251,6 +245,15 @@
     </ClInclude>
     <ClInclude Include="ShopNpcItem.h">
       <Filter>Actor\UI\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHat.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageNumber.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageRenderManager.h">
+      <Filter>Etc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,28 +396,22 @@
       <Filter>Actor\Item</Filter>
     </ClCompile>
     <ClCompile Include="NPC.cpp">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
     <ClCompile Include="NPC_Cactus.cpp">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
     <ClCompile Include="NPC_Entrance.cpp">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
     <ClCompile Include="NPC_Castle.cpp">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
     <ClCompile Include="QuestClearUI.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
-    <ClCompile Include="DamageNumber.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="BossUI.cpp">
       <Filter>Actor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="BossHat.cpp">
-      <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="Cloud.cpp">
       <Filter>Actor\Map</Filter>
@@ -435,7 +432,7 @@
       <Filter>Actor\Map</Filter>
     </ClCompile>
     <ClCompile Include="NPC_Shop.cpp">
-      <Filter>Actor\Monster\NPC</Filter>
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
     <ClCompile Include="Shop.cpp">
       <Filter>Actor\UI\Shop</Filter>
@@ -448,6 +445,15 @@
     </ClCompile>
     <ClCompile Include="ShopNpcItem.cpp">
       <Filter>Actor\UI\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHat.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageNumber.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageRenderManager.cpp">
+      <Filter>Etc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
